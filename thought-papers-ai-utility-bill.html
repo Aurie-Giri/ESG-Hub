@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="The AI Revolution Has a Utility Bill - a thought paper on the environmental cost of AI adoption that ESG teams aren't yet counting.">
+<title>The AI Revolution Has a Utility Bill  -  Notes from a Restless Mind  -  Aurie's Knowledge Hub</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Inter:wght@300;400;500;600&display=swap');
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+  --green:   #0e2b1a;
+  --gold:    #c9a84c;
+  --ivory:   #fafaf8;
+  --mid:     #4a5568;
+  --light:   #f0ede8;
+  --border:  #d4c9b0;
+  --serif:   'Cormorant Garamond', Georgia, serif;
+  --sans:    'Inter', system-ui, sans-serif;
+}
+
+html, body {
+  background: var(--ivory);
+  color: var(--green);
+  font-family: var(--sans);
+  font-size: 10.5pt;
+  line-height: 1.65;
+}
+
+/* ── Screen nav ── */
+.screen-nav {
+  background: var(--green);
+  padding: 10px 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.screen-nav a {
+  color: rgba(255,255,255,0.65);
+  text-decoration: none;
+  font-size: 9.5pt;
+  font-family: var(--sans);
+}
+.screen-nav a:hover { color: var(--gold); }
+.print-btn {
+  background: var(--gold);
+  color: var(--green);
+  font-weight: 600;
+  font-size: 9pt;
+  padding: 5px 16px;
+  border: none;
+  cursor: pointer;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  font-family: var(--sans);
+}
+
+/* ── Document wrapper ── */
+.doc-wrap {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 32px 36px 72px;
+}
+
+/* ── Top bar ── */
+.print-topbar {
+  border-top: 3px solid var(--gold);
+  padding: 12px 0 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 28px;
+}
+.print-brand {
+  font-family: var(--serif);
+  font-size: 11pt;
+  font-weight: 400;
+  color: var(--green);
+  letter-spacing: .04em;
+}
+.print-brand span { color: var(--gold); }
+.print-series {
+  font-size: 8pt;
+  color: var(--mid);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+
+/* ── Series label ── */
+.doc-label {
+  font-size: 8pt;
+  font-weight: 600;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 10px;
+}
+
+/* ── Title block  -  matches ESG Insights heading style ── */
+h1.doc-title {
+  font-family: var(--serif);
+  font-size: 24pt;
+  font-weight: 300;
+  line-height: 1.15;
+  color: var(--green);
+  margin-bottom: 6px;
+  border: none;
+  padding: 0;
+}
+h1.doc-title em {
+  font-style: italic;
+  color: var(--gold);
+}
+
+/* Series + date line */
+.doc-meta {
+  font-size: 9pt;
+  color: var(--mid);
+  margin-bottom: 24px;
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+.doc-meta span::before {
+  content: '·';
+  margin-right: 8px;
+  color: var(--border);
+}
+.doc-meta span:first-child::before { display: none; }
+
+hr.rule {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 22px 0 24px;
+}
+
+/* ── Body prose  -  Inter sans-serif, black ── */
+.article-body p {
+  font-family: var(--sans);
+  font-size: 11.5pt;
+  font-weight: 400;
+  line-height: 1.85;
+  color: #111111;
+  margin-bottom: 1.2em;
+}
+.article-body p:last-child { margin-bottom: 0; }
+
+/* Opening pull  -  same size as body */
+.article-body p.opening {
+  font-size: 11.5pt;
+  font-weight: 400;
+  line-height: 1.85;
+  color: #111111;
+}
+
+/* ── Footer ── */
+.print-footer {
+  margin-top: 36px;
+  padding-top: 10px;
+  border-top: 1px solid var(--gold);
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-size: 7.5pt;
+  color: var(--mid);
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.pf-brand {
+  font-family: var(--serif);
+  font-size: 9pt;
+  color: var(--green);
+}
+.pf-brand span { color: var(--gold); }
+
+@media print {
+  .screen-nav { display: none; }
+  .doc-wrap { padding: 0; }
+}
+
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "The AI Revolution Has a Utility Bill  -  Notes from a Restless Mind",
+  "description": "The AI Revolution Has a Utility Bill - a thought paper on the environmental cost of AI adoption that ESG teams aren't yet counting.",
+  "author": {
+    "@type": "Person",
+    "name": "Aurie",
+    "url": "https://REPLACE-WITH-YOUR-DOMAIN/about.html"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Aurie's Knowledge Hub",
+    "url": "https://REPLACE-WITH-YOUR-DOMAIN/index.html"
+  },
+  "datePublished": "2026-01-01",
+  "dateModified": "2026-07-06",
+  "url": "https://REPLACE-WITH-YOUR-DOMAIN/thought-papers-ai-utility-bill.html"
+}
+</script>
+</head>
+<body>
+
+<div class="screen-nav">
+  <a href="index.html">← Aurie's Knowledge Hub</a>
+  <button class="print-btn" onclick="window.print()">⬇ Print / Save PDF</button>
+</div>
+
+<div class="doc-wrap">
+
+  <div class="print-topbar">
+    <div class="print-brand">Aurie's <span>Knowledge Hub</span></div>
+    <div class="print-series">Notes from a Restless Mind · No. 03</div>
+  </div>
+
+  <div class="doc-label">Thought Papers: Notes from a Restless Mind</div>
+
+  <h1 class="doc-title">The AI Revolution Has <em>a Utility Bill</em></h1>
+
+  <hr class="rule">
+
+  <div class="article-body">
+
+    <p class="opening">Every conference I attend seems to have an AI session. Every board agenda includes AI. Every company is exploring how it can improve productivity, reduce costs, or create new products through artificial intelligence.</p>
+
+    <p>What surprises me is how little attention we pay to what makes all of this possible.</p>
+
+    <p>AI may feel virtual, but its infrastructure is anything but. Every model is trained in a data centre. Every prompt consumes electricity. Every server generates heat that needs to be removed, often using vast amounts of water. As AI adoption accelerates, we are not just building smarter software  -  we are building one of the largest expansions of digital infrastructure we have seen in decades.</p>
+
+    <p>The first question, therefore, is not whether AI is good or bad. It is whether we are measuring its environmental footprint properly. Most ESG reports still bundle AI into broader IT operations or cloud services. That made sense when AI was a niche capability. It makes far less sense now that AI workloads are becoming a material source of electricity demand, cooling requirements, and pressure on local grids. If something is becoming strategically important, it should also become visible.</p>
+
+    <p>The second point is that AI creates both costs and benefits, and we need to understand both. AI can optimise logistics, improve manufacturing efficiency, reduce waste, and help predict everything from equipment failures to energy demand. Those gains may well outweigh the resources required to run the underlying infrastructure. But we should not assume they do. Sustainability has always been about evidence rather than intuition. AI deserves the same treatment.</p>
+
+    <p>Finally, I think we are missing an opportunity to develop better metrics. We have become comfortable measuring emissions, water use, and energy efficiency across almost every industrial activity, yet we rarely ask comparable questions of AI. How much electricity is consumed per workload? How exposed are facilities to grid congestion? How much water is required for cooling? Without these kinds of measures, companies cannot distinguish between efficient AI and resource-intensive AI, nor can investors compare one strategy with another.</p>
+
+    <p>I am optimistic about what AI can achieve. In fact, I suspect it will become one of the most powerful tools available for solving sustainability challenges. But optimism should not replace measurement.</p>
+
+    <p>Every technological revolution has an infrastructure behind it. Railways needed steel. The internet needed fibre. AI needs electricity, water, and computing capacity. If ESG reporting is meant to capture material risks and opportunities, then AI infrastructure is no longer a footnote. It is rapidly becoming one of the main chapters.</p>
+
+  </div>
+
+  <div class="print-footer">
+    <div class="pf-brand">Aurie's <span>Knowledge Hub</span></div>
+    <div>Notes from a Restless Mind · No. 03 · 2026</div>
+    <div>© Aurie</div>
+  </div>
+
+</div>
+</body>
+</html>

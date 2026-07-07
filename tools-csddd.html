@@ -1,0 +1,1197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CSDDD Readiness Tool - Aurie's Knowledge Hub</title>
+<meta name="description" content="A CSDDD compliance navigator - scope checker, risk scoring, supplier register, action tracking, and transition plan milestones, aligned to the Corporate Sustainability Due Diligence Directive.">
+<meta name="robots" content="index, follow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Inter:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --green-deep:#0e2b1a;--green-mid:#1a3d28;--green-light:#234d33;--green-dark:#091f12;
+  --gold:#c9a84c;--gold-light:#e0c07a;--gold-dim:rgba(201,168,76,0.15);
+  --white:#ffffff;--muted:#8a9e90;--border:rgba(201,168,76,0.18);
+  --serif:'Cormorant Garamond',Georgia,serif;--sans:'Inter',system-ui,sans-serif;--mono:'DM Mono',monospace;
+  --acc:#1D9E75;--acc-dim:rgba(29,158,117,0.10);--acc-bdr:rgba(29,158,117,0.28);--acc-light:#5DCAA5;
+  --warn:#e07070;--warn-dim:rgba(224,112,112,0.12);--warn-bdr:rgba(224,112,112,0.32);
+  --amber:#e0a73c;--amber-dim:rgba(224,167,60,0.14);--amber-bdr:rgba(224,167,60,0.32);
+  --blue:#7fb3e0;--blue-dim:rgba(127,179,224,0.14);
+}
+html{scroll-behavior:smooth}
+body{background:var(--green-deep);color:var(--white);font-family:var(--sans);font-weight:300;font-size:15px;line-height:1.7;min-height:100vh}
+::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:var(--green-deep)}::-webkit-scrollbar-thumb{background:rgba(201,168,76,0.35);border-radius:3px}
+
+/* ── NAV ── */
+nav.site-nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:stretch;background:rgba(9,31,18,0.97);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);height:64px}
+.nav-brand{display:flex;align-items:center;padding:0 2.5rem;font-family:var(--serif);font-size:1.25rem;font-weight:600;letter-spacing:0.04em;color:var(--white);text-decoration:none;border-right:1px solid var(--border);flex-shrink:0}
+.nav-brand span{color:var(--gold)}
+.nav-sections{display:flex;align-items:stretch;list-style:none;flex:1}
+.nav-sections li{display:flex}
+.nav-link{display:flex;flex-direction:column;justify-content:center;padding:0 1.6rem;text-decoration:none;border-right:1px solid var(--border);transition:background 0.18s;min-width:120px}
+.nav-link:hover{background:rgba(201,168,76,0.06)}
+.nav-link.active{background:var(--gold-dim);border-bottom:2px solid var(--gold)}
+.nav-link-primary{font-size:0.78rem;font-weight:500;letter-spacing:0.05em;color:rgba(255,255,255,0.88);line-height:1.2;white-space:nowrap}
+.nav-link-sub{font-size:0.62rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);line-height:1;margin-top:3px;white-space:nowrap}
+.nav-link.active .nav-link-primary{color:var(--gold)}
+.nav-about{display:flex;align-items:center;padding:0 1.8rem;font-size:0.78rem;font-weight:500;color:rgba(255,255,255,0.6);text-decoration:none;margin-left:auto}
+
+/* ── PAGE HEADER ── */
+.page-header{padding:6.5rem 2.5rem 2.2rem;background:radial-gradient(ellipse at 65% 40%,rgba(26,61,40,0.9) 0%,var(--green-deep) 65%);border-bottom:1px solid var(--border)}
+.back-link{font-size:0.7rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);text-decoration:none;display:inline-flex;align-items:center;gap:6px;margin-bottom:1.1rem;transition:color 0.15s}
+.back-link:hover{color:var(--gold)}
+.page-eyebrow{font-size:0.7rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--gold);margin-bottom:1.1rem;display:flex;align-items:center;gap:1rem}
+.page-eyebrow::before{content:'';width:2.5rem;height:1px;background:var(--gold);display:inline-block}
+h1.page-title{font-family:var(--serif);font-size:clamp(2.1rem,3.8vw,3.2rem);font-weight:300;line-height:1.1;margin-bottom:0.7rem}
+h1.page-title em{font-style:italic;color:var(--gold)}
+.page-desc{font-size:0.95rem;color:rgba(255,255,255,0.58);max-width:700px;line-height:1.8;margin-bottom:1.4rem}
+.header-meta{display:flex;gap:8px;flex-wrap:wrap}
+.meta-badge{padding:4px 13px;font-size:10px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;font-family:var(--sans)}
+
+/* ── SAVE STATUS STRIP ── */
+.save-strip{background:var(--green-mid);border-bottom:1px solid var(--border);padding:10px 2.5rem;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.save-strip-left{display:flex;align-items:center;gap:10px;flex:1;min-width:200px}
+.save-dot{width:7px;height:7px;border-radius:50%;background:var(--acc);flex-shrink:0;box-shadow:0 0 6px var(--acc-bdr)}
+.save-dot.unsaved{background:var(--gold);box-shadow:0 0 6px var(--gold-dim)}
+.save-status-text{font-size:0.76rem;color:rgba(255,255,255,0.55);font-family:var(--mono)}
+.save-actions{display:flex;gap:8px;flex-wrap:wrap}
+.btn{font-family:var(--sans);font-size:0.72rem;font-weight:500;letter-spacing:0.05em;padding:7px 16px;border:1px solid rgba(201,168,76,0.3);background:transparent;color:rgba(255,255,255,0.75);cursor:pointer;transition:all 0.15s;text-transform:uppercase}
+.btn:hover{border-color:var(--gold);color:var(--gold-light);background:var(--gold-dim)}
+.btn.btn-primary{background:var(--acc-dim);border-color:var(--acc-bdr);color:var(--acc-light)}
+.btn.btn-primary:hover{background:rgba(29,158,117,0.22);border-color:var(--acc)}
+.btn.btn-warn{border-color:var(--warn-bdr);color:var(--warn)}
+.btn.btn-warn:hover{background:var(--warn-dim);border-color:var(--warn)}
+.btn.btn-gold{background:var(--gold-dim);border-color:rgba(201,168,76,0.4);color:var(--gold)}
+.btn.btn-gold:hover{background:rgba(201,168,76,0.25);border-color:var(--gold)}
+.btn.secondary{background:rgba(255,255,255,0.04);border-color:rgba(255,255,255,0.12);color:rgba(255,255,255,0.65)}
+input.file-input-hidden{display:none}
+
+/* ── RESTORE BANNER ── */
+.restore-banner{background:var(--acc-dim);border-bottom:1px solid var(--acc-bdr);padding:12px 2.5rem;display:none;align-items:center;gap:16px;flex-wrap:wrap}
+.restore-banner.show{display:flex}
+.restore-text{font-size:0.82rem;color:rgba(255,255,255,0.8);flex:1;min-width:240px}
+.restore-text b{color:var(--acc-light)}
+
+/* ── TAB NAV ── */
+.page-nav{background:var(--green-mid);border-bottom:1px solid var(--border);padding:0 2.5rem;display:flex;overflow-x:auto}
+.page-nav-link{padding:13px 20px;font-size:0.74rem;letter-spacing:0.07em;text-transform:uppercase;color:rgba(255,255,255,0.45);text-decoration:none;border-bottom:2px solid transparent;white-space:nowrap;transition:all 0.15s;cursor:pointer;background:none;border-top:none;border-left:none;border-right:none;font-family:var(--sans)}
+.page-nav-link:hover{color:var(--gold-light)}
+.page-nav-link.active{color:var(--gold);border-bottom-color:var(--gold)}
+
+/* ── MAIN / SECTIONS ── */
+main{padding:0 2.5rem 5rem;max-width:1100px;margin:0 auto}
+.tool-panel{display:none;padding-top:2.5rem}
+.tool-panel.active{display:block}
+.section-divider{border-top:2px solid var(--gold);position:relative;margin:2.5rem 0 1.6rem}
+.section-divider:first-child{margin-top:0}
+.section-divider-label{position:absolute;top:-12px;left:0;background:var(--green-deep);padding:0 14px 0 0;font-size:9px;letter-spacing:0.22em;text-transform:uppercase;color:var(--gold);font-family:var(--sans);font-weight:500}
+h2.panel-title{font-family:var(--serif);font-size:1.5rem;font-weight:300;color:var(--white);margin-bottom:0.6rem}
+h3.sub-title{font-family:var(--serif);font-size:1.1rem;font-weight:400;color:var(--acc-light);margin:1.8rem 0 0.6rem}
+.note{font-size:0.82rem;color:rgba(255,255,255,0.6);background:rgba(201,168,76,0.05);border-left:3px solid var(--gold);padding:10px 16px;margin:10px 0 16px;line-height:1.65}
+.note b{color:var(--gold-light)}
+
+/* ── FORM GRIDS ── */
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.field-label{display:block;margin:12px 0 6px;font-size:0.78rem;font-weight:500;color:var(--gold-light);letter-spacing:0.02em}
+.field-label:first-child{margin-top:0}
+input[type=text],input[type=number],input[type=date],select,textarea{
+  width:100%;padding:9px 12px;border:1px solid rgba(201,168,76,0.25);border-radius:3px;
+  background:var(--green-dark);color:var(--white);font-family:var(--sans);font-size:0.86rem
+}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--gold)}
+textarea{min-height:90px;resize:vertical;font-family:var(--sans)}
+::placeholder{color:rgba(255,255,255,0.3)}
+
+/* ── KPI CARDS ── */
+.results-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1px;margin-top:8px;background:var(--border);border:1px solid var(--border)}
+.stat-card{background:var(--green-mid);padding:20px 22px;position:relative;overflow:hidden;transition:background 0.2s;border-top:2px solid var(--gold)}
+.stat-card:hover{background:var(--green-light)}
+.stat-label{font-size:9.5px;letter-spacing:0.16em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.stat-value{font-family:var(--serif);font-size:2.1rem;font-weight:300;color:var(--white);line-height:1}
+
+/* ── TAGS ── */
+.tag{display:inline-block;padding:3px 11px;border-radius:999px;font-size:11px;font-weight:600;letter-spacing:0.02em}
+.tag.green{background:rgba(74,222,128,0.14);color:#4ade80;border:1px solid rgba(74,222,128,0.3)}
+.tag.amber{background:var(--amber-dim);color:var(--amber);border:1px solid var(--amber-bdr)}
+.tag.red{background:var(--warn-dim);color:var(--warn);border:1px solid var(--warn-bdr)}
+.tag.blue{background:var(--blue-dim);color:var(--blue);border:1px solid rgba(127,179,224,0.3)}
+
+/* ── TABLES ── */
+.table-wrap{overflow-x:auto;border:1px solid var(--border);margin-top:6px}
+table.data-table{width:100%;border-collapse:collapse;min-width:560px;font-size:0.85rem}
+table.data-table thead tr{background:var(--green-mid)}
+table.data-table th{padding:9px 12px;text-align:left;font-size:0.66rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold);font-weight:500;border-bottom:1px solid var(--border);white-space:nowrap}
+table.data-table tbody tr{border-bottom:1px solid rgba(255,255,255,0.05);transition:background 0.12s}
+table.data-table tbody tr:hover{background:rgba(255,255,255,0.025)}
+table.data-table td{padding:9px 12px;vertical-align:middle;color:rgba(255,255,255,0.75)}
+
+/* ── RESULT TEXT ── */
+.result-line{font-size:0.88rem;color:rgba(255,255,255,0.75);margin-top:12px;line-height:1.7}
+.result-line strong{color:var(--white)}
+
+/* ── CHARTS ── */
+.chart-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:8px}
+.chart-box{background:var(--green-mid);border:1px solid var(--border);border-radius:4px;padding:10px;overflow:hidden}
+.chart-canvas{height:320px;width:100%}
+
+/* ── REPORT PREVIEW / JSON ── */
+.json-wrap{background:var(--green-dark);border:1px solid var(--border);margin-top:8px}
+pre.json-pre{font-family:var(--mono);font-size:0.74rem;color:var(--acc-light);padding:16px 18px;max-height:320px;overflow:auto;white-space:pre-wrap;line-height:1.6}
+
+/* ── TOOLBAR ── */
+.toolbar{display:flex;gap:10px;margin:14px 0;flex-wrap:wrap}
+
+/* ── RANGE HINT BUTTONS ── */
+.field-hint{font-size:0.72rem;color:var(--muted);margin-top:6px;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.hint-btn{font-family:var(--mono);font-size:0.68rem;color:var(--acc-light);background:var(--acc-dim);border:1px solid var(--acc-bdr);padding:2px 9px;border-radius:2px;cursor:pointer;transition:all 0.15s}
+.hint-btn:hover{background:rgba(29,158,117,0.25);border-color:var(--acc)}
+
+/* ── RESULT CARD ── */
+.result-card{margin-top:16px;background:var(--green-mid);border:1px solid var(--border);border-top:2px solid var(--gold);padding:18px 22px}
+
+/* ── FOOTER ── */
+footer{padding:20px 2.5rem;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;color:var(--muted);font-size:0.75rem;flex-wrap:wrap;gap:8px;letter-spacing:0.04em;background:var(--green-dark)}
+.footer-brand{font-family:var(--serif);font-size:0.9rem;color:var(--gold);font-weight:400}
+
+@media(max-width:800px){
+  .nav-link{min-width:88px;padding:0 0.8rem}.nav-brand{padding:0 1.2rem;font-size:1.05rem}
+  .page-header,main,footer,.page-nav,.save-strip,.restore-banner{padding-left:1.5rem;padding-right:1.5rem}
+  .grid-2,.grid-3,.chart-grid{grid-template-columns:1fr}
+}
+@media(max-width:560px){.nav-link-sub{display:none}.nav-link{min-width:70px;padding:0 0.6rem}}
+
+/* ── NAV (standardised) ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; align-items: stretch;
+  background: rgba(9,31,18,0.97); backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+  height: 64px;
+}
+.nav-brand {
+  display: flex; align-items: center;
+  padding: 0 2.5rem;
+  font-family: var(--serif); font-size: 1.25rem; font-weight: 600;
+  letter-spacing: 0.04em; color: var(--white); text-decoration: none;
+  border-right: 1px solid var(--border);
+  flex-shrink: 0; transition: background 0.2s;
+}
+.nav-brand:hover { background: rgba(201,168,76,0.06); }
+.nav-brand span { color: var(--gold); }
+.nav-sections { display: flex; align-items: stretch; list-style: none; flex: 1; overflow-x: auto; }
+.nav-sections li { display: flex; }
+.nav-link {
+  display: flex; flex-direction: column; justify-content: center;
+  padding: 0 1.6rem; text-decoration: none;
+  border-right: 1px solid var(--border);
+  transition: background 0.18s; min-width: 120px;
+}
+.nav-link:hover { background: rgba(201,168,76,0.06); }
+.nav-link.active { background: var(--gold-dim); border-bottom: 2px solid var(--gold); }
+.nav-link-primary { font-size: 0.78rem; font-weight: 500; letter-spacing: 0.05em; color: rgba(255,255,255,0.88); line-height: 1.2; white-space: nowrap; }
+.nav-link-sub { font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); line-height: 1; margin-top: 3px; white-space: nowrap; }
+.nav-link:hover .nav-link-primary { color: var(--gold-light); }
+.nav-link:hover .nav-link-sub { color: rgba(201,168,76,0.6); }
+.nav-link.active .nav-link-primary { color: var(--gold); }
+.nav-link.active .nav-link-sub { color: rgba(201,168,76,0.7); }
+.nav-about {
+  display: flex; align-items: center; padding: 0 1.8rem;
+  font-size: 0.78rem; font-weight: 500; letter-spacing: 0.05em;
+  color: rgba(255,255,255,0.6); text-decoration: none;
+  margin-left: auto; transition: color 0.18s; white-space: nowrap;
+}
+.nav-about:hover { color: var(--gold); }
+@media (max-width: 768px) {
+  .nav-link { min-width: 100px; padding: 0 1rem; }
+  .nav-brand { padding: 0 1.2rem; font-size: 1.05rem; }
+}
+@media (max-width: 560px) {
+  .nav-link-sub { display: none; }
+  .nav-link { min-width: 80px; padding: 0 0.8rem; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-brand" href="index.html">Aurie's <span>Knowledge Hub</span></a>
+  <ul class="nav-sections">
+    <li>
+      <a class="nav-link" href="ceo-insights.html">
+        <span class="nav-link-primary">CEO Insights</span>
+        <span class="nav-link-sub">For the leadership</span>
+      </a>
+    </li>
+    <li>
+      <a class="nav-link active" href="tools.html">
+        <span class="nav-link-primary">Tools &amp; Templates</span>
+        <span class="nav-link-sub">For ESG teams</span>
+      </a>
+    </li>
+    <li>
+      <a class="nav-link" href="resource-library.html">
+        <span class="nav-link-primary">Resource Library</span>
+        <span class="nav-link-sub">For practitioners</span>
+      </a>
+    </li>
+    <li>
+      <a class="nav-link" href="thought-papers.html">
+        <span class="nav-link-primary">Thought Papers</span>
+        <span class="nav-link-sub">For the curious</span>
+      </a>
+    </li>
+  </ul>
+  <a class="nav-about" href="about.html">About Me</a>
+</nav>
+
+<div class="page-header">
+  <a class="back-link" href="tools.html">← Toolkits</a>
+  <p class="page-eyebrow">Toolkits · Tools &amp; Templates · CSDDD Readiness Tool</p>
+  <h1 class="page-title">CSDDD <em>Readiness Tool</em></h1>
+  <p class="page-desc">A scope checker, risk scoring model, supplier register, action tracker, and transition plan navigator for the Corporate Sustainability Due Diligence Directive - with local save/load so your work persists across sessions.</p>
+  <div class="header-meta">
+    <span class="meta-badge" style="background:var(--acc-dim);border:1px solid var(--acc-bdr);color:var(--acc-light);">CSDDD (Directive 2024/1760)</span>
+    <span class="meta-badge" style="background:var(--gold-dim);border:1px solid rgba(201,168,76,0.4);color:var(--gold);">Post-Omnibus Thresholds</span>
+    <span class="meta-badge" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.5);">Schema v1.0.0</span>
+  </div>
+</div>
+
+<!-- ═══ RESTORE BANNER ═══ -->
+<div class="restore-banner" id="restoreBanner">
+  <span class="restore-text">We found unsaved work from your last session - <b id="restoreDetail">last edited a moment ago</b>.</span>
+  <button class="btn btn-primary" onclick="restoreSession()">Restore session</button>
+  <button class="btn" onclick="dismissRestore()">Start fresh</button>
+</div>
+
+<!-- ═══ SAVE STATUS STRIP ═══ -->
+<div class="save-strip">
+  <div class="save-strip-left">
+    <span class="save-dot" id="saveDot"></span>
+    <span class="save-status-text" id="saveStatusText">All changes saved automatically to this browser</span>
+  </div>
+  <div class="save-actions">
+    <button class="btn btn-gold" onclick="saveProgressFile()">⬇ Save Progress File</button>
+    <button class="btn" onclick="document.getElementById('loadFileInput').click()">⬆ Load Progress File</button>
+    <input type="file" id="loadFileInput" class="file-input-hidden" accept="application/json" onchange="loadProgressFile(this)">
+    <button class="btn btn-warn" onclick="confirmResetWorkspace()">Reset Workspace</button>
+  </div>
+</div>
+
+<div class="page-nav" id="tabNav">
+  <button class="page-nav-link active" data-tab="scope">Scope Checker</button>
+  <button class="page-nav-link" data-tab="dashboard">Dashboard</button>
+  <button class="page-nav-link" data-tab="risk">Risk Scoring</button>
+  <button class="page-nav-link" data-tab="suppliers">Supplier Register</button>
+  <button class="page-nav-link" data-tab="actions">Actions</button>
+  <button class="page-nav-link" data-tab="transition">Transition Plan</button>
+  <button class="page-nav-link" data-tab="charts">Charts</button>
+  <button class="page-nav-link" data-tab="reports">Reports</button>
+</div>
+
+<main>
+<!-- ============ SCOPE CHECKER ============ -->
+<section id="scope" class="tool-panel active">
+  <div class="section-divider"><span class="section-divider-label">Applicability</span></div>
+  <h2 class="panel-title">Scope Checker</h2>
+  <div class="note">Uses currently published CSDDD thresholds and rollout dates following the Omnibus amendments. This is a directional screening tool, not a legal determination - confirm applicability with counsel before relying on the result. All financial figures below are entered in <b>€ millions</b> (e.g. enter 1800 for €1.8 billion).</div>
+
+  <h3 class="sub-title">Threshold Reference</h3>
+  <div class="table-wrap">
+    <table class="data-table">
+      <thead><tr><th>Route</th><th>Band</th><th>Employees</th><th>Turnover</th><th>Applies from</th></tr></thead>
+      <tbody>
+        <tr><td>EU company / group</td><td><span class="tag red">First wave</span></td><td>&gt; 5,000</td><td>&gt; €1,500m global</td><td>26 Jul 2028</td></tr>
+        <tr><td>EU company / group</td><td><span class="tag amber">General scope</span></td><td>&gt; 1,000</td><td>&gt; €450m global</td><td>26 Jul 2029</td></tr>
+        <tr><td>Non-EU company</td><td><span class="tag red">First wave</span></td><td>-</td><td>&gt; €1,500m EU turnover</td><td>26 Jul 2028</td></tr>
+        <tr><td>Non-EU company</td><td><span class="tag amber">General scope</span></td><td>-</td><td>&gt; €450m EU turnover</td><td>26 Jul 2029</td></tr>
+        <tr><td>Franchise / licensing</td><td><span class="tag amber">Franchise route</span></td><td>-</td><td>&gt; €22.5m EU royalties and &gt; €80m EU turnover</td><td>26 Jul 2029</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="sub-title">Your Inputs</h3>
+  <div class="grid-2">
+    <div>
+      <label class="field-label">Company type</label>
+      <select id="companyType" onchange="CSDDD.toggleScopeFields()">
+        <option value="eu">EU company / EU group</option>
+        <option value="non-eu">Non-EU company</option>
+        <option value="franchise">Franchise / licensing route</option>
+      </select>
+    </div>
+    <div id="field-employees">
+      <label class="field-label">Employee count</label>
+      <input id="employees" type="number" min="0" placeholder="e.g., 6200">
+    </div>
+    <div id="field-turnover">
+      <label class="field-label">Global turnover (€ millions)</label>
+      <input id="turnover" type="number" min="0" step="0.1" placeholder="e.g., 1800">
+      <div class="field-hint">Range guide: <button type="button" class="hint-btn" onclick="CSDDD.fillRange('turnover',300)">~€300m</button><button type="button" class="hint-btn" onclick="CSDDD.fillRange('turnover',450)">~€450m</button><button type="button" class="hint-btn" onclick="CSDDD.fillRange('turnover',1500)">~€1.5bn</button><button type="button" class="hint-btn" onclick="CSDDD.fillRange('turnover',5000)">~€5bn</button></div>
+    </div>
+    <div id="field-euTurnover">
+      <label class="field-label">EU turnover (€ millions)</label>
+      <input id="euTurnover" type="number" min="0" step="0.1" placeholder="e.g., 600">
+      <div class="field-hint">Range guide: <button type="button" class="hint-btn" onclick="CSDDD.fillRange('euTurnover',300)">~€300m</button><button type="button" class="hint-btn" onclick="CSDDD.fillRange('euTurnover',450)">~€450m</button><button type="button" class="hint-btn" onclick="CSDDD.fillRange('euTurnover',1500)">~€1.5bn</button></div>
+    </div>
+    <div id="field-royalties">
+      <label class="field-label">Royalties in the EU (€ millions)</label>
+      <input id="royalties" type="number" min="0" step="0.1" placeholder="e.g., 25">
+    </div>
+    <div id="field-franchiseTurnover">
+      <label class="field-label">Turnover in the EU (€ millions)</label>
+      <input id="franchiseTurnover" type="number" min="0" step="0.1" placeholder="e.g., 90">
+    </div>
+  </div>
+  <div class="toolbar"><button class="btn btn-primary" onclick="CSDDD.checkScope()">Check Scope</button></div>
+  <div class="result-card" id="scopeResultCard" style="display:none">
+    <p class="result-line" id="scopeResult"></p>
+  </div>
+</section>
+
+<!-- ============ DASHBOARD ============ -->
+<section id="dashboard" class="tool-panel">
+  <div class="section-divider"><span class="section-divider-label">Overview</span></div>
+  <h2 class="panel-title">Compliance Dashboard</h2>
+  <div class="note">Reflects the supplier register, risk entries, and actions currently logged in this workspace - updates automatically as you add or edit records in the other tabs.</div>
+  <div class="results-grid">
+    <div class="stat-card"><div class="stat-label">Open Risks</div><div class="stat-value" id="openRisks">0</div></div>
+    <div class="stat-card"><div class="stat-label">Overdue Actions</div><div class="stat-value" id="overdueActions">0</div></div>
+    <div class="stat-card"><div class="stat-label">High-Severity Issues</div><div class="stat-value" id="highSeverity">0</div></div>
+  </div>
+</section>
+<!-- ============ RISK SCORING ============ -->
+<section id="risk" class="tool-panel">
+  <div class="section-divider"><span class="section-divider-label">Risk Assessment</span></div>
+  <h2 class="panel-title">Risk Scoring</h2>
+  <div class="note">Score = (Severity × Likelihood) + Remediation Urgency − Control Strength. Severity and likelihood follow CSDDD's scale/scope/irremediability framing for adverse impacts; urgency and control are rated 1–3. Saving a risk here adds it to the register below and makes it available to link from the Actions tab - so each remediation step traces back to the impact it addresses.</div>
+  <div class="grid-2">
+    <div>
+      <label class="field-label">Risk description</label>
+      <textarea id="riskDesc" placeholder="Describe the adverse impact or issue..."></textarea>
+      <label class="field-label">Risk category</label>
+      <select id="riskCategory">
+        <option>Human rights</option>
+        <option>Environment</option>
+        <option>Climate transition</option>
+        <option>Governance</option>
+      </select>
+      <label class="field-label">Related supplier (optional)</label>
+      <select id="riskSupplier">
+        <option value="">- Not supplier-specific (own operations) -</option>
+      </select>
+    </div>
+    <div>
+      <label class="field-label">Severity</label>
+      <select id="severity">
+        <option value="1">1 - Minor: limited harm, easily and fully remediable</option>
+        <option value="2">2 - Low: localised harm, remediable within normal operations</option>
+        <option value="3" selected>3 - Moderate: meaningful harm to a defined group, remediable but resource-intensive</option>
+        <option value="4">4 - Severe: serious harm, large affected group or hard to reverse</option>
+        <option value="5">5 - Critical: irremediable harm (e.g. loss of life, permanent ecological damage, forced labour)</option>
+      </select>
+      <label class="field-label">Likelihood</label>
+      <select id="likelihood">
+        <option value="1">1 - Rare: no known precedent in this context</option>
+        <option value="2">2 - Unlikely: isolated precedent, unusual circumstances</option>
+        <option value="3" selected>3 - Possible: has occurred before in comparable operations</option>
+        <option value="4">4 - Likely: known recurring issue in this sector/geography</option>
+        <option value="5">5 - Near-certain: actively occurring or structurally embedded in current operations</option>
+      </select>
+      <label class="field-label">Remediation urgency</label>
+      <select id="urgency">
+        <option value="1">1 - Can be addressed in next planning cycle</option>
+        <option value="2">2 - Should be addressed within the year</option>
+        <option value="3">3 - Requires immediate action (ongoing harm)</option>
+      </select>
+      <label class="field-label">Control strength</label>
+      <select id="control">
+        <option value="1">1 - No mitigating controls in place</option>
+        <option value="2">2 - Partial controls (e.g. policy exists, enforcement inconsistent)</option>
+        <option value="3">3 - Strong controls (audited, enforced, monitored)</option>
+      </select>
+    </div>
+  </div>
+  <div class="toolbar"><button class="btn btn-primary" onclick="CSDDD.scoreRisk()">Calculate &amp; Save to Register</button></div>
+  <p class="result-line" id="riskResult"></p>
+
+  <h3 class="sub-title">Risk Register</h3>
+  <div class="note" style="margin-top:0">Sorted by score, highest first - this is your prioritised view of what to act on.</div>
+  <div class="table-wrap">
+    <table class="data-table" id="tbl-risks">
+      <thead><tr><th>Description</th><th>Category</th><th>Supplier</th><th>Score</th><th>Level</th><th>Open Actions</th><th></th></tr></thead>
+      <tbody id="risksTable"></tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ============ SUPPLIER REGISTER ============ -->
+<section id="suppliers" class="tool-panel">
+  <div class="section-divider"><span class="section-divider-label">Value Chain</span></div>
+  <h2 class="panel-title">Supplier Register</h2>
+  <div class="note">"Score" and "Risk Level" here are a quick top-level rating you set directly per supplier. "Linked Risks" counts entries from the Risk Register (Risk Scoring tab) that reference this supplier - click a supplier's risk count to jump to its detailed risk entries.</div>
+  <div class="table-wrap">
+    <table class="data-table" id="tbl-suppliers">
+      <thead><tr><th>Supplier</th><th>Country</th><th>Tier</th><th>Score</th><th>Risk Level</th><th>Status</th><th>Linked Risks</th><th></th></tr></thead>
+      <tbody id="supplierTable"></tbody>
+    </table>
+  </div>
+  <button class="btn secondary" style="margin-top:12px" onclick="CSDDD.addSupplierRow()">+ Add supplier</button>
+</section>
+
+<!-- ============ ACTIONS ============ -->
+<section id="actions" class="tool-panel">
+  <div class="section-divider"><span class="section-divider-label">Remediation</span></div>
+  <h2 class="panel-title">Actions</h2>
+  <div class="note">Linking an action to a risk closes the loop from impact identification to remediation - this is what an audit trail under CSDDD Article 5/8 actually needs to show.</div>
+  <div class="grid-2">
+    <div>
+      <label class="field-label">Addresses risk (optional)</label>
+      <select id="actionRisk">
+        <option value="">- Not linked to a specific risk -</option>
+      </select>
+    </div>
+    <div>
+      <label class="field-label">Status</label>
+      <select id="actionStatus">
+        <option value="open" selected>Open</option>
+        <option value="in_progress">In progress</option>
+        <option value="completed">Completed</option>
+      </select>
+    </div>
+    <div>
+      <label class="field-label">Action owner</label>
+      <input id="owner" type="text" placeholder="Name or team">
+    </div>
+    <div>
+      <label class="field-label">Deadline</label>
+      <input id="deadline" type="date">
+    </div>
+  </div>
+  <label class="field-label">Action details</label>
+  <textarea id="actionDetails" placeholder="Describe mitigation, remediation, or escalation steps..."></textarea>
+  <div class="toolbar">
+    <button class="btn btn-primary" onclick="CSDDD.saveAction()">Save Action</button>
+    <button class="btn secondary" onclick="CSDDD.exportCSV()">Export CSV</button>
+  </div>
+  <p class="result-line" id="actionResult"></p>
+
+  <h3 class="sub-title">Logged Actions</h3>
+  <div class="table-wrap">
+    <table class="data-table" id="tbl-actions">
+      <thead><tr><th>Linked Risk</th><th>Status</th><th>Owner</th><th>Deadline</th><th>Details</th><th>Logged</th></tr></thead>
+      <tbody id="actionsTable"></tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ============ TRANSITION PLAN ============ -->
+<section id="transition" class="tool-panel">
+  <div class="section-divider"><span class="section-divider-label">Article 22</span></div>
+  <h2 class="panel-title">Transition Plan</h2>
+  <div class="note">Track milestones and five-year targets through 2050, with governance, financing, and capex plans aligned to CSDDD Article 22's climate transition planning obligation.</div>
+  <div class="grid-2">
+    <div>
+      <label class="field-label">Target year</label>
+      <input id="targetYear" type="number" min="2025" max="2050" value="2030">
+    </div>
+    <div>
+      <label class="field-label">Target metric</label>
+      <input id="targetMetric" type="text" placeholder="e.g., Scope 1+2 reduction %">
+    </div>
+  </div>
+  <label class="field-label">Target description</label>
+  <textarea id="targetDesc" placeholder="Explain the decarbonisation pathway and assumptions..."></textarea>
+  <div class="toolbar"><button class="btn btn-primary" onclick="CSDDD.saveTarget()">Save Target</button></div>
+  <p class="result-line" id="targetResult"></p>
+
+  <h3 class="sub-title">Logged Targets</h3>
+  <div class="table-wrap">
+    <table class="data-table" id="tbl-targets">
+      <thead><tr><th>Year</th><th>Metric</th><th>Description</th></tr></thead>
+      <tbody id="targetsTable"></tbody>
+    </table>
+  </div>
+</section>
+<!-- ============ CHARTS ============ -->
+<section id="charts" class="tool-panel">
+  <div class="section-divider"><span class="section-divider-label">Visualisation</span></div>
+  <h2 class="panel-title">Charts</h2>
+  <div class="note">Built from the Supplier Register, logged actions, and saved transition targets. Switch tabs and update those first, then return here - charts refresh automatically.</div>
+  <div class="chart-grid">
+    <div class="chart-box"><div class="chart-canvas" id="riskChart"></div></div>
+    <div class="chart-box"><div class="chart-canvas" id="statusChart"></div></div>
+  </div>
+  <div class="chart-box" style="margin-top:16px"><div class="chart-canvas" id="pipelineChart"></div></div>
+</section>
+
+<!-- ============ REPORTS ============ -->
+<section id="reports" class="tool-panel">
+  <div class="section-divider"><span class="section-divider-label">Export</span></div>
+  <h2 class="panel-title">Reports</h2>
+  <div class="note">All exports draw from the same underlying workspace data, so figures reconcile with what's shown across every tab. The JSON export is also your save file - see the Save Progress File button above.</div>
+  <div class="toolbar">
+    <button class="btn btn-gold" onclick="CSDDD.generateReport()">Generate Report Preview</button>
+    <button class="btn secondary" onclick="CSDDD.downloadJSON()">Download Full JSON</button>
+  </div>
+  <p class="result-line" id="reportPreview"></p>
+  <div class="json-wrap"><pre class="json-pre" id="reportJson">Run "Generate Report Preview" to populate.</pre></div>
+</section>
+
+</main>
+
+<footer>
+  <div class="footer-brand">Aurie's Knowledge Hub</div>
+  <div>CSDDD Readiness Tool · Schema v1.0.0 · Directive (EU) 2024/1760 - post-Omnibus thresholds; confirm applicability with counsel before relying on results</div>
+  <div style="color:rgba(201,168,76,0.5)"><a href="tools.html" style="color:rgba(201,168,76,0.5);text-decoration:none">← Toolkits</a></div>
+</footer>
+<script>
+/* =========================================================
+   PERSISTENCE LAYER - same pattern as GHG Calculator
+   ========================================================= */
+const STORAGE_KEY = 'csddd_navigator_workspace_v1';
+const SCHEMA_VERSION = '1.1.0';
+
+function migrateWorkspace(ws){
+  // Backward-compatible upgrade for files saved before the linked risk register (schema < 1.1.0)
+  if(!ws.risks) ws.risks = [];
+  if(!ws.scopeCheck) ws.scopeCheck = ws.scopeCheck || null;
+  (ws.actions||[]).forEach(a => {
+    if(a.riskId === undefined) a.riskId = '';
+    if(a.status === undefined) a.status = 'open';
+  });
+  ws.schema_version = SCHEMA_VERSION;
+  return ws;
+}
+
+function emptyWorkspace(){
+  return {
+    schema_version: SCHEMA_VERSION,
+    last_modified: new Date().toISOString(),
+    scopeCheck: null,
+    suppliers: [
+      { id: 's_1', name: 'Supplier A', country: 'Poland', tier: 'Tier 1', score: 8, status: 'Under review' },
+      { id: 's_2', name: 'Supplier B', country: 'Vietnam', tier: 'Tier 2', score: 18, status: 'Mitigation plan active' },
+      { id: 's_3', name: 'Supplier C', country: 'Brazil', tier: 'Tier 1', score: 4, status: 'Monitored' }
+    ],
+    risks: [],
+    actions: [],
+    targets: []
+  };
+}
+
+let WS = null;
+let rowCounter = 0;
+let isDirty = false;
+let autosaveTimer = null;
+
+function markDirty(){
+  isDirty = true;
+  updateSaveStatus('saving');
+  clearTimeout(autosaveTimer);
+  autosaveTimer = setTimeout(autosaveNow, 900);
+}
+
+function autosaveNow(){
+  try {
+    WS.last_modified = new Date().toISOString();
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(WS));
+    isDirty = false;
+    updateSaveStatus('saved');
+  } catch(e){
+    updateSaveStatus('error', e.message);
+  }
+}
+
+function updateSaveStatus(state, errMsg){
+  const dot = document.getElementById('saveDot');
+  const text = document.getElementById('saveStatusText');
+  if(!dot || !text) return;
+  if(state === 'saving'){
+    dot.classList.add('unsaved');
+    text.textContent = 'Saving…';
+  } else if(state === 'saved'){
+    dot.classList.remove('unsaved');
+    text.textContent = 'All changes saved automatically - ' + new Date().toLocaleTimeString();
+  } else if(state === 'error'){
+    dot.classList.add('unsaved');
+    text.textContent = 'Autosave failed: ' + (errMsg||'unknown error') + ' - use Save Progress File as a backup.';
+  }
+}
+
+function timeAgo(iso){
+  if(!iso) return 'a moment ago';
+  const diffMs = Date.now() - new Date(iso).getTime();
+  const mins = Math.round(diffMs/60000);
+  if(mins < 1) return 'just now';
+  if(mins < 60) return mins + ' minute' + (mins===1?'':'s') + ' ago';
+  const hrs = Math.round(mins/60);
+  if(hrs < 24) return hrs + ' hour' + (hrs===1?'':'s') + ' ago';
+  const days = Math.round(hrs/24);
+  return days + ' day' + (days===1?'':'s') + ' ago';
+}
+
+function checkForRestorableSession(){
+  let saved = null;
+  try { saved = localStorage.getItem(STORAGE_KEY); } catch(e){ return; }
+  if(!saved) return;
+  try {
+    const parsed = migrateWorkspace(JSON.parse(saved));
+    if(parsed && parsed.suppliers){
+      document.getElementById('restoreDetail').textContent =
+        'last edited ' + timeAgo(parsed.last_modified) + ' - ' + parsed.suppliers.length + ' supplier(s), ' + parsed.risks.length + ' risk(s), ' + parsed.actions.length + ' action(s), ' + parsed.targets.length + ' target(s)';
+      document.getElementById('restoreBanner').classList.add('show');
+      window._pendingRestore = parsed;
+    }
+  } catch(e){ /* corrupt save - ignore */ }
+}
+
+function restoreSession(){
+  WS = window._pendingRestore;
+  document.getElementById('restoreBanner').classList.remove('show');
+  renderEverything();
+  updateSaveStatus('saved');
+}
+
+function dismissRestore(){
+  document.getElementById('restoreBanner').classList.remove('show');
+  window._pendingRestore = null;
+}
+
+function saveProgressFile(){
+  WS.last_modified = new Date().toISOString();
+  const blob = new Blob([JSON.stringify(WS, null, 2)], {type:'application/json'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  const dateStr = new Date().toISOString().slice(0,10);
+  a.download = `csddd_navigator_progress_${dateStr}.json`;
+  a.click();
+  updateSaveStatus('saved');
+}
+
+function loadProgressFile(input){
+  const file = input.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    try {
+      const parsed = migrateWorkspace(JSON.parse(e.target.result));
+      if(!parsed.suppliers){
+        alert('This file does not look like a valid CSDDD Readiness Tool progress file.');
+        return;
+      }
+      if(!confirm('Loading this file will replace everything currently in the workspace. Continue?')) return;
+      WS = parsed;
+      renderEverything();
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(WS));
+      updateSaveStatus('saved');
+    } catch(err){
+      alert('Could not read this file: ' + err.message);
+    }
+  };
+  reader.readAsText(file);
+  input.value = '';
+}
+
+function confirmResetWorkspace(){
+  if(!confirm('This clears everything - all suppliers, risks, actions, and targets - and cannot be undone. Consider using "Save Progress File" first. Continue?')) return;
+  WS = emptyWorkspace();
+  renderEverything();
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(WS));
+  updateSaveStatus('saved');
+}
+
+window.addEventListener('beforeunload', () => {
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(WS)); } catch(e){}
+});
+</script>
+<script>
+const CSDDD = (() => {
+
+  function toggleScopeFields() {
+    const type = document.getElementById("companyType").value;
+    const show = (ids) => {
+      ['field-employees','field-turnover','field-euTurnover','field-royalties','field-franchiseTurnover'].forEach(id => {
+        document.getElementById(id).style.display = ids.includes(id) ? '' : 'none';
+      });
+    };
+    if (type === 'eu') show(['field-employees','field-turnover']);
+    else if (type === 'non-eu') show(['field-euTurnover']);
+    else show(['field-royalties','field-franchiseTurnover']);
+  }
+
+  function fillRange(fieldId, value) {
+    document.getElementById(fieldId).value = value;
+    markDirty();
+  }
+
+  function riskLevel(score) {
+    if (score >= 16) return { label: "Critical", cls: "red", action: "Immediate escalation and board review." };
+    if (score >= 10) return { label: "High", cls: "red", action: "Prioritise for action plan and senior oversight." };
+    if (score >= 6) return { label: "Medium", cls: "amber", action: "Mitigate within planned timeline." };
+    return { label: "Low", cls: "green", action: "Monitor and review periodically." };
+  }
+
+  function checkScope() {
+    const type = document.getElementById("companyType").value;
+    const employees = Number(document.getElementById("employees").value || 0);
+    const turnoverM = Number(document.getElementById("turnover").value || 0);
+    const euTurnoverM = Number(document.getElementById("euTurnover").value || 0);
+    const royaltiesM = Number(document.getElementById("royalties").value || 0);
+    const franchiseTurnoverM = Number(document.getElementById("franchiseTurnover").value || 0);
+
+    let inScope = false, band = "", date = "", reason = "";
+
+    // Thresholds expressed directly in € millions - matches the input units, no unit-conversion bugs.
+    if (type === "eu") {
+      if (employees > 5000 && turnoverM > 1500) { inScope = true; band = "First wave"; date = "26 Jul 2028"; }
+      else if (employees > 1000 && turnoverM > 450) { inScope = true; band = "General scope"; date = "26 Jul 2029"; }
+      reason = inScope ? "Likely in scope as an EU company/group." : "Likely out of scope based on current inputs.";
+    } else if (type === "non-eu") {
+      if (euTurnoverM > 1500) { inScope = true; band = "First wave"; date = "26 Jul 2028"; }
+      else if (euTurnoverM > 450) { inScope = true; band = "General scope"; date = "26 Jul 2029"; }
+      reason = inScope ? "Likely in scope as a non-EU company." : "Likely out of scope based on current inputs.";
+    } else {
+      if (royaltiesM > 22.5 && franchiseTurnoverM > 80) { inScope = true; band = "Franchise/licensing route"; date = "26 Jul 2029"; }
+      reason = inScope ? "Likely in scope via the franchise/licensing route." : "Likely out of scope based on current inputs.";
+    }
+
+    document.getElementById("scopeResultCard").style.display = "block";
+    document.getElementById("scopeResult").innerHTML = inScope
+      ? `<strong>In scope</strong> - ${reason} <span class="tag amber">${band}</span> <span class="tag green">${date}</span>`
+      : `<strong>Not in scope</strong> - ${reason}`;
+
+    // Persist both the inputs and the result so re-opening the tool later shows exactly what was last checked.
+    WS.scopeCheck = {
+      type, employees, turnoverM, euTurnoverM, royaltiesM, franchiseTurnoverM,
+      inScope, band, date, reason,
+      checkedAt: new Date().toISOString()
+    };
+    markDirty();
+  }
+
+  function scoreRisk() {
+    const desc = document.getElementById("riskDesc").value.trim();
+    const category = document.getElementById("riskCategory").value;
+    const supplierId = document.getElementById("riskSupplier").value;
+    const severity = clamp(Number(document.getElementById("severity").value || 1), 1, 5);
+    const likelihood = clamp(Number(document.getElementById("likelihood").value || 1), 1, 5);
+    const urgency = clamp(Number(document.getElementById("urgency").value || 1), 1, 3);
+    const control = clamp(Number(document.getElementById("control").value || 1), 1, 3);
+    const score = (severity * likelihood) + urgency - control;
+    const r = riskLevel(score);
+
+    if(!desc){
+      document.getElementById("riskResult").innerHTML = `<strong>Please add a risk description before saving.</strong> Score would be: ${score} <span class="tag ${r.cls}">${r.label}</span>`;
+      return;
+    }
+
+    rowCounter++;
+    const risk = {
+      id: 'r_' + rowCounter + '_' + Date.now(),
+      desc, category, supplierId,
+      severity, likelihood, urgency, control, score,
+      createdAt: new Date().toISOString()
+    };
+    WS.risks.push(risk);
+
+    document.getElementById("riskResult").innerHTML =
+      `Saved to register - Score: <strong>${score}</strong> <span class="tag ${r.cls}">${r.label}</span> - ${r.action}`;
+    document.getElementById("riskDesc").value = "";
+    renderRisksTable();
+    populateLinkDropdowns();
+    renderDashboard();
+    renderCharts();
+    markDirty();
+  }
+
+  function renderRisksTable(){
+    const tbody = document.getElementById('risksTable');
+    const sorted = [...WS.risks].sort((a,b) => b.score - a.score);
+    tbody.innerHTML = sorted.length ? sorted.map(risk => {
+      const r = riskLevel(risk.score);
+      const supplier = WS.suppliers.find(s => s.id === risk.supplierId);
+      const openActions = WS.actions.filter(a => a.riskId === risk.id && a.status !== 'completed').length;
+      return `<tr data-risk-id="${risk.id}">
+        <td style="max-width:240px">${escapeAttr(risk.desc)}</td>
+        <td>${risk.category}</td>
+        <td>${supplier ? escapeAttr(supplier.name) : '<span style="color:var(--muted)">Own operations</span>'}</td>
+        <td>${risk.score}</td>
+        <td><span class="tag ${r.cls}">${r.label}</span></td>
+        <td>${openActions > 0 ? `<span class="tag amber">${openActions} open</span>` : '<span style="color:var(--muted)">none</span>'}</td>
+        <td><button class="btn btn-warn" style="padding:4px 10px" onclick="CSDDD.removeRisk('${risk.id}')">✕</button></td>
+      </tr>`;
+    }).join('') : `<tr><td colspan="7" style="color:var(--muted);font-style:italic">No risks logged yet - use the form above to add one.</td></tr>`;
+  }
+
+  function removeRisk(id){
+    const linkedActions = WS.actions.filter(a => a.riskId === id).length;
+    const msg = linkedActions > 0
+      ? `This risk has ${linkedActions} linked action(s). Removing it will leave those actions unlinked, not delete them. Continue?`
+      : 'Remove this risk from the register?';
+    if(!confirm(msg)) return;
+    WS.risks = WS.risks.filter(r => r.id !== id);
+    WS.actions.forEach(a => { if(a.riskId === id) a.riskId = ''; });
+    renderRisksTable();
+    renderActionsTable();
+    populateLinkDropdowns();
+    renderDashboard();
+    renderCharts();
+    markDirty();
+  }
+
+  function populateLinkDropdowns(){
+    const riskSupplierSel = document.getElementById('riskSupplier');
+    const currentSupplierVal = riskSupplierSel.value;
+    riskSupplierSel.innerHTML = '<option value="">- Not supplier-specific (own operations) -</option>' +
+      WS.suppliers.map(s => `<option value="${s.id}" ${s.id===currentSupplierVal?'selected':''}>${escapeAttr(s.name)}</option>`).join('');
+
+    const actionRiskSel = document.getElementById('actionRisk');
+    const currentRiskVal = actionRiskSel.value;
+    actionRiskSel.innerHTML = '<option value="">- Not linked to a specific risk -</option>' +
+      WS.risks.map(r => `<option value="${r.id}" ${r.id===currentRiskVal?'selected':''}>[${riskLevel(r.score).label}] ${escapeAttr(r.desc.slice(0,60))}${r.desc.length>60?'…':''}</option>`).join('');
+  }
+
+  function renderSuppliers() {
+    const tbody = document.getElementById("supplierTable");
+    tbody.innerHTML = WS.suppliers.map(s => {
+      const r = riskLevel(s.score);
+      const linkedRisks = WS.risks.filter(risk => risk.supplierId === s.id).length;
+      return `<tr data-supplier-id="${s.id}">
+        <td><input type="text" value="${escapeAttr(s.name)}" onchange="CSDDD.updateSupplier('${s.id}','name',this.value)" style="min-width:120px"></td>
+        <td><input type="text" value="${escapeAttr(s.country)}" onchange="CSDDD.updateSupplier('${s.id}','country',this.value)" style="min-width:100px"></td>
+        <td><select onchange="CSDDD.updateSupplier('${s.id}','tier',this.value)">
+          <option ${s.tier==='Tier 1'?'selected':''}>Tier 1</option>
+          <option ${s.tier==='Tier 2'?'selected':''}>Tier 2</option>
+          <option ${s.tier==='Tier 3'?'selected':''}>Tier 3</option>
+        </select></td>
+        <td><input type="number" value="${s.score}" onchange="CSDDD.updateSupplier('${s.id}','score',this.value)" style="width:70px"></td>
+        <td><span class="tag ${r.cls}">${r.label}</span></td>
+        <td><input type="text" value="${escapeAttr(s.status)}" onchange="CSDDD.updateSupplier('${s.id}','status',this.value)" style="min-width:140px"></td>
+        <td>${linkedRisks > 0 ? `<span class="tag blue">${linkedRisks}</span>` : '<span style="color:var(--muted)">0</span>'}</td>
+        <td><button class="btn btn-warn" style="padding:4px 10px" onclick="CSDDD.removeSupplier('${s.id}')">✕</button></td>
+      </tr>`;
+    }).join("");
+    populateLinkDropdowns();
+    renderDashboard();
+  }
+
+  function escapeAttr(s){ return String(s===undefined||s===null?'':s).replace(/"/g,'&quot;'); }
+
+  function addSupplierRow(){
+    rowCounter++;
+    WS.suppliers.push({ id: 's_' + rowCounter + '_' + Date.now(), name: 'New Supplier', country: '', tier: 'Tier 1', score: 1, status: 'Not yet assessed' });
+    renderSuppliers();
+    markDirty();
+  }
+
+  function updateSupplier(id, field, value){
+    const s = WS.suppliers.find(x=>x.id===id);
+    if(!s) return;
+    s[field] = field === 'score' ? (Number(value)||0) : value;
+    renderSuppliers();
+    if(field === 'name') renderRisksTable(); // supplier name shown inline in the risk register
+    renderCharts();
+    markDirty();
+  }
+
+  function removeSupplier(id){
+    const linkedRisks = WS.risks.filter(r => r.supplierId === id).length;
+    const msg = linkedRisks > 0
+      ? `This supplier has ${linkedRisks} linked risk(s). Removing it will leave those risks marked "own operations" rather than delete them. Continue?`
+      : 'Remove this supplier from the register?';
+    if(!confirm(msg)) return;
+    WS.suppliers = WS.suppliers.filter(s=>s.id!==id);
+    WS.risks.forEach(r => { if(r.supplierId === id) r.supplierId = ''; });
+    renderSuppliers();
+    renderRisksTable();
+    renderCharts();
+    markDirty();
+  }
+
+  function renderDashboard(){
+    // Built from the actual risk register, not a supplier-score proxy - reflects real logged risks and actions.
+    const openRisks = WS.risks.filter(r => riskLevel(r.score).label !== 'Low').length;
+    const overdueActions = WS.actions.filter(a => a.status !== 'completed' && a.deadline && new Date(a.deadline) < new Date()).length;
+    const highSeverity = WS.risks.filter(r => ['High','Critical'].includes(riskLevel(r.score).label)).length;
+    document.getElementById('openRisks').textContent = openRisks;
+    document.getElementById('overdueActions').textContent = overdueActions;
+    document.getElementById('highSeverity').textContent = highSeverity;
+  }
+
+  function saveAction() {
+    const owner = document.getElementById("owner").value.trim();
+    const deadline = document.getElementById("deadline").value;
+    const details = document.getElementById("actionDetails").value.trim();
+    const riskId = document.getElementById("actionRisk").value;
+    const status = document.getElementById("actionStatus").value;
+    if (!owner || !details) {
+      document.getElementById("actionResult").textContent = "Please enter an owner and action details.";
+      return;
+    }
+    rowCounter++;
+    WS.actions.push({ id: 'a_' + rowCounter + '_' + Date.now(), owner, deadline, details, riskId, status, createdAt: new Date().toISOString() });
+    document.getElementById("actionResult").textContent = `Saved ${WS.actions.length} action(s).`;
+    document.getElementById("actionDetails").value = "";
+    renderActionsTable();
+    renderRisksTable();
+    renderDashboard();
+    renderCharts();
+    markDirty();
+  }
+
+  function renderActionsTable(){
+    const tbody = document.getElementById('actionsTable');
+    const statusTag = (s) => s === 'completed' ? '<span class="tag green">Completed</span>' : s === 'in_progress' ? '<span class="tag amber">In progress</span>' : '<span class="tag blue">Open</span>';
+    tbody.innerHTML = WS.actions.length ? WS.actions.map(a => {
+      const risk = WS.risks.find(r => r.id === a.riskId);
+      return `<tr>
+        <td style="max-width:200px">${risk ? escapeAttr(risk.desc.slice(0,50)) + (risk.desc.length>50?'…':'') : '<span style="color:var(--muted)">-</span>'}</td>
+        <td>${statusTag(a.status||'open')}</td>
+        <td>${escapeAttr(a.owner)}</td>
+        <td>${escapeAttr(a.deadline)||'-'}</td>
+        <td>${escapeAttr(a.details)}</td>
+        <td>${new Date(a.createdAt).toLocaleDateString()}</td>
+      </tr>`;
+    }).join('') : `<tr><td colspan="6" style="color:var(--muted);font-style:italic">No actions logged yet.</td></tr>`;
+  }
+
+  function saveTarget() {
+    const year = Number(document.getElementById("targetYear").value || 2030);
+    const metric = document.getElementById("targetMetric").value.trim();
+    const desc = document.getElementById("targetDesc").value.trim();
+    if (!metric || !desc) {
+      document.getElementById("targetResult").textContent = "Please enter a target metric and description.";
+      return;
+    }
+    WS.targets.push({ year, metric, desc });
+    document.getElementById("targetResult").textContent = `Saved target for ${year}.`;
+    document.getElementById("targetDesc").value = "";
+    renderTargetsTable();
+    renderCharts();
+    markDirty();
+  }
+
+  function renderTargetsTable(){
+    const tbody = document.getElementById('targetsTable');
+    tbody.innerHTML = WS.targets.length ? WS.targets.map(t => `
+      <tr><td>${t.year}</td><td>${escapeAttr(t.metric)}</td><td>${escapeAttr(t.desc)}</td></tr>
+    `).join('') : `<tr><td colspan="3" style="color:var(--muted);font-style:italic">No targets logged yet.</td></tr>`;
+  }
+
+  function generateReport() {
+    const openRisks = WS.risks.filter(r => riskLevel(r.score).label !== 'Low').length;
+    const criticalRisks = WS.risks.filter(r => riskLevel(r.score).label === 'Critical').length;
+    const openActions = WS.actions.filter(a => a.status !== 'completed').length;
+    const unlinkedActions = WS.actions.filter(a => !a.riskId).length;
+    const preview = {
+      scope: "Generated in browser",
+      scopeCheck: WS.scopeCheck ? { inScope: WS.scopeCheck.inScope, band: WS.scopeCheck.band, date: WS.scopeCheck.date } : 'Not yet assessed',
+      suppliers: WS.suppliers.length,
+      risks: WS.risks.length,
+      openRisks, criticalRisks,
+      actions: WS.actions.length,
+      openActions, unlinkedActions,
+      targets: WS.targets.length,
+      timestamp: new Date().toISOString()
+    };
+    document.getElementById("reportPreview").innerHTML = "<strong>Report preview generated.</strong>";
+    document.getElementById("reportJson").textContent = JSON.stringify(preview, null, 2);
+  }
+
+  function downloadJSON() {
+    const blob = new Blob([JSON.stringify(WS, null, 2)], { type: "application/json" });
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "csddd-data.json";
+    a.click();
+    URL.revokeObjectURL(a.href);
+  }
+
+  function exportCSV() {
+    const rows = ["owner,deadline,details,createdAt"]
+      .concat(WS.actions.map(a =>
+        `"${escapeCSV(a.owner)}","${escapeCSV(a.deadline)}","${escapeCSV(a.details)}","${escapeCSV(a.createdAt)}"`
+      ));
+    const blob = new Blob([rows.join("\n")], { type: "text/csv" });
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "csddd-actions.csv";
+    a.click();
+    URL.revokeObjectURL(a.href);
+  }
+
+  function renderCharts() {
+    // Inline SVG charts - no external CDN required, fully offline-capable
+
+    // ── CHART 1: Risk Register Bar Chart ──
+    const riskCounts = { Low: 0, Medium: 0, High: 0, Critical: 0 };
+    WS.risks.forEach(r => riskCounts[riskLevel(r.score).label]++);
+    const barColors = { Low:'#4ade80', Medium:'#e0a73c', High:'#e07070', Critical:'#ba0c2f' };
+    const barLabels = Object.keys(riskCounts);
+    const barVals = Object.values(riskCounts);
+    const maxBar = Math.max(...barVals, 1);
+    const bW=60, bGap=20, bPadL=36, bPadB=30, bPadT=30, bH=180;
+    const barSVG = `<svg viewBox="0 0 ${barLabels.length*(bW+bGap)+bPadL+10} ${bH+bPadT+bPadB}" style="width:100%;height:auto">
+      <text x="${(barLabels.length*(bW+bGap)+bPadL)/2}" y="16" text-anchor="middle" font-size="12" fill="rgba(255,255,255,0.75)" font-family="Cormorant Garamond,serif">Risk Register Distribution</text>
+      ${[0,1,2,3].map(i=>{
+        const yv=Math.round(maxBar*i/3);
+        const y=bPadT+bH-(i/3)*bH;
+        return `<line x1="${bPadL}" y1="${y}" x2="${barLabels.length*(bW+bGap)+bPadL}" y2="${y}" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+                <text x="${bPadL-4}" y="${y+4}" text-anchor="end" font-size="9" fill="rgba(255,255,255,0.4)" font-family="DM Mono,monospace">${yv}</text>`;
+      }).join('')}
+      ${barLabels.map((label,i)=>{
+        const h=barVals[i]>0?(barVals[i]/maxBar)*bH:0;
+        const x=bPadL+i*(bW+bGap);
+        const y=bPadT+bH-h;
+        return `<rect x="${x}" y="${y}" width="${bW}" height="${h}" fill="${barColors[label]}" opacity="0.85" rx="1"/>
+                <text x="${x+bW/2}" y="${bPadT+bH+14}" text-anchor="middle" font-size="10" fill="rgba(255,255,255,0.55)" font-family="Inter,sans-serif">${label}</text>
+                ${barVals[i]>0?`<text x="${x+bW/2}" y="${y-4}" text-anchor="middle" font-size="10" fill="rgba(255,255,255,0.8)" font-family="DM Mono,monospace">${barVals[i]}</text>`:''}`;
+      }).join('')}
+    </svg>`;
+    document.getElementById('riskChart').innerHTML = barSVG;
+
+    // ── CHART 2: Compliance Status Donut ──
+    const openRisks = WS.risks.filter(r => riskLevel(r.score).label !== 'Low').length;
+    const overdueActions = WS.actions.filter(a => a.status !== 'completed' && a.deadline && new Date(a.deadline) < new Date()).length;
+    const highSeverity = WS.risks.filter(r => ['High','Critical'].includes(riskLevel(r.score).label)).length;
+    const donutSegs = [
+      {label:'Open risks', val:openRisks, color:'#1D9E75'},
+      {label:'Overdue actions', val:overdueActions, color:'#e0a73c'},
+      {label:'High severity', val:highSeverity, color:'#e07070'}
+    ];
+    const dTotal = donutSegs.reduce((s,d)=>s+d.val,0)||1;
+    const dCx=90,dCy=90,dR=60,dStroke=22;
+    const dCirc=2*Math.PI*dR;
+    let dOffset=0;
+    const donutArcs = donutSegs.map(seg=>{
+      const dash=(seg.val/dTotal)*dCirc;
+      const arc=`<circle cx="${dCx}" cy="${dCy}" r="${dR}" fill="none" stroke="${seg.color}" stroke-width="${dStroke}" stroke-dasharray="${dash} ${dCirc-dash}" stroke-dashoffset="${-dOffset}" transform="rotate(-90 ${dCx} ${dCy})"/>`;
+      dOffset+=dash;
+      return arc;
+    }).join('');
+    const donutLegend = donutSegs.map((s,i)=>`<text x="190" y="${60+i*22}" font-size="11" fill="rgba(255,255,255,0.65)" font-family="Inter,sans-serif"><tspan fill="${s.color}">&#9679;</tspan> ${s.label}: ${s.val}</text>`).join('');
+    const donutSVG = `<svg viewBox="0 0 340 180" style="width:100%;height:auto">
+      <text x="170" y="14" text-anchor="middle" font-size="12" fill="rgba(255,255,255,0.75)" font-family="Cormorant Garamond,serif">Compliance Status Mix</text>
+      ${donutArcs}
+      <text x="${dCx}" y="${dCy-4}" text-anchor="middle" font-size="18" fill="rgba(255,255,255,0.85)" font-family="Cormorant Garamond,serif">${dTotal}</text>
+      <text x="${dCx}" y="${dCy+14}" text-anchor="middle" font-size="9" fill="rgba(255,255,255,0.4)" font-family="Inter,sans-serif">total</text>
+      ${donutLegend}
+    </svg>`;
+    document.getElementById('statusChart').innerHTML = donutSVG;
+
+    // ── CHART 3: Transition Plan Pipeline Line Chart ──
+    const years = [2026,2028,2029,2030,2035,2050];
+    const targets = years.map(y => WS.targets.filter(t => t.year <= y).length);
+    const maxT = Math.max(...targets,1);
+    const lPadL=42,lPadR=16,lPadT=30,lPadB=28,lW=400,lH=140;
+    const lInnerW=lW-lPadL-lPadR,lInnerH=lH;
+    const lx=i=>lPadL+(i/(years.length-1))*lInnerW;
+    const ly=v=>lPadT+lInnerH-(v/maxT)*lInnerH;
+    const pts=years.map((y,i)=>`${lx(i)},${ly(targets[i])}`).join(' ');
+    const dots=years.map((y,i)=>`<circle cx="${lx(i)}" cy="${ly(targets[i])}" r="5" fill="#e0c07a" stroke="#c9a84c" stroke-width="1.5"/>`).join('');
+    const xlabels=years.map((y,i)=>`<text x="${lx(i)}" y="${lPadT+lInnerH+16}" text-anchor="middle" font-size="9" fill="rgba(255,255,255,0.4)" font-family="DM Mono,monospace">${y}</text>`).join('');
+    const ylines=[0,1,2,3].map(i=>{
+      const yv=Math.round(maxT*i/3);
+      const y=lPadT+lInnerH-(i/3)*lInnerH;
+      return `<line x1="${lPadL}" y1="${y}" x2="${lW-lPadR}" y2="${y}" stroke="rgba(255,255,255,0.07)" stroke-width="1"/>
+              <text x="${lPadL-4}" y="${y+4}" text-anchor="end" font-size="9" fill="rgba(255,255,255,0.4)" font-family="DM Mono,monospace">${yv}</text>`;
+    }).join('');
+    const pipelineSVG = `<svg viewBox="0 0 ${lW} ${lPadT+lInnerH+lPadB}" style="width:100%;height:auto">
+      <text x="${lW/2}" y="16" text-anchor="middle" font-size="12" fill="rgba(255,255,255,0.75)" font-family="Cormorant Garamond,serif">Transition Plan Pipeline</text>
+      ${ylines}
+      <polyline points="${pts}" fill="none" stroke="#c9a84c" stroke-width="2.5"/>
+      ${dots}${xlabels}
+      <text x="${lW/2}" y="${lPadT+lInnerH+28}" text-anchor="middle" font-size="9" fill="rgba(255,255,255,0.35)" font-family="Inter,sans-serif">Year</text>
+    </svg>`;
+    document.getElementById('pipelineChart').innerHTML = pipelineSVG;
+  }
+
+  function escapeCSV(s) { return String(s || "").replace(/"/g, '""'); }
+  function clamp(n, min, max) { return Math.min(max, Math.max(min, n)); }
+
+  return {
+    checkScope, scoreRisk, saveAction, saveTarget, generateReport, downloadJSON, exportCSV,
+    renderSuppliers, addSupplierRow, updateSupplier, removeSupplier,
+    renderActionsTable, renderTargetsTable, renderDashboard, renderCharts,
+    toggleScopeFields, fillRange,
+    renderRisksTable, removeRisk, populateLinkDropdowns
+  };
+})();
+
+window.CSDDD = CSDDD;
+</script>
+<script>
+function renderEverything(){
+  CSDDD.renderSuppliers();
+  CSDDD.renderRisksTable();
+  CSDDD.populateLinkDropdowns();
+  CSDDD.renderActionsTable();
+  CSDDD.renderTargetsTable();
+  CSDDD.renderDashboard();
+  CSDDD.renderCharts();
+  CSDDD.toggleScopeFields();
+  restoreScopeCheckUI();
+  document.getElementById('riskResult').innerHTML = '';
+  document.getElementById('actionResult').textContent = '';
+  document.getElementById('targetResult').textContent = '';
+  document.getElementById('reportPreview').innerHTML = '';
+  document.getElementById('reportJson').textContent = 'Run "Generate Report Preview" to populate.';
+}
+
+function restoreScopeCheckUI(){
+  const sc = WS.scopeCheck;
+  const card = document.getElementById('scopeResultCard');
+  if(!sc){
+    card.style.display = 'none';
+    document.getElementById('scopeResult').innerHTML = '';
+    return;
+  }
+  document.getElementById('companyType').value = sc.type;
+  document.getElementById('employees').value = sc.employees || '';
+  document.getElementById('turnover').value = sc.turnoverM || '';
+  document.getElementById('euTurnover').value = sc.euTurnoverM || '';
+  document.getElementById('royalties').value = sc.royaltiesM || '';
+  document.getElementById('franchiseTurnover').value = sc.franchiseTurnoverM || '';
+  CSDDD.toggleScopeFields();
+  card.style.display = 'block';
+  document.getElementById('scopeResult').innerHTML = sc.inScope
+    ? `<strong>In scope</strong> - ${sc.reason} <span class="tag amber">${sc.band}</span> <span class="tag green">${sc.date}</span>`
+    : `<strong>Not in scope</strong> - ${sc.reason}`;
+}
+
+/* =========================================================
+   TAB NAVIGATION
+   ========================================================= */
+document.getElementById('tabNav').addEventListener('click', (e)=>{
+  if(e.target.tagName !== 'BUTTON') return;
+  document.querySelectorAll('#tabNav button').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.tool-panel').forEach(p=>p.classList.remove('active'));
+  e.target.classList.add('active');
+  document.getElementById(e.target.dataset.tab).classList.add('active');
+  if(e.target.dataset.tab === 'charts') CSDDD.renderCharts();
+});
+
+/* =========================================================
+   INIT
+   ========================================================= */
+(function init(){
+  let restored = false;
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if(saved){
+      checkForRestorableSession();
+      restored = true;
+    }
+  } catch(e){}
+
+  WS = emptyWorkspace();
+  renderEverything();
+  updateSaveStatus('saved');
+})();
+</script>
+</body>
+</html>

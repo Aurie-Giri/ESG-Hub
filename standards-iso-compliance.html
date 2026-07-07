@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="A structured mapping of ISO management system standards to EU sustainability regulations, covering data quality, traceability, and assurance readiness.">
+<title>ISO Standards for ESG Compliance - Aurie's Knowledge Hub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Inter:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --green-deep:  #0e2b1a;
+  --green-mid:   #1a3d28;
+  --green-light: #234d33;
+  --gold:        #c9a84c;
+  --gold-light:  #e0c07a;
+  --gold-dim:    rgba(201,168,76,0.15);
+  --white:       #ffffff;
+  --muted:       #8a9e90;
+  --border:      rgba(201,168,76,0.18);
+  --serif:       'Cormorant Garamond', Georgia, serif;
+  --sans:        'Inter', system-ui, sans-serif;
+  --mono:        'DM Mono', monospace;
+  --s3: #4ade80; --s3d: rgba(74,222,128,0.14);
+  --s2: #c9a84c; --s2d: rgba(201,168,76,0.14);
+  --s1: #93c5fd; --s1d: rgba(147,197,253,0.12);
+  --s0: rgba(255,255,255,0.06);
+}
+html { scroll-behavior: smooth; }
+body { background: var(--green-deep); color: var(--white); font-family: var(--sans); font-weight: 300; line-height: 1.6; min-height: 100vh; overflow-x: hidden; }
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: var(--green-deep); }
+::-webkit-scrollbar-thumb { background: rgba(201,168,76,0.35); border-radius: 3px; }
+
+/* PAGE HEADER */
+.page-header { padding:7rem 2.5rem 3rem; background:radial-gradient(ellipse at 65% 40%,rgba(26,61,40,0.9) 0%,var(--green-deep) 65%); border-bottom:1px solid var(--border); }
+.page-eyebrow { font-size:0.7rem; letter-spacing:0.22em; text-transform:uppercase; color:var(--gold); margin-bottom:1.2rem; display:flex; align-items:center; gap:1rem; }
+.page-eyebrow::before { content:''; width:2.5rem; height:1px; background:var(--gold); display:inline-block; }
+h1.page-title { font-family:var(--serif); font-size:clamp(2.2rem,4vw,3.6rem); font-weight:300; line-height:1.1; margin-bottom:0.8rem; border:none; padding:0; }
+h1.page-title em { font-style:italic; color:var(--gold); }
+.page-desc { font-size:0.9rem; color:rgba(255,255,255,0.55); max-width:640px; line-height:1.75; margin-bottom:1.8rem; }
+.header-meta { display:flex; gap:10px; flex-wrap:wrap; }
+.meta-badge { padding:4px 14px; font-size:10px; font-weight:500; letter-spacing:0.1em; text-transform:uppercase; font-family:var(--sans); }
+
+/* LEGEND */
+.legend-strip { padding:10px 2.5rem; background:var(--green-deep); border-bottom:1px solid var(--border); display:flex; gap:20px; flex-wrap:wrap; align-items:center; }
+.legend-item { display:flex; align-items:center; gap:7px; font-size:11px; color:rgba(255,255,255,0.5); }
+
+/* MAIN */
+main { padding: 2rem 2.5rem 0; }
+
+/* CATEGORY SECTION */
+.cat-section { margin-bottom: 3rem; }
+
+.cat-header { display:flex; align-items:baseline; gap:14px; padding:14px 0 10px; border-top:2px solid var(--gold); margin-bottom:4px; cursor:pointer; user-select:none; }
+.cat-num { font-family:var(--serif); font-size:2.8rem; font-weight:300; line-height:1; color:var(--gold); opacity:0.5; flex-shrink:0; }
+.cat-title-block { flex:1; }
+.cat-label { font-family:var(--serif); font-size:1.4rem; font-weight:300; color:var(--white); margin-bottom:3px; }
+.cat-desc { font-size:11px; color:var(--muted); font-style:italic; line-height:1.5; }
+.cat-chevron { color:var(--gold); font-size:13px; transition:transform 0.2s; flex-shrink:0; align-self:center; }
+.cat-section.collapsed .cat-chevron { transform:rotate(-90deg); }
+.cat-section.collapsed .cat-body { display:none; }
+
+/* TABLE */
+.table-wrap { overflow-x:auto; margin-bottom:8px; }
+.iso-table { width:100%; border-collapse:collapse; min-width:820px; }
+
+/* Column headers with rotated reg names */
+.iso-table .thead-row th { background:var(--green-mid); border-bottom:1px solid var(--border); padding:0; vertical-align:bottom; }
+.th-iso { min-width:110px; width:110px; padding:8px 10px 8px 0; text-align:left; font-size:9px; letter-spacing:0.18em; text-transform:uppercase; color:var(--gold); font-weight:400; font-family:var(--sans); }
+.th-name { min-width:160px; width:160px; padding:8px 10px 8px 0; text-align:left; font-size:9px; letter-spacing:0.18em; text-transform:uppercase; color:var(--muted); font-weight:400; font-family:var(--sans); }
+.th-rel { text-align:left; font-size:9px; letter-spacing:0.18em; text-transform:uppercase; color:var(--muted); font-weight:400; font-family:var(--sans); padding:8px 10px 8px 0; }
+.th-scores { min-width:300px; width:300px; padding:0 0 8px 0; }
+.reg-headers { display:flex; height:90px; }
+.rh { flex:1; min-width:26px; writing-mode:vertical-rl; transform:rotate(180deg); font-size:9px; letter-spacing:0.08em; color:rgba(255,255,255,0.5); font-family:var(--sans); display:flex; align-items:center; justify-content:flex-end; padding-bottom:6px; white-space:nowrap; }
+
+/* Data rows */
+.data-row { transition:background 0.1s; }
+.data-row:hover td { background:rgba(255,255,255,0.02); }
+.data-row td { padding:8px 10px 8px 0; border-bottom:1px solid rgba(255,255,255,0.04); vertical-align:top; }
+.td-iso { font-family:var(--mono); font-size:11px; color:var(--gold-light); letter-spacing:0.05em; white-space:nowrap; width:110px; }
+.td-name { font-size:12px; color:rgba(255,255,255,0.85); width:160px; }
+.td-rel { font-size:11px; color:rgba(255,255,255,0.55); line-height:1.55; }
+.td-scores { width:300px; white-space:nowrap; padding-right:0; }
+
+/* Score chips */
+.td-scores { display:flex; gap:2px; align-items:center; padding-top:9px; padding-bottom:8px; }
+.sc { display:inline-flex; align-items:center; justify-content:center; width:24px; height:18px; font-family:var(--mono); font-size:10px; font-weight:600; flex:1; }
+.sc-3 { background:var(--s3d); color:var(--s3); }
+.sc-2 { background:var(--s2d); color:var(--s2); }
+.sc-1 { background:var(--s1d); color:var(--s1); }
+.sc-0 { background:var(--s0); color:rgba(255,255,255,0.18); }
+
+/* Group rows inside cat4 */
+.group-row td { padding:14px 0 5px; font-size:9px; letter-spacing:0.18em; text-transform:uppercase; color:var(--gold); font-family:var(--sans); font-weight:600; border-top:1px solid rgba(201,168,76,0.15); border-bottom:none; }
+.cat4-table { width:100%; border-collapse:collapse; min-width:600px; }
+.cat4-table .thead-row th { background:var(--green-mid); border-bottom:1px solid var(--border); padding:8px 10px 8px 0; font-size:9px; letter-spacing:0.18em; text-transform:uppercase; color:var(--muted); font-weight:400; font-family:var(--sans); }
+.cat4-table .thead-row .th-iso { color:var(--gold); }
+.cat4-note { font-size:11px; color:var(--muted); font-style:italic; padding:10px 0 4px; }
+
+/* ── METHODOLOGY ── */
+.meth-outer { margin-top:0; border-top:2px solid var(--gold); position:relative; }
+.meth-divider { background:var(--green-deep); padding:0 2.5rem; display:inline-block; margin-left:2.5rem; position:relative; top:-13px; }
+.meth-divider-label { font-size:9px; letter-spacing:0.22em; text-transform:uppercase; color:var(--gold); font-family:var(--sans); font-weight:500; background:var(--green-deep); padding:0 12px; }
+.meth-body { padding:1.5rem 2.5rem 3rem; background:rgba(14,43,26,0.5); }
+.meth-intro { font-size:13px; color:rgba(255,255,255,0.5); max-width:700px; line-height:1.75; margin-bottom:2rem; font-style:italic; }
+.meth-section-title { font-size:9px; letter-spacing:0.2em; text-transform:uppercase; color:var(--gold); margin-bottom:1.2rem; font-family:var(--sans); display:flex; align-items:center; gap:10px; }
+.meth-section-title::after { content:''; flex:1; height:1px; background:linear-gradient(to right,rgba(201,168,76,0.3),transparent); }
+.score-defs { display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--border); border:1px solid var(--border); margin-bottom:2rem; }
+.score-def-card { background:var(--green-mid); padding:18px 20px; position:relative; }
+.score-def-card::after { content:''; position:absolute; top:0; left:0; right:0; height:2px; }
+.sd-3::after { background:var(--s3); } .sd-2::after { background:var(--s2); } .sd-1::after { background:var(--s1); } .sd-0::after { background:rgba(255,255,255,0.15); }
+.score-def-num { font-family:var(--serif); font-size:40px; font-weight:300; line-height:1; margin-bottom:4px; }
+.sd-3 .score-def-num { color:var(--s3); } .sd-2 .score-def-num { color:var(--s2); } .sd-1 .score-def-num { color:var(--s1); } .sd-0 .score-def-num { color:rgba(255,255,255,0.2); }
+.score-def-label { font-size:9px; letter-spacing:0.14em; text-transform:uppercase; margin-bottom:8px; font-weight:500; }
+.sd-3 .score-def-label { color:var(--s3); } .sd-2 .score-def-label { color:var(--s2); } .sd-1 .score-def-label { color:var(--s1); } .sd-0 .score-def-label { color:rgba(255,255,255,0.3); }
+.score-def-desc { font-size:11.5px; color:rgba(255,255,255,0.55); line-height:1.6; }
+.meth-note { font-size:11.5px; color:rgba(255,255,255,0.55); line-height:1.75; max-width:700px; margin-bottom:1.5rem; }
+.meth-footer-note { font-size:11px; color:rgba(255,255,255,0.3); line-height:1.7; max-width:700px; margin-top:1.5rem; }
+
+footer { padding:20px 2.5rem; border-top:1px solid var(--border); display:flex; justify-content:space-between; align-items:center; color:var(--muted); font-size:10px; flex-wrap:wrap; gap:8px; letter-spacing:0.06em; margin-top:0; }
+.footer-brand { font-family:var(--serif); font-size:13px; color:var(--gold); font-weight:400; }
+
+@media(max-width:900px) {
+  nav { padding:1rem 1.5rem; } .page-header, main, .meth-body, footer { padding-left:1.5rem; padding-right:1.5rem; }
+  .legend-strip { padding-left:1.5rem; }
+  .score-defs { grid-template-columns:1fr 1fr; }
+  .meth-divider { margin-left:1.5rem; }
+}
+
+/* ── NAV (standardised) ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; align-items: stretch;
+  background: rgba(9,31,18,0.97); backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+  height: 64px;
+}
+.nav-brand {
+  display: flex; align-items: center;
+  padding: 0 2.5rem;
+  font-family: var(--serif); font-size: 1.25rem; font-weight: 600;
+  letter-spacing: 0.04em; color: var(--white); text-decoration: none;
+  border-right: 1px solid var(--border);
+  flex-shrink: 0; transition: background 0.2s;
+}
+.nav-brand:hover { background: rgba(201,168,76,0.06); }
+.nav-brand span { color: var(--gold); }
+.nav-sections { display: flex; align-items: stretch; list-style: none; flex: 1; overflow-x: auto; }
+.nav-sections li { display: flex; }
+.nav-link {
+  display: flex; flex-direction: column; justify-content: center;
+  padding: 0 1.6rem; text-decoration: none;
+  border-right: 1px solid var(--border);
+  transition: background 0.18s; min-width: 120px;
+}
+.nav-link:hover { background: rgba(201,168,76,0.06); }
+.nav-link.active { background: var(--gold-dim); border-bottom: 2px solid var(--gold); }
+.nav-link-primary { font-size: 0.78rem; font-weight: 500; letter-spacing: 0.05em; color: rgba(255,255,255,0.88); line-height: 1.2; white-space: nowrap; }
+.nav-link-sub { font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); line-height: 1; margin-top: 3px; white-space: nowrap; }
+.nav-link:hover .nav-link-primary { color: var(--gold-light); }
+.nav-link:hover .nav-link-sub { color: rgba(201,168,76,0.6); }
+.nav-link.active .nav-link-primary { color: var(--gold); }
+.nav-link.active .nav-link-sub { color: rgba(201,168,76,0.7); }
+.nav-about {
+  display: flex; align-items: center; padding: 0 1.8rem;
+  font-size: 0.78rem; font-weight: 500; letter-spacing: 0.05em;
+  color: rgba(255,255,255,0.6); text-decoration: none;
+  margin-left: auto; transition: color 0.18s; white-space: nowrap;
+}
+.nav-about:hover { color: var(--gold); }
+@media (max-width: 768px) {
+  .nav-link { min-width: 100px; padding: 0 1rem; }
+  .nav-brand { padding: 0 1.2rem; font-size: 1.05rem; }
+}
+@media (max-width: 560px) {
+  .nav-link-sub { display: none; }
+  .nav-link { min-width: 80px; padding: 0 0.8rem; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-brand" href="index.html">Aurie's <span>Knowledge Hub</span></a>
+  <ul class="nav-sections">
+    <li>
+      <a class="nav-link" href="ceo-insights.html">
+        <span class="nav-link-primary">CEO Insights</span>
+        <span class="nav-link-sub">For the leadership</span>
+      </a>
+    </li>
+    <li>
+      <a class="nav-link" href="tools.html">
+        <span class="nav-link-primary">Tools &amp; Templates</span>
+        <span class="nav-link-sub">For ESG teams</span>
+      </a>
+    </li>
+    <li>
+      <a class="nav-link active" href="resource-library.html">
+        <span class="nav-link-primary">Resource Library</span>
+        <span class="nav-link-sub">For practitioners</span>
+      </a>
+    </li>
+    <li>
+      <a class="nav-link" href="thought-papers.html">
+        <span class="nav-link-primary">Thought Papers</span>
+        <span class="nav-link-sub">For the curious</span>
+      </a>
+    </li>
+  </ul>
+  <a class="nav-about" href="about.html">About Me</a>
+</nav>
+
+<div class="page-header">
+  <p class="page-eyebrow">ISO Standards · ESG Compliance Mapping · 4 Categories · 10 EU Regulations</p>
+  <h1 class="page-title">ISO Standards for <em>ESG Compliance</em></h1>
+  <p class="page-desc">A structured mapping of ISO management system standards to EU sustainability regulations. Scores reflect whether each standard materially improves data quality, traceability, control environment, assurance readiness, or supplier governance - not general reputation.</p>
+  <div class="header-meta">
+    <span class="meta-badge" style="background:var(--gold-dim);border:1px solid rgba(201,168,76,0.4);color:var(--gold);">4 Categories</span>
+    <span class="meta-badge" style="background:rgba(74,222,128,0.1);border:1px solid rgba(74,222,128,0.25);color:#4ade80;">10 EU Regulations</span>
+    <span class="meta-badge" style="background:rgba(147,197,253,0.1);border:1px solid rgba(147,197,253,0.25);color:#93c5fd;">Sources: iso.org · Official texts</span>
+  </div>
+</div>
+
+<div class="legend-strip">
+  <span style="font-size:9px;letter-spacing:0.16em;text-transform:uppercase;color:var(--muted);flex-shrink:0">Score key:</span>
+  <div class="legend-item"><span class="sc sc-3">3</span> Strongly useful - directly supports compliance logic</div>
+  <div class="legend-item"><span class="sc sc-2">2</span> Materially supports implementation or evidence</div>
+  <div class="legend-item"><span class="sc sc-1">1</span> Indirectly useful</div>
+  <div class="legend-item"><span class="sc sc-0">-</span> No meaningful relevance</div>
+  <div style="margin-left:auto;font-size:10px;color:var(--muted)">Click category headers to collapse · Scroll table to see all regulations</div>
+</div>
+
+<main>
+
+<!-- ═══ CATEGORY 1 ═══ -->
+<div class="cat-section" id="cat1">
+  <div class="cat-header" onclick="toggleCat('cat1',this)">
+    <div class="cat-num">1</div>
+    <div class="cat-title-block">
+      <div class="cat-label">Enterprise Fundamentals</div>
+      <div class="cat-desc">Widely used standards that form the operational backbone of most companies.</div>
+    </div>
+    <span class="cat-chevron">▾</span>
+  </div>
+  <div class="cat-body">
+    <div class="table-wrap">
+      <table class="iso-table">
+        <thead>
+          <tr class="thead-row">
+            <th class="th-iso">Standard</th>
+            <th class="th-name">Name</th>
+            <th class="th-rel">Relevance</th>
+            <th class="th-scores"><div class="reg-headers"><div class="rh">CSRD</div><div class="rh">CBAM</div><div class="rh">ESPR</div><div class="rh">DPP</div><div class="rh">CSDDD</div><div class="rh">EUDR</div><div class="rh">Pay Trans.</div><div class="rh">PPWR</div><div class="rh">EPR</div><div class="rh">AI Act</div></div></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="data-row">
+  <td class="td-iso">ISO 9001</td>
+  <td class="td-name">Quality management</td>
+  <td class="td-rel">Enterprise-wide process control, consistency, and evidence discipline.</td>
+  <td class="td-scores"><span class="sc sc-3">3</span><span class="sc sc-1">1</span><span class="sc sc-1">1</span><span class="sc sc-1">1</span><span class="sc sc-2">2</span><span class="sc sc-1">1</span><span class="sc sc-0">-</span><span class="sc sc-1">1</span><span class="sc sc-1">1</span><span class="sc sc-1">1</span></td>
+</tr><tr class="data-row">
+  <td class="td-iso">ISO 14001</td>
+  <td class="td-name">Environmental management</td>
+  <td class="td-rel">Core system for managing environmental impacts and compliance.</td>
+  <td class="td-scores"><span class="sc sc-3">3</span><span class="sc sc-1">1</span><span class="sc sc-2">2</span><span class="sc sc-2">2</span><span class="sc sc-2">2</span><span class="sc sc-2">2</span><span class="sc sc-0">-</span><span class="sc sc-2">2</span><span class="sc sc-2">2</span><span class="sc sc-0">-</span></td>
+</tr><tr class="data-row">
+  <td class="td-iso">ISO 27001</td>
+  <td class="td-name">Information security</td>
+  <td class="td-rel">Supports trustworthy ESG data, governance, and AI/data controls.</td>
+  <td class="td-scores"><span class="sc sc-3">3</span><span class="sc sc-0">-</span><span class="sc sc-2">2</span><span class="sc sc-3">3</span><span class="sc sc-2">2</span><span class="sc sc-2">2</span><span class="sc sc-2">2</span><span class="sc sc-1">1</span><span class="sc sc-1">1</span><span class="sc sc-3">3</span></td>
+</tr><tr class="data-row">
+  <td class="td-iso">ISO 45001</td>
+  <td class="td-name">Occupational health & safety</td>
+  <td class="td-rel">Critical for social sustainability, workforce safety, and due diligence.</td>
+  <td class="td-scores"><span class="sc sc-2">2</span><span class="sc sc-0">-</span><span class="sc sc-0">-</span><span class="sc sc-0">-</span><span class="sc sc-3">3</span><span class="sc sc-1">1</span><span class="sc sc-1">1</span><span class="sc sc-0">-</span><span class="sc sc-0">-</span><span class="sc sc-0">-</span></td>
+</tr><tr class="data-row">
+  <td class="td-iso">ISO 37301</td>
+  <td class="td-name">Compliance management</td>
+  <td class="td-rel">Builds the compliance backbone for ESG obligations.</td>
+  <td class="td-scores"><span class="sc sc-3">3</span><span class="sc sc-1">1</span><span class="sc sc-1">1</span><span class="sc sc-1">1</span><span class="sc sc-3">3</span><span class="sc sc-2">2</span><span class="sc sc-1">1</span><span class="sc sc-1">1</span><span class="sc sc-1">1</span><span class="sc sc-1">1</span></td>
+</tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ CATEGORY 2 ═══ -->
+<div class="cat-section" id="cat2">
+  <div class="cat-header" onclick="toggleCat('cat2',this)">
+    <div class="cat-num">2</div>
+    <div class="cat-title-block">
+      <div class="cat-label">Core ESG Standards</div>
+      <div class="cat-desc">Directly support sustainability execution and compliance readiness.</div>
+    </div>
+    <span class="cat-chevron">▾</span>
+  </div>
+  <div class="cat-body">
+    <div class="table-wrap">
+      <table class="iso-table">
+        <thead>
+          <tr class="thead-row">
+            <th class="th-iso">Standard</th>
+            <th class="th-name">Name</th>
+            <th class="th-rel">Relevance</th>
+            <th class="th-scores"><div class="reg-headers"><div class="rh">CSRD</div><div class="rh">CBAM</div><div class="rh">ESPR</div><div class="rh">DPP</div><div class="rh">CSDDD</div><div class="rh">EUDR</div><div class="rh">Pay Trans.</div><div class="rh">PPWR</div><div class="rh">EPR</div><div class="rh">AI Act</div></div></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="data-row">
+  <td class="td-iso">ISO 14001</td>
+  <td class="td-name">Environmental management</td>
+  <td class="td-rel">Core system for managing environmental impacts and compliance.</td>
+  <td class="td-scores"><span class="sc sc-3">3</span><span class="sc sc-1">1</span><span class="sc sc-2">2</span><span class="sc sc-2">2</span><span class="sc sc-2">2</span><span class="sc sc-2">2</span><span class="sc sc-0">-</span><span class="sc sc-2">2</span><span class="sc sc-2">2</span><span class="sc sc-0">-</span></td>
+</tr><tr class="data-row">
+  <td class="td-iso">ISO 50001</td>
+  <td class="td-name">Energy management</td>
+  <td class="td-rel">Directly improves energy performance and decarbonization.</td>
+  <td class="td-scores"><span class="sc sc-3">3</span><span class="sc sc-1">1</span><span class="sc sc-1">1</span><span class="sc sc-1">1</span><span class="sc sc-0">-</span><span class="sc sc-0">-</span><span class="sc sc-0">-</span><span class="sc sc-0">-</span><span class="sc sc-0">-</span><span class="sc sc-0">-</span></td>
+</tr><tr class="data-row">
+  <td class="td-iso">ISO 14064-1</td>
+  <td class="td-name">Organizational GHG accounting</td>
+  <td class="td-rel">Foundation for company-level carbon data and CSRD/CBAM support.</td>
+  <td class="td-scores"><span class="sc sc-3">3</span><span class="sc sc-3">3</span><span class="sc sc-1">1</span><span class="sc sc-1">1</span><span class="sc sc-1">1</span><span class="sc sc-0">-</span><span class="sc sc-0">-</span><span class="sc sc-0">-</span><span class="sc sc-0">-</span><span class="sc sc-0">-</span></td>
+</tr><tr class="data-row">
+  <td class="td-iso">ISO 14067</td>
+  <td class="td-name">Product carbon footprint</td>
+  <td class="td-rel">Key for product-level climate data, DPP, and customer requirements.</td>
+  <td class="td-scores"><span class="sc sc-2">2</span><span class="sc sc-3">3</span><span class="sc sc-3">3</span><span class="sc sc-3">3</span><span class="sc sc-1">1</span><span class="sc sc-0">-</span><span class="sc sc-0">-</span><span class="sc sc-2">2</span><span class="sc sc-3">3</span><span class="sc sc-0">-</span></td>
+</tr><tr class="data-row">
+  <td class="td-iso">ISO 20400</td>
+  <td class="td-name">Sustainable procurement</td>
+  <td class="td-rel">Strong link to supplier due diligence and CSDDD/EUDR.</td>
+  <td class="td-scores"><span class="sc sc-3">3</span><span class="sc sc-0">-</span><span class="sc sc-1">1</span><span class="sc sc-1">1</span><span class="sc sc-3">3</span><span class="sc sc-3">3</span><span class="sc sc-0">-</span><span class="sc sc-1">1</span><span class="sc sc-1">1</span><span class="sc sc-0">-</span></td>
+</tr><tr class="data-row">
+  <td class="td-iso">ISO 37301</td>
+  <td class="td-name">Compliance management</td>
+  <td class="td-rel">Builds the compliance backbone for ESG obligations.</td>
+  <td class="td-scores"><span class="sc sc-3">3</span><span class="sc sc-1">1</span><span class="sc sc-1">1</span><span class="sc sc-1">1</span><span class="sc sc-3">3</span><span class="sc sc-2">2</span><span class="sc sc-1">1</span><span class="sc sc-1">1</span><span class="sc sc-1">1</span><span class="sc sc-1">1</span></td>
+</tr><tr class="data-row">
+  <td class="td-iso">ISO 27001</td>
+  <td class="td-name">Information security</td>
+  <td class="td-rel">Supports trustworthy ESG data, governance, and AI/data controls.</td>
+  <td class="td-scores"><span class="sc sc-3">3</span><span class="sc sc-0">-</span><span class="sc sc-2">2</span><span class="sc sc-3">3</span><span class="sc sc-2">2</span><span class="sc sc-2">2</span><span class="sc sc-2">2</span><span class="sc sc-1">1</span><span class="sc sc-1">1</span><span class="sc sc-3">3</span></td>
+</tr><tr class="data-row">
+  <td class="td-iso">ISO 31000</td>
+  <td class="td-name">Risk management</td>
+  <td class="td-rel">Helps embed ESG and regulatory risks into enterprise risk management.</td>
+  <td class="td-scores"><span class="sc sc-3">3</span><span class="sc sc-1">1</span><span class="sc sc-1">1</span><span class="sc sc-1">1</span><span class="sc sc-3">3</span><span class="sc sc-2">2</span><span class="sc sc-1">1</span><span class="sc sc-1">1</span><span class="sc sc-1">1</span><span class="sc sc-2">2</span></td>
+</tr><tr class="data-row">
+  <td class="td-iso">ISO 45001</td>
+  <td class="td-name">Occupational health & safety</td>
+  <td class="td-rel">Critical for social sustainability, workforce safety, and due diligence.</td>
+  <td class="td-scores"><span class="sc sc-2">2</span><span class="sc sc-0">-</span><span class="sc sc-0">-</span><span class="sc sc-0">-</span><span class="sc sc-3">3</span><span class="sc sc-1">1</span><span class="sc sc-1">1</span><span class="sc sc-0">-</span><span class="sc sc-0">-</span><span class="sc sc-0">-</span></td>
+</tr><tr class="data-row">
+  <td class="td-iso">ISO 14006</td>
+  <td class="td-name">Ecodesign</td>
+  <td class="td-rel">Important for product redesign, ESPR, DPP, PPWR, and EPR.</td>
+  <td class="td-scores"><span class="sc sc-2">2</span><span class="sc sc-0">-</span><span class="sc sc-3">3</span><span class="sc sc-3">3</span><span class="sc sc-1">1</span><span class="sc sc-0">-</span><span class="sc sc-0">-</span><span class="sc sc-3">3</span><span class="sc sc-3">3</span><span class="sc sc-0">-</span></td>
+</tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ CATEGORY 3 ═══ -->
+<div class="cat-section" id="cat3">
+  <div class="cat-header" onclick="toggleCat('cat3',this)">
+    <div class="cat-num">3</div>
+    <div class="cat-title-block">
+      <div class="cat-label">Supporting Compliance Standards</div>
+      <div class="cat-desc">Strengthen evidence, assurance, traceability, and implementation maturity.</div>
+    </div>
+    <span class="cat-chevron">▾</span>
+  </div>
+  <div class="cat-body">
+    <div class="table-wrap">
+      <table class="iso-table">
+        <thead>
+          <tr class="thead-row">
+            <th class="th-iso">Standard</th>
+            <th class="th-name">Name</th>
+            <th class="th-rel">Relevance</th>
+            <th class="th-scores"><div class="reg-headers"><div class="rh">CSRD</div><div class="rh">CBAM</div><div class="rh">ESPR</div><div class="rh">DPP</div><div class="rh">CSDDD</div><div class="rh">EUDR</div><div class="rh">Pay Trans.</div><div class="rh">PPWR</div><div class="rh">EPR</div><div class="rh">AI Act</div></div></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="data-row">
+  <td class="td-iso">ISO 14004</td>
+  <td class="td-name">EMS guidelines</td>
+  <td class="td-rel">Practical guidance to implement ISO 14001 well.</td>
+  <td class="td-scores"><span class="sc sc-2">2</span><span class="sc sc-0">-</span><span class="sc sc-1">1</span><span class="sc sc-1">1</span><span class="sc sc-1">1</span><span class="sc sc-1">1</span><span class="sc sc-0">-</span><span class="sc sc-1">1</span><span class="sc sc-1">1</span><span class="sc sc-0">-</span></td>
+</tr><tr class="data-row">
+  <td class="td-iso">ISO 14005</td>
+  <td class="td-name">Phased EMS implementation</td>
+  <td class="td-rel">Useful for stepwise rollout where maturity is low.</td>
+  <td class="td-scores"><span class="sc sc-2">2</span><span class="sc sc-0">-</span><span class="sc sc-1">1</span><span class="sc sc-1">1</span><span class="sc sc-1">1</span><span class="sc sc-1">1</span><span class="sc sc-0">-</span><span class="sc sc-1">1</span><span class="sc sc-1">1</span><span class="sc sc-0">-</span></td>
+</tr><tr class="data-row">
+  <td class="td-iso">ISO 14008</td>
+  <td class="td-name">Monetary valuation of env. impacts</td>
+  <td class="td-rel">Helps translate impacts into business decisions.</td>
+  <td class="td-scores"><span class="sc sc-1">1</span><span class="sc sc-0">-</span><span class="sc sc-1">1</span><span class="sc sc-1">1</span><span class="sc sc-1">1</span><span class="sc sc-0">-</span><span class="sc sc-0">-</span><span class="sc sc-0">-</span><span class="sc sc-0">-</span><span class="sc sc-0">-</span></td>
+</tr><tr class="data-row">
+  <td class="td-iso">ISO 14020</td>
+  <td class="td-name">Environmental labels</td>
+  <td class="td-rel">Basis for credible environmental claim structures.</td>
+  <td class="td-scores"><span class="sc sc-1">1</span><span class="sc sc-0">-</span><span class="sc sc-2">2</span><span class="sc sc-2">2</span><span class="sc sc-0">-</span><span class="sc sc-0">-</span><span class="sc sc-0">-</span><span class="sc sc-3">3</span><span class="sc sc-3">3</span><span class="sc sc-0">-</span></td>
+</tr><tr class="data-row">
+  <td class="td-iso">ISO 14021</td>
+  <td class="td-name">Self-declared claims</td>
+  <td class="td-rel">Useful where product marketing and claims need control.</td>
+  <td class="td-scores"><span class="sc sc-1">1</span><span class="sc sc-0">-</span><span class="sc sc-2">2</span><span class="sc sc-2">2</span><span class="sc sc-0">-</span><span class="sc sc-0">-</span><span class="sc sc-0">-</span><span class="sc sc-3">3</span><span class="sc sc-3">3</span><span class="sc sc-0">-</span></td>
+</tr><tr class="data-row">
+  <td class="td-iso">ISO 14024</td>
+  <td class="td-name">Eco-labels</td>
+  <td class="td-rel">Supports third-party environmental label credibility.</td>
+  <td class="td-scores"><span class="sc sc-1">1</span><span class="sc sc-0">-</span><span class="sc sc-2">2</span><span class="sc sc-2">2</span><span class="sc sc-0">-</span><span class="sc sc-0">-</span><span class="sc sc-0">-</span><span class="sc sc-3">3</span><span class="sc sc-3">3</span><span class="sc sc-0">-</span></td>
+</tr><tr class="data-row">
+  <td class="td-iso">ISO 14025</td>
+  <td class="td-name">Environmental declarations</td>
+  <td class="td-rel">Important for EPDs and product data transparency.</td>
+  <td class="td-scores"><span class="sc sc-2">2</span><span class="sc sc-0">-</span><span class="sc sc-3">3</span><span class="sc sc-3">3</span><span class="sc sc-0">-</span><span class="sc sc-0">-</span><span class="sc sc-0">-</span><span class="sc sc-3">3</span><span class="sc sc-3">3</span><span class="sc sc-0">-</span></td>
+</tr><tr class="data-row">
+  <td class="td-iso">ISO 14031</td>
+  <td class="td-name">Environmental performance evaluation</td>
+  <td class="td-rel">Helps define and track environmental KPIs.</td>
+  <td class="td-scores"><span class="sc sc-2">2</span><span class="sc sc-0">-</span><span class="sc sc-1">1</span><span class="sc sc-1">1</span><span class="sc sc-1">1</span><span class="sc sc-1">1</span><span class="sc sc-0">-</span><span class="sc sc-1">1</span><span class="sc sc-1">1</span><span class="sc sc-0">-</span></td>
+</tr><tr class="data-row">
+  <td class="td-iso">ISO 14040</td>
+  <td class="td-name">Life cycle assessment principles</td>
+  <td class="td-rel">Foundation for product life-cycle thinking.</td>
+  <td class="td-scores"><span class="sc sc-2">2</span><span class="sc sc-2">2</span><span class="sc sc-3">3</span><span class="sc sc-3">3</span><span class="sc sc-1">1</span><span class="sc sc-0">-</span><span class="sc sc-0">-</span><span class="sc sc-2">2</span><span class="sc sc-3">3</span><span class="sc sc-0">-</span></td>
+</tr><tr class="data-row">
+  <td class="td-iso">ISO 14044</td>
+  <td class="td-name">Life cycle assessment requirements</td>
+  <td class="td-rel">Core LCA methodology for product footprinting.</td>
+  <td class="td-scores"><span class="sc sc-2">2</span><span class="sc sc-2">2</span><span class="sc sc-3">3</span><span class="sc sc-3">3</span><span class="sc sc-1">1</span><span class="sc sc-0">-</span><span class="sc sc-0">-</span><span class="sc sc-2">2</span><span class="sc sc-3">3</span><span class="sc sc-0">-</span></td>
+</tr><tr class="data-row">
+  <td class="td-iso">ISO 14046</td>
+  <td class="td-name">Water footprint</td>
+  <td class="td-rel">Relevant for water-intensive sectors and disclosure.</td>
+  <td class="td-scores"><span class="sc sc-1">1</span><span class="sc sc-0">-</span><span class="sc sc-1">1</span><span class="sc sc-1">1</span><span class="sc sc-1">1</span><span class="sc sc-2">2</span><span class="sc sc-0">-</span><span class="sc sc-0">-</span><span class="sc sc-0">-</span><span class="sc sc-0">-</span></td>
+</tr><tr class="data-row">
+  <td class="td-iso">ISO 14064-2</td>
+  <td class="td-name">Project GHG reductions</td>
+  <td class="td-rel">Supports carbon projects and reduction claims.</td>
+  <td class="td-scores"><span class="sc sc-1">1</span><span class="sc sc-2">2</span><span class="sc sc-0">-</span><span class="sc sc-0">-</span><span class="sc sc-0">-</span><span class="sc sc-0">-</span><span class="sc sc-0">-</span><span class="sc sc-0">-</span><span class="sc sc-0">-</span><span class="sc sc-0">-</span></td>
+</tr><tr class="data-row">
+  <td class="td-iso">ISO 14064-3</td>
+  <td class="td-name">GHG verification</td>
+  <td class="td-rel">Useful for assurance and credibility of climate data.</td>
+  <td class="td-scores"><span class="sc sc-2">2</span><span class="sc sc-3">3</span><span class="sc sc-0">-</span><span class="sc sc-0">-</span><span class="sc sc-0">-</span><span class="sc sc-0">-</span><span class="sc sc-0">-</span><span class="sc sc-0">-</span><span class="sc sc-0">-</span><span class="sc sc-0">-</span></td>
+</tr><tr class="data-row">
+  <td class="td-iso">ISO 14065</td>
+  <td class="td-name">GHG verification bodies</td>
+  <td class="td-rel">Relevant for verification ecosystem and assurance chain.</td>
+  <td class="td-scores"><span class="sc sc-2">2</span><span class="sc sc-2">2</span><span class="sc sc-0">-</span><span class="sc sc-0">-</span><span class="sc sc-0">-</span><span class="sc sc-0">-</span><span class="sc sc-0">-</span><span class="sc sc-0">-</span><span class="sc sc-0">-</span><span class="sc sc-0">-</span></td>
+</tr><tr class="data-row">
+  <td class="td-iso">ISO 14066</td>
+  <td class="td-name">GHG verifier competence</td>
+  <td class="td-rel">Supports confidence in validation and verification teams.</td>
+  <td class="td-scores"><span class="sc sc-1">1</span><span class="sc sc-2">2</span><span class="sc sc-0">-</span><span class="sc sc-0">-</span><span class="sc sc-0">-</span><span class="sc sc-0">-</span><span class="sc sc-0">-</span><span class="sc sc-0">-</span><span class="sc sc-0">-</span><span class="sc sc-0">-</span></td>
+</tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ CATEGORY 4 ═══ -->
+<div class="cat-section" id="cat4">
+  <div class="cat-header" onclick="toggleCat('cat4',this)">
+    <div class="cat-num">4</div>
+    <div class="cat-title-block">
+      <div class="cat-label">Specialized and Sector-Specific Standards</div>
+      <div class="cat-desc">Relevant when a particular industry, business model, or risk profile makes them useful.</div>
+    </div>
+    <span class="cat-chevron">▾</span>
+  </div>
+  <div class="cat-body">
+    <p class="cat4-note">Regulation scores are not shown for Category 4 - applicability is highly context-dependent and requires individual organisational assessment.</p>
+    <div class="table-wrap">
+      <table class="cat4-table">
+        <thead>
+          <tr class="thead-row">
+            <th class="th-iso">Standard</th>
+            <th class="th-name">Name</th>
+            <th class="th-rel">Relevance</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="group-row"><td colspan="3">Circular economy</td></tr><tr class="data-row">
+  <td class="td-iso">ISO 59004</td>
+  <td class="td-name">Circular economy framework</td>
+  <td class="td-rel">Defines vocabulary, principles, and framework for circular economy implementation.</td>
+</tr><tr class="data-row">
+  <td class="td-iso">ISO 59010</td>
+  <td class="td-name">Circular business models</td>
+  <td class="td-rel">Guidance on transitioning business models toward circularity.</td>
+</tr><tr class="data-row">
+  <td class="td-iso">ISO 59020</td>
+  <td class="td-name">Circularity performance measurement</td>
+  <td class="td-rel">Metrics and measurement framework for tracking circular economy progress.</td>
+</tr><tr class="group-row"><td colspan="3">Social responsibility and human rights</td></tr><tr class="data-row">
+  <td class="td-iso">ISO 26000</td>
+  <td class="td-name">Social responsibility guidance</td>
+  <td class="td-rel">Comprehensive framework on social responsibility across all stakeholder groups.</td>
+</tr><tr class="data-row">
+  <td class="td-iso">ISO 30415</td>
+  <td class="td-name">Diversity and inclusion</td>
+  <td class="td-rel">Guidance on implementing diversity and inclusion within organisations.</td>
+</tr><tr class="data-row">
+  <td class="td-iso">ISO 30414</td>
+  <td class="td-name">Human capital reporting</td>
+  <td class="td-rel">Guidelines for internal and external human capital reporting.</td>
+</tr><tr class="data-row">
+  <td class="td-iso">ISO 45003</td>
+  <td class="td-name">Psychological health and safety</td>
+  <td class="td-rel">Manages psychosocial risks and promotes mental wellbeing at work.</td>
+</tr><tr class="data-row">
+  <td class="td-iso">ISO 45004</td>
+  <td class="td-name">OHS performance evaluation</td>
+  <td class="td-rel">Framework for evaluating and improving OHS performance outcomes.</td>
+</tr><tr class="group-row"><td colspan="3">Human resource management</td></tr><tr class="data-row">
+  <td class="td-iso">ISO 30400</td>
+  <td class="td-name">HRM vocabulary</td>
+  <td class="td-rel">Establishes common HR terminology for consistent reporting and management.</td>
+</tr><tr class="data-row">
+  <td class="td-iso">ISO 30405</td>
+  <td class="td-name">Recruitment</td>
+  <td class="td-rel">Guidance on fair and effective recruitment processes.</td>
+</tr><tr class="data-row">
+  <td class="td-iso">ISO 30406</td>
+  <td class="td-name">Sustainable employability</td>
+  <td class="td-rel">Framework for maintaining workforce health, motivation, and productivity.</td>
+</tr><tr class="data-row">
+  <td class="td-iso">ISO 30409</td>
+  <td class="td-name">Workforce planning</td>
+  <td class="td-rel">Supports strategic workforce planning aligned to organisational goals.</td>
+</tr><tr class="group-row"><td colspan="3">Corporate governance and integrity</td></tr><tr class="data-row">
+  <td class="td-iso">ISO 37000</td>
+  <td class="td-name">Governance of organizations</td>
+  <td class="td-rel">Principles and practices for effective organisational governance.</td>
+</tr><tr class="data-row">
+  <td class="td-iso">ISO 37001</td>
+  <td class="td-name">Anti-bribery management systems</td>
+  <td class="td-rel">Establishes controls to prevent and detect bribery across the value chain.</td>
+</tr><tr class="data-row">
+  <td class="td-iso">ISO 37002</td>
+  <td class="td-name">Whistleblowing management systems</td>
+  <td class="td-rel">Framework for operating secure, accessible whistleblower channels.</td>
+</tr><tr class="data-row">
+  <td class="td-iso">ISO 37003</td>
+  <td class="td-name">Anti-fraud</td>
+  <td class="td-rel">Guidance on fraud risk management and prevention systems.</td>
+</tr><tr class="data-row">
+  <td class="td-iso">ISO 37004</td>
+  <td class="td-name">Governance maturity model</td>
+  <td class="td-rel">Self-assessment tool for evaluating and improving governance maturity.</td>
+</tr><tr class="group-row"><td colspan="3">Risk and resilience</td></tr><tr class="data-row">
+  <td class="td-iso">ISO 31010</td>
+  <td class="td-name">Risk assessment techniques</td>
+  <td class="td-rel">Catalogue of risk assessment methods for structured enterprise risk work.</td>
+</tr><tr class="data-row">
+  <td class="td-iso">ISO 22301</td>
+  <td class="td-name">Business continuity management</td>
+  <td class="td-rel">Systematic framework for maintaining operations through disruption.</td>
+</tr><tr class="group-row"><td colspan="3">Climate, net zero, and finance</td></tr><tr class="data-row">
+  <td class="td-iso">ISO 14069</td>
+  <td class="td-name">GHG inventories for organizations</td>
+  <td class="td-rel">Detailed guidance on Scope 3 categorisation and calculation.</td>
+</tr><tr class="data-row">
+  <td class="td-iso">ISO 14080</td>
+  <td class="td-name">Climate action framework</td>
+  <td class="td-rel">Framework for developing and assessing climate change mitigation actions.</td>
+</tr><tr class="data-row">
+  <td class="td-iso">ISO 14090</td>
+  <td class="td-name">Climate adaptation</td>
+  <td class="td-rel">Principles and guidance for adapting to climate change impacts.</td>
+</tr><tr class="data-row">
+  <td class="td-iso">ISO 14091</td>
+  <td class="td-name">Vulnerability assessment</td>
+  <td class="td-rel">Methodology for assessing vulnerability to climate change.</td>
+</tr><tr class="data-row">
+  <td class="td-iso">ISO 14097</td>
+  <td class="td-name">Climate finance and investment assessment</td>
+  <td class="td-rel">Framework for assessing climate-related financial decisions and investments.</td>
+</tr><tr class="data-row">
+  <td class="td-iso">ISO IWA 42</td>
+  <td class="td-name">Net zero guidelines</td>
+  <td class="td-rel">Shared understanding and requirements for credible net zero commitments.</td>
+</tr><tr class="group-row"><td colspan="3">Supply chain, procurement, and due diligence</td></tr><tr class="data-row">
+  <td class="td-iso">ISO 22000</td>
+  <td class="td-name">Food safety management</td>
+  <td class="td-rel">Risk-based food safety management across the food supply chain.</td>
+</tr><tr class="data-row">
+  <td class="td-iso">ISO 28000</td>
+  <td class="td-name">Supply chain security</td>
+  <td class="td-rel">Security management for supply chain operations and risk mitigation.</td>
+</tr><tr class="data-row">
+  <td class="td-iso">ISO 22095</td>
+  <td class="td-name">Chain of custody</td>
+  <td class="td-rel">Framework for traceability and chain-of-custody documentation.</td>
+</tr><tr class="data-row">
+  <td class="td-iso">ISO 34101</td>
+  <td class="td-name">Sustainable cocoa</td>
+  <td class="td-rel">Deforestation-free and ethical sourcing requirements for cocoa supply chains.</td>
+</tr><tr class="data-row">
+  <td class="td-iso">ISO 18788</td>
+  <td class="td-name">Security operations management</td>
+  <td class="td-rel">Management system for private security operations and human rights.</td>
+</tr><tr class="group-row"><td colspan="3">Asset and facility management</td></tr><tr class="data-row">
+  <td class="td-iso">ISO 55001</td>
+  <td class="td-name">Asset management</td>
+  <td class="td-rel">Systematic approach to managing physical assets across their lifecycle.</td>
+</tr><tr class="data-row">
+  <td class="td-iso">ISO 41001</td>
+  <td class="td-name">Facility management</td>
+  <td class="td-rel">Framework for delivering effective and sustainable facility services.</td>
+</tr><tr class="group-row"><td colspan="3">Sector-specific sustainability</td></tr><tr class="data-row">
+  <td class="td-iso">ISO 22005</td>
+  <td class="td-name">Traceability in feed and food chain</td>
+  <td class="td-rel">Traceability system requirements for food and feed supply chains.</td>
+</tr><tr class="data-row">
+  <td class="td-iso">ISO 29400</td>
+  <td class="td-name">Offshore wind energy</td>
+  <td class="td-rel">Safety and performance standards for offshore wind energy systems.</td>
+</tr><tr class="data-row">
+  <td class="td-iso">ISO 21929</td>
+  <td class="td-name">Sustainability indicators for buildings</td>
+  <td class="td-rel">Framework for selecting indicators to assess building sustainability.</td>
+</tr><tr class="data-row">
+  <td class="td-iso">ISO 21930</td>
+  <td class="td-name">Environmental product declarations for construction</td>
+  <td class="td-rel">EPD framework for construction products and building materials.</td>
+</tr><tr class="data-row">
+  <td class="td-iso">ISO 16745</td>
+  <td class="td-name">Carbon metrics for buildings</td>
+  <td class="td-rel">Measurement and reporting of operational carbon for buildings.</td>
+</tr><tr class="data-row">
+  <td class="td-iso">ISO 24510/24511/24512</td>
+  <td class="td-name">Water utility service standards</td>
+  <td class="td-rel">Service, management, and performance standards for water utilities.</td>
+</tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<!-- ═══ METHODOLOGY ═══ -->
+<div class="meth-outer">
+  <div class="meth-divider"><span class="meth-divider-label">▾ Scoring Methodology</span></div>
+  <div class="meth-body">
+    <p class="meth-intro">Scores reflect whether each standard materially improves data quality, traceability, control environment, assurance readiness, operational performance, supplier governance, or product-level evidence for each EU regulation. The framework is anchored in what a regulator, auditor, or assurance provider would find useful - not in broad ESG narratives.</p>
+
+    <div class="meth-section-title">Score Definitions</div>
+    <div class="score-defs">
+      <div class="score-def-card sd-3">
+        <div class="score-def-num">3</div>
+        <div class="score-def-label">Strongly useful</div>
+        <div class="score-def-desc">The standard directly supports the compliance logic of the regulation. It can produce auditable outputs - a GHG inventory, a supplier control record, a product footprint file - that a regulator or assurance provider would find directly relevant.</div>
+      </div>
+      <div class="score-def-card sd-2">
+        <div class="score-def-num">2</div>
+        <div class="score-def-label">Materially supports</div>
+        <div class="score-def-desc">The standard materially supports implementation or evidence for the regulation, without being the primary instrument. It strengthens controls, improves data quality, or enables a related system that feeds compliance.</div>
+      </div>
+      <div class="score-def-card sd-1">
+        <div class="score-def-num">1</div>
+        <div class="score-def-label">Indirectly useful</div>
+        <div class="score-def-desc">The standard is only indirectly useful - it improves general management discipline that may benefit compliance, but does not directly address the regulation's specific requirements or evidence needs.</div>
+      </div>
+      <div class="score-def-card sd-0">
+        <div class="score-def-num">-</div>
+        <div class="score-def-label">Not relevant</div>
+        <div class="score-def-desc">No meaningful relevance to this regulation by design or scope. The standard's purpose does not intersect with the regulation's requirements or compliance logic.</div>
+      </div>
+    </div>
+
+    <div class="meth-section-title">Assessment Approach</div>
+    <p class="meth-note">Each standard was assessed against whether it directly improves one or more of the following dimensions: data quality, traceability, control environment, assurance readiness, operational performance, supplier governance, or product-level evidence. The assessment was stress-tested by checking whether the standard can produce a real artifact that a regulator, auditor, or assurance provider would find useful - for example, a GHG inventory, a chain-of-custody record, a product footprint file, a supplier control process, or a verified management system record.</p>
+
+    <div class="meth-section-title">Category 4 Approach</div>
+    <p class="meth-note">Category 4 standards are listed for completeness and contextual awareness. Regulation scores are not shown because applicability is highly context-dependent - relevance depends on industry, business model, supply chain structure, and specific risk profile. Each organisation should conduct its own assessment of which Category 4 standards apply given its operational context.</p>
+
+    <p class="meth-footer-note">Sources: Official ISO standard descriptions and titles; official ISO committee pages (iso.org). Regulatory references: EUR-Lex official texts for CSRD (2022/2464), CBAM (2023/956), ESPR (2024/1781), DPP (under ESPR), CSDDD (2024/1760), EUDR (2023/1115), Pay Transparency Directive (2023/970), PPWR (2024/3028), EPR (Directive 2018/851 and member state implementations), EU AI Act (2024/1689). All scores reflect assessment as of June 2026.</p>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-brand">Aurie's Knowledge Hub</div>
+  <div>ISO Standards ESG Mapping · Sources verified June 2026 · iso.org · EUR-Lex</div>
+  <div style="color:rgba(201,168,76,0.5)">Click category headers to collapse · Scroll tables right for all regulations</div>
+</footer>
+
+<script>
+function toggleCat(id, hdr) {
+  const section = document.getElementById(id);
+  section.classList.toggle('collapsed');
+}
+</script>
+</body>
+</html>

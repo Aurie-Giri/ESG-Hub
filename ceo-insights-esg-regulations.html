@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="A CEO brief mapping the EU's ESG regulatory landscape - 60 regulations across 8 policy areas, in-force status, and implementation effort.">
+<title>EU ESG Regulation Landscape - CEO Brief - Aurie's Knowledge Hub</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Inter:wght@300;400;500;600;700&display=swap');
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --green:#0e2b1a;--gold:#c9a84c;--ivory:#fafaf8;
+  --mid:#4a5568;--light:#f0ede8;--border:#d4c9b0;
+  --serif:'Cormorant Garamond',Georgia,serif;
+  --sans:'Inter',system-ui,sans-serif;
+  /* theme colours per policy area */
+  --c-clim:#1a6b3a; --c-rep:#1a3a5c; --c-fin:#5a2d82;
+  --c-nat:#3a7a1a; --c-circ:#8a5500; --c-sc:#7a1a1a;
+  --c-en:#0a5a6a; --c-soc:#6a3a00;
+}
+html,body{background:var(--ivory);color:var(--green);font-family:var(--sans);font-size:11pt;line-height:1.65;min-height:100vh}
+
+.screen-nav{background:var(--green);padding:12px 32px;display:flex;justify-content:space-between;align-items:center}
+.screen-nav a{color:rgba(255,255,255,0.6);text-decoration:none;font-size:9.5pt;display:flex;align-items:center;gap:6px;letter-spacing:.04em;transition:color .15s}
+.screen-nav a:hover{color:var(--gold)}
+.print-btn{background:var(--gold);color:var(--green);font-weight:600;font-size:9pt;padding:5px 16px;border:none;cursor:pointer;letter-spacing:.06em;text-transform:uppercase;font-family:var(--sans)}
+
+/* DOC */
+.doc-wrap{max-width:720px;margin:0 auto;padding:28px 36px 52px}
+.print-topbar{border-top:3px solid var(--gold);padding:12px 0 10px;display:flex;justify-content:space-between;align-items:baseline;margin-bottom:24px}
+.print-brand{font-family:var(--serif);font-size:11pt;font-weight:400;color:var(--green);letter-spacing:.04em}
+.print-brand span{color:var(--gold)}
+.print-series{font-size:8.5pt;color:var(--mid);letter-spacing:.1em;text-transform:uppercase}
+.meta-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:10px}
+.brief-num{font-size:8pt;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--gold)}
+hr.rule{border:none;border-top:1px solid var(--border);margin:20px 0 18px}
+.section-label{font-size:9pt;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--mid);margin-bottom:8px}
+
+/* TITLE */
+h1.doc-title{font-family:var(--serif);font-size:26pt;font-weight:300;line-height:1.15;color:var(--green);margin-bottom:14px;border:none;padding:0}
+h1.doc-title em{font-style:italic;font-weight:300;color:var(--gold)}
+
+/* EXEC HEADLINE */
+.exec-headline{border-left:3px solid var(--gold);padding:10px 16px;margin-bottom:24px;background:#f5f0e4}
+.eh-label{font-size:7.5pt;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin-bottom:4px}
+.eh-text{font-size:13pt;color:var(--green);font-style:italic;line-height:1.55;font-family:var(--serif)}
+
+/* STAT STRIP */
+.stat-strip{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:var(--border);border:1px solid var(--border);margin:18px 0}
+.stat-cell{background:var(--ivory);padding:11px 10px;text-align:center}
+.stat-value{font-family:var(--serif);font-size:14pt;font-weight:600;color:var(--green);line-height:1.1;margin-bottom:3px}
+.stat-label{font-size:7pt;color:var(--mid);letter-spacing:.04em;line-height:1.35}
+
+.body-text{font-size:10.5pt;color:var(--green);line-height:1.65;margin-bottom:8px}
+.body-text strong{font-weight:600}
+
+/* IMPACT CARDS */
+.impact-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:6px}
+.impact-card{border:1px solid var(--border);padding:10px 12px;background:var(--light)}
+.impact-icon{font-size:13pt;margin-bottom:4px;display:block}
+.impact-title{font-size:8pt;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:4px}
+.impact-text{font-size:9pt;color:var(--green);line-height:1.5}
+
+/* EXPOSURE TABLE */
+.exposure-table{width:100%;border-collapse:collapse;font-size:9.5pt;margin-top:6px}
+.exposure-table th{text-align:left;padding:6px 10px;font-size:8pt;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#fff;background:var(--green)}
+.exposure-table td{padding:7px 10px;color:var(--green);border-bottom:1px solid var(--border);vertical-align:top;line-height:1.5}
+.exposure-table tr:nth-child(even) td{background:var(--light)}
+.badge{display:inline-block;font-size:7pt;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:1px 6px;border-radius:2px;margin-right:4px}
+.badge-risk{background:rgba(220,38,38,0.1);color:#b91c1c;border:1px solid rgba(220,38,38,0.25)}
+.badge-opp{background:rgba(22,101,52,0.1);color:#166534;border:1px solid rgba(22,101,52,0.25)}
+
+/* LQ */
+.lq-list{list-style:none;margin-top:6px}
+.lq-item{display:flex;align-items:flex-start;gap:10px;padding:6px 0;border-bottom:1px solid var(--border);font-size:10pt;color:var(--green);line-height:1.5}
+.lq-item:last-child{border-bottom:none}
+.lq-bullet{color:var(--gold);font-size:10pt;margin-top:1px;flex-shrink:0}
+
+/* KEY TAKEAWAY */
+.key-takeaway{margin-top:20px;background:var(--green);padding:12px 16px;display:flex;align-items:flex-start;gap:12px}
+.kt-icon{font-size:14pt;flex-shrink:0;margin-top:1px}
+.kt-label{font-size:9pt;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin-bottom:3px}
+.kt-text{font-size:13pt;color:#fafaf8;font-family:var(--serif);font-style:italic;line-height:1.5}
+
+/* TOGGLE */
+.full-analysis-toggle{width:100%;display:flex;align-items:center;justify-content:space-between;padding:14px 20px;background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.35);cursor:pointer;gap:12px;transition:background .15s;margin-top:4px}
+.full-analysis-toggle:hover{background:rgba(201,168,76,0.15)}
+.fa-toggle-title{font-size:9.95pt;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--green);flex:1;text-align:center}
+.fa-toggle-arrow{font-size:14pt;color:var(--gold);flex-shrink:0;transition:transform .25s}
+
+/* DEEP DIVE */
+.section-block{margin-bottom:24px}
+.section-header{display:flex;align-items:baseline;gap:10px;margin-bottom:10px}
+.section-num{font-size:8pt;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--gold)}
+.section-title{font-size:10pt;font-weight:600;color:var(--green);letter-spacing:.02em}
+.back-to-top{display:inline-flex;align-items:center;gap:6px;font-size:8.5pt;font-weight:500;color:var(--mid);text-decoration:none;letter-spacing:.04em;transition:color .15s;float:right;margin-top:10px}
+.back-to-top:hover{color:var(--gold)}
+
+/* THEME BARS */
+.theme-bars{display:flex;flex-direction:column;gap:6px;margin:10px 0}
+.theme-row{display:grid;grid-template-columns:160px 1fr 28px;gap:0 10px;align-items:center}
+.theme-label{font-size:8.5pt;color:var(--green);text-align:right}
+.theme-bar-wrap{height:16px;background:#e8e4dc;border-radius:2px;overflow:hidden}
+.theme-bar{height:100%;border-radius:2px;transition:width .4s}
+.theme-count{font-size:8pt;color:var(--mid);font-weight:600}
+
+/* STATUS GRID */
+.status-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin:10px 0}
+.status-card{padding:10px 14px;background:#fff;border:1px solid var(--border);border-left:3px solid}
+.status-card-label{font-size:7.5pt;font-weight:600;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px}
+.status-card-count{font-family:var(--serif);font-size:18pt;font-weight:600;line-height:1;color:var(--green)}
+.status-card-sub{font-size:8pt;color:var(--mid);margin-top:2px}
+
+/* EFFORT HEATMAP */
+.effort-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:3px;margin:10px 0}
+.effort-cell{padding:8px 6px;text-align:center;border-radius:2px;cursor:pointer;transition:opacity .15s}
+.effort-cell:hover{opacity:.8}
+.effort-cell-name{font-size:7pt;font-weight:600;color:#fff;line-height:1.2;margin-bottom:3px}
+.effort-cell-score{font-size:9pt;font-weight:700;color:rgba(255,255,255,0.9)}
+.effort-legend{display:flex;gap:12px;flex-wrap:wrap;margin-top:6px}
+.effort-leg-item{display:flex;align-items:center;gap:4px;font-size:7.5pt;color:var(--mid)}
+.effort-leg-swatch{width:10px;height:10px;border-radius:1px}
+
+/* REG TABLE */
+.reg-table{width:100%;border-collapse:collapse;font-size:8.5pt;margin:10px 0}
+.reg-table th{text-align:left;padding:6px 8px;font-size:7pt;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#fff;background:var(--green);white-space:nowrap}
+.reg-table td{padding:6px 8px;border-bottom:1px solid var(--border);vertical-align:top;line-height:1.45;color:var(--green)}
+.reg-table tr:nth-child(even) td{background:var(--light)}
+.reg-table tr:hover td{background:rgba(201,168,76,0.06)}
+.theme-pill{display:inline-block;font-size:6.5pt;padding:1px 5px;border-radius:2px;font-weight:600;color:#fff;white-space:nowrap}
+.score-dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:2px}
+
+/* TIMELINE */
+.timeline{display:flex;flex-direction:column;gap:0;margin:10px 0;position:relative}
+.timeline::before{content:'';position:absolute;left:65px;top:0;bottom:0;width:2px;background:var(--border)}
+.tl-item{display:grid;grid-template-columns:65px 1fr;gap:0 16px;padding:8px 0}
+.tl-year{font-size:8pt;font-weight:700;color:var(--gold);text-align:right;padding-top:2px}
+.tl-content{padding-left:16px;position:relative}
+.tl-content::before{content:'';position:absolute;left:-22px;top:6px;width:8px;height:8px;border-radius:50%;background:var(--gold);border:2px solid var(--ivory)}
+.tl-content-title{font-size:9pt;font-weight:600;color:var(--green);margin-bottom:2px}
+.tl-content-text{font-size:8.5pt;color:var(--mid);line-height:1.5}
+
+/* INACTION */
+.inaction-block{border-left:3px solid #c0392b;padding:8px 12px 8px 14px;background:#fdf5f5;margin:6px 0;font-size:10pt;color:var(--green);line-height:1.65}
+
+/* ACTION TABLE */
+.action-table{width:100%;border-collapse:collapse;margin-bottom:4px}
+.action-table th{text-align:left;padding:6px 10px;font-size:7.5pt;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#fff;background:var(--green)}
+.action-table td{padding:7px 10px;border-bottom:1px solid var(--border);vertical-align:top;font-size:9.5pt;color:var(--green);line-height:1.5}
+.action-table td:first-child{white-space:nowrap;width:100px}
+.action-table tr:nth-child(even) td{background:var(--light)}
+.tl-dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:4px}
+.tl-amber{background:#e67e22}.tl-green{background:#1a6b3a}
+
+/* FOOTER */
+.print-footer{margin-top:28px;padding-top:10px;border-top:1px solid var(--gold);display:flex;justify-content:space-between;font-size:7.5pt;color:var(--mid);flex-wrap:wrap;gap:8px}
+.pf-brand{font-family:var(--serif);font-size:9pt;color:var(--green)}
+
+@media print{
+  .screen-nav{display:none}.doc-wrap{padding:0;max-width:100%}
+  .full-analysis-toggle{display:none}.back-to-top{display:none}
+  #fullAnalysis{display:block !important}
+  .key-takeaway,.impact-card,.lq-item{break-inside:avoid}
+}
+@media(max-width:680px){
+  .doc-wrap{padding:20px 16px 40px}
+  .stat-strip{grid-template-columns:repeat(2,1fr)}
+  .stat-cell:last-child{grid-column:1/-1}
+  .impact-grid{grid-template-columns:1fr}
+  .effort-grid{grid-template-columns:repeat(3,1fr)}
+  .status-grid{grid-template-columns:1fr}
+}
+
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "EU ESG Regulation Landscape - CEO Brief",
+  "description": "A CEO brief mapping the EU's ESG regulatory landscape - 60 regulations across 8 policy areas, in-force status, and implementation effort.",
+  "author": {
+    "@type": "Person",
+    "name": "Aurie",
+    "url": "https://REPLACE-WITH-YOUR-DOMAIN/about.html"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Aurie's Knowledge Hub",
+    "url": "https://REPLACE-WITH-YOUR-DOMAIN/index.html"
+  },
+  "datePublished": "2026-01-01",
+  "dateModified": "2026-07-06",
+  "url": "https://REPLACE-WITH-YOUR-DOMAIN/ceo-insights-esg-regulations.html"
+}
+</script>
+</head>
+<body>
+
+<div class="screen-nav">
+  <a href="index.html">← Aurie's Knowledge Hub</a>
+  <button class="print-btn" onclick="window.print()">⬇ Print / Save PDF</button>
+</div>
+
+<div class="doc-wrap" id="top">
+
+  <div class="print-topbar">
+    <div class="print-brand">Aurie's <span>Knowledge Hub</span></div>
+    <div class="print-series">CEO Briefs · ESG Insights &amp; Foresight</div>
+  </div>
+
+  <!-- ══ CEO BRIEF ══ -->
+  <div class="meta-row"><span class="brief-num">CEO Brief</span></div>
+
+  <h1 class="doc-title">EU ESG Regulation - <em>60 Rules. One Direction.</em></h1>
+
+  <div class="exec-headline">
+    <div class="eh-label">Executive Headline</div>
+    <div class="eh-text">We have analysed a body of 60 ESG regulations spanning climate, nature, reporting, finance, supply chains, and circular economy. 51 are already in force. 57% require high implementation effort. The regulatory direction is set. The question for boards is no longer whether to respond - it is how far behind they are prepared to fall.</div>
+  </div>
+
+  <div class="stat-strip">
+    <div class="stat-cell"><div class="stat-value">60</div><div class="stat-label">EU ESG regulations mapped across 8 policy areas</div></div>
+    <div class="stat-cell"><div class="stat-value">51</div><div class="stat-label">Already in force or phased implementation</div></div>
+    <div class="stat-cell"><div class="stat-value">57%</div><div class="stat-label">Rated high implementation effort (score 4-5 of 5)</div></div>
+    <div class="stat-cell"><div class="stat-value">12</div><div class="stat-label">Climate &amp; emissions regulations - the largest single area</div></div>
+    <div class="stat-cell"><div class="stat-value">10+</div><div class="stat-label">Regulations with maximum liability and enforcement risk</div></div>
+  </div>
+
+  <hr class="rule">
+
+  <div class="section-label">The Shift - What Is Changing</div>
+  <p class="body-text">EU ESG regulation is no longer a sustainability agenda. It is a business operating environment. CSRD mandates sustainability disclosure. CSDDD mandates supply chain due diligence. CBAM prices carbon at the border. The EU Taxonomy defines what counts as sustainable investment. ESPR rewrites product design requirements. These are not parallel policy streams - they share data, governance obligations, and enforcement consequences. Companies managing them as separate compliance projects are building the wrong architecture.</p>
+
+  <hr class="rule">
+
+  <div class="section-label">Why It Matters - Business Impact</div>
+  <div class="impact-grid">
+    <div class="impact-card">
+      <span class="impact-icon">⚖️</span>
+      <div class="impact-title">Compliance is now the floor</div>
+      <div class="impact-text">With 51 regulations already in force across climate, reporting, nature, and supply chains, compliance is no longer a differentiator - it is the cost of operating in European markets. The question has shifted from "do we need to comply?" to "how do we do this efficiently?"</div>
+    </div>
+    <div class="impact-card">
+      <span class="impact-icon">🔗</span>
+      <div class="impact-title">The regulations are connected</div>
+      <div class="impact-text">CSRD, CSDDD, EU Taxonomy, SFDR, CBAM, and ESPR share underlying data requirements, governance structures, and assurance obligations. Companies treating each as a standalone workstream are duplicating effort and creating gaps at the intersections - precisely where enforcement risk is highest.</div>
+    </div>
+    <div class="impact-card">
+      <span class="impact-icon">📅</span>
+      <div class="impact-title">The wave continues</div>
+      <div class="impact-text">Nature Restoration Law, EUDR, PPWR, and Pay Transparency are entering enforcement cycles now through 2027. The Soil Monitoring Law and Green Claims Directive are proposed. The direction and pace of EU regulation are not changing - the compliance window for preparation is narrowing.</div>
+    </div>
+  </div>
+
+  <hr class="rule">
+
+  <div class="section-label">Business Exposure</div>
+  <table class="exposure-table">
+    <thead><tr><th style="width:18%">Type</th><th>Exposure</th></tr></thead>
+    <tbody>
+      <tr><td><span class="badge badge-risk">Risk</span></td><td>Ten regulations carry maximum liability and enforcement scores of 5/5 - including EU ETS, REACH, GDPR, CSDDD, IED, and the Forced Labour Regulation. Non-compliance in these areas carries criminal liability, market access restrictions, and import bans, not only financial penalties.</td></tr>
+      <tr><td><span class="badge badge-risk">Risk</span></td><td>The 34 regulations rated high effort (4-5) require data systems, governance structures, and assurance processes that take 12-24 months to build properly. Companies starting now for 2026 and 2027 enforcement dates are already tight on timeline.</td></tr>
+      <tr><td><span class="badge badge-opp">Opportunity</span></td><td>Companies that build integrated ESG data and governance infrastructure - shared across CSRD, CSDDD, EU Taxonomy, and CBAM - will achieve compliance more efficiently and at lower cost than those managing each regulation separately.</td></tr>
+      <tr><td><span class="badge badge-opp">Opportunity</span></td><td>EU Taxonomy alignment and CSRD-quality disclosure are increasingly prerequisites for green finance, sustainability-linked bonds, and preferred supplier status. Regulatory compliance done well converts into a capital and commercial advantage.</td></tr>
+    </tbody>
+  </table>
+
+  <hr class="rule">
+
+  <div class="section-label">Leadership Lens</div>
+  <ul class="lq-list">
+    <li class="lq-item"><span class="lq-bullet">›</span>Do we have a single view of which of these 60 regulations apply to our business - and which are owned by whom internally?</li>
+    <li class="lq-item"><span class="lq-bullet">›</span>Are our CSRD reporting, CSDDD due diligence, and EU Taxonomy alignment programmes sharing data and governance - or running as separate projects?</li>
+    <li class="lq-item"><span class="lq-bullet">›</span>Have we assessed our exposure across the 10 regulations rated maximum liability and enforcement? Do our legal and sustainability teams have a joint view?</li>
+    <li class="lq-item"><span class="lq-bullet">›</span>For regulations entering enforcement in 2026-2027 - CBAM definitive regime, EUDR, PPWR, Pay Transparency - are preparation timelines funded and underway?</li>
+  </ul>
+
+  <div class="key-takeaway">
+    <span class="kt-icon">💡</span>
+    <div>
+      <div class="kt-label">Key Takeaway</div>
+      <div class="kt-text">60 EU ESG regulations. One underlying logic: measure impacts, disclose them credibly, manage them responsibly. Companies that build the infrastructure for one do most of the work for all. Those that treat each regulation as a separate compliance project will pay for that fragmentation - in cost, in gaps, and eventually in enforcement.</div>
+    </div>
+  </div>
+
+  <hr class="rule">
+  <button class="full-analysis-toggle" id="faToggle" onclick="toggleFullAnalysis()">
+    <span class="fa-toggle-title">For Full Analysis - Click Here</span>
+    <span class="fa-toggle-arrow" id="faArrow">↓</span>
+  </button>
+
+  <!-- ══ COLLAPSIBLE DEEP DIVE ══ -->
+  <div id="fullAnalysis" style="display:none">
+    <hr class="rule">
+    <a class="back-to-top" href="#top">↑ Back to summary</a>
+    <div style="clear:both;padding-top:8px"></div>
+
+    <!-- SECTION 1: LANDSCAPE BY POLICY AREA -->
+    <div class="section-block">
+      <div class="section-header">
+        <span class="section-num">Section 1</span>
+        <span class="section-title">The Landscape - 60 Regulations Across 8 Policy Areas</span>
+      </div>
+      <p style="font-size:9.5pt;color:var(--mid);font-style:italic;margin-bottom:12px">Regulations mapped by primary policy area. Many regulations span multiple areas; counts reflect primary classification.</p>
+
+      <div class="theme-bars">
+        <div class="theme-row">
+          <div class="theme-label">Climate &amp; Emissions</div>
+          <div class="theme-bar-wrap"><div class="theme-bar" style="width:100%;background:#1a6b3a"></div></div>
+          <div class="theme-count">12</div>
+        </div>
+        <div class="theme-row">
+          <div class="theme-label">Nature &amp; Biodiversity</div>
+          <div class="theme-bar-wrap"><div class="theme-bar" style="width:91.6%;background:#3a7a1a"></div></div>
+          <div class="theme-count">11</div>
+        </div>
+        <div class="theme-row">
+          <div class="theme-label">Finance &amp; Capital</div>
+          <div class="theme-bar-wrap"><div class="theme-bar" style="width:75%;background:#5a2d82"></div></div>
+          <div class="theme-count">9</div>
+        </div>
+        <div class="theme-row">
+          <div class="theme-label">Reporting &amp; Disclosure</div>
+          <div class="theme-bar-wrap"><div class="theme-bar" style="width:66.6%;background:#1a3a5c"></div></div>
+          <div class="theme-count">8</div>
+        </div>
+        <div class="theme-row">
+          <div class="theme-label">Circular Economy &amp; Waste</div>
+          <div class="theme-bar-wrap"><div class="theme-bar" style="width:58.3%;background:#8a5500"></div></div>
+          <div class="theme-count">7</div>
+        </div>
+        <div class="theme-row">
+          <div class="theme-label">Energy</div>
+          <div class="theme-bar-wrap"><div class="theme-bar" style="width:50%;background:#0a5a6a"></div></div>
+          <div class="theme-count">6</div>
+        </div>
+        <div class="theme-row">
+          <div class="theme-label">Supply Chain &amp; Due Diligence</div>
+          <div class="theme-bar-wrap"><div class="theme-bar" style="width:33.3%;background:#7a1a1a"></div></div>
+          <div class="theme-count">4</div>
+        </div>
+        <div class="theme-row">
+          <div class="theme-label">Social &amp; Labour</div>
+          <div class="theme-bar-wrap"><div class="theme-bar" style="width:25%;background:#6a3a00"></div></div>
+          <div class="theme-count">3</div>
+        </div>
+      </div>
+
+      <div class="status-grid">
+        <div class="status-card" style="border-color:#1a6b3a">
+          <div class="status-card-label" style="color:#1a6b3a">In Force (all forms)</div>
+          <div class="status-card-count">51</div>
+          <div class="status-card-sub">of 60 regulations are active or in phased implementation</div>
+        </div>
+        <div class="status-card" style="border-color:#e67e22">
+          <div class="status-card-label" style="color:#e67e22">High Effort Required</div>
+          <div class="status-card-count">34</div>
+          <div class="status-card-sub">rated 4 or 5 out of 5 for implementation effort</div>
+        </div>
+        <div class="status-card" style="border-color:#c0392b">
+          <div class="status-card-label" style="color:#c0392b">Maximum Liability Risk</div>
+          <div class="status-card-count">10+</div>
+          <div class="status-card-sub">carry liability and enforcement scores of 5/5</div>
+        </div>
+        <div class="status-card" style="border-color:#1a3a5c">
+          <div class="status-card-label" style="color:#1a3a5c">Proposed / Incoming</div>
+          <div class="status-card-count">3</div>
+          <div class="status-card-sub">still in proposal or negotiation stage</div>
+        </div>
+      </div>
+    </div>
+
+    <hr class="rule">
+
+    <!-- SECTION 2: EFFORT & RISK HEATMAP -->
+    <div class="section-block">
+      <div class="section-header">
+        <span class="section-num">Section 2</span>
+        <span class="section-title">Effort &amp; Risk Heatmap - Key Regulations</span>
+      </div>
+      <p style="font-size:9.5pt;color:var(--mid);font-style:italic;margin-bottom:10px">Composite score = Effort + Liability + Enforcement (max 15). Colour reflects composite intensity. Hover or tap for detail.</p>
+
+      <div class="effort-grid" id="effortGrid"></div>
+
+      <div class="effort-legend">
+        <div class="effort-leg-item"><div class="effort-leg-swatch" style="background:#0e2b1a"></div>Score 13-15 (Critical)</div>
+        <div class="effort-leg-item"><div class="effort-leg-swatch" style="background:#1a6b3a"></div>Score 10-12 (High)</div>
+        <div class="effort-leg-item"><div class="effort-leg-swatch" style="background:#5aaf6e"></div>Score 7-9 (Medium)</div>
+        <div class="effort-leg-item"><div class="effort-leg-swatch" style="background:#a8d4b0"></div>Score 4-6 (Lower)</div>
+      </div>
+      <div id="effortDetail" style="display:none;margin-top:10px;padding:12px 14px;background:#fff;border:1px solid var(--border);border-left:3px solid var(--gold);font-size:9pt">
+        <span style="float:right;cursor:pointer;color:var(--mid);font-size:7.5pt;letter-spacing:.06em;text-transform:uppercase" onclick="document.getElementById('effortDetail').style.display='none'">Close ×</span>
+        <div id="edName" style="font-family:var(--serif);font-size:12pt;font-weight:600;color:var(--green);margin-bottom:2px"></div>
+        <div id="edFull" style="font-size:8pt;color:var(--mid);margin-bottom:10px;font-style:italic"></div>
+        <div id="edBody" style="display:grid;grid-template-columns:1fr 1fr;gap:6px 16px;margin-bottom:8px"></div>
+        <div id="edNote" style="font-size:8pt;color:var(--mid);font-style:italic;border-top:1px solid var(--border);padding-top:7px;line-height:1.55"></div>
+      </div>
+    </div>
+
+    <hr class="rule">
+
+    <!-- SECTION 3: FULL REGULATION TABLE -->
+    <div class="section-block">
+      <div class="section-header">
+        <span class="section-num">Section 3</span>
+        <span class="section-title">Full Regulation Register</span>
+      </div>
+      <p style="font-size:9.5pt;color:var(--mid);font-style:italic;margin-bottom:10px">All 60 regulations with status, first compliance year, and effort / liability / enforcement scores (1-5 each).</p>
+      <div style="overflow-x:auto">
+        <table class="reg-table" id="regTable">
+          <thead><tr>
+            <th>#</th><th>Regulation</th><th>Policy Area</th><th>Status</th><th>First Year</th>
+            <th>Effort</th><th>Liability</th><th>Enforce</th>
+          </tr></thead>
+          <tbody id="regBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <hr class="rule">
+
+    <!-- SECTION 4: ENFORCEMENT TIMELINE -->
+    <div class="section-block">
+      <div class="section-header">
+        <span class="section-num">Section 4</span>
+        <span class="section-title">Enforcement Timeline - What Is Coming When</span>
+      </div>
+      <div class="timeline">
+        <div class="tl-item">
+          <div class="tl-year">2025</div>
+          <div class="tl-content">
+            <div class="tl-content-title">AFIR milestones · EED · FuelEU Maritime · AI Act (first tier) · CRMA</div>
+            <div class="tl-content-text">Alternative fuels infrastructure targets activate. Energy efficiency reporting obligations begin. AI Act high-risk system requirements enter force. Critical raw materials monitoring starts.</div>
+          </div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-year">2026</div>
+          <div class="tl-content">
+            <div class="tl-content-title">CBAM definitive · EUDR main obligations · PPWR · Consumer Green Transition · Pay Transparency · ESPR first delegated acts · CSRD Wave 2</div>
+            <div class="tl-content-text">Carbon border adjustment moves from transitional to definitive regime. Deforestation regulation enters full enforcement. Packaging waste rules activate. Pay gap reporting obligations begin. Product design requirements start for first product categories. CSRD extends to mid-size companies.</div>
+          </div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-year">2027</div>
+          <div class="tl-content">
+            <div class="tl-content-title">EU ETS 2 (buildings &amp; transport fuels) · CSDDD (large companies) · Forced Labour Regulation enforcement · ESAP · AI Act full scope</div>
+            <div class="tl-content-text">Carbon pricing extends to buildings and road transport fuels. Corporate sustainability due diligence becomes mandatory for largest companies. Forced labour import ban enforcement builds out. Centralized ESG data access platform goes live.</div>
+          </div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-year">2028-30</div>
+          <div class="tl-content">
+            <div class="tl-content-title">IED revised obligations · CSDDD (mid-size) · Nature Restoration Law targets · Batteries Regulation full scope</div>
+            <div class="tl-content-text">Industrial emissions standards tighten. Due diligence extends to mid-size companies. Nature restoration targets for ecosystems begin applying. Battery recycled content and due diligence requirements reach full scope.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <hr class="rule">
+
+    <!-- SECTION 5: INACTION -->
+    <div class="section-block">
+      <div class="section-header">
+        <span class="section-num">Section 5</span>
+        <span class="section-title">Inaction - Consequences</span>
+      </div>
+      <div class="inaction-block">
+        The EU ESG regulatory framework is not slowing. The Omnibus simplification reduced CSRD datapoints - it did not remove the obligation to disclose, assure, or integrate due diligence. Companies that misread simplification as deregulation will find themselves rebuilding compliance infrastructure under enforcement pressure, at higher cost, and with less time. The ten regulations rated maximum liability and enforcement carry consequences that extend beyond financial penalties to market access restrictions, import bans, and director-level criminal liability.
+      </div>
+    </div>
+
+    <hr class="rule">
+
+    <!-- SECTION 6: BOARD ACTIONS -->
+    <div class="section-block">
+      <div class="section-header">
+        <span class="section-num">Section 6</span>
+        <span class="section-title">Board &amp; Leadership Actions</span>
+      </div>
+      <table class="action-table">
+        <thead><tr><th>Horizon</th><th>Action</th></tr></thead>
+        <tbody>
+          <tr><td><span class="tl-dot tl-amber"></span>Now</td><td>Map all 60 regulations against your business - which apply, which are owned internally, and which have 2026 enforcement dates requiring funded preparation programmes today.</td></tr>
+          <tr><td><span class="tl-dot tl-amber"></span>Now</td><td>Identify the 10 maximum liability and enforcement regulations relevant to your sector. Confirm joint ownership between legal, sustainability, and operations - not sequential hand-offs.</td></tr>
+          <tr><td><span class="tl-dot tl-green"></span>6 months</td><td>Consolidate CSRD, CSDDD, EU Taxonomy, and CBAM data programmes into a shared infrastructure. The underlying data requirements substantially overlap - managing them separately costs more and creates gaps at the intersections where enforcement risk concentrates.</td></tr>
+          <tr><td><span class="tl-dot tl-green"></span>6 months</td><td>Commission a CBAM exposure assessment for 2026 definitive regime. Map embedded carbon in all goods imported to the EU across the six covered sectors. This is not a sustainability project - it is a customs and finance obligation.</td></tr>
+          <tr><td><span class="tl-dot tl-green"></span>12 months</td><td>Embed EU regulatory horizon scanning into standard board and audit committee reporting. The 2027 and 2028-2030 enforcement wave - ETS2, CSDDD mid-size, IED tightening - requires capital planning decisions that need to start now.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div style="margin-top:16px;padding-top:12px;border-top:1px solid var(--border)">
+      <div style="font-size:7.5pt;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--mid);margin-bottom:5px">Source</div>
+      <div style="font-size:8.5pt;color:var(--mid);line-height:1.55">Aurie's Knowledge Hub EU ESG Regulations Long List v1. Regulation texts sourced from EUR-Lex. Status and scoring based on analysis of official regulatory texts, European Commission implementation guidance, EFRAG technical advice, and published Big 4 compliance commentary. Effort, liability, and enforcement scores represent expert judgment on a 1-5 scale.</div>
+    </div>
+
+  </div><!-- end #fullAnalysis -->
+
+  <div class="print-footer">
+    <div class="pf-brand">Aurie's Knowledge Hub</div>
+    <div>CEO Brief · EU ESG Regulation · 2026</div>
+    <div>© Aurie</div>
+  </div>
+
+</div>
+
+<script>
+// ── DATA ──────────────────────────────────────────────────────────────────────
+var REGS = [
+  {n:1,s:'EU ETS',f:'EU Emissions Trading System',p:'Climate & Emissions',st:'In force / expanding',y:'2005; ETS2 2027',e:5,l:5,en:5,note:'Cap-and-trade for power, industry, aviation. ETS2 extends to buildings and transport fuels from 2027.'},
+  {n:2,s:'CBAM',f:'Carbon Border Adjustment Mechanism',p:'Climate & Emissions',st:'In force / transition',y:'2026 definitive',e:4,l:4,en:4,note:'Carbon price on imported goods. Definitive regime from 2026 covering steel, cement, aluminium, fertilizers, electricity, hydrogen.'},
+  {n:3,s:'ESR',f:'Effort Sharing Regulation',p:'Climate & Emissions',st:'In force',y:'2021 period',e:3,l:3,en:3,note:'Binding national targets for non-ETS sectors: transport, buildings, agriculture, waste.'},
+  {n:4,s:'F-Gas',f:'F-Gas Regulation',p:'Climate & Emissions',st:'In force / tightened',y:'2024 revision',e:4,l:4,en:4,note:'Phase-down of fluorinated greenhouse gases. 2024 revision tightens quotas and bans.'},
+  {n:5,s:'AFIR',f:'Alternative Fuels Infrastructure Regulation',p:'Energy',st:'In force',y:'2025 milestones',e:3,l:3,en:3,note:'Mandatory EV charging and hydrogen refuelling targets along TEN-T corridors.'},
+  {n:6,s:'RED III',f:'Renewable Energy Directive III',p:'Energy',st:'In force',y:'2024 transposition',e:4,l:3,en:3,note:'EU-wide 42.5% renewable energy target by 2030. Binding national contributions.'},
+  {n:7,s:'EED',f:'Energy Efficiency Directive (recast)',p:'Energy',st:'In force',y:'2025 onward',e:4,l:4,en:4,note:'Binding 11.7% reduction in EU final energy consumption by 2030. Reporting obligations for large enterprises.'},
+  {n:8,s:'FuelEU Maritime',f:'FuelEU Maritime',p:'Energy',st:'In force',y:'2025',e:4,l:4,en:4,note:'GHG intensity limits for maritime fuel from 2025. Compliance through FuelEU fuel accounts.'},
+  {n:9,s:'EU Taxonomy',f:'EU Taxonomy Regulation',p:'Finance & Capital',st:'In force',y:'2022',e:5,l:4,en:4,note:'Classification system for sustainable economic activities. Required for CSRD, SFDR, EUGBS alignment.'},
+  {n:10,s:'SFDR',f:'Sustainable Finance Disclosure Regulation',p:'Finance & Capital',st:'In force',y:'2021',e:4,l:4,en:5,note:'ESG disclosure requirements for financial market participants and advisers. PAI indicators.'},
+  {n:11,s:'Benchmarks Reg.',f:'EU Benchmarks Regulation',p:'Finance & Capital',st:'In force',y:'2020',e:3,l:3,en:3,note:'Rules for financial benchmark administrators including climate benchmark standards.'},
+  {n:12,s:'EUGBS',f:'EU Green Bond Standard',p:'Finance & Capital',st:'In force',y:'2024',e:4,l:3,en:3,note:'Voluntary standard for EU Green Bonds. Taxonomy alignment required. Mandatory external review.'},
+  {n:13,s:'ESG Ratings',f:'ESG Ratings Regulation',p:'Finance & Capital',st:'In force',y:'2026-2027',e:3,l:3,en:4,note:'Authorisation and oversight requirements for ESG rating providers operating in the EU.'},
+  {n:14,s:'CSRD',f:'Corporate Sustainability Reporting Directive',p:'Reporting & Disclosure',st:'In force / phased',y:'Wave-based FY2024',e:5,l:4,en:5,note:'Mandatory sustainability reporting under ESRS. Waves: listed large (FY24), other large (FY25), listed SME (FY26). ESRS alignment required.'},
+  {n:15,s:'ESRS',f:'European Sustainability Reporting Standards',p:'Reporting & Disclosure',st:'In force; revisions',y:'FY2024',e:5,l:4,en:5,note:'The technical standards underlying CSRD disclosure. Post-Omnibus revision reduces mandatory datapoints by ~61%.'},
+  {n:16,s:'NFRD',f:'Non-Financial Reporting Directive',p:'Reporting & Disclosure',st:'Legacy / phased out',y:'Replaced by CSRD',e:1,l:2,en:2,note:'Predecessor to CSRD. Phased out as CSRD waves activate. Some obligations persist during transition.'},
+  {n:17,s:'ESAP',f:'European Single Access Point',p:'Reporting & Disclosure',st:'Under implementation',y:'2027',e:2,l:2,en:2,note:'Centralised EU database for ESG and financial disclosures. Reporting entities submit to ESAP from 2027.'},
+  {n:18,s:'AI Act',f:'EU Artificial Intelligence Act',p:'Reporting & Disclosure',st:'In force / phased',y:'2025-2027',e:4,l:5,en:5,note:'Risk-tiered obligations for AI systems. High-risk systems require conformity assessment, transparency, human oversight.'},
+  {n:19,s:'AI Liability Dir.',f:'Proposed AI Liability Directive',p:'Reporting & Disclosure',st:'Proposed',y:'Not yet adopted',e:3,l:4,en:4,note:'Civil liability framework for AI-caused harm. Proposed; under Council and Parliament review.'},
+  {n:20,s:'Data Act',f:'EU Data Act',p:'Reporting & Disclosure',st:'In force / phased',y:'2025-2026',e:3,l:3,en:4,note:'Data sharing obligations for connected product manufacturers. Applies to IoT and smart product data.'},
+  {n:21,s:'GDPR',f:'General Data Protection Regulation',p:'Reporting & Disclosure',st:'In force',y:'2018',e:4,l:5,en:5,note:'Personal data protection. Fines up to 4% of global turnover. Intersects with ESG data collection and employee data.'},
+  {n:22,s:'DSA',f:'Digital Services Act',p:'Reporting & Disclosure',st:'In force',y:'2024',e:3,l:4,en:4,note:'Obligations for online platforms and search engines. Transparency reporting, risk assessments for VLOPs.'},
+  {n:23,s:'DMA',f:'Digital Markets Act',p:'Reporting & Disclosure',st:'In force',y:'2023-2024',e:3,l:5,en:5,note:'Gatekeeper obligations for large digital platforms. Fines up to 10-20% of global turnover.'},
+  {n:24,s:'ESPR',f:'Ecodesign for Sustainable Products Regulation',p:'Circular Economy & Waste',st:'In force',y:'2026+ per category',e:5,l:4,en:4,note:'Replaces Ecodesign Directive. Sets design requirements for durability, repairability, recycled content, Digital Product Passport per product category.'},
+  {n:25,s:'PPWR',f:'Packaging and Packaging Waste Regulation',p:'Circular Economy & Waste',st:'Adopted / phased',y:'2026+',e:4,l:4,en:4,note:'Binding recycled content and recyclability targets for packaging. Reuse targets for specific categories.'},
+  {n:26,s:'WFD',f:'Waste Framework Directive',p:'Circular Economy & Waste',st:'In force',y:'Ongoing',e:3,l:3,en:3,note:'Waste hierarchy, extended producer responsibility, recycling targets. Backbone of EU waste law.'},
+  {n:27,s:'WEEE',f:'WEEE Directive',p:'Circular Economy & Waste',st:'In force',y:'Ongoing',e:3,l:3,en:4,note:'Collection and recycling targets for electrical and electronic equipment. Producer responsibility.'},
+  {n:28,s:'ELV',f:'End-of-Life Vehicles Regulation',p:'Circular Economy & Waste',st:'In force; reform',y:'Ongoing',e:3,l:3,en:3,note:'Recycling and recovery rates for end-of-life vehicles. Under revision to align with circular economy agenda.'},
+  {n:29,s:'Batteries Reg.',f:'Batteries Regulation',p:'Circular Economy & Waste',st:'In force / phased',y:'2024 onward',e:4,l:4,en:4,note:'Lifecycle requirements for batteries: recycled content, due diligence, carbon footprint declaration, battery passport.'},
+  {n:30,s:'Taxonomy DAs',f:'EU Taxonomy Delegated Acts',p:'Finance & Capital',st:'In force / expanding',y:'2022 onward',e:4,l:3,en:3,note:'Technical screening criteria for Taxonomy-eligible activities. Climate, environmental, and social delegated acts.'},
+  {n:31,s:'REACH',f:'REACH Regulation',p:'Circular Economy & Waste',st:'In force',y:'Ongoing',e:5,l:5,en:5,note:'Registration, evaluation, authorisation of chemicals. SVHCs, restriction dossiers. Intersects with product design and supply chain.'},
+  {n:32,s:'RoHS',f:'RoHS Directive',p:'Circular Economy & Waste',st:'In force',y:'Ongoing',e:3,l:4,en:4,note:'Restrictions on hazardous substances in electrical and electronic equipment.'},
+  {n:33,s:'IED',f:'Industrial Emissions Directive (revised)',p:'Climate & Emissions',st:'In force / revised',y:'2028-2030',e:5,l:5,en:5,note:'Stricter emission limit values for large industrial installations. New BAT conclusions under revision.'},
+  {n:34,s:'AAQD',f:'Ambient Air Quality Directive (revised)',p:'Climate & Emissions',st:'In force / revised',y:'Ongoing',e:3,l:4,en:4,note:'WHO-aligned air quality standards. Revised limit values for PM2.5, NO2, and others.'},
+  {n:35,s:'Revised ECD',f:'Environmental Crime Directive',p:'Climate & Emissions',st:'In force / revised',y:'MS transposition',e:4,l:5,en:5,note:'Criminal sanctions for environmental offences including illegal trade in wildlife, pollution, and habitat destruction.'},
+  {n:36,s:'ELD',f:'Environmental Liability Directive',p:'Climate & Emissions',st:'In force',y:'Ongoing',e:4,l:5,en:5,note:'Operator liability for environmental damage. Remediation at own cost. Intersects with nature and water regulation.'},
+  {n:37,s:'Seveso III',f:'Seveso III Directive',p:'Climate & Emissions',st:'In force',y:'Ongoing',e:4,l:5,en:5,note:'Major accident prevention for establishments with dangerous substances. Safety management systems required.'},
+  {n:38,s:'UWWTD',f:'Urban Wastewater Treatment Directive (revised)',p:'Nature & Biodiversity',st:'In force / revised',y:'2025+',e:3,l:3,en:4,note:'Extended secondary and tertiary treatment requirements. New micropollutant obligations.'},
+  {n:39,s:'Drinking Water',f:'Drinking Water Directive (revised)',p:'Nature & Biodiversity',st:'In force / revised',y:'Ongoing',e:2,l:3,en:3,note:'Water quality standards including new parameters for PFAS, microplastics, endocrine disruptors.'},
+  {n:40,s:'EUDR',f:'EU Deforestation Regulation',p:'Nature & Biodiversity',st:'In force / phased',y:'2026 main obligations',e:5,l:5,en:5,note:'Due diligence for seven commodities (cattle, cocoa, coffee, palm oil, soya, wood, rubber) and derived products. Geolocation required.'},
+  {n:41,s:'NRL',f:'Nature Restoration Law',p:'Nature & Biodiversity',st:'In force',y:'2026 onward',e:3,l:3,en:3,note:'Binding ecosystem restoration targets across EU member states to 2030, 2040, 2050.'},
+  {n:42,s:'Birds Dir.',f:'Birds Directive',p:'Nature & Biodiversity',st:'In force',y:'Ongoing',e:3,l:4,en:4,note:'Protection of wild bird species. Special Protection Areas (SPAs). Intersects with land use and infrastructure.'},
+  {n:43,s:'Habitats / N2K',f:'Habitats Directive / Natura 2000',p:'Nature & Biodiversity',st:'In force',y:'Ongoing',e:4,l:4,en:4,note:'Protection of habitats and species. SACs network. TNFD disclosure references this framework.'},
+  {n:44,s:'MSFD',f:'Marine Strategy Framework Directive',p:'Nature & Biodiversity',st:'In force',y:'Ongoing',e:3,l:3,en:3,note:'Good environmental status of EU marine waters. Plastics, noise, and species monitoring programmes.'},
+  {n:45,s:'Soil Monitoring',f:'Soil Monitoring Law',p:'Nature & Biodiversity',st:'Proposed',y:'Not yet',e:3,l:3,en:3,note:'Proposed framework for soil health monitoring, classification, and sustainable land management.'},
+  {n:46,s:'WFD (water)',f:'Water Framework Directive',p:'Nature & Biodiversity',st:'In force',y:'Ongoing',e:3,l:3,en:4,note:'Good ecological and chemical status of surface and groundwater. River basin management plans.'},
+  {n:47,s:'PSI / Open Data',f:'PSI / Open Data Directive',p:'Reporting & Disclosure',st:'In force',y:'2021',e:2,l:2,en:2,note:'Public sector information reuse. Enables ESG data access from public registries.'},
+  {n:48,s:'CSDDD',f:'Corporate Sustainability Due Diligence Directive',p:'Supply Chain & Due Diligence',st:'Adopted / phased',y:'Phase-in by size',e:5,l:5,en:5,note:'Mandatory human rights and environmental due diligence across value chains. Civil and criminal liability. Phase-in starts 2027 for largest companies.'},
+  {n:49,s:'Forced Labour',f:'Forced Labour Regulation',p:'Supply Chain & Due Diligence',st:'In force / phased',y:'2027 enforcement',e:4,l:5,en:5,note:'Import ban on goods produced with forced labour. Competent authority investigations and withdrawal orders.'},
+  {n:50,s:'Green Claims Dir.',f:'Green Claims Directive',p:'Supply Chain & Due Diligence',st:'Proposed',y:'Not yet',e:4,l:4,en:4,note:'Proposed standards for environmental claims and labels. Pre-approval requirement for substantiation.'},
+  {n:51,s:'Consumer Green',f:'Consumer Green Transition Directive',p:'Supply Chain & Due Diligence',st:'In force / transposition',y:'2026',e:3,l:3,en:3,note:'Bans misleading green claims and early obsolescence. Member state transposition by 2026.'},
+  {n:52,s:'Pay Transparency',f:'Pay Transparency Directive',p:'Social & Labour',st:'In force / transposition',y:'2026-2027',e:3,l:4,en:4,note:'Right to pay information, gender pay gap reporting for employers with 100+ employees. Reporting from 2027.'},
+  {n:53,s:'OSH Framework',f:'EU Occupational Safety & Health Framework Directive',p:'Social & Labour',st:'In force',y:'Ongoing',e:3,l:4,en:4,note:'Worker health and safety obligations. Underpins S1 disclosures under CSRD.'},
+  {n:54,s:'Whistleblower',f:'Whistleblower Protection Directive',p:'Social & Labour',st:'In force',y:'Ongoing',e:3,l:4,en:4,note:'Internal and external reporting channels for breaches of EU law. Mandatory for organisations with 50+ workers.'},
+  {n:55,s:'AML package',f:'EU Anti-Money Laundering Package',p:'Finance & Capital',st:'In force / reforming',y:'2025-2027',e:4,l:5,en:5,note:'Unified AML/CFT rules including new authority (AMLA). Intersects with ESG due diligence and beneficial ownership.'},
+  {n:56,s:'CRMA',f:'Critical Raw Materials Act',p:'Finance & Capital',st:'In force',y:'2025 onward',e:3,l:3,en:4,note:'Strategic targets for domestic extraction, processing, recycling of critical raw materials. Permitting streamlining.'},
+  {n:57,s:'Revised PLD',f:'Revised Product Liability Directive',p:'Finance & Capital',st:'Adopted / transposition',y:'2026-2027',e:3,l:4,en:4,note:'Updated liability framework covering digital products and AI-enabled products. Reversal of burden of proof in some cases.'},
+  {n:58,s:'ESG Benchmarks',f:'ESG and Climate Benchmarks Regulation',p:'Finance & Capital',st:'In force',y:'2020',e:3,l:3,en:3,note:'EU Climate Transition Benchmarks and Paris-Aligned Benchmarks. Minimum standards for ESG integration.'},
+  {n:59,s:'Social Pillar',f:'European Pillar of Social Rights',p:'Social & Labour',st:'Policy framework',y:'Ongoing',e:2,l:2,en:2,note:'20 principles on employment, skills, and social protection. Underpins EU social policy and CSRD S-standards.'},
+  {n:60,s:'Marine crime',f:'Marine Crime Enforcement',p:'Nature & Biodiversity',st:'In force / reinforced',y:'Ongoing',e:3,l:4,en:4,note:'Reinforced enforcement of marine pollution and illegal discharge rules. Criminal sanctions being strengthened.'}
+];
+
+// Effort heatmap: top 30 by composite score
+function scoreColor(total){
+  if(total>=13) return '#0e2b1a';
+  if(total>=10) return '#1a6b3a';
+  if(total>=7)  return '#5aaf6e';
+  return '#a8d4b0';
+}
+function scoreTextColor(total){
+  return total>=7 ? '#fff' : '#2d3748';
+}
+
+var grid = document.getElementById('effortGrid');
+var sorted = REGS.slice().sort(function(a,b){ return (b.e+b.l+b.en)-(a.e+a.l+a.en); }).slice(0,30);
+sorted.forEach(function(r){
+  var total = r.e+r.l+r.en;
+  var cell = document.createElement('div');
+  cell.className='effort-cell';
+  cell.style.background = scoreColor(total);
+  cell.innerHTML = '<div class="effort-cell-name" style="color:'+ scoreTextColor(total) +'">'+r.s+'</div><div class="effort-cell-score" style="color:'+(total>=7?'rgba(255,255,255,0.8)':'#4a5568')+'">'+total+'/15</div>';
+  cell.addEventListener('click', function(){
+    document.getElementById('edName').textContent = r.s + ' - ' + r.f;
+    document.getElementById('edFull').textContent = r.p + ' · ' + r.st + ' · ' + r.y;
+    document.getElementById('edBody').innerHTML =
+      '<div style="font-size:8.5pt;color:var(--green)"><strong>Effort:</strong> '+r.e+'/5</div>'+
+      '<div style="font-size:8.5pt;color:var(--green)"><strong>Liability:</strong> '+r.l+'/5</div>'+
+      '<div style="font-size:8.5pt;color:var(--green)"><strong>Enforcement:</strong> '+r.en+'/5</div>'+
+      '<div style="font-size:8.5pt;color:var(--green)"><strong>Composite:</strong> '+total+'/15</div>';
+    document.getElementById('edNote').textContent = r.note;
+    document.getElementById('effortDetail').style.display='block';
+  });
+  grid.appendChild(cell);
+});
+
+// Full regulation table
+function themeColor(p){
+  if(p.includes('Climate')) return '#1a6b3a';
+  if(p.includes('Nature')) return '#3a7a1a';
+  if(p.includes('Finance')) return '#5a2d82';
+  if(p.includes('Reporting')) return '#1a3a5c';
+  if(p.includes('Circular')) return '#8a5500';
+  if(p.includes('Supply')) return '#7a1a1a';
+  if(p.includes('Energy')) return '#0a5a6a';
+  if(p.includes('Social')) return '#6a3a00';
+  return '#4a5568';
+}
+function dotColor(v){
+  if(v>=5) return '#c0392b';
+  if(v>=4) return '#e67e22';
+  if(v>=3) return '#1a6b3a';
+  return '#a8d4b0';
+}
+var tbody = document.getElementById('regBody');
+REGS.forEach(function(r){
+  var tr = document.createElement('tr');
+  tr.innerHTML =
+    '<td>'+r.n+'</td>'+
+    '<td><strong>'+r.s+'</strong><br><span style="font-size:7.5pt;color:var(--mid)">'+r.f+'</span></td>'+
+    '<td><span class="theme-pill" style="background:'+themeColor(r.p)+'">'+r.p.split('&')[0].trim()+'</span></td>'+
+    '<td style="font-size:8pt">'+r.st+'</td>'+
+    '<td style="font-size:8pt;white-space:nowrap">'+r.y+'</td>'+
+    '<td style="text-align:center"><span class="score-dot" style="background:'+dotColor(r.e)+'"></span>'+r.e+'</td>'+
+    '<td style="text-align:center"><span class="score-dot" style="background:'+dotColor(r.l)+'"></span>'+r.l+'</td>'+
+    '<td style="text-align:center"><span class="score-dot" style="background:'+dotColor(r.en)+'"></span>'+r.en+'</td>';
+  tbody.appendChild(tr);
+});
+
+// Toggle
+function toggleFullAnalysis(){
+  var panel = document.getElementById('fullAnalysis');
+  var arrow = document.getElementById('faArrow');
+  var open = panel.style.display !== 'none';
+  panel.style.display = open ? 'none' : 'block';
+  arrow.style.transform = open ? 'rotate(0deg)' : 'rotate(180deg)';
+}
+</script>
+</body>
+</html>

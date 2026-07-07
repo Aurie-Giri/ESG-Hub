@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="The Circular Economy & Waste Operating System - designing out waste and keeping materials in productive use for longer.">
+<title>Waste & Circularity Operating System - Aurie's Knowledge Hub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Inter:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --green-deep:#0e2b1a; --green-mid:#1a3d28; --green-dark:#091f12;
+  --gold:#c9a84c; --gold-light:#e0c07a; --gold-dim:rgba(201,168,76,0.15);
+  --white:#ffffff; --muted:#8a9e90; --border:rgba(201,168,76,0.18);
+  --serif:'Cormorant Garamond',Georgia,serif;
+  --sans:'Inter',system-ui,sans-serif;
+  --mono:'DM Mono',monospace;
+  --l1:#854F0B; --l1-dim:rgba(133,79,11,0.14); --l1-bdr:rgba(133,79,11,0.35);
+  --l2:#BA7517; --l2-dim:rgba(186,117,23,0.14); --l2-bdr:rgba(186,117,23,0.35);
+  --l3:#EF9F27; --l3-dim:rgba(239,159,39,0.14); --l3-bdr:rgba(239,159,39,0.35);
+  --l4:#9ea099; --l4-dim:rgba(158,160,153,0.15); --l4-bdr:rgba(158,160,153,0.3);
+  --l5:#D4537E; --l5-dim:rgba(212,83,126,0.14); --l5-bdr:rgba(212,83,126,0.35);
+}
+html{scroll-behavior:smooth}
+body{background:var(--green-deep);color:var(--white);font-family:var(--sans);font-weight:300;font-size:16px;line-height:1.7;min-height:100vh}
+::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:var(--green-deep)}::-webkit-scrollbar-thumb{background:rgba(201,168,76,0.35);border-radius:3px}
+
+.page-header{padding:7rem 2.5rem 3rem;background:radial-gradient(ellipse at 65% 40%,rgba(26,61,40,0.9) 0%,var(--green-deep) 65%);border-bottom:1px solid var(--border)}
+.back-link{font-size:0.7rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);text-decoration:none;display:inline-flex;align-items:center;gap:6px;margin-bottom:1.2rem;transition:color 0.15s}
+.back-link:hover{color:var(--gold)}
+.page-eyebrow{font-size:0.7rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--gold);margin-bottom:1.2rem;display:flex;align-items:center;gap:1rem}
+.page-eyebrow::before{content:'';width:2.5rem;height:1px;background:var(--gold);display:inline-block}
+h1.page-title{font-family:var(--serif);font-size:clamp(2.4rem,4.5vw,4rem);font-weight:300;line-height:1.1;margin-bottom:0.8rem;border:none;padding:0}
+h1.page-title em{font-style:italic;color:var(--gold)}
+.page-desc{font-size:1rem;color:rgba(255,255,255,0.58);max-width:680px;line-height:1.8;margin-bottom:1.8rem}
+.header-meta{display:flex;gap:10px;flex-wrap:wrap}
+.meta-badge{padding:4px 14px;font-size:10px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;font-family:var(--sans)}
+.page-nav{background:var(--green-mid);border-bottom:1px solid var(--border);padding:0 2.5rem;display:flex;gap:0;overflow-x:auto}
+.page-nav-link{padding:13px 20px;font-size:0.73rem;letter-spacing:0.08em;text-transform:uppercase;color:rgba(255,255,255,0.45);text-decoration:none;border-bottom:2px solid transparent;white-space:nowrap;transition:all 0.15s}
+.page-nav-link:hover{color:var(--gold-light)}
+.page-nav-link.active{color:var(--gold);border-color:var(--gold)}
+main{padding:0 2.5rem 5rem}
+.section-block{margin-top:3.5rem}
+.section-divider{border-top:2px solid var(--gold);position:relative;margin-bottom:1.8rem}
+.section-divider-label{position:absolute;top:-12px;left:0;background:var(--green-deep);padding:0 14px 0 0;font-size:9px;letter-spacing:0.22em;text-transform:uppercase;color:var(--gold);font-family:var(--sans);font-weight:500}
+.section-subhead{font-size:0.95rem;color:rgba(255,255,255,0.52);max-width:680px;line-height:1.8;margin-bottom:2rem}
+.summary-body p{font-size:0.97rem;color:rgba(255,255,255,0.65);line-height:1.85;margin-bottom:1.1rem}
+.summary-body p:last-child{margin-bottom:0}
+.pathway-strip{margin:1.8rem 0;padding:18px 24px;background:var(--green-mid);border:1px solid var(--border);border-left:3px solid var(--gold);display:flex;align-items:center;gap:0;flex-wrap:wrap}
+.pathway-step{font-family:var(--serif);font-size:1.05rem;font-weight:400;color:rgba(255,255,255,0.85);white-space:nowrap}
+.pathway-arrow{font-size:0.9rem;color:var(--gold);margin:0 12px;flex-shrink:0}
+.flow-diagram{margin-top:2rem}
+.flow-layer{border-radius:6px;margin-bottom:2px;overflow:hidden}
+.flow-layer-header{padding:14px 20px 10px;display:flex;flex-direction:column;gap:3px}
+.flow-layer-num{font-size:9px;letter-spacing:0.2em;text-transform:uppercase;font-family:var(--mono);font-weight:500;opacity:0.8}
+.flow-layer-title{font-family:var(--serif);font-size:1.25rem;font-weight:400;line-height:1.2}
+.flow-layer-sub{font-size:0.78rem;opacity:0.7;line-height:1.4}
+.flow-chips{display:flex;gap:6px;flex-wrap:wrap;padding:0 20px 16px}
+.flow-chip{padding:5px 12px;border-radius:3px;font-size:0.73rem;font-family:var(--sans);border:1px solid;white-space:nowrap}
+.l1{background:var(--l1-dim);border:1px solid var(--l1-bdr)}
+.l1 .flow-layer-num{color:var(--l1)}
+.l1 .flow-layer-title{color:var(--white)}
+.l1 .flow-chip{background:var(--l1-dim);border-color:var(--l1-bdr);color:var(--l1)}
+.l2{background:var(--l2-dim);border:1px solid var(--l2-bdr)}
+.l2 .flow-layer-num{color:var(--l2)}
+.l2 .flow-layer-title{color:var(--white)}
+.l2 .flow-chip{background:var(--l2-dim);border-color:var(--l2-bdr);color:var(--l2)}
+.l3{background:var(--l3-dim);border:1px solid var(--l3-bdr)}
+.l3 .flow-layer-num{color:var(--l3)}
+.l3 .flow-layer-title{color:var(--white)}
+.l3 .flow-chip{background:var(--l3-dim);border-color:var(--l3-bdr);color:var(--l3)}
+.l4{background:var(--l4-dim);border:1px solid var(--l4-bdr)}
+.l4 .flow-layer-num{color:var(--l4)}
+.l4 .flow-layer-title{color:var(--white)}
+.l4 .flow-chip{background:var(--l4-dim);border-color:var(--l4-bdr);color:var(--l4)}
+.l5{background:var(--l5-dim);border:1px solid var(--l5-bdr)}
+.l5 .flow-layer-num{color:var(--l5)}
+.l5 .flow-layer-title{color:var(--white)}
+.l5 .flow-chip{background:var(--l5-dim);border-color:var(--l5-bdr);color:var(--l5)}
+.flow-connector{display:flex;justify-content:center;align-items:center;height:28px;color:rgba(201,168,76,0.4);font-size:14px}
+.scope-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;padding:0 20px 16px}
+.scope-block{padding:10px 14px;border-radius:4px;background:var(--l2-dim);border:1px solid var(--l2-bdr)}
+.scope-block-title{font-size:0.75rem;font-weight:500;color:var(--l2);margin-bottom:4px}
+.scope-block-items{font-size:0.73rem;color:rgba(255,255,255,0.55);line-height:1.5}
+.core-principle{margin-top:24px;padding:16px 24px;border:1px solid var(--border);border-top:2px solid var(--gold);background:rgba(201,168,76,0.04)}
+.core-principle-label{font-size:8px;letter-spacing:0.22em;text-transform:uppercase;color:var(--gold);font-family:var(--sans);margin-bottom:6px}
+.core-principle-text{font-family:var(--serif);font-size:1.05rem;font-weight:300;color:rgba(255,255,255,0.8);font-style:italic;line-height:1.5}
+.om-table-wrap{overflow-x:auto;margin-top:0.5rem}
+.om-table{width:100%;border-collapse:collapse;min-width:680px}
+.om-table thead th{background:var(--green-mid);padding:10px 14px;font-size:9px;letter-spacing:0.16em;text-transform:uppercase;color:var(--gold);font-weight:500;font-family:var(--sans);border-bottom:1px solid var(--border);text-align:left;white-space:nowrap}
+.om-table .lrow td{padding:9px 14px 5px;font-size:9px;letter-spacing:0.18em;text-transform:uppercase;font-weight:600;font-family:var(--sans);border-top:1px solid rgba(255,255,255,0.06)}
+.lrow-1 td{color:var(--l1)}.lrow-2 td{color:var(--l2)}.lrow-3 td{color:var(--l3)}.lrow-4 td{color:var(--l4)}.lrow-5 td{color:var(--l5)}
+.om-table .drow td{padding:6px 14px 8px;border-bottom:1px solid rgba(255,255,255,0.04);font-size:0.78rem;color:rgba(255,255,255,0.6);line-height:1.5;vertical-align:top}
+.om-table .drow td:first-child{color:rgba(255,255,255,0.85);font-weight:400}
+.om-table .drow:hover td{background:rgba(255,255,255,0.02)}
+footer{padding:20px 2.5rem;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;color:var(--muted);font-size:0.75rem;flex-wrap:wrap;gap:8px;letter-spacing:0.06em;background:var(--green-dark)}
+.footer-brand{font-family:var(--serif);font-size:0.9rem;color:var(--gold);font-weight:400}
+@media(max-width:800px){
+  .nav-link{min-width:88px;padding:0 0.8rem}.nav-brand{padding:0 1.2rem;font-size:1.05rem}
+  .page-header,main,footer,.page-nav{padding-left:1.5rem;padding-right:1.5rem}
+  .scope-grid{grid-template-columns:1fr}
+}
+@media(max-width:560px){.nav-link-sub{display:none}.nav-link{min-width:70px;padding:0 0.6rem}}
+
+/* ── NAV (standardised) ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; align-items: stretch;
+  background: rgba(9,31,18,0.97); backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+  height: 64px;
+}
+.nav-brand {
+  display: flex; align-items: center;
+  padding: 0 2.5rem;
+  font-family: var(--serif); font-size: 1.25rem; font-weight: 600;
+  letter-spacing: 0.04em; color: var(--white); text-decoration: none;
+  border-right: 1px solid var(--border);
+  flex-shrink: 0; transition: background 0.2s;
+}
+.nav-brand:hover { background: rgba(201,168,76,0.06); }
+.nav-brand span { color: var(--gold); }
+.nav-sections { display: flex; align-items: stretch; list-style: none; flex: 1; overflow-x: auto; }
+.nav-sections li { display: flex; }
+.nav-link {
+  display: flex; flex-direction: column; justify-content: center;
+  padding: 0 1.6rem; text-decoration: none;
+  border-right: 1px solid var(--border);
+  transition: background 0.18s; min-width: 120px;
+}
+.nav-link:hover { background: rgba(201,168,76,0.06); }
+.nav-link.active { background: var(--gold-dim); border-bottom: 2px solid var(--gold); }
+.nav-link-primary { font-size: 0.78rem; font-weight: 500; letter-spacing: 0.05em; color: rgba(255,255,255,0.88); line-height: 1.2; white-space: nowrap; }
+.nav-link-sub { font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); line-height: 1; margin-top: 3px; white-space: nowrap; }
+.nav-link:hover .nav-link-primary { color: var(--gold-light); }
+.nav-link:hover .nav-link-sub { color: rgba(201,168,76,0.6); }
+.nav-link.active .nav-link-primary { color: var(--gold); }
+.nav-link.active .nav-link-sub { color: rgba(201,168,76,0.7); }
+.nav-about {
+  display: flex; align-items: center; padding: 0 1.8rem;
+  font-size: 0.78rem; font-weight: 500; letter-spacing: 0.05em;
+  color: rgba(255,255,255,0.6); text-decoration: none;
+  margin-left: auto; transition: color 0.18s; white-space: nowrap;
+}
+.nav-about:hover { color: var(--gold); }
+@media (max-width: 768px) {
+  .nav-link { min-width: 100px; padding: 0 1rem; }
+  .nav-brand { padding: 0 1.2rem; font-size: 1.05rem; }
+}
+@media (max-width: 560px) {
+  .nav-link-sub { display: none; }
+  .nav-link { min-width: 80px; padding: 0 0.8rem; }
+}
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Waste & Circularity Operating System",
+  "description": "The Circular Economy & Waste Operating System - designing out waste and keeping materials in productive use for longer.",
+  "author": {
+    "@type": "Person",
+    "name": "Aurie",
+    "url": "https://REPLACE-WITH-YOUR-DOMAIN/about.html"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Aurie's Knowledge Hub",
+    "url": "https://REPLACE-WITH-YOUR-DOMAIN/index.html"
+  },
+  "datePublished": "2026-01-01",
+  "dateModified": "2026-07-06",
+  "url": "https://REPLACE-WITH-YOUR-DOMAIN/esos-waste-circularity.html"
+}
+</script>
+</head>
+<body>
+<nav>
+  <a class="nav-brand" href="index.html">Aurie's <span>Knowledge Hub</span></a>
+  <ul class="nav-sections">
+    <li>
+      <a class="nav-link" href="ceo-insights.html">
+        <span class="nav-link-primary">CEO Insights</span>
+        <span class="nav-link-sub">For the leadership</span>
+      </a>
+    </li>
+    <li>
+      <a class="nav-link" href="tools.html">
+        <span class="nav-link-primary">Tools &amp; Templates</span>
+        <span class="nav-link-sub">For ESG teams</span>
+      </a>
+    </li>
+    <li>
+      <a class="nav-link active" href="resource-library.html">
+        <span class="nav-link-primary">Resource Library</span>
+        <span class="nav-link-sub">For practitioners</span>
+      </a>
+    </li>
+    <li>
+      <a class="nav-link" href="thought-papers.html">
+        <span class="nav-link-primary">Thought Papers</span>
+        <span class="nav-link-sub">For the curious</span>
+      </a>
+    </li>
+  </ul>
+  <a class="nav-about" href="about.html">About Me</a>
+</nav>
+<div class="page-header">
+  <a class="back-link" href="resource-library.html">← Expert Library</a>
+  <p class="page-eyebrow">Operating System Frameworks · Waste &amp; Circularity · Enterprise Transformation</p>
+  <h1 class="page-title">Waste &amp; Circularity <em>Operating System</em></h1>
+  <p class="page-desc">From waste management to material transformation. An enterprise framework for eliminating waste, reducing resource dependency, and keeping materials in productive use across the full value chain.</p>
+  <div class="header-meta">
+    <span class="meta-badge" style="background:rgba(186,117,23,0.12);border:1px solid rgba(186,117,23,0.3);color:#EF9F27;">5 layers</span>
+    <span class="meta-badge" style="background:rgba(232,121,249,0.12);border:1px solid rgba(232,121,249,0.3);color:#e879f9;">Circular by design</span>
+    <span class="meta-badge" style="background:var(--gold-dim);border:1px solid rgba(201,168,76,0.4);color:var(--gold);">ESPR · PPWR · EPR · CSRD ESRS E5 · ISO 14040</span>
+  </div>
+</div>
+<div class="page-nav">
+  <a class="page-nav-link active" href="#summary">Overview</a>
+  <a class="page-nav-link" href="#framework">Framework</a>
+  <a class="page-nav-link" href="#opmodel">Operating Model</a>
+</div>
+<main>
+
+<div class="section-block" id="summary">
+  <div class="section-divider"><span class="section-divider-label">Overview</span></div>
+  <div class="summary-body">
+    <p>Waste is not an output problem. It is a design, material, and system architecture problem. Every kilogram of waste sent to landfill represents a material that was extracted, transported, processed, and used - only to be discarded. In resource-constrained markets, that is a cost problem as much as an environmental one.</p>
+    <p>EU regulation is tightening the frame significantly. The Ecodesign for Sustainable Products Regulation (ESPR) creates mandatory design requirements for products sold in Europe. The Packaging and Packaging Waste Regulation sets binding recycled content and recyclability standards. Extended Producer Responsibility schemes place financial and operational obligations on manufacturers. Companies that treat these as compliance exercises will pay more and move slower than those that embed circularity into product strategy.</p>
+    <p>The circular economy opportunity is real and quantified. The Ellen MacArthur Foundation estimates up to €630 billion in annual net material cost savings for complex medium-lived products in the EU alone under an advanced circular scenario. The companies building circular systems now will have a structural cost advantage as virgin material costs rise and regulatory pressure increases.</p>
+    <div class="pathway-strip">
+      <span class="pathway-step">Map flows</span><span class="pathway-arrow">→</span><span class="pathway-step">Prevent</span><span class="pathway-arrow">→</span><span class="pathway-step">Redesign</span><span class="pathway-arrow">→</span><span class="pathway-step">Recover</span><span class="pathway-arrow">→</span><span class="pathway-step">Verify</span><span class="pathway-arrow">→</span><span class="pathway-step">Improve</span>
+    </div>
+    <p>Waste is not an output problem. It is a design, material, and system architecture problem.</p>
+  </div>
+</div>
+
+<div class="section-block" id="framework">
+  <div class="section-divider"><span class="section-divider-label">Framework Architecture</span></div>
+  <p class="section-subhead">The five-layer circularity system. Governance sets material strategy. Mapping reveals where value is being lost. Circular pathways run from prevention through to regeneration. The performance system at Layer 5 tracks what actually circulates.</p>
+  <div class="flow-diagram">
+    <div class="flow-layer l1">
+  <div class="flow-layer-header">
+    <span class="flow-layer-num">Layer 1</span>
+    <span class="flow-layer-title">Material governance, ambition &amp; circular strategy</span>
+    <span class="flow-layer-sub">Establish strategic intent - waste is a design problem, not a disposal problem</span>
+  </div>
+  <div class="flow-chips"><span class="flow-chip">Material ambition</span><span class="flow-chip">Circular design principles</span><span class="flow-chip">Governance structure</span><span class="flow-chip">Target-setting</span><span class="flow-chip">Regulatory compliance framework</span></div>
+  
+</div>
+<div class="flow-connector">↓</div><div class="flow-layer l2">
+  <div class="flow-layer-header">
+    <span class="flow-layer-num">Layer 2</span>
+    <span class="flow-layer-title">Material value chain &amp; waste flow mapping</span>
+    <span class="flow-layer-sub">Understand where materials enter, where losses occur, and where recovery is possible</span>
+  </div>
+  <div class="flow-chips"></div>
+  <div class="scope-grid">
+  <div class="scope-block"><div class="scope-block-title">Material inputs</div><div class="scope-block-items">Raw materials · Packaging · Components · Water · Energy inputs · Chemical substances</div></div>
+  <div class="scope-block"><div class="scope-block-title">In-use &amp; production</div><div class="scope-block-items">Manufacturing waste · Process losses · Product use-phase · Operational byproducts</div></div>
+  <div class="scope-block"><div class="scope-block-title">End-of-life flows</div><div class="scope-block-items">Product returns · Packaging waste · Electronic waste · Construction materials · Food waste</div></div>
+</div>
+</div>
+<div class="flow-connector">↓</div><div class="flow-layer l3">
+  <div class="flow-layer-header">
+    <span class="flow-layer-num">Layer 3</span>
+    <span class="flow-layer-title">Circular transformation pathways</span>
+    <span class="flow-layer-sub">Prevent first - then reduce, reuse, repair, remanufacture, recycle, and regenerate</span>
+  </div>
+  <div class="flow-chips"><span class="flow-chip">Prevent waste creation</span><span class="flow-chip">Reduce material intensity</span><span class="flow-chip">Reuse &amp; refurbish</span><span class="flow-chip">Repair &amp; upgrade</span><span class="flow-chip">Remanufacture</span><span class="flow-chip">Recycle &amp; recover</span><span class="flow-chip">Regenerate - biological cycles</span></div>
+  
+</div>
+<div class="flow-connector">↓</div><div class="flow-layer l4">
+  <div class="flow-layer-header">
+    <span class="flow-layer-num">Layer 4</span>
+    <span class="flow-layer-title">Enablement systems</span>
+    <span class="flow-layer-sub">Design, technology, procurement, and reverse logistics that close the loop</span>
+  </div>
+  <div class="flow-chips"><span class="flow-chip">Circular product design</span><span class="flow-chip">Reverse logistics</span><span class="flow-chip">Technology &amp; infrastructure</span><span class="flow-chip">Procurement policy</span><span class="flow-chip">Finance &amp; EPR</span><span class="flow-chip">Supplier partnerships</span></div>
+  
+</div>
+<div class="flow-connector">↓</div><div class="flow-layer l5">
+  <div class="flow-layer-header">
+    <span class="flow-layer-num">Layer 5</span>
+    <span class="flow-layer-title">Circularity performance system</span>
+    <span class="flow-layer-sub">Measure material flows, verify recovery rates, report progress, and improve continuously</span>
+  </div>
+  <div class="flow-chips"><span class="flow-chip">Measure material flows</span><span class="flow-chip">Verify recovery rates</span><span class="flow-chip">Report &amp; disclose</span><span class="flow-chip">Improve design</span><span class="flow-chip">Refresh strategy</span></div>
+</div>
+    <div class="core-principle">
+      <div class="core-principle-label">Core principle</div>
+      <div class="core-principle-text">Waste is not an output problem. It is a design, material, and system architecture problem. Circularity must be built into the product before it reaches the factory floor.</div>
+    </div>
+  </div>
+</div>
+
+<div class="section-block" id="opmodel">
+  <div class="section-divider"><span class="section-divider-label">Operating Model</span></div>
+  <p class="section-subhead">How the system is run across each layer - who does the work, how decisions are made, what tools are used, and how performance is measured.</p>
+  <div class="om-table-wrap">
+    <table class="om-table">
+      <thead><tr>
+        <th style="min-width:130px">Layer</th>
+        <th style="min-width:130px">Who</th>
+        <th style="min-width:140px">How</th>
+        <th style="min-width:140px">What (tools &amp; data)</th>
+        <th style="min-width:140px">Decisions</th>
+        <th style="min-width:140px">Performance</th>
+      </tr></thead>
+      <tbody><tr class="lrow lrow-1"><td colspan="6">1 · Material governance</td></tr>
+<tr class="drow"><td>Material governance</td><td>Board, CEO, CFO, product design &amp; procurement leads</td><td>Annual material strategy review; regulatory horizon scanning</td><td>Material governance framework; CSRD ESRS E5; PPWR compliance tracker</td><td>Board approves circular ambition; CEO allocates redesign budget</td><td>Circular revenue share (%); waste-to-landfill reduction (%)</td></tr><tr class="lrow lrow-2"><td colspan="6">2 · Material flow mapping</td></tr>
+<tr class="drow"><td>Material flow mapping</td><td>Sustainability, operations, product design, procurement</td><td>Material flow analysis; waste stream audit; LCA</td><td>Material accounting tools; LCA software (ISO 14040/44); EPR tracking</td><td>CFO approves boundary definitions; operations defines waste categories</td><td>Total waste generated (t); recycled content rate (%); recovery rate (%)</td></tr><tr class="lrow lrow-3"><td colspan="6">3 · Circular transformation</td></tr>
+<tr class="drow"><td>Circular transformation</td><td>Product design, engineering, procurement, reverse logistics</td><td>Ecodesign methodology; circular procurement criteria; take-back programmes</td><td>Ecodesign tools (ISO 14006); supplier engagement platform; EPR scheme management</td><td>Design committee approves product changes; capex approves circular infrastructure</td><td>Recycled content achieved (%); product repairability score; take-back volume</td></tr><tr class="lrow lrow-4"><td colspan="6">4 · Enablement systems</td></tr>
+<tr class="drow"><td>Enablement systems</td><td>IT, finance, legal, logistics, infrastructure teams</td><td>Circular finance structuring; reverse logistics design</td><td>ESG data platform; Digital Product Passport (ESPR); waste tracking software</td><td>CFO approves capital; board approves partnership investments</td><td>Circular finance deployed (€); DPP coverage (%); reverse logistics network coverage</td></tr><tr class="lrow lrow-5"><td colspan="6">5 · Circularity performance</td></tr>
+<tr class="drow"><td>Circularity performance</td><td>External verifier, sustainability team, IR</td><td>Annual assurance; CSRD ESRS E5 reporting cycle; EPR compliance reporting</td><td>MRV system; CSRD ESRS E5; PPWR reporting</td><td>Board reviews circularity outcomes; CSO signs disclosures</td><td>Waste diverted from landfill (%); circular material rate (%); EPR compliance status</td></tr></tbody>
+    </table>
+  </div>
+</div>
+
+</main>
+<footer>
+  <div class="footer-brand">Aurie's Knowledge Hub</div>
+  <div>Waste &amp; Circularity OS · ESPR · PPWR · EPR · CSRD ESRS E5 · Ellen MacArthur Foundation · June 2026</div>
+  <div style="color:rgba(201,168,76,0.5)"><a href="resource-library.html" style="color:rgba(201,168,76,0.5);text-decoration:none">← Expert Library</a></div>
+</footer>
+<script>
+const navLinks = document.querySelectorAll('.page-nav-link');
+navLinks.forEach(link => {
+  link.addEventListener('click', function(e) {
+    e.preventDefault();
+    navLinks.forEach(l => l.classList.remove('active'));
+    this.classList.add('active');
+    const t = document.querySelector(this.getAttribute('href'));
+    if (t) t.scrollIntoView({behavior:'smooth',block:'start'});
+  });
+});
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      const id = e.target.id;
+      navLinks.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#'+id));
+    }
+  });
+}, {rootMargin:'-64px 0px -60% 0px'});
+['summary','framework','opmodel'].forEach(id => { const el = document.getElementById(id); if(el) obs.observe(el); });
+</script>
+</body>
+</html>

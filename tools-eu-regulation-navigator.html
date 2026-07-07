@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="EU ESG Regulation Navigator - an interactive tool to map liability vs. effort across 60 EU ESG laws, filter by industry, and print a compliance shortlist.">
+<meta name="robots" content="index, follow">
+<meta property="og:title" content="EU ESG Regulation Navigator - Aurie's Knowledge Hub">
+<meta property="og:description" content="Find every EU ESG regulation applicable to your business - mapped by liability, effort, and industry.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Aurie's Knowledge Hub">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="EU ESG Regulation Navigator - Aurie's Knowledge Hub">
+<meta name="twitter:description" content="Find every EU ESG regulation applicable to your business - mapped by liability, effort, and industry.">
+<title>EU ESG Regulation Navigator - Aurie's Knowledge Hub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Inter:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --green-deep:  #0e2b1a;
+  --green-mid:   #1a3d28;
+  --green-light: #234d33;
+  --green-dark:  #091f12;
+  --gold:        #c9a84c;
+  --gold-light:  #e0c07a;
+  --gold-dim:    rgba(201,168,76,0.15);
+  --ivory:       #f5f0e8;
+  --white:       #ffffff;
+  --muted:       #8a9e90;
+  --border:      rgba(201,168,76,0.18);
+  --serif:  'Cormorant Garamond', Georgia, serif;
+  --sans:   'Inter', 'Segoe UI', system-ui, sans-serif;
+  --mono:   'DM Mono', monospace;
+
+  /* Category colours (E / S / G / Product / Finance / Data & Reporting) */
+  --cat-env:  #4ade80;
+  --cat-soc:  #e879f9;
+  --cat-gov:  #93c5fd;
+  --cat-prod: #f97316;
+  --cat-fin:  #eab308;
+  --cat-data: #a78bfa;
+}
+
+html { scroll-behavior: smooth; }
+body {
+  background: var(--green-deep);
+  color: var(--white);
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: 16px;
+  line-height: 1.7;
+  min-height: 100vh;
+}
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: var(--green-deep); }
+::-webkit-scrollbar-thumb { background: rgba(201,168,76,0.35); border-radius: 3px; }
+
+/* ── BREADCRUMB ── */
+.crumb {
+  padding: 84px 2.5rem 0; max-width: 1180px; margin: 0 auto;
+  font-size: 0.72rem; letter-spacing: 0.05em; color: var(--muted);
+}
+.crumb a { color: var(--muted); text-decoration: none; }
+.crumb a:hover { color: var(--gold); }
+
+/* ── PAGE HEADER ── */
+.page-header {
+  padding: 1.6rem 2.5rem 2.4rem; max-width: 1180px; margin: 0 auto;
+}
+.page-eyebrow {
+  font-size: 0.7rem; letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 1rem;
+  display: flex; align-items: center; gap: 1rem;
+}
+.page-eyebrow::before { content: ''; width: 2.5rem; height: 1px; background: var(--gold); display: inline-block; }
+h1.page-title {
+  font-family: var(--serif); font-size: clamp(2.1rem, 4vw, 3.4rem);
+  font-weight: 300; line-height: 1.1; margin-bottom: 0.8rem; border: none; padding: 0;
+}
+h1.page-title em { font-style: italic; color: var(--gold); }
+.page-desc { font-size: 1rem; color: rgba(255,255,255,0.6); max-width: 720px; line-height: 1.8; }
+
+/* ── HOW IT WORKS STRIP ── */
+.howto {
+  max-width: 1180px; margin: 0 auto 2.5rem; padding: 0 2.5rem;
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px;
+  background: var(--border); border: 1px solid var(--border);
+}
+.howto-step { background: var(--green-mid); padding: 20px 22px; }
+.howto-num { font-family: var(--mono); font-size: 0.65rem; color: var(--gold); letter-spacing: 0.1em; margin-bottom: 8px; }
+.howto-title { font-family: var(--serif); font-size: 1.05rem; margin-bottom: 6px; }
+.howto-desc { font-size: 0.82rem; color: rgba(255,255,255,0.5); line-height: 1.6; }
+
+/* ── MAIN ── */
+main { max-width: 1180px; margin: 0 auto; padding: 0 2.5rem 5rem; }
+
+.section-label {
+  font-size: 9px; letter-spacing: 0.28em; text-transform: uppercase;
+  color: var(--gold); font-family: var(--mono); margin: 3rem 0 0.6rem;
+  display: flex; align-items: center; gap: 12px;
+}
+.section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+.section-title { font-family: var(--serif); font-size: 1.6rem; font-weight: 300; margin-bottom: 1.4rem; }
+.section-title em { font-style: italic; color: var(--gold); }
+.section-note { font-size: 0.85rem; color: rgba(255,255,255,0.5); max-width: 760px; margin: -0.8rem 0 1.4rem; line-height: 1.7; }
+
+/* ── CONTROL BAR ── */
+.controls {
+  background: var(--green-mid); border: 1px solid var(--border);
+  border-top: 2px solid var(--gold);
+  padding: 22px 24px; margin-bottom: 2px;
+  display: grid; grid-template-columns: 1.1fr 1fr; gap: 28px;
+}
+.control-block { }
+.control-label {
+  font-size: 0.65rem; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 10px; display:flex; align-items:center; justify-content: space-between;
+}
+.year-readout { font-family: var(--mono); font-size: 0.8rem; color: var(--white); background: rgba(0,0,0,0.25); padding: 2px 9px; border-radius: 3px; }
+input[type=range] {
+  width: 100%; height: 3px; border-radius: 3px; background: rgba(255,255,255,0.15);
+  appearance: none; -webkit-appearance: none; outline: none; cursor: pointer;
+}
+input[type=range]::-webkit-slider-thumb {
+  appearance: none; -webkit-appearance: none; width: 16px; height: 16px; border-radius: 50%;
+  background: var(--gold); cursor: pointer; border: 2px solid var(--green-deep);
+  box-shadow: 0 0 0 2px var(--gold);
+}
+input[type=range]::-moz-range-thumb {
+  width: 16px; height: 16px; border-radius: 50%; background: var(--gold);
+  cursor: pointer; border: 2px solid var(--green-deep); box-shadow: 0 0 0 2px var(--gold);
+}
+.year-ticks { display: flex; justify-content: space-between; margin-top: 6px; font-family: var(--mono); font-size: 0.62rem; color: var(--muted); }
+
+select#industrySelect {
+  width: 100%; background: var(--green-deep); color: var(--white);
+  border: 1px solid var(--border); padding: 10px 12px; font-size: 0.85rem;
+  font-family: var(--sans); border-radius: 3px; cursor: pointer;
+}
+select#industrySelect:focus { outline: none; border-color: var(--gold); }
+
+.legend-row { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+.legend-chip {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 0.7rem; padding: 5px 10px; border-radius: 20px;
+  border: 1px solid rgba(255,255,255,0.14); cursor: pointer;
+  background: rgba(255,255,255,0.03); transition: all 0.15s; user-select: none;
+}
+.legend-chip.off { opacity: 0.32; }
+.legend-chip .dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.legend-chip:hover { border-color: rgba(255,255,255,0.3); }
+
+.reset-btn {
+  margin-top: 10px; background: none; border: 1px solid var(--border); color: var(--muted);
+  font-size: 0.7rem; letter-spacing: 0.06em; padding: 6px 12px; border-radius: 3px;
+  cursor: pointer; transition: all 0.15s; text-transform: uppercase;
+}
+.reset-btn:hover { color: var(--gold); border-color: var(--gold); }
+
+/* ── CHART LAYOUT ── */
+.matrix-wrap {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 2px;
+  background: var(--border); border: 1px solid var(--border); border-top: none;
+  margin-bottom: 2.5rem;
+}
+.chart-panel { background: var(--green-mid); padding: 22px; display: flex; flex-direction: column; align-items: center; }
+.chart-title { font-family: var(--serif); font-size: 1.05rem; margin-bottom: 2px; align-self: flex-start; }
+.chart-sub { font-size: 0.72rem; color: var(--muted); margin-bottom: 14px; align-self: flex-start; }
+#scatterSvg { width: 100%; max-width: 440px; height: auto; display: block; cursor: default; margin: 0 auto; }
+.axis-label { font-size: 10px; fill: var(--muted); font-family: 'DM Mono', monospace; letter-spacing: 0.05em; }
+.grid-line { stroke: rgba(255,255,255,0.07); stroke-width: 1; }
+.grid-line.mid { stroke: rgba(255,255,255,0.14); }
+.reg-dot { cursor: pointer; transition: r 0.15s, opacity 0.2s; stroke: rgba(9,31,18,0.9); stroke-width: 1.4; }
+.reg-dot:hover { stroke: var(--white); }
+.reg-dot.dim { opacity: 0.12; }
+.reg-dot.faded-status { stroke-dasharray: 2,2; }
+.reg-dot.selected { stroke: var(--white); stroke-width: 2.4; }
+
+/* ── DETAIL / RADAR PANEL ── */
+.detail-panel { background: var(--green-mid); padding: 22px; display: flex; flex-direction: column; }
+.detail-empty { color: var(--muted); font-size: 0.85rem; line-height: 1.8; margin-top: 2rem; text-align: center; }
+.detail-empty .icon { font-size: 1.8rem; display:block; margin-bottom: 10px; opacity: 0.4; }
+.detail-cat-badge {
+  display: inline-block; font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase;
+  padding: 3px 9px; border-radius: 20px; margin-bottom: 10px; font-weight: 500;
+}
+.detail-name { font-family: var(--serif); font-size: 1.3rem; line-height: 1.25; margin-bottom: 2px; }
+.detail-short { font-family: var(--mono); font-size: 0.72rem; color: var(--gold); margin-bottom: 12px; }
+.detail-status-row { display:flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
+.pill { font-size: 0.66rem; padding: 3px 8px; border-radius: 3px; background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.7); border: 1px solid rgba(255,255,255,0.1); }
+#radarSvg { width: 100%; max-width: 320px; margin: 0 auto 14px; display: block; }
+.radar-grid { fill: none; stroke: rgba(255,255,255,0.14); stroke-width: 1; }
+.radar-axis { stroke: rgba(255,255,255,0.1); stroke-width: 1; }
+.radar-label { font-size: 8.5px; fill: rgba(255,255,255,0.55); font-family: var(--sans); }
+.radar-shape { fill: rgba(201,168,76,0.22); stroke: var(--gold); stroke-width: 1.6; }
+.radar-pt { fill: var(--gold); }
+.detail-summary { font-size: 0.8rem; color: rgba(255,255,255,0.6); line-height: 1.7; margin-bottom: 12px; }
+.detail-field { margin-bottom: 10px; }
+.detail-field-label { font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 3px; }
+.detail-field-value { font-size: 0.8rem; color: rgba(255,255,255,0.82); line-height: 1.6; }
+
+/* ── SHORTLIST BAR ── */
+.shortlist-bar {
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 12px; margin-bottom: 1rem;
+}
+.shortlist-count { font-family: var(--serif); font-size: 1.15rem; }
+.shortlist-count em { font-style: italic; color: var(--gold); }
+.print-btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--gold); color: var(--green-dark); border: none;
+  padding: 10px 18px; font-size: 0.75rem; font-weight: 500; letter-spacing: 0.06em;
+  text-transform: uppercase; border-radius: 3px; cursor: pointer; transition: background 0.15s;
+}
+.print-btn:hover { background: var(--gold-light); }
+
+/* ── TABLE ── */
+.table-wrap { overflow-x: auto; border: 1px solid var(--border); }
+table.regtable { width: 100%; border-collapse: collapse; font-size: 0.8rem; min-width: 980px; }
+table.regtable thead th {
+  background: var(--green-dark); color: var(--gold); text-align: left;
+  padding: 10px 12px; font-size: 0.66rem; letter-spacing: 0.08em; text-transform: uppercase;
+  border-bottom: 1px solid var(--border); position: sticky; top: 0; white-space: nowrap;
+}
+table.regtable tbody td { padding: 10px 12px; border-bottom: 1px solid rgba(255,255,255,0.06); vertical-align: top; color: rgba(255,255,255,0.82); }
+table.regtable tbody tr { cursor: pointer; transition: background 0.12s; }
+table.regtable tbody tr:hover { background: rgba(201,168,76,0.06); }
+table.regtable tbody tr.selected-row { background: rgba(201,168,76,0.1); }
+.t-name { font-weight: 500; color: var(--white); }
+.t-short { font-family: var(--mono); font-size: 0.68rem; color: var(--muted); }
+.t-cat-dot { display:inline-block; width: 7px; height: 7px; border-radius: 50%; margin-right: 6px; }
+.t-score { font-family: var(--mono); text-align: center; }
+.t-badge-na { color: var(--muted); font-style: italic; font-size: 0.72rem; }
+
+/* ── METHODOLOGY ── */
+.method-grid {
+  display: grid; grid-template-columns: repeat(5, 1fr); gap: 2px;
+  background: var(--border); border: 1px solid var(--border); border-top: 2px solid var(--gold);
+  margin-bottom: 1.6rem;
+}
+.method-card { background: var(--green-mid); padding: 18px 16px; }
+.method-card-label { font-size: 0.66rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gold); margin-bottom: 8px; }
+.method-card-desc { font-size: 0.76rem; color: rgba(255,255,255,0.6); line-height: 1.6; margin-bottom: 10px; }
+.method-scale { display: flex; flex-direction: column; gap: 3px; }
+.method-scale-row { display: flex; gap: 6px; font-size: 0.68rem; color: rgba(255,255,255,0.5); align-items: baseline; }
+.method-scale-num { font-family: var(--mono); color: var(--gold); width: 12px; flex-shrink: 0; }
+.method-note {
+  font-size: 0.82rem; color: rgba(255,255,255,0.55); line-height: 1.8;
+  border-left: 2px solid var(--border); padding-left: 16px; margin-bottom: 0.6rem;
+}
+.method-note strong { color: rgba(255,255,255,0.8); font-weight: 500; }
+@media(max-width: 900px) { .method-grid { grid-template-columns: 1fr 1fr; } }
+@media(max-width: 560px) { .method-grid { grid-template-columns: 1fr; } }
+
+footer {
+  padding: 1.8rem 2.5rem; display: flex; justify-content: space-between;
+  align-items: center; color: var(--muted); font-size: 0.75rem; flex-wrap: wrap; gap: 8px;
+  letter-spacing: 0.06em; background: var(--green-dark); border-top: 1px solid var(--border);
+}
+.footer-brand { font-family: var(--serif); font-size: 0.9rem; color: var(--gold); font-weight: 400; }
+
+/* ── PRINT ── */
+@media print {
+  nav, .crumb, .howto, .controls, .matrix-wrap, .shortlist-bar .print-btn, footer, .page-desc, .section-note { display: none !important; }
+  body { background: #fff; color: #111; }
+  main { max-width: 100%; padding: 0; margin: 0; }
+  .page-header { padding: 0 0 12px; }
+  h1.page-title { color: #0e2b1a; font-size: 1.8rem; }
+  h1.page-title em { color: #8a6d1f; }
+  .section-label, .section-title { color: #0e2b1a; }
+  table.regtable { min-width: 0; font-size: 9px; }
+  table.regtable thead th { background: #0e2b1a !important; color: #fff !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  table.regtable tbody td { color: #111; }
+  .shortlist-count { color: #0e2b1a; }
+  .method-card { background: #f5f0e8 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .method-card-label { color: #8a6d1f; }
+  .method-card-desc, .method-scale-row, .method-note { color: #333; }
+  .method-note { border-left-color: #c9a84c; }
+}
+
+@media(max-width: 900px) {
+  .matrix-wrap, .controls { grid-template-columns: 1fr; }
+  .howto { grid-template-columns: 1fr; }
+}
+
+/* ── NAV (standardised) ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; align-items: stretch;
+  background: rgba(9,31,18,0.97); backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+  height: 64px;
+}
+.nav-brand {
+  display: flex; align-items: center;
+  padding: 0 2.5rem;
+  font-family: var(--serif); font-size: 1.25rem; font-weight: 600;
+  letter-spacing: 0.04em; color: var(--white); text-decoration: none;
+  border-right: 1px solid var(--border);
+  flex-shrink: 0; transition: background 0.2s;
+}
+.nav-brand:hover { background: rgba(201,168,76,0.06); }
+.nav-brand span { color: var(--gold); }
+.nav-sections { display: flex; align-items: stretch; list-style: none; flex: 1; overflow-x: auto; }
+.nav-sections li { display: flex; }
+.nav-link {
+  display: flex; flex-direction: column; justify-content: center;
+  padding: 0 1.6rem; text-decoration: none;
+  border-right: 1px solid var(--border);
+  transition: background 0.18s; min-width: 120px;
+}
+.nav-link:hover { background: rgba(201,168,76,0.06); }
+.nav-link.active { background: var(--gold-dim); border-bottom: 2px solid var(--gold); }
+.nav-link-primary { font-size: 0.78rem; font-weight: 500; letter-spacing: 0.05em; color: rgba(255,255,255,0.88); line-height: 1.2; white-space: nowrap; }
+.nav-link-sub { font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); line-height: 1; margin-top: 3px; white-space: nowrap; }
+.nav-link:hover .nav-link-primary { color: var(--gold-light); }
+.nav-link:hover .nav-link-sub { color: rgba(201,168,76,0.6); }
+.nav-link.active .nav-link-primary { color: var(--gold); }
+.nav-link.active .nav-link-sub { color: rgba(201,168,76,0.7); }
+.nav-about {
+  display: flex; align-items: center; padding: 0 1.8rem;
+  font-size: 0.78rem; font-weight: 500; letter-spacing: 0.05em;
+  color: rgba(255,255,255,0.6); text-decoration: none;
+  margin-left: auto; transition: color 0.18s; white-space: nowrap;
+}
+.nav-about:hover { color: var(--gold); }
+@media (max-width: 768px) {
+  .nav-link { min-width: 100px; padding: 0 1rem; }
+  .nav-brand { padding: 0 1.2rem; font-size: 1.05rem; }
+}
+@media (max-width: 560px) {
+  .nav-link-sub { display: none; }
+  .nav-link { min-width: 80px; padding: 0 0.8rem; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-brand" href="index.html">Aurie's <span>Knowledge Hub</span></a>
+  <ul class="nav-sections">
+    <li>
+      <a class="nav-link" href="ceo-insights.html">
+        <span class="nav-link-primary">CEO Insights</span>
+        <span class="nav-link-sub">For the leadership</span>
+      </a>
+    </li>
+    <li>
+      <a class="nav-link active" href="tools.html">
+        <span class="nav-link-primary">Tools &amp; Templates</span>
+        <span class="nav-link-sub">For ESG teams</span>
+      </a>
+    </li>
+    <li>
+      <a class="nav-link" href="resource-library.html">
+        <span class="nav-link-primary">Resource Library</span>
+        <span class="nav-link-sub">For practitioners</span>
+      </a>
+    </li>
+    <li>
+      <a class="nav-link" href="thought-papers.html">
+        <span class="nav-link-primary">Thought Papers</span>
+        <span class="nav-link-sub">For the curious</span>
+      </a>
+    </li>
+  </ul>
+  <a class="nav-about" href="about.html">About Me</a>
+</nav>
+
+<div class="crumb"><a href="tools.html">Toolkits</a> &nbsp;/&nbsp; EU ESG Regulation Navigator</div>
+
+<div class="page-header">
+  <p class="page-eyebrow">Toolkits · Interactive Tool</p>
+  <h1 class="page-title">EU ESG Regulation <em>Navigator</em></h1>
+  <p class="page-desc">Every EU ESG law that could apply to your business, mapped by liability and effort, filterable by industry, and ready to print for the boardroom. Data stress-tested against current EU legal status - including the 2026 Omnibus I changes to CSRD and CSDDD.</p>
+</div>
+
+<div class="howto">
+  <div class="howto-step">
+    <div class="howto-num">Step 1</div>
+    <div class="howto-title">Explore the map</div>
+    <div class="howto-desc">Each dot is one regulation, positioned by Effort (x) and Liability (y). Colour = policy area. Slide the year control to see what applies now vs. what's coming.</div>
+  </div>
+  <div class="howto-step">
+    <div class="howto-num">Step 2</div>
+    <div class="howto-title">Select your industry</div>
+    <div class="howto-desc">Choose your sector from the dropdown. Matching regulations light up on the map and populate the shortlist table below.</div>
+  </div>
+  <div class="howto-step">
+    <div class="howto-num">Step 3</div>
+    <div class="howto-title">Review &amp; print</div>
+    <div class="howto-desc">Click any dot or row for its full five-factor profile. When ready, print a clean shortlist for your compliance file or the boardroom.</div>
+  </div>
+</div>
+
+<main>
+
+  <div class="section-label">Section 1 · The Map</div>
+  <div class="section-title">Liability <em>vs.</em> Effort</div>
+  <p class="section-note">Every axis score is on a 1 (low) to 5 (very high) scale, assessed across five factors: Effort, Liability, Market Impact, Data Intensity, and Enforcement Risk. Position on this chart reflects Effort and Liability only - hover or click a dot for the full profile.</p>
+
+  <div class="controls">
+    <div class="control-block">
+      <div class="control-label"><span>Timeline - show regulations in force / applicable by</span><span class="year-readout" id="yearReadout">All years</span></div>
+      <input type="range" id="yearSlider" min="2018" max="2031" step="1" value="2031">
+      <div class="year-ticks"><span>2018</span><span>2021</span><span>2024</span><span>2027</span><span>2030</span><span>All</span></div>
+      <div class="legend-row" id="legendRow"></div>
+    </div>
+    <div class="control-block">
+      <div class="control-label"><span>Filter by industry</span></div>
+      <select id="industrySelect"></select>
+      <button class="reset-btn" id="resetBtn">Reset all filters</button>
+    </div>
+  </div>
+
+  <div class="matrix-wrap">
+    <div class="chart-panel">
+      <div class="chart-title">Liability vs. Effort - all 60 regulations</div>
+      <div class="chart-sub" id="chartSub">Showing all regulations, all years, all industries.</div>
+      <svg id="scatterSvg" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg"></svg>
+    </div>
+    <div class="detail-panel" id="detailPanel">
+      <div class="detail-empty"><span class="icon">◎</span>Hover or click a dot - or a row in the table below - to see its full five-factor profile.</div>
+    </div>
+  </div>
+
+  <div class="section-label">Section 2 · Your Shortlist</div>
+  <div class="section-title">Applicable <em>Regulations</em></div>
+  <p class="section-note">Filtered by the industry and timeline controls above. This table is what prints - use "Print Shortlist" for a clean, boardroom-ready copy.</p>
+
+  <div class="shortlist-bar">
+    <div class="shortlist-count"><em id="shortlistCount">60</em> regulations in your current view</div>
+    <button class="print-btn" onclick="window.print()">🖨 Print Shortlist</button>
+  </div>
+
+  <div class="table-wrap">
+    <table class="regtable">
+      <thead>
+        <tr>
+          <th>Regulation</th>
+          <th>Category</th>
+          <th>Status</th>
+          <th>First Compliance</th>
+          <th>Effort</th>
+          <th>Liability</th>
+          <th>Market Impact</th>
+          <th>Data Int.</th>
+          <th>Enforcement</th>
+          <th>Applies to</th>
+        </tr>
+      </thead>
+      <tbody id="tableBody"></tbody>
+    </table>
+  </div>
+
+  <div class="section-label">Section 3 · Scoring Methodology</div>
+  <div class="section-title">How the <em>Scores</em> Work</div>
+  <p class="section-note">Every regulation is assessed by Aurie's Knowledge Hub across five factors, each on a 1 (low) to 5 (very high) scale. The chart above plots Effort against Liability; the other three factors appear in each regulation's five-factor radar. Scores are qualitative, analyst-assessed judgements - not figures published by the EU - intended to help you triage where to focus first, not to replace legal advice.</p>
+
+  <div class="method-grid">
+    <div class="method-card">
+      <div class="method-card-label">Effort</div>
+      <div class="method-card-desc">The operational lift to comply - systems, headcount, process change, and time required to become and stay compliant.</div>
+      <div class="method-scale">
+        <div class="method-scale-row"><span class="method-scale-num">1</span>Minimal - light-touch, existing processes cover it</div>
+        <div class="method-scale-row"><span class="method-scale-num">5</span>Very high - new systems, teams, or controls needed</div>
+      </div>
+    </div>
+    <div class="method-card">
+      <div class="method-card-label">Liability</div>
+      <div class="method-card-desc">The severity of legal exposure if a business gets it wrong - civil, criminal, or market-access consequences.</div>
+      <div class="method-scale">
+        <div class="method-scale-row"><span class="method-scale-num">1</span>Minimal - no meaningful personal or corporate exposure</div>
+        <div class="method-scale-row"><span class="method-scale-num">5</span>Very high - criminal, uncapped, or market-exclusion exposure</div>
+      </div>
+    </div>
+    <div class="method-card">
+      <div class="method-card-label">Market Impact</div>
+      <div class="method-card-desc">How much the regulation reshapes competitive dynamics, cost structures, or access to the EU market for affected sectors.</div>
+      <div class="method-scale">
+        <div class="method-scale-row"><span class="method-scale-num">1</span>Minimal - narrow or niche market effect</div>
+        <div class="method-scale-row"><span class="method-scale-num">5</span>Very high - reshapes competition or market access EU-wide</div>
+      </div>
+    </div>
+    <div class="method-card">
+      <div class="method-card-label">Data Intensity</div>
+      <div class="method-card-desc">The volume, granularity, and assurance burden of the data a business must collect, verify, and disclose.</div>
+      <div class="method-scale">
+        <div class="method-scale-row"><span class="method-scale-num">1</span>Minimal - a handful of simple data points</div>
+        <div class="method-scale-row"><span class="method-scale-num">5</span>Very high - granular, audited, multi-source datasets</div>
+      </div>
+    </div>
+    <div class="method-card">
+      <div class="method-card-label">Enforcement Risk</div>
+      <div class="method-card-desc">How actively and consistently the regulation is actually policed across member states today.</div>
+      <div class="method-scale">
+        <div class="method-scale-row"><span class="method-scale-num">1</span>Minimal - rarely enforced or not yet applicable</div>
+        <div class="method-scale-row"><span class="method-scale-num">5</span>Very high - mature, active, well-resourced enforcement</div>
+      </div>
+    </div>
+  </div>
+
+  <p class="method-note"><strong>Categories</strong> aggregate each regulation's original EU policy area into one of six buckets - Environment, Social, Governance, Product, Finance, Data &amp; Reporting - to make the map scannable. A handful of regulations are genuinely cross-cutting (e.g. the CSDDD touches both human rights and environmental due diligence); each is placed under its primary driver.</p>
+  <p class="method-note"><strong>Timeline</strong> filtering uses each regulation's first stated compliance year. Long-standing "ongoing" obligations (e.g. GDPR, REACH) are always shown, since they already apply regardless of the year selected. Withdrawn, stalled, or merely proposed instruments (dashed dot outline) are always shown too, so you don't lose sight of them - but they carry no compliance date.</p>
+  <p class="method-note"><strong>Data currency:</strong> stress-tested against current EU legal status as of July 2026, including the Omnibus I changes to CSRD and CSDDD. Given how fast this area moves, treat this as a point-in-time snapshot and revisit quarterly.</p>
+
+</main>
+
+<footer>
+  <div class="footer-brand">Aurie's Knowledge Hub</div>
+  <div>Toolkits · EU ESG Regulation Navigator · Data as of July 2026</div>
+  <div style="color:rgba(201,168,76,0.5)"><a href="tools.html" style="color:rgba(201,168,76,0.5);text-decoration:none">← Back to Toolkits</a></div>
+</footer>
+
+<script type="application/json" id="regsData">
+[{"name":"EU Emissions Trading System","short":"EU ETS","link":"EU Commission: EU ETS","summary":"Cap-and-trade system for power, industry, aviation. ETS2 extends carbon pricing to buildings and road transport fuels. fsr.eui","policyArea":"Climate, emissions, energy, carbon pricing","category":"Environment","status":"In force / expanding","legalStatus":"EU Directive with amendments","firstYear":"2005; ETS2 from 2028","yearNum":2005,"phaseIn":"Yes, ETS2 phase-in (monitoring from 2025, compliance obligations from 2028)","directly":"Yes - direct for covered installations and fuel suppliers","mustDo":"Measure emissions, verify annually, surrender allowances, buy allowances as needed.","industry":"Power, aviation, steel, cement, fuel suppliers","effort":5,"liability":5,"market":5,"dataIntensity":4,"enforcement":5,"yearNote":"dated"},{"name":"Carbon Border Adjustment Mechanism","short":"CBAM","link":"EU Commission: CBAM","summary":"Carbon price on certain imported goods to mirror EU carbon costs and reduce leakage. taxation-customs.ec.europa+1","policyArea":"Climate, trade, customs, carbon pricing","category":"Environment","status":"In force / transition to definitive regime","legalStatus":"EU Regulation","firstYear":"2023 transitional; 2026 definitive","yearNum":2023,"phaseIn":"Yes","directly":"Yes - direct for importers of covered goods","mustDo":"Report embedded emissions, buy CBAM certificates, manage supplier data.","industry":"Importers, steel, cement, aluminium, fertilizers, electricity, hydrogen","effort":4,"liability":4,"market":5,"dataIntensity":5,"enforcement":4,"yearNote":"dated"},{"name":"Effort Sharing Regulation","short":"ESR","link":"EU Commission climate policy page","summary":"Sets binding national emissions targets for sectors outside EU ETS, mainly transport, buildings, agriculture, waste.","policyArea":"Climate, non-ETS emissions, national targets","category":"Environment","status":"In force","legalStatus":"EU Regulation","firstYear":"2021 target period","yearNum":2021,"phaseIn":"No major phase-in","directly":"Indirect for most businesses; direct via national policies","mustDo":"Reduce non-ETS emissions through fuel switching, efficiency, electrification, waste reduction.","industry":"Transport, buildings, agriculture, municipalities","effort":3,"liability":3,"market":3,"dataIntensity":2,"enforcement":3,"yearNote":"dated"},{"name":"F-Gas Regulation","short":"F-Gas","link":"EU Commission: Fluorinated greenhouse gases","summary":"Phases down HFCs and restricts high-global-warming refrigerants in equipment.","policyArea":"Climate, refrigerants, cooling, heating","category":"Environment","status":"In force / tightened","legalStatus":"EU Regulation","firstYear":"2024 revision","yearNum":2024,"phaseIn":"Yes","directly":"Yes - direct for equipment producers, installers, users","mustDo":"Reduce F-gas use, prevent leakage, service with certified staff, track refrigerants.","industry":"HVAC, refrigeration, supermarkets, data centers","effort":4,"liability":4,"market":4,"dataIntensity":3,"enforcement":4,"yearNote":"dated"},{"name":"Alternative Fuels Infrastructure Regulation","short":"AFIR","link":"EU Commission: AFIR","summary":"Requires minimum infrastructure for electric charging and hydrogen refuelling.","policyArea":"Transport, energy infrastructure, electrification","category":"Environment","status":"In force","legalStatus":"EU Regulation","firstYear":"2025 milestones","yearNum":2025,"phaseIn":"Yes","directly":"Indirect; direct for infrastructure operators","mustDo":"Install and operate charging/refuelling points meeting availability, payment and coverage rules.","industry":"Transport, logistics, fuel retail, infrastructure","effort":3,"liability":2,"market":4,"dataIntensity":2,"enforcement":3,"yearNote":"dated"},{"name":"Renewable Energy Directive","short":"RED III","link":"EU Commission: Renewable energy","summary":"Sets EU renewable energy targets and sustainability rules for bioenergy and renewable fuels.","policyArea":"Energy, climate, renewables","category":"Environment","status":"In force","legalStatus":"EU Directive","firstYear":"2024 transposition cycle","yearNum":2024,"phaseIn":"Yes","directly":"Indirect; direct for energy/fuel market actors","mustDo":"Increase renewable share, prove sustainability criteria, meet fuel/energy targets.","industry":"Energy, fuels, transport, utilities","effort":4,"liability":3,"market":4,"dataIntensity":3,"enforcement":3,"yearNote":"dated"},{"name":"Energy Efficiency Directive","short":"EED","link":"EU Commission: Energy efficiency","summary":"EU framework for energy savings, public sector leadership, audits and efficiency obligations.","policyArea":"Energy, efficiency, climate","category":"Environment","status":"In force","legalStatus":"EU Directive","firstYear":"2025 onward","yearNum":2025,"phaseIn":"Yes","directly":"Indirect; direct for large energy users, utilities, public bodies","mustDo":"Conduct audits, implement savings, report consumption, improve efficiency.","industry":"All energy-intensive sectors","effort":4,"liability":3,"market":4,"dataIntensity":3,"enforcement":3,"yearNote":"dated"},{"name":"FuelEU Maritime Regulation","short":"FuelEU Maritime","link":"EU Commission: FuelEU Maritime","summary":"Reduces lifecycle GHG intensity of energy used onboard ships.","policyArea":"Shipping, climate, fuels","category":"Environment","status":"In force","legalStatus":"EU Regulation","firstYear":2025,"yearNum":2025,"phaseIn":"Yes","directly":"Yes - direct for ship operators and fuel suppliers","mustDo":"Use cleaner fuels, monitor intensity, comply with penalties for excess emissions.","industry":"Shipping, ports, marine fuels","effort":4,"liability":4,"market":4,"dataIntensity":3,"enforcement":4,"yearNote":"dated"},{"name":"EU Taxonomy Regulation","short":"EU Taxonomy","link":"EU Taxonomy","summary":"Classification system for environmentally sustainable economic activities. finance.ec.europa","policyArea":"Sustainable finance, reporting, climate, environment","category":"Finance","status":"In force","legalStatus":"EU Regulation","firstYear":"2022 for first disclosures; simplified templates from FY2025/26 under Omnibus I","yearNum":2022,"phaseIn":"Yes, via delegated acts","directly":"Yes - direct for in-scope firms","mustDo":"Assess taxonomy alignment, disclose eligible/aligned turnover, capex and opex.","industry":"Financial institutions, large corporates, issuers","effort":4,"liability":2,"market":5,"dataIntensity":4,"enforcement":3,"yearNote":"dated"},{"name":"Sustainable Finance Disclosure Regulation","short":"SFDR","link":"SFDR","summary":"Requires sustainability disclosures at entity and product level for financial market participants.","policyArea":"Sustainable finance, disclosure, finance","category":"Finance","status":"In force / overhaul proposed","legalStatus":"EU Regulation","firstYear":2021,"yearNum":2021,"phaseIn":"No","directly":"Yes - direct for financial firms","mustDo":"Disclose principal adverse impacts, product sustainability features, and risk policies.","industry":"Asset managers, insurers, advisers, pensions","effort":4,"liability":4,"market":5,"dataIntensity":5,"enforcement":4,"yearNote":"dated"},{"name":"ESG and Climate Benchmarks Regulation","short":"Benchmarks Regulation","link":"EU Benchmarks","summary":"Creates low-carbon and Paris-aligned benchmark categories and disclosure rules.","policyArea":"Sustainable finance, benchmarks, capital markets","category":"Finance","status":"In force","legalStatus":"EU Regulation","firstYear":2020,"yearNum":2020,"phaseIn":"No","directly":"Direct for benchmark administrators, indirect for users","mustDo":"Label and disclose benchmark methodologies and climate alignment.","industry":"Index providers, asset managers, banks","effort":3,"liability":3,"market":4,"dataIntensity":3,"enforcement":3,"yearNote":"dated"},{"name":"European Green Bond Standard","short":"EUGBS","link":"European green bonds","summary":"Voluntary standard for issuers of green bonds using the EU Taxonomy as reference.","policyArea":"Sustainable finance, capital markets, debt","category":"Finance","status":"In force","legalStatus":"EU Regulation","firstYear":2024,"yearNum":2024,"phaseIn":"No","directly":"Voluntary, direct for issuers choosing the label","mustDo":"Align use of proceeds, publish factsheets and post-issuance reporting, use external reviewer.","industry":"Issuers, banks, sovereigns, project developers","effort":3,"liability":2,"market":4,"dataIntensity":4,"enforcement":2,"yearNote":"dated"},{"name":"ESG Ratings Regulation","short":"ESG Ratings","link":"ESG ratings","summary":"Regulates transparency, methodology and conflicts for ESG rating providers.","policyArea":"Sustainable finance, market integrity, disclosure","category":"Finance","status":"In force","legalStatus":"EU Regulation","firstYear":"2026-2027 likely phased application","yearNum":2026,"phaseIn":"Yes","directly":"Direct for ESG ratings providers; indirect for users","mustDo":"Disclose methodologies, manage conflicts, register and document processes.","industry":"Ratings agencies, investors, corporates","effort":3,"liability":3,"market":4,"dataIntensity":4,"enforcement":3,"yearNote":"dated"},{"name":"Corporate Sustainability Reporting Directive","short":"CSRD","link":"CSRD","summary":"Requires standardized sustainability reporting in management reports using double materiality and assurance. finance.europa","policyArea":"Reporting, ESG, governance","category":"Data & Reporting","status":"In force / scope drastically narrowed by Omnibus I (Feb 2026)","legalStatus":"EU Directive - national implementation","firstYear":"FY2024 for Wave 1 only (unaffected); Wave 2/3 'stop the clock' delayed 2 years by Directive 2025/794; new narrower scope applies from FY2027 under Omnibus I","yearNum":2024,"phaseIn":"Yes","directly":"Yes - direct for in-scope companies","mustDo":"Assess double materiality, collect KPIs, prepare audited sustainability statements.","industry":"Large EU and listed companies, some non-EU groups","effort":3,"liability":3,"market":4,"dataIntensity":5,"enforcement":4,"yearNote":"dated"},{"name":"European Sustainability Reporting Standards","short":"ESRS","link":"CSRD / ESRS","summary":"Technical standards that specify CSRD disclosures and data structure. finance.ec.europa","policyArea":"Reporting, ESG","category":"Data & Reporting","status":"In force; revisions underway","legalStatus":"Delegated regulation","firstYear":"FY2024 for initial wave","yearNum":2024,"phaseIn":"Yes, revision cycle","directly":"Yes - direct for CSRD reporters","mustDo":"Map datapoints, implement controls, prepare disclosures under the standard.","industry":"CSRD reporters","effort":4,"liability":3,"market":5,"dataIntensity":5,"enforcement":3,"yearNote":"dated"},{"name":"Non-Financial Reporting Directive","short":"NFRD","link":"NFRD archive / CSRD transition","summary":"Legacy predecessor to CSRD for large public-interest entities. finance.europa","policyArea":"Reporting, ESG","category":"Data & Reporting","status":"Legacy law phased out","legalStatus":"EU Directive - national implementation","firstYear":"Replaced by CSRD","yearNum":2000,"phaseIn":"No","directly":"Indirect now; only legacy references","mustDo":"Transition from NFRD-style reporting to CSRD/ESRS framework.","industry":"Legacy reporters","effort":2,"liability":1,"market":2,"dataIntensity":2,"enforcement":1,"yearNote":"ongoing"},{"name":"European Single Access Point","short":"ESAP","link":"ESAP","summary":"EU portal for access to public financial and sustainability information.","policyArea":"Reporting, capital markets, data","category":"Data & Reporting","status":"Under implementation","legalStatus":"EU framework / regulations and technical acts","firstYear":"2027 onward phased roll-out","yearNum":2027,"phaseIn":"Yes","directly":"Indirect infrastructure","mustDo":"Publish structured data in required formats for public access.","industry":"Issuers, listed companies, investors","effort":2,"liability":1,"market":4,"dataIntensity":4,"enforcement":2,"yearNote":"dated"},{"name":"EU AI Act","short":"AI Act","link":"AI policy page","summary":"Risk-based rules for AI providers, deployers and high-risk systems.","policyArea":"AI, digital, governance, compliance","category":"Data & Reporting","status":"In force / phased application","legalStatus":"EU Regulation","firstYear":"2025-2027 by risk tier","yearNum":2025,"phaseIn":"Yes","directly":"Yes - direct for in-scope providers/deployers","mustDo":"Classify risk, maintain documentation, testing, governance and oversight.","industry":"AI vendors, platforms, employers, public sector","effort":4,"liability":4,"market":5,"dataIntensity":4,"enforcement":4,"yearNote":"dated"},{"name":"AI Liability Directive","short":"Proposed AI Liability Directive","link":"Proposed AI liability rules","summary":"Intended to ease compensation claims for damage caused by AI systems.","policyArea":"AI, liability, consumer protection","category":"Data & Reporting","status":"WITHDRAWN (formally, 6 Oct 2025)","legalStatus":"Withdrawn proposal -- no legal instrument","firstYear":"Not applicable -- proposal withdrawn","yearNum":null,"phaseIn":"No","directly":"No -- proposal withdrawn, not merely delayed","mustDo":"No EU-specific AI civil-liability regime exists; harmed parties must rely on national tort law and the revised Product Liability Directive (which does cover AI-enabled products). Track PLD exposure instead.","industry":"AI providers, deployers, insurers","effort":2,"liability":2,"market":3,"dataIntensity":1,"enforcement":1,"yearNote":"withdrawn"},{"name":"EU Data Act","short":"Data Act","link":"EU Data Act","summary":"Expands access to and sharing of data from connected products and cloud switching.","policyArea":"Data, digital, competition","category":"Data & Reporting","status":"In force / phased application","legalStatus":"EU Regulation","firstYear":"2025-2026","yearNum":2025,"phaseIn":"Yes","directly":"Yes - direct for connected products and data holders","mustDo":"Enable data access, contract fairness, switching, and B2B/B2G data sharing.","industry":"IoT, cloud, industrial tech, mobility","effort":4,"liability":3,"market":4,"dataIntensity":5,"enforcement":3,"yearNote":"dated"},{"name":"GDPR","short":"GDPR","link":"EU data protection law","summary":"Core EU privacy law governing personal data processing and individual rights.","policyArea":"Data protection, privacy, digital, governance","category":"Data & Reporting","status":"In force","legalStatus":"EU Regulation","firstYear":2018,"yearNum":2018,"phaseIn":"No","directly":"Yes - direct for controllers/processors","mustDo":"Lawful basis, notices, rights handling, security, breach response, records.","industry":"All sectors","effort":3,"liability":5,"market":5,"dataIntensity":4,"enforcement":5,"yearNote":"dated"},{"name":"DSA","short":"Digital Services Act","link":"DSA package","summary":"Platform duties on notice-and-action, transparency and systemic-risk management.","policyArea":"Digital, platforms, consumer protection","category":"Data & Reporting","status":"In force","legalStatus":"EU Regulation","firstYear":2024,"yearNum":2024,"phaseIn":"Yes for VLOPs/VLOSEs","directly":"Yes - direct for online intermediaries","mustDo":"Moderate content, publish transparency reports, manage risks and appeals.","industry":"Platforms, marketplaces, hosting, social media","effort":4,"liability":4,"market":4,"dataIntensity":3,"enforcement":4,"yearNote":"dated"},{"name":"DMA","short":"Digital Markets Act","link":"DMA","summary":"Ex ante obligations for designated gatekeepers to keep digital markets contestable.","policyArea":"Digital markets, competition","category":"Data & Reporting","status":"In force","legalStatus":"EU Regulation","firstYear":"2023-2024 designation cycle","yearNum":2023,"phaseIn":"No","directly":"Yes - direct for gatekeepers","mustDo":"Avoid self-preferencing, enable interoperability, comply with conduct rules.","industry":"Large digital platforms","effort":4,"liability":5,"market":5,"dataIntensity":3,"enforcement":4,"yearNote":"dated"},{"name":"Open Data and Public Sector Information Directive","short":"PSI / Open Data Directive","link":"Open data","summary":"Reuse of public sector information and high-value datasets.","policyArea":"Data, digital, public sector","category":"Data & Reporting","status":"In force","legalStatus":"EU Directive","firstYear":2021,"yearNum":2021,"phaseIn":"No","directly":"Indirect for private sector reusers","mustDo":"Reuse public datasets under open conditions, comply with licensing and access rules.","industry":"Data users, public bodies, SMEs","effort":2,"liability":1,"market":3,"dataIntensity":3,"enforcement":2,"yearNote":"dated"},{"name":"Ecodesign for Sustainable Products Regulation","short":"ESPR","link":"ESPR","summary":"Framework for durability, repairability, recyclability and digital product passports.","policyArea":"Circular economy, product design, resource efficiency","category":"Product","status":"In force","legalStatus":"EU Regulation","firstYear":"Product-by-product delegated acts from 2026+","yearNum":2026,"phaseIn":"Yes","directly":"Yes - direct for product makers/importers","mustDo":"Redesign products, disclose product data, prepare DPP and repairability requirements.","industry":"Manufacturing, electronics, apparel, consumer goods","effort":5,"liability":3,"market":5,"dataIntensity":4,"enforcement":3,"yearNote":"dated"},{"name":"Packaging and Packaging Waste Regulation","short":"PPWR","link":"Packaging waste","summary":"Harmonizes EU packaging rules, reuse targets, recyclability and waste reduction.","policyArea":"Circular economy, packaging, waste","category":"Product","status":"Adopted / phased implementation","legalStatus":"EU Regulation","firstYear":"2026+","yearNum":2026,"phaseIn":"Yes","directly":"Yes - direct for packaging producers, fillers, importers","mustDo":"Reduce packaging, meet recyclability and reuse targets, label and document compliance.","industry":"FMCG, retail, logistics, food and beverage","effort":4,"liability":3,"market":5,"dataIntensity":3,"enforcement":3,"yearNote":"dated"},{"name":"Waste Framework Directive","short":"WFD (Waste)","link":"Waste framework","summary":"EU waste hierarchy, extended producer responsibility and recycling obligations.","policyArea":"Waste, circular economy","category":"Environment","status":"In force","legalStatus":"EU Directive","firstYear":"Ongoing","yearNum":2000,"phaseIn":"No","directly":"Indirect to direct via national law","mustDo":"Separate waste streams, fund EPR schemes, meet recycling and reporting duties.","industry":"All sectors","effort":3,"liability":3,"market":4,"dataIntensity":3,"enforcement":3,"yearNote":"ongoing"},{"name":"WEEE Directive","short":"WEEE","link":"WEEE","summary":"Collection and treatment of waste electrical and electronic equipment.","policyArea":"Waste, electronics, circular economy","category":"Product","status":"In force","legalStatus":"EU Directive","firstYear":"Ongoing","yearNum":2000,"phaseIn":"No","directly":"Yes - direct for producers/importers","mustDo":"Register, finance take-back, label products, report and meet collection targets.","industry":"Electronics, appliances, IT hardware","effort":4,"liability":4,"market":4,"dataIntensity":3,"enforcement":4,"yearNote":"ongoing"},{"name":"ELV Directive","short":"End-of-Life Vehicles","link":"Vehicles and environment","summary":"Rules for vehicle dismantling, reuse, recovery and recycling.","policyArea":"Waste, automotive, circular economy","category":"Product","status":"In force; reform pending","legalStatus":"EU Directive","firstYear":"Ongoing","yearNum":2000,"phaseIn":"No","directly":"Direct for vehicle manufacturers and treatment operators","mustDo":"Design for recyclability, organize take-back, document material recovery.","industry":"Automotive, dismantlers, metals","effort":4,"liability":4,"market":4,"dataIntensity":3,"enforcement":4,"yearNote":"ongoing"},{"name":"Batteries Regulation","short":"Batteries Regulation","link":"Batteries","summary":"Full lifecycle regime for sustainability, labeling, carbon footprint and recycling of batteries.","policyArea":"Circular economy, raw materials, energy storage","category":"Product","status":"In force / phased","legalStatus":"EU Regulation","firstYear":"2024 onward","yearNum":2024,"phaseIn":"Yes","directly":"Yes - direct for producers, importers and distributors","mustDo":"Do due diligence, disclose footprints, meet collection and recycling rules.","industry":"EV, electronics, energy storage","effort":5,"liability":4,"market":5,"dataIntensity":4,"enforcement":4,"yearNote":"dated"},{"name":"REACH Regulation","short":"REACH","link":"REACH","summary":"Chemicals registration, evaluation, authorization and restriction regime.","policyArea":"Chemicals, product compliance, health, environment","category":"Product","status":"In force","legalStatus":"EU Regulation","firstYear":"Ongoing","yearNum":2000,"phaseIn":"No","directly":"Yes - direct for manufacturers/importers","mustDo":"Register substances, provide SDS, manage restrictions and authorizations.","industry":"Chemicals, manufacturing, consumer goods","effort":5,"liability":5,"market":5,"dataIntensity":4,"enforcement":5,"yearNote":"ongoing"},{"name":"RoHS Directive","short":"RoHS","link":"RoHS","summary":"Restricts hazardous substances in electrical and electronic equipment.","policyArea":"Chemicals, electronics, product compliance","category":"Product","status":"In force","legalStatus":"EU Directive","firstYear":"Ongoing","yearNum":2000,"phaseIn":"No","directly":"Direct for EEE producers/importers","mustDo":"Test materials, ensure substance limits, maintain technical files and declarations.","industry":"Electronics, appliances, IT hardware","effort":4,"liability":4,"market":4,"dataIntensity":3,"enforcement":4,"yearNote":"ongoing"},{"name":"Industrial Emissions Directive","short":"IED","link":"Industrial emissions","summary":"Sets permit, monitoring and BAT-based requirements for large industrial installations.","policyArea":"Air, water, industrial pollution, permitting","category":"Environment","status":"In force / revised","legalStatus":"EU Directive","firstYear":"2028-2030 for revised obligations","yearNum":2028,"phaseIn":"Yes","directly":"Direct for covered installations","mustDo":"Get permits, apply BAT, monitor emissions, report and upgrade processes.","industry":"Power, chemicals, waste, metals, cement","effort":5,"liability":5,"market":5,"dataIntensity":4,"enforcement":5,"yearNote":"dated"},{"name":"Ambient Air Quality Directive","short":"AAQD","link":"Air quality","summary":"Sets ambient air pollutant limits and monitoring obligations.","policyArea":"Air, health, environment","category":"Environment","status":"In force / revised","legalStatus":"EU Directive","firstYear":"Ongoing","yearNum":2000,"phaseIn":"No","directly":"Indirect; direct via public authorities and permit conditions","mustDo":"Reduce local air pollution and meet permit-driven emission limits.","industry":"Industry, transport, municipalities","effort":3,"liability":4,"market":3,"dataIntensity":2,"enforcement":3,"yearNote":"ongoing"},{"name":"Environmental Crime Directive","short":"Revised ECD","link":"Environmental crime","summary":"Harmonizes criminal offences and sanctions for serious environmental harm.","policyArea":"Enforcement, environment, criminal law","category":"Environment","status":"In force / revised","legalStatus":"EU Directive","firstYear":"Member-state transposition period","yearNum":2000,"phaseIn":"No","directly":"Indirect but serious legal exposure","mustDo":"Prevent illegal waste, pollution and wildlife crimes; strengthen internal controls.","industry":"Waste, manufacturing, logistics, extractives","effort":3,"liability":5,"market":3,"dataIntensity":2,"enforcement":5,"yearNote":"ongoing"},{"name":"Environmental Liability Directive","short":"ELD","link":"Environmental liability","summary":"Polluter-pays framework for damage to water, land, protected species and habitats.","policyArea":"Liability, environment, remediation","category":"Environment","status":"In force","legalStatus":"EU Directive","firstYear":"Ongoing","yearNum":2000,"phaseIn":"No","directly":"Indirect but direct where damage occurs","mustDo":"Prevent, report and remediate environmental damage; carry insurance where needed.","industry":"Industry, agriculture, transport, extraction","effort":4,"liability":5,"market":3,"dataIntensity":2,"enforcement":5,"yearNote":"ongoing"},{"name":"Seveso III Directive","short":"Seveso III","link":"Industrial accidents","summary":"Controls major-accident hazards involving dangerous substances.","policyArea":"Safety, chemicals, industrial risk","category":"Environment","status":"In force","legalStatus":"EU Directive","firstYear":"Ongoing","yearNum":2000,"phaseIn":"No","directly":"Direct for high-hazard sites","mustDo":"Notify authorities, safety reports, emergency plans, training and inspections.","industry":"Chemicals, storage, ports, logistics, energy","effort":5,"liability":5,"market":4,"dataIntensity":3,"enforcement":5,"yearNote":"ongoing"},{"name":"Water Framework Directive","short":"WFD (Water)","link":"Water policy","summary":"Core EU framework for water quality, river basin management and ecological status.","policyArea":"Water, environment, permitting","category":"Environment","status":"In force","legalStatus":"EU Directive","firstYear":"Ongoing","yearNum":2000,"phaseIn":"No","directly":"Indirect via permits and water abstractions","mustDo":"Limit discharges, manage abstraction, support basin objectives.","industry":"Agriculture, industry, utilities","effort":3,"liability":4,"market":3,"dataIntensity":2,"enforcement":3,"yearNote":"ongoing"},{"name":"Urban Wastewater Treatment Directive","short":"UWWTD","link":"Wastewater","summary":"Sets collection and treatment requirements for urban wastewater.","policyArea":"Water, sanitation, pollution","category":"Environment","status":"In force / revised","legalStatus":"EU Directive","firstYear":"2025+ for revised obligations","yearNum":2025,"phaseIn":"Yes","directly":"Indirect; direct for utilities and major dischargers","mustDo":"Treat wastewater to required standards and fund/comply with extended producer responsibility elements.","industry":"Utilities, municipalities, food, chemicals","effort":4,"liability":4,"market":3,"dataIntensity":3,"enforcement":4,"yearNote":"dated"},{"name":"Drinking Water Directive","short":"Drinking Water","link":"Drinking water","summary":"Protects human health by regulating drinking water quality and monitoring.","policyArea":"Water, health, consumer protection","category":"Environment","status":"In force / revised","legalStatus":"EU Directive","firstYear":"Ongoing","yearNum":2000,"phaseIn":"No","directly":"Indirect to direct via suppliers","mustDo":"Ensure water quality, monitoring, risk assessment and consumer information.","industry":"Utilities, municipalities, food/beverage","effort":3,"liability":4,"market":2,"dataIntensity":3,"enforcement":3,"yearNote":"ongoing"},{"name":"EU Deforestation Regulation","short":"EUDR","link":"Deforestation-free products","summary":"Requires traceability and due diligence for deforestation-free commodities and products.","policyArea":"Forests, supply chain, trade, due diligence","category":"Environment","status":"In force / phased","legalStatus":"EU Regulation","firstYear":"30 Dec 2026 for large/medium operators; 30 June 2027 for micro/small operators and natural persons","yearNum":2026,"phaseIn":"Yes -- benchmarking/country risk classification already in force since 2025; due diligence statements phase in with the delayed dates above","directly":"Yes - direct for operators and traders","mustDo":"Trace supply chains, collect geolocation, file due diligence statements.","industry":"Cocoa, coffee, soy, palm oil, cattle, wood, rubber","effort":5,"liability":4,"market":5,"dataIntensity":5,"enforcement":5,"yearNote":"dated"},{"name":"Nature Restoration Law","short":"Nature Restoration Law","link":"Nature restoration","summary":"Requires member states to restore degraded ecosystems and improve biodiversity.","policyArea":"Nature, biodiversity, land use","category":"Environment","status":"In force","legalStatus":"EU Regulation/Legal act framework","firstYear":"2026 onwards","yearNum":2026,"phaseIn":"Yes","directly":"Indirect; direct via permits, land use and public funding","mustDo":"Adjust land management, restoration planning, biodiversity monitoring.","industry":"Agriculture, forestry, infrastructure, public sector","effort":3,"liability":3,"market":3,"dataIntensity":2,"enforcement":3,"yearNote":"dated"},{"name":"Birds Directive","short":"Birds Directive","link":"Birds and Habitats","summary":"Protects all wild bird species and habitats across the EU.","policyArea":"Biodiversity, land use, conservation","category":"Environment","status":"In force","legalStatus":"EU Directive","firstYear":"Ongoing","yearNum":2000,"phaseIn":"No","directly":"Indirect","mustDo":"Avoid damaging protected species and breeding sites; assess project impacts.","industry":"Agriculture, construction, energy, forestry","effort":3,"liability":4,"market":2,"dataIntensity":2,"enforcement":4,"yearNote":"ongoing"},{"name":"Habitats Directive","short":"Habitats / Natura 2000","link":"Birds and Habitats","summary":"Protects habitats and species, underpinning Natura 2000 site rules.","policyArea":"Biodiversity, land use, conservation","category":"Environment","status":"In force","legalStatus":"EU Directive","firstYear":"Ongoing","yearNum":2000,"phaseIn":"No","directly":"Indirect","mustDo":"Conduct appropriate assessment, avoid deterioration, implement mitigation.","industry":"Construction, infrastructure, agriculture, forestry","effort":4,"liability":4,"market":3,"dataIntensity":2,"enforcement":4,"yearNote":"ongoing"},{"name":"Marine Strategy Framework Directive","short":"MSFD","link":"Marine strategy","summary":"Achieves good environmental status of EU marine waters.","policyArea":"Marine, biodiversity, pollution","category":"Environment","status":"In force","legalStatus":"EU Directive","firstYear":"Ongoing","yearNum":2000,"phaseIn":"No","directly":"Indirect","mustDo":"Reduce marine pollution, monitor environmental status, support national marine plans.","industry":"Shipping, fisheries, ports, offshore energy","effort":3,"liability":3,"market":2,"dataIntensity":2,"enforcement":2,"yearNote":"ongoing"},{"name":"Soil Monitoring and Resilience Directive","short":"Soil monitoring","link":"Soil strategy","summary":"Proposed framework for soil health monitoring and resilience.","policyArea":"Soil, land use, agriculture","category":"Environment","status":"Proposed / under review","legalStatus":"Would be Directive","firstYear":"Not yet","yearNum":null,"phaseIn":"No","directly":"No unless adopted","mustDo":"Prepare soil data and land stewardship practices.","industry":"Agriculture, forestry, landowners","effort":2,"liability":2,"market":2,"dataIntensity":2,"enforcement":1,"yearNote":"proposed"},{"name":"Corporate Sustainability Due Diligence Directive","short":"CSDDD","link":"Corporate sustainability due diligence","summary":"Requires human-rights and environmental due diligence across operations and value chains.","policyArea":"Human rights, environment, governance, supply chain","category":"Social","status":"Adopted / scope drastically narrowed by Omnibus I (Feb 2026)","legalStatus":"EU Directive - national implementation","firstYear":"Transposition delayed to 26 Jul 2028; obligations apply from 26 Jul 2029; website due-diligence statement applies from FY2030","yearNum":2028,"phaseIn":"Yes","directly":"Yes - direct for large in-scope companies","mustDo":"Identify, prevent, mitigate and remediate harms; adopt transition plans.","industry":"Large EU/non-EU groups, high-risk supply chains","effort":4,"liability":3,"market":5,"dataIntensity":4,"enforcement":4,"yearNote":"dated"},{"name":"Forced Labour Regulation","short":"Forced Labour Regulation","link":"Forced labour","summary":"Bans products made with forced labour from the EU market.","policyArea":"Human rights, trade, supply chain","category":"Social","status":"In force / phased implementation","legalStatus":"EU Regulation","firstYear":"2027+ likely enforcement build-out","yearNum":2027,"phaseIn":"Yes","directly":"Yes - direct for importers/producers","mustDo":"Trace supply chains, remove forced-labour exposure, document remediation.","industry":"Apparel, agriculture, electronics, mining","effort":4,"liability":5,"market":4,"dataIntensity":4,"enforcement":5,"yearNote":"dated"},{"name":"Green Claims Directive","short":"Green Claims Directive","link":"Green claims","summary":"Would require substantiation and verification of environmental claims before marketing.","policyArea":"Consumer protection, marketing, environment","category":"Product","status":"Stalled -- Commission announced intention to withdraw (Jun 2025); not formally withdrawn; no active trilogue as of mid-2026","legalStatus":"Would be Directive","firstYear":"Not yet","yearNum":null,"phaseIn":"No","directly":"Indirect unless adopted","mustDo":"Substantiate claims with robust evidence and third-party verification.","industry":"Consumer brands, retail, FMCG","effort":3,"liability":3,"market":4,"dataIntensity":3,"enforcement":4,"yearNote":"stalled"},{"name":"Empowering Consumers for the Green Transition Directive","short":"Consumer Green Transition","link":"Consumer protection for green transition","summary":"Targets misleading green claims and product durability information.","policyArea":"Consumer protection, marketing, circular economy","category":"Product","status":"In force / transposition","legalStatus":"EU Directive","firstYear":2026,"yearNum":2026,"phaseIn":"No","directly":"Indirect to direct via national law","mustDo":"Review environmental claims, labels and durability statements.","industry":"Retail, consumer goods, e-commerce","effort":3,"liability":3,"market":4,"dataIntensity":2,"enforcement":3,"yearNote":"dated"},{"name":"Pay Transparency Directive","short":"Pay Transparency","link":"Gender equality and pay transparency","summary":"Requires pay transparency and reporting to reduce gender pay gaps.","policyArea":"Social, HR, governance","category":"Social","status":"In force / transposition","legalStatus":"EU Directive","firstYear":"Transposition deadline 7 June 2026 (single hard deadline, not phased); only ~4 of 27 member states met it on time (Slovakia, Italy, Lithuania, Malta); gender pay-gap reporting itself phases in 2027 (250+ employees) through 2031 (100-149 employees)","yearNum":2026,"phaseIn":"No","directly":"Direct for employers above thresholds","mustDo":"Publish pay information, conduct pay gap analysis and remediate unjustified gaps.","industry":"Employers, HR-intensive sectors","effort":3,"liability":3,"market":3,"dataIntensity":2,"enforcement":4,"yearNote":"dated"},{"name":"Occupational Safety and Health Framework Directive","short":"OSH Framework","link":"Health and safety at work","summary":"EU framework for workplace health and safety duties.","policyArea":"Social, safety, labour","category":"Social","status":"In force","legalStatus":"EU Directive","firstYear":"Ongoing","yearNum":2000,"phaseIn":"No","directly":"Direct through national rules","mustDo":"Risk assess, train, prevent accidents and maintain safe workplaces.","industry":"All sectors","effort":4,"liability":5,"market":2,"dataIntensity":2,"enforcement":4,"yearNote":"ongoing"},{"name":"Whistleblower Protection Directive","short":"Whistleblower","link":"Whistleblower protection","summary":"Requires internal reporting channels and protection against retaliation.","policyArea":"Governance, compliance, ethics","category":"Governance","status":"In force","legalStatus":"EU Directive","firstYear":"Ongoing","yearNum":2000,"phaseIn":"No","directly":"Direct for covered employers","mustDo":"Set up reporting channels, investigate, protect reporters.","industry":"All sectors","effort":3,"liability":4,"market":2,"dataIntensity":2,"enforcement":4,"yearNote":"ongoing"},{"name":"AML framework","short":"AML package","link":"Anti-money laundering","summary":"EU rules to prevent money laundering and terrorist financing.","policyArea":"Finance, governance, crime prevention","category":"Governance","status":"In force / reforming","legalStatus":"Mix of directives and regulation","firstYear":"2025-2027 reforms","yearNum":2025,"phaseIn":"Yes","directly":"Direct for obliged entities","mustDo":"Conduct KYC, screening, suspicious activity reporting and risk controls.","industry":"Banks, fintech, real estate, professional services","effort":4,"liability":5,"market":3,"dataIntensity":3,"enforcement":5,"yearNote":"dated"},{"name":"Critical Raw Materials Act","short":"CRMA","link":"Critical raw materials","summary":"Improves EU security of supply for strategic raw materials, processing and recycling.","policyArea":"Raw materials, industrial policy, supply chain","category":"Environment","status":"In force","legalStatus":"EU Regulation","firstYear":"2025 onward","yearNum":2025,"phaseIn":"Yes","directly":"Indirect to direct for strategic projects","mustDo":"Diversify sourcing, support recycling, monitor strategic supply risks.","industry":"Battery, EV, renewables, electronics, defense","effort":4,"liability":3,"market":5,"dataIntensity":3,"enforcement":3,"yearNote":"dated"},{"name":"Product Liability Directive","short":"Revised PLD","link":"Product liability","summary":"Expands liability for defective products, including software and AI-related products.","policyArea":"Consumer protection, liability, digital","category":"Product","status":"Adopted / transposition","legalStatus":"EU Directive","firstYear":"2026-2027","yearNum":2026,"phaseIn":"No","directly":"Direct for manufacturers and importers","mustDo":"Strengthen product safety, traceability, warnings, and claims handling.","industry":"Manufacturing, software, AI, consumer goods","effort":4,"liability":5,"market":4,"dataIntensity":3,"enforcement":5,"yearNote":"dated"},{"name":"Benchmark Regulation","short":"ESG and climate benchmarks","link":"Benchmarks","summary":"Climate benchmark categories and disclosure rules for benchmark administrators.","policyArea":"Sustainable finance, benchmarks","category":"Finance","status":"In force","legalStatus":"EU Regulation","firstYear":2020,"yearNum":2020,"phaseIn":"No","directly":"Direct for benchmark administrators","mustDo":"Disclose methodology and climate alignment.","industry":"Index providers, asset managers","effort":3,"liability":3,"market":4,"dataIntensity":3,"enforcement":3,"yearNote":"dated"},{"name":"European Social Pillar initiatives","short":"Social Pillar","link":"European Pillar of Social Rights","summary":"Non-binding policy agenda covering fair jobs, skills, equality and social protection.","policyArea":"Social, employment, labour policy","category":"Social","status":"Policy framework / ongoing","legalStatus":"Voluntary / policy initiative","firstYear":"Ongoing","yearNum":2000,"phaseIn":"No","directly":"Indirect","mustDo":"Align HR policies with social and labour best practices.","industry":"All sectors","effort":2,"liability":1,"market":2,"dataIntensity":1,"enforcement":1,"yearNote":"ongoing"},{"name":"Marine-related environmental crime provisions","short":"Marine crime","link":"Environmental crime","summary":"Criminal-law coverage for serious marine pollution and illegal discharge conduct.","policyArea":"Marine, enforcement, crime","category":"Environment","status":"In force / reinforced","legalStatus":"EU Directive and national criminal law","firstYear":"Ongoing","yearNum":2000,"phaseIn":"No","directly":"Indirect","mustDo":"Prevent unlawful discharges and strengthen vessel/port controls.","industry":"Shipping, ports, offshore, waste","effort":3,"liability":5,"market":2,"dataIntensity":1,"enforcement":5,"yearNote":"ongoing"},{"name":"Sector-specific delegated acts under EU Taxonomy","short":"Taxonomy delegated acts","link":"EU Taxonomy","summary":"Technical screening criteria by sector and activity under the Taxonomy framework. finance.ec.europa","policyArea":"Sustainable finance, sector rules, reporting","category":"Finance","status":"In force / expanding","legalStatus":"Delegated acts under EU Regulation","firstYear":"2022 onward","yearNum":2022,"phaseIn":"Yes","directly":"Yes - direct for covered sectors","mustDo":"Test activity against screening criteria and disclose metrics.","industry":"Energy, manufacturing, transport, real estate, ICT","effort":4,"liability":3,"market":5,"dataIntensity":4,"enforcement":3,"yearNote":"dated"}]
+</script>
+<script>
+const REGS = JSON.parse(document.getElementById('regsData').textContent);
+
+const CATS = {
+  'Environment':      { color: 'var(--cat-env)',  hex:'#4ade80' },
+  'Social':           { color: 'var(--cat-soc)',  hex:'#e879f9' },
+  'Governance':       { color: 'var(--cat-gov)',  hex:'#93c5fd' },
+  'Product':          { color: 'var(--cat-prod)', hex:'#f97316' },
+  'Finance':          { color: 'var(--cat-fin)',  hex:'#eab308' },
+  'Data & Reporting': { color: 'var(--cat-data)', hex:'#a78bfa' },
+};
+
+const INDUSTRIES = [
+  { value:'all',       label:'All Industries',              kw:[] },
+  { value:'energy',    label:'Energy & Utilities',           kw:['power','energy','utilities','renewables','electricity','hydrogen','fuel suppliers','fuels','fuel retail','all energy-intensive sectors'] },
+  { value:'mfg',        label:'Manufacturing & Heavy Industry', kw:['manufacturing','industry','industrial tech','extractives','extraction','metals','mining','cement','steel','aluminium','defense','all energy-intensive sectors'] },
+  { value:'chem',       label:'Chemicals & Industrial Risk',   kw:['chemicals','storage','refrigeration','hvac','supermarkets','data centers','all energy-intensive sectors'] },
+  { value:'fin',        label:'Financial Services',            kw:['banks','asset managers','insurers','fintech','financial institutions','investors','pensions','advisers','issuers','sovereigns','index providers','ratings agencies','corporates','large corporates'] },
+  { value:'tech',       label:'Technology, AI & Digital Platforms', kw:['ai','platforms','social media','hosting','marketplaces','cloud','iot','software','ict','deployers','large digital platforms'] },
+  { value:'retail',     label:'Retail & Consumer Goods',       kw:['retail','consumer goods','e-commerce','fmcg','consumer brands','apparel'] },
+  { value:'auto',       label:'Automotive & Mobility',         kw:['automotive','mobility','ev','dismantlers'] },
+  { value:'transport',  label:'Transport, Shipping & Logistics', kw:['transport','logistics','shipping','aviation','marine fuels','ports','offshore energy','offshore'] },
+  { value:'construction',label:'Construction & Real Estate',   kw:['construction','real estate','buildings','landowners','infrastructure'] },
+  { value:'agri',       label:'Agriculture & Forestry',        kw:['agriculture','forestry','cattle','cocoa','coffee','palm oil','soy','rubber','wood','fisheries'] },
+  { value:'electronics',label:'Electronics & IT Hardware',     kw:['electronics','it hardware','appliances'] },
+  { value:'waste',      label:'Waste & Circular Economy',      kw:['waste','recycling'] },
+  { value:'public',     label:'Public Sector & Municipalities',kw:['public sector','public bodies','municipalities'] },
+  { value:'hr',         label:'Employers / HR-Intensive Sectors', kw:['employers','hr-intensive sectors'] },
+];
+
+const state = { year: 2031, industry: 'all', activeCats: new Set(Object.keys(CATS)), selectedReg: null, pinned: false };
+
+/* ---------- helpers ---------- */
+function hashStr(s){ let h=0; for(let i=0;i<s.length;i++){ h=(h*31+s.charCodeAt(i))|0; } return h; }
+function jitter(seed, mag){ const h = hashStr(seed); const a = ((h % 1000)/1000); return (a-0.5)*2*mag; }
+function tokenize(industryStr){ return (industryStr||'').toLowerCase().split(',').map(s=>s.trim()).filter(Boolean); }
+function matchesIndustry(reg, indValue){
+  if (indValue==='all') return true;
+  const tokens = tokenize(reg.industry);
+  const lower = (reg.industry||'').toLowerCase();
+  if (lower.includes('all sectors')) return true;
+  const group = INDUSTRIES.find(i=>i.value===indValue);
+  if (!group) return true;
+  return group.kw.some(kw => tokens.some(t => kw.length<=3 ? t===kw : t.includes(kw)));
+}
+function yearVisible(reg, y){
+  if (y >= 2031) return true; // "All"
+  if (reg.yearNote === 'withdrawn' || reg.yearNote === 'proposed' || reg.yearNote === 'stalled') return true; // always show, styled distinctly
+  return reg.yearNum !== null && reg.yearNum <= y;
+}
+function isVisible(reg){
+  return state.activeCats.has(reg.category) && matchesIndustry(reg, state.industry) && yearVisible(reg, state.year);
+}
+
+/* ---------- legend ---------- */
+const legendRow = document.getElementById('legendRow');
+Object.keys(CATS).forEach(cat=>{
+  const chip = document.createElement('div');
+  chip.className = 'legend-chip';
+  chip.dataset.cat = cat;
+  chip.innerHTML = `<span class="dot" style="background:${CATS[cat].hex}"></span>${cat}`;
+  chip.onclick = ()=>{
+    if (state.activeCats.has(cat)) { state.activeCats.delete(cat); chip.classList.add('off'); }
+    else { state.activeCats.add(cat); chip.classList.remove('off'); }
+    renderAll();
+  };
+  legendRow.appendChild(chip);
+});
+
+/* ---------- industry select ---------- */
+const indSel = document.getElementById('industrySelect');
+INDUSTRIES.forEach(i=>{
+  const opt = document.createElement('option');
+  opt.value = i.value; opt.textContent = i.label;
+  indSel.appendChild(opt);
+});
+indSel.onchange = ()=>{ state.industry = indSel.value; renderAll(); };
+
+/* ---------- year slider ---------- */
+const yearSlider = document.getElementById('yearSlider');
+const yearReadout = document.getElementById('yearReadout');
+yearSlider.oninput = ()=>{
+  state.year = parseInt(yearSlider.value,10);
+  yearReadout.textContent = state.year >= 2031 ? 'All years' : ('By ' + state.year);
+  renderAll();
+};
+
+/* ---------- reset ---------- */
+document.getElementById('resetBtn').onclick = ()=>{
+  state.year = 2031; state.industry = 'all'; state.activeCats = new Set(Object.keys(CATS));
+  yearSlider.value = 2031; yearReadout.textContent = 'All years'; indSel.value = 'all';
+  document.querySelectorAll('.legend-chip').forEach(c=>c.classList.remove('off'));
+  state.selectedReg = null; state.pinned = false;
+  renderAll();
+};
+
+/* ---------- scatter chart ---------- */
+const svgNS = 'http://www.w3.org/2000/svg';
+const svg = document.getElementById('scatterSvg');
+const PAD = { l:54, r:22, t:22, b:54 };
+const W = 500, H = 500;
+const plotW = W - PAD.l - PAD.r, plotH = H - PAD.t - PAD.b;
+function sx(effort){ return PAD.l + ((effort-1)/4) * plotW; }
+function sy(liab){ return PAD.t + (1 - (liab-1)/4) * plotH; }
+function clamp(v, lo, hi){ return Math.max(lo, Math.min(hi, v)); }
+
+function buildChart(){
+  svg.innerHTML = '';
+  // grid
+  for (let v=1; v<=5; v++){
+    const gx = sx(v), gy = sy(v);
+    const vline = document.createElementNS(svgNS,'line');
+    vline.setAttribute('x1', gx); vline.setAttribute('x2', gx);
+    vline.setAttribute('y1', PAD.t); vline.setAttribute('y2', H-PAD.b);
+    vline.setAttribute('class', 'grid-line' + (v===3?' mid':''));
+    svg.appendChild(vline);
+    const hline = document.createElementNS(svgNS,'line');
+    hline.setAttribute('y1', gy); hline.setAttribute('y2', gy);
+    hline.setAttribute('x1', PAD.l); hline.setAttribute('x2', W-PAD.r);
+    hline.setAttribute('class', 'grid-line' + (v===3?' mid':''));
+    svg.appendChild(hline);
+    const xl = document.createElementNS(svgNS,'text');
+    xl.setAttribute('x', gx); xl.setAttribute('y', H-PAD.b+16);
+    xl.setAttribute('text-anchor','middle'); xl.setAttribute('class','axis-label');
+    xl.textContent = v; svg.appendChild(xl);
+    const yl = document.createElementNS(svgNS,'text');
+    yl.setAttribute('x', PAD.l-10); yl.setAttribute('y', gy+3);
+    yl.setAttribute('text-anchor','end'); yl.setAttribute('class','axis-label');
+    yl.textContent = v; svg.appendChild(yl);
+  }
+  // axis titles
+  const xt = document.createElementNS(svgNS,'text');
+  xt.setAttribute('x', PAD.l + plotW/2); xt.setAttribute('y', H-8);
+  xt.setAttribute('text-anchor','middle'); xt.setAttribute('class','axis-label');
+  xt.setAttribute('style','letter-spacing:0.12em;'); xt.textContent = 'EFFORT →  (implementation burden)';
+  svg.appendChild(xt);
+  const yt = document.createElementNS(svgNS,'text');
+  yt.setAttribute('x', 0); yt.setAttribute('y', 0);
+  yt.setAttribute('transform', `translate(14, ${PAD.t + plotH/2}) rotate(-90)`);
+  yt.setAttribute('text-anchor','middle'); yt.setAttribute('class','axis-label');
+  yt.setAttribute('style','letter-spacing:0.12em;'); yt.textContent = 'LIABILITY →  (legal exposure)';
+  svg.appendChild(yt);
+
+  // dots
+  const DOT_R_MAX = 8.5, DOT_STROKE = 1.4, EDGE_BUFFER = DOT_R_MAX + DOT_STROKE + 0.6;
+  REGS.forEach(reg=>{
+    const vis = isVisible(reg);
+    let cx = sx(reg.effort) + jitter(reg.name+'x', 9);
+    let cy = sy(reg.liability) + jitter(reg.name+'y', 9);
+    cx = clamp(cx, PAD.l + EDGE_BUFFER, W - PAD.r - EDGE_BUFFER);
+    cy = clamp(cy, PAD.t + EDGE_BUFFER, H - PAD.b - EDGE_BUFFER);
+    const c = document.createElementNS(svgNS,'circle');
+    c.setAttribute('cx', cx); c.setAttribute('cy', cy);
+    c.setAttribute('r', reg.name===((state.selectedReg||{}).name) ? DOT_R_MAX : 6.2);
+    c.setAttribute('fill', CATS[reg.category].hex);
+    const isFaded = (reg.yearNote==='withdrawn' || reg.yearNote==='proposed' || reg.yearNote==='stalled');
+    c.setAttribute('class', 'reg-dot' + (vis?'':' dim') + (isFaded?' faded-status':'') + (reg.name===((state.selectedReg||{}).name)?' selected':''));
+    c.dataset.name = reg.name;
+    c.addEventListener('mouseenter', ()=>{ if(!state.pinned) showDetail(reg); });
+    c.addEventListener('mouseleave', ()=>{ if(!state.pinned) showDetail(state.selectedReg && state.pinned ? state.selectedReg : null); });
+    c.addEventListener('click', ()=>{ state.selectedReg = reg; state.pinned = true; showDetail(reg); highlightRow(reg); buildChart(); });
+    svg.appendChild(c);
+  });
+}
+
+/* ---------- radar / detail panel ---------- */
+function buildRadarSVG(reg){
+  const labels = ['Effort','Liability','Market Impact','Data Int.','Enforcement'];
+  const vals = [reg.effort, reg.liability, reg.market, reg.dataIntensity, reg.enforcement];
+  const cx=160, cy=142, R=104;
+  const pts = vals.map((v,i)=>{
+    const ang = (-90 + i*72) * Math.PI/180;
+    const r = (v/5)*R;
+    return [cx + r*Math.cos(ang), cy + r*Math.sin(ang)];
+  });
+  const gridRings = [0.25,0.5,0.75,1].map(f=>{
+    const p = [0,1,2,3,4].map(i=>{
+      const ang = (-90 + i*72)*Math.PI/180;
+      const r = f*R;
+      return `${cx+r*Math.cos(ang)},${cy+r*Math.sin(ang)}`;
+    }).join(' ');
+    return `<polygon class="radar-grid" points="${p}"/>`;
+  }).join('');
+  const axes = [0,1,2,3,4].map(i=>{
+    const ang = (-90+i*72)*Math.PI/180;
+    return `<line class="radar-axis" x1="${cx}" y1="${cy}" x2="${cx+R*Math.cos(ang)}" y2="${cy+R*Math.sin(ang)}"/>`;
+  }).join('');
+  const labelEls = [0,1,2,3,4].map(i=>{
+    const ang = (-90+i*72)*Math.PI/180;
+    const lx = cx + (R+26)*Math.cos(ang), ly = cy + (R+26)*Math.sin(ang);
+    return `<text class="radar-label" x="${lx}" y="${ly}" text-anchor="middle">${labels[i]} (${vals[i]})</text>`;
+  }).join('');
+  const shapePts = pts.map(p=>p.join(',')).join(' ');
+  const dots = pts.map(p=>`<circle class="radar-pt" cx="${p[0]}" cy="${p[1]}" r="3"/>`).join('');
+  return `<svg id="radarSvg" viewBox="0 0 320 290" xmlns="http://www.w3.org/2000/svg">
+    ${gridRings}${axes}
+    <polygon class="radar-shape" points="${shapePts}"/>
+    ${dots}${labelEls}
+  </svg>`;
+}
+
+function showDetail(reg){
+  const panel = document.getElementById('detailPanel');
+  if (!reg){
+    panel.innerHTML = `<div class="detail-empty"><span class="icon">◎</span>Hover or click a dot - or a row in the table below - to see its full five-factor profile.</div>`;
+    return;
+  }
+  const statusFlag = reg.yearNote==='withdrawn' ? '<span class="pill" style="color:#f87171;border-color:rgba(248,113,113,0.35)">Withdrawn</span>'
+                    : reg.yearNote==='stalled' ? '<span class="pill" style="color:#fbbf24;border-color:rgba(251,191,36,0.35)">Stalled - not withdrawn</span>'
+                    : reg.yearNote==='proposed' ? '<span class="pill" style="color:#fbbf24;border-color:rgba(251,191,36,0.35)">Proposed</span>' : '';
+  panel.innerHTML = `
+    <div>
+      <span class="detail-cat-badge" style="background:${CATS[reg.category].hex}22;color:${CATS[reg.category].hex};border:1px solid ${CATS[reg.category].hex}55">${reg.category}</span>
+      <div class="detail-name">${reg.name}</div>
+      <div class="detail-short">${reg.short}</div>
+      <div class="detail-status-row"><span class="pill">${reg.status}</span>${statusFlag}</div>
+    </div>
+    ${buildRadarSVG(reg)}
+    <div class="detail-summary">${reg.summary}</div>
+    <div class="detail-field"><div class="detail-field-label">First compliance</div><div class="detail-field-value">${reg.firstYear}</div></div>
+    <div class="detail-field"><div class="detail-field-label">Businesses must</div><div class="detail-field-value">${reg.mustDo}</div></div>
+    <div class="detail-field"><div class="detail-field-label">Applies to</div><div class="detail-field-value">${reg.industry}</div></div>
+  `;
+}
+
+/* ---------- table ---------- */
+function highlightRow(reg){
+  document.querySelectorAll('table.regtable tbody tr').forEach(r=>r.classList.remove('selected-row'));
+  const row = document.querySelector(`tr[data-name="${CSS.escape(reg.name)}"]`);
+  if (row) row.classList.add('selected-row');
+}
+function buildTable(){
+  const tbody = document.getElementById('tableBody');
+  tbody.innerHTML = '';
+  const visible = REGS.filter(isVisible);
+  visible.forEach(reg=>{
+    const tr = document.createElement('tr');
+    tr.dataset.name = reg.name;
+    const naOrVal = (v)=> (v===null||v===undefined) ? '<span class="t-badge-na">-</span>' : v;
+    tr.innerHTML = `
+      <td><div class="t-name">${reg.name}</div><div class="t-short">${reg.short}</div></td>
+      <td><span class="t-cat-dot" style="background:${CATS[reg.category].hex}"></span>${reg.category}</td>
+      <td>${reg.status}</td>
+      <td>${reg.firstYear}</td>
+      <td class="t-score">${reg.effort}</td>
+      <td class="t-score">${reg.liability}</td>
+      <td class="t-score">${reg.market}</td>
+      <td class="t-score">${reg.dataIntensity}</td>
+      <td class="t-score">${reg.enforcement}</td>
+      <td>${reg.industry}</td>
+    `;
+    tr.onclick = ()=>{ state.selectedReg = reg; state.pinned = true; showDetail(reg); highlightRow(reg); buildChart(); };
+    tbody.appendChild(tr);
+  });
+  document.getElementById('shortlistCount').textContent = visible.length;
+  const indLabel = INDUSTRIES.find(i=>i.value===state.industry).label;
+  const yearLabel = state.year>=2031 ? 'all years' : ('applicable by ' + state.year);
+  document.getElementById('chartSub').textContent = `Showing ${visible.length} of 60 regulations - ${indLabel}, ${yearLabel}.`;
+}
+
+function renderAll(){ buildChart(); buildTable(); }
+renderAll();
+</script>
+</body>
+</html>

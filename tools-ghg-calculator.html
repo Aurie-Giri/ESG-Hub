@@ -1,0 +1,1684 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GHG Emissions Calculator - Aurie's Knowledge Hub</title>
+<meta name="description" content="A multi-year, multi-facility GHG inventory calculator aligned to the GHG Protocol, SBTi Corporate Net-Zero Standard, and ISO 14064 - with full calculation lineage and local save/load so your work is never lost.">
+<meta name="robots" content="index, follow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Inter:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --green-deep:#0e2b1a;--green-mid:#1a3d28;--green-light:#234d33;--green-dark:#091f12;
+  --gold:#c9a84c;--gold-light:#e0c07a;--gold-dim:rgba(201,168,76,0.15);
+  --white:#ffffff;--muted:#8a9e90;--border:rgba(201,168,76,0.18);
+  --serif:'Cormorant Garamond',Georgia,serif;--sans:'Inter',system-ui,sans-serif;--mono:'DM Mono',monospace;
+  --acc:#1D9E75;--acc-dim:rgba(29,158,117,0.10);--acc-bdr:rgba(29,158,117,0.28);--acc-light:#5DCAA5;
+  --warn:#e07070;--warn-dim:rgba(224,112,112,0.12);--warn-bdr:rgba(224,112,112,0.32);
+  --s1:#4ade80;--s1-dim:rgba(74,222,128,0.14);
+  --s2:#93c5fd;--s2-dim:rgba(147,197,253,0.14);
+  --s3:#e879f9;--s3-dim:rgba(232,121,249,0.14);
+  --tier1:#4ade80;--tier2:#c9a84c;--tier3:#e07070;
+}
+html{scroll-behavior:smooth}
+body{background:var(--green-deep);color:var(--white);font-family:var(--sans);font-weight:300;font-size:15px;line-height:1.7;min-height:100vh}
+::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:var(--green-deep)}::-webkit-scrollbar-thumb{background:rgba(201,168,76,0.35);border-radius:3px}
+
+/* ── PAGE HEADER ── */
+.page-header{padding:6.5rem 2.5rem 2.2rem;background:radial-gradient(ellipse at 65% 40%,rgba(26,61,40,0.9) 0%,var(--green-deep) 65%);border-bottom:1px solid var(--border)}
+.back-link{font-size:0.7rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);text-decoration:none;display:inline-flex;align-items:center;gap:6px;margin-bottom:1.1rem;transition:color 0.15s}
+.back-link:hover{color:var(--gold)}
+.page-eyebrow{font-size:0.7rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--gold);margin-bottom:1.1rem;display:flex;align-items:center;gap:1rem}
+.page-eyebrow::before{content:'';width:2.5rem;height:1px;background:var(--gold);display:inline-block}
+h1.page-title{font-family:var(--serif);font-size:clamp(2.1rem,3.8vw,3.2rem);font-weight:300;line-height:1.1;margin-bottom:0.7rem}
+h1.page-title em{font-style:italic;color:var(--gold)}
+.page-desc{font-size:0.95rem;color:rgba(255,255,255,0.58);max-width:700px;line-height:1.8;margin-bottom:1.4rem}
+.header-meta{display:flex;gap:8px;flex-wrap:wrap}
+.meta-badge{padding:4px 13px;font-size:10px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;font-family:var(--sans)}
+
+/* ── SAVE STATUS STRIP ── */
+.save-strip{background:var(--green-mid);border-bottom:1px solid var(--border);padding:10px 2.5rem;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.save-strip-left{display:flex;align-items:center;gap:10px;flex:1;min-width:200px}
+.save-dot{width:7px;height:7px;border-radius:50%;background:var(--acc);flex-shrink:0;box-shadow:0 0 6px var(--acc-bdr)}
+.save-dot.unsaved{background:var(--gold);box-shadow:0 0 6px var(--gold-dim)}
+.save-status-text{font-size:0.76rem;color:rgba(255,255,255,0.55);font-family:var(--mono)}
+.save-actions{display:flex;gap:8px;flex-wrap:wrap}
+.btn{font-family:var(--sans);font-size:0.72rem;font-weight:500;letter-spacing:0.05em;padding:7px 16px;border:1px solid rgba(201,168,76,0.3);background:transparent;color:rgba(255,255,255,0.75);cursor:pointer;transition:all 0.15s;text-transform:uppercase}
+.btn:hover{border-color:var(--gold);color:var(--gold-light);background:var(--gold-dim)}
+.btn.btn-primary{background:var(--acc-dim);border-color:var(--acc-bdr);color:var(--acc-light)}
+.btn.btn-primary:hover{background:rgba(29,158,117,0.22);border-color:var(--acc)}
+.btn.btn-warn{border-color:var(--warn-bdr);color:var(--warn)}
+.btn.btn-warn:hover{background:var(--warn-dim);border-color:var(--warn)}
+.btn.btn-gold{background:var(--gold-dim);border-color:rgba(201,168,76,0.4);color:var(--gold)}
+.btn.btn-gold:hover{background:rgba(201,168,76,0.25);border-color:var(--gold)}
+input.file-input-hidden{display:none}
+
+/* ── RESTORE BANNER ── */
+.restore-banner{background:var(--acc-dim);border-bottom:1px solid var(--acc-bdr);padding:12px 2.5rem;display:none;align-items:center;gap:16px;flex-wrap:wrap}
+.restore-banner.show{display:flex}
+.restore-text{font-size:0.82rem;color:rgba(255,255,255,0.8);flex:1;min-width:240px}
+.restore-text b{color:var(--acc-light)}
+
+/* ── PERIOD & FACILITY BAR ── */
+.context-bar{background:var(--green-deep);border-bottom:1px solid var(--border);padding:14px 2.5rem;display:flex;gap:18px;align-items:center;flex-wrap:wrap}
+.context-group{display:flex;align-items:center;gap:8px}
+.context-label{font-size:9px;letter-spacing:0.16em;text-transform:uppercase;color:var(--muted);font-family:var(--sans)}
+.context-select{font-family:var(--sans);font-size:0.82rem;padding:6px 10px;border:1px solid rgba(201,168,76,0.25);background:var(--green-mid);color:var(--white);min-width:110px}
+.context-select:focus{outline:none;border-color:var(--gold)}
+.context-add{font-size:0.7rem;color:var(--acc-light);background:none;border:1px dashed var(--acc-bdr);padding:5px 11px;cursor:pointer;transition:all 0.15s}
+.context-add:hover{background:var(--acc-dim);border-color:var(--acc)}
+
+/* ── TAB NAV ── */
+.page-nav{background:var(--green-mid);border-bottom:1px solid var(--border);padding:0 2.5rem;display:flex;overflow-x:auto}
+.page-nav-link{padding:13px 22px;font-size:0.74rem;letter-spacing:0.08em;text-transform:uppercase;color:rgba(255,255,255,0.45);text-decoration:none;border-bottom:2px solid transparent;white-space:nowrap;transition:all 0.15s;cursor:pointer;background:none;border-top:none;border-left:none;border-right:none;font-family:var(--sans)}
+.page-nav-link:hover{color:var(--gold-light)}
+.page-nav-link.active{color:var(--gold);border-bottom-color:var(--gold)}
+
+/* ── MAIN / SECTIONS ── */
+main{padding:0 2.5rem 5rem;max-width:1100px;margin:0 auto}
+.scope-panel{display:none;padding-top:2.5rem}
+.scope-panel.active{display:block}
+.section-divider{border-top:2px solid var(--gold);position:relative;margin:2.5rem 0 1.6rem}
+.section-divider:first-child{margin-top:0}
+.section-divider-label{position:absolute;top:-12px;left:0;background:var(--green-deep);padding:0 14px 0 0;font-size:9px;letter-spacing:0.22em;text-transform:uppercase;color:var(--gold);font-family:var(--sans);font-weight:500}
+h2.panel-title{font-family:var(--serif);font-size:1.5rem;font-weight:300;color:var(--white);margin-bottom:0.6rem}
+h3.sub-title{font-family:var(--serif);font-size:1.1rem;font-weight:400;color:var(--acc-light);margin:1.8rem 0 0.6rem}
+.note{font-size:0.82rem;color:rgba(255,255,255,0.6);background:rgba(201,168,76,0.05);border-left:3px solid var(--gold);padding:10px 16px;margin:10px 0 16px;line-height:1.65}
+.note b{color:var(--gold-light)}
+
+/* ── ENTRY TABLES ── */
+.table-wrap{overflow-x:auto;border:1px solid var(--border);margin-top:6px}
+table.entry-table{width:100%;border-collapse:collapse;min-width:640px;font-size:0.85rem}
+table.entry-table thead tr{background:var(--green-mid)}
+table.entry-table th{padding:9px 12px;text-align:left;font-size:0.66rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);font-weight:500;border-bottom:1px solid var(--border);white-space:nowrap}
+table.entry-table tbody tr{border-bottom:1px solid rgba(255,255,255,0.05);transition:background 0.12s}
+table.entry-table tbody tr:hover{background:rgba(255,255,255,0.025)}
+table.entry-table td{padding:7px 10px;vertical-align:middle}
+table.entry-table input,table.entry-table select{
+  font-family:var(--mono);font-size:0.78rem;padding:5px 8px;border:1px solid rgba(201,168,76,0.22);
+  background:var(--green-dark);color:var(--white);width:100%;min-width:80px
+}
+table.entry-table input:focus,table.entry-table select:focus{outline:none;border-color:var(--gold)}
+.col-actions{width:36px}
+.del-row{background:none;border:none;color:var(--warn);cursor:pointer;font-size:15px;opacity:0.7;transition:opacity 0.15s}
+.del-row:hover{opacity:1}
+button.add-row{font-family:var(--sans);font-size:0.74rem;color:var(--acc-light);background:var(--acc-dim);border:1px dashed var(--acc-bdr);padding:7px 16px;cursor:pointer;margin-top:10px;transition:all 0.15s}
+button.add-row:hover{background:rgba(29,158,117,0.2);border-color:var(--acc)}
+
+/* ── TIER TAGS ── */
+.tag{font-family:var(--mono);font-size:9.5px;border:1px solid;padding:2px 7px;border-radius:2px;letter-spacing:0.04em;white-space:nowrap}
+.tag.tier1{background:rgba(74,222,128,0.12);color:var(--tier1);border-color:rgba(74,222,128,0.3)}
+.tag.tier2{background:rgba(201,168,76,0.12);color:var(--tier2);border-color:rgba(201,168,76,0.3)}
+.tag.tier3{background:rgba(224,112,112,0.12);color:var(--tier3);border-color:rgba(224,112,112,0.3)}
+
+/* ── TOOLBAR ── */
+.toolbar{display:flex;gap:10px;margin:18px 0;flex-wrap:wrap}
+
+/* ── KPI / STAT CARDS ── */
+.results-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1px;margin-top:18px;background:var(--border);border:1px solid var(--border)}
+.stat-card{background:var(--green-mid);padding:20px 22px;position:relative;overflow:hidden;transition:background 0.2s}
+.stat-card:hover{background:var(--green-light)}
+.stat-card.stat-total{border-top:2px solid var(--gold)}
+.stat-card.stat-s1{border-top:2px solid var(--s1)}
+.stat-card.stat-s2{border-top:2px solid var(--s2)}
+.stat-card.stat-s3{border-top:2px solid var(--s3)}
+.stat-ghost{position:absolute;top:-8px;right:10px;font-family:var(--serif);font-size:64px;font-weight:300;opacity:0.05;line-height:1;pointer-events:none}
+.stat-label{font-size:9.5px;letter-spacing:0.16em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.stat-value{font-family:var(--serif);font-size:2.1rem;font-weight:300;color:var(--white);line-height:1}
+.stat-meta{font-size:0.74rem;color:var(--muted);margin-top:6px;font-family:var(--mono)}
+
+/* ── TARGET CARDS (SBTi / Net Zero) ── */
+.target-card{border:1px solid var(--border);border-top:2px solid var(--acc);background:var(--green-mid);padding:22px 26px;margin-top:14px}
+.target-card h4{font-family:var(--serif);font-size:1.05rem;font-weight:400;color:var(--white);margin-bottom:12px}
+table.input-grid{width:100%;border-collapse:collapse;margin-bottom:10px}
+table.input-grid td{padding:6px 10px;font-size:0.78rem;color:rgba(255,255,255,0.55);vertical-align:middle}
+table.input-grid td:nth-child(odd){white-space:nowrap;padding-right:6px}
+table.input-grid input{font-family:var(--mono);font-size:0.8rem;padding:6px 9px;border:1px solid rgba(201,168,76,0.22);background:var(--green-dark);color:var(--white);width:100%;min-width:80px}
+table.input-grid input:focus{outline:none;border-color:var(--gold)}
+table.traj-table{width:100%;font-size:0.78rem;border-collapse:collapse;margin-top:12px}
+table.traj-table th,table.traj-table td{border:1px solid var(--border);padding:5px 10px;text-align:right;font-family:var(--mono)}
+table.traj-table th{background:var(--green-deep);color:var(--gold);font-weight:500;letter-spacing:0.04em}
+.target-output p{font-size:0.85rem;color:rgba(255,255,255,0.7);line-height:1.7;margin-bottom:6px}
+.target-output b{color:var(--gold-light)}
+.disclaimer-line{font-size:0.74rem;color:var(--muted);font-style:italic;margin-top:10px}
+
+/* ── LINEAGE / JSON PREVIEW ── */
+.lineage-wrap,.json-wrap{background:var(--green-dark);border:1px solid var(--border);margin-top:8px}
+pre.lineage-pre,pre.json-pre{font-family:var(--mono);font-size:0.74rem;color:var(--acc-light);padding:16px 18px;max-height:320px;overflow:auto;white-space:pre-wrap;line-height:1.6}
+
+/* ── ERROR BOX ── */
+.errbox{background:var(--warn-dim);border:1px solid var(--warn-bdr);color:var(--warn);padding:10px 14px;font-size:0.82rem;margin-top:10px;display:none}
+.errbox.show{display:block}
+
+/* ── REGISTRY (Facilities / Periods admin) ── */
+.registry-card{background:var(--green-mid);border:1px solid var(--border);padding:18px 22px;margin-bottom:14px}
+.registry-row{display:grid;grid-template-columns:1fr 1fr 1fr 1fr auto;gap:10px;align-items:center;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.05)}
+.registry-row:last-child{border-bottom:none}
+.registry-row input,.registry-row select{font-family:var(--sans);font-size:0.8rem;padding:6px 9px;border:1px solid rgba(201,168,76,0.22);background:var(--green-dark);color:var(--white);width:100%}
+.registry-row input:focus,.registry-row select:focus{outline:none;border-color:var(--gold)}
+
+/* ── EXPORT GRID ── */
+.export-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:2px;background:var(--border);border:1px solid var(--border);margin-top:14px}
+.export-card{background:var(--green-mid);padding:20px;display:flex;flex-direction:column;gap:10px}
+.export-card-title{font-family:var(--serif);font-size:1rem;color:var(--white)}
+.export-card-desc{font-size:0.78rem;color:var(--muted);line-height:1.55;flex:1}
+
+/* ── FOOTER ── */
+/* ── TRENDS ACROSS YEARS ── */
+.trend-grid{display:grid;grid-template-columns:2fr 1fr;gap:2px;background:var(--border);border:1px solid var(--border);margin-top:14px}
+.trend-panel{background:var(--green-mid);padding:22px 24px}
+.trend-panel-title{font-size:9.5px;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold);margin-bottom:14px;font-family:var(--sans);font-weight:500}
+.trend-empty{font-size:0.85rem;color:var(--muted);font-style:italic;padding:30px 0;text-align:center}
+.yoy-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:1px;background:var(--border);border:1px solid var(--border);margin-top:18px}
+.yoy-card{background:var(--green-mid);padding:16px 18px}
+.yoy-label{font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.yoy-value{font-family:var(--serif);font-size:1.5rem;font-weight:300;color:var(--white)}
+.yoy-delta{font-size:0.78rem;margin-top:4px;font-family:var(--mono)}
+.yoy-delta.down{color:var(--s1)}
+.yoy-delta.up{color:var(--warn)}
+.yoy-delta.flat{color:var(--muted)}
+.legend-row{display:flex;gap:16px;flex-wrap:wrap;margin-top:12px;font-size:0.74rem;color:rgba(255,255,255,0.55)}
+.legend-dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px;vertical-align:middle}
+.sbti-overlay-note{font-size:0.78rem;color:var(--muted);margin-top:10px;line-height:1.6;font-style:italic}
+
+footer{padding:20px 2.5rem;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;color:var(--muted);font-size:0.75rem;flex-wrap:wrap;gap:8px;letter-spacing:0.04em;background:var(--green-dark)}
+.footer-brand{font-family:var(--serif);font-size:0.9rem;color:var(--gold);font-weight:400}
+
+@media(max-width:800px){
+  .nav-link{min-width:88px;padding:0 0.8rem}.nav-brand{padding:0 1.2rem;font-size:1.05rem}
+  .page-header,main,footer,.page-nav,.context-bar,.save-strip,.restore-banner{padding-left:1.5rem;padding-right:1.5rem}
+  .registry-row{grid-template-columns:1fr 1fr}
+}
+@media(max-width:560px){.nav-link-sub{display:none}.nav-link{min-width:70px;padding:0 0.6rem}}
+
+/* ── NAV (standardised) ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; align-items: stretch;
+  background: rgba(9,31,18,0.97); backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+  height: 64px;
+}
+.nav-brand {
+  display: flex; align-items: center;
+  padding: 0 2.5rem;
+  font-family: var(--serif); font-size: 1.25rem; font-weight: 600;
+  letter-spacing: 0.04em; color: var(--white); text-decoration: none;
+  border-right: 1px solid var(--border);
+  flex-shrink: 0; transition: background 0.2s;
+}
+.nav-brand:hover { background: rgba(201,168,76,0.06); }
+.nav-brand span { color: var(--gold); }
+.nav-sections { display: flex; align-items: stretch; list-style: none; flex: 1; overflow-x: auto; }
+.nav-sections li { display: flex; }
+.nav-link {
+  display: flex; flex-direction: column; justify-content: center;
+  padding: 0 1.6rem; text-decoration: none;
+  border-right: 1px solid var(--border);
+  transition: background 0.18s; min-width: 120px;
+}
+.nav-link:hover { background: rgba(201,168,76,0.06); }
+.nav-link.active { background: var(--gold-dim); border-bottom: 2px solid var(--gold); }
+.nav-link-primary { font-size: 0.78rem; font-weight: 500; letter-spacing: 0.05em; color: rgba(255,255,255,0.88); line-height: 1.2; white-space: nowrap; }
+.nav-link-sub { font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); line-height: 1; margin-top: 3px; white-space: nowrap; }
+.nav-link:hover .nav-link-primary { color: var(--gold-light); }
+.nav-link:hover .nav-link-sub { color: rgba(201,168,76,0.6); }
+.nav-link.active .nav-link-primary { color: var(--gold); }
+.nav-link.active .nav-link-sub { color: rgba(201,168,76,0.7); }
+.nav-about {
+  display: flex; align-items: center; padding: 0 1.8rem;
+  font-size: 0.78rem; font-weight: 500; letter-spacing: 0.05em;
+  color: rgba(255,255,255,0.6); text-decoration: none;
+  margin-left: auto; transition: color 0.18s; white-space: nowrap;
+}
+.nav-about:hover { color: var(--gold); }
+@media (max-width: 768px) {
+  .nav-link { min-width: 100px; padding: 0 1rem; }
+  .nav-brand { padding: 0 1.2rem; font-size: 1.05rem; }
+}
+@media (max-width: 560px) {
+  .nav-link-sub { display: none; }
+  .nav-link { min-width: 80px; padding: 0 0.8rem; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-brand" href="index.html">Aurie's <span>Knowledge Hub</span></a>
+  <ul class="nav-sections">
+    <li>
+      <a class="nav-link" href="ceo-insights.html">
+        <span class="nav-link-primary">CEO Insights</span>
+        <span class="nav-link-sub">For the leadership</span>
+      </a>
+    </li>
+    <li>
+      <a class="nav-link active" href="tools.html">
+        <span class="nav-link-primary">Tools &amp; Templates</span>
+        <span class="nav-link-sub">For ESG teams</span>
+      </a>
+    </li>
+    <li>
+      <a class="nav-link" href="resource-library.html">
+        <span class="nav-link-primary">Resource Library</span>
+        <span class="nav-link-sub">For practitioners</span>
+      </a>
+    </li>
+    <li>
+      <a class="nav-link" href="thought-papers.html">
+        <span class="nav-link-primary">Thought Papers</span>
+        <span class="nav-link-sub">For the curious</span>
+      </a>
+    </li>
+  </ul>
+  <a class="nav-about" href="about.html">About Me</a>
+</nav>
+
+<div class="page-header">
+  <a class="back-link" href="esos-decarbonisation.html">← Decarbonisation Operating System</a>
+  <p class="page-eyebrow">Toolkits · Decarbonisation OS · Carbon Accounting Layer</p>
+  <h1 class="page-title">GHG Emissions <em>Calculator</em></h1>
+  <p class="page-desc">A multi-year, multi-facility GHG inventory tool with full calculation lineage, SBTi near-term and net-zero target modelling, and local save/load - so your work persists across sessions, not just within one browser tab.</p>
+  <div class="header-meta">
+    <span class="meta-badge" style="background:var(--acc-dim);border:1px solid var(--acc-bdr);color:var(--acc-light);">GHG Protocol Corporate Standard</span>
+    <span class="meta-badge" style="background:var(--gold-dim);border:1px solid rgba(201,168,76,0.4);color:var(--gold);">SBTi Near-Term &amp; Net-Zero Standard</span>
+    <span class="meta-badge" style="background:rgba(147,197,253,0.1);border:1px solid rgba(147,197,253,0.25);color:#93c5fd;">ISO 14064-1</span>
+    <span class="meta-badge" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.5);">Schema v2.0.0</span>
+  </div>
+</div>
+
+<!-- ═══ RESTORE BANNER ═══ -->
+<div class="restore-banner" id="restoreBanner">
+  <span class="restore-text">We found unsaved work from your last session - <b id="restoreDetail">last edited a moment ago</b>.</span>
+  <button class="btn btn-primary" onclick="restoreSession()">Restore session</button>
+  <button class="btn" onclick="dismissRestore()">Start fresh</button>
+</div>
+
+<!-- ═══ SAVE STATUS STRIP ═══ -->
+<div class="save-strip">
+  <div class="save-strip-left">
+    <span class="save-dot" id="saveDot"></span>
+    <span class="save-status-text" id="saveStatusText">All changes saved automatically to this browser</span>
+  </div>
+  <div class="save-actions">
+    <button class="btn btn-gold" onclick="saveProgressFile()">⬇ Save Progress File</button>
+    <button class="btn" onclick="document.getElementById('loadFileInput').click()">⬆ Load Progress File</button>
+    <input type="file" id="loadFileInput" class="file-input-hidden" accept="application/json" onchange="loadProgressFile(this)">
+    <button class="btn btn-warn" onclick="confirmResetWorkspace()">Reset Workspace</button>
+  </div>
+</div>
+
+<!-- ═══ CONTEXT BAR - Period & Facility registries ═══ -->
+<div class="context-bar">
+  <div class="context-group">
+    <span class="context-label">Reporting period</span>
+    <select class="context-select" id="periodSelect" onchange="onPeriodChange()"></select>
+    <button class="context-add" onclick="addPeriod()">+ New period</button>
+  </div>
+  <div class="context-group">
+    <span class="context-label">Facility</span>
+    <span class="context-label" id="facilityCount" style="color:var(--acc-light);font-family:var(--mono)">0 active</span>
+    <button class="context-add" onclick="goToFacilityRegistry()">Manage facilities →</button>
+  </div>
+</div>
+
+<div class="page-nav" id="tabNav">
+  <button class="page-nav-link active" data-tab="facilities">Facilities &amp; Period</button>
+  <button class="page-nav-link" data-tab="s1">Scope 1</button>
+  <button class="page-nav-link" data-tab="s2">Scope 2</button>
+  <button class="page-nav-link" data-tab="s3">Scope 3</button>
+  <button class="page-nav-link" data-tab="sbti">SBTi Targets</button>
+  <button class="page-nav-link" data-tab="nz">Net-Zero</button>
+  <button class="page-nav-link" data-tab="trends">Trends Across Years</button>
+  <button class="page-nav-link" data-tab="out">Results &amp; Export</button>
+</div>
+
+<main>
+<!-- ============ FACILITIES & PERIOD REGISTRY ============ -->
+<section id="facilities" class="scope-panel active">
+  <div class="section-divider"><span class="section-divider-label">Setup</span></div>
+  <h2 class="panel-title">Facilities &amp; Reporting Periods</h2>
+  <div class="note">Set up your reporting periods and facilities once. Every Scope 1 and Scope 2 entry below is tagged to a facility and period, so totals roll up correctly across factories and across years - and a facility added or closed mid-way is tracked with its active dates, consistent with GHG Protocol base-year recalculation guidance.</div>
+
+  <h3 class="sub-title">Reporting Periods</h3>
+  <div class="registry-card" id="periodRegistryCard">
+    <div id="periodRegistryRows"></div>
+    <button class="add-row" onclick="addPeriod()">+ Add reporting period</button>
+  </div>
+
+  <h3 class="sub-title">Facilities</h3>
+  <div class="note" style="margin-top:0">Facilities marked inactive for a period are excluded from that period's totals automatically - use this when a site opens, closes, or is divested.</div>
+  <div class="registry-card" id="facilityRegistryCard">
+    <div class="table-wrap">
+      <table class="entry-table" id="tbl-facilities">
+        <thead><tr>
+          <th>Facility name</th><th>Country / Region</th><th>Grid region (for Scope 2 EF)</th>
+          <th>Active from</th><th>Active to (blank = ongoing)</th><th class="col-actions"></th>
+        </tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <button class="add-row" onclick="addFacilityRow()">+ Add facility</button>
+  </div>
+</section>
+<!-- ============ SCOPE 1 ============ -->
+<section id="s1" class="scope-panel">
+  <div class="section-divider"><span class="section-divider-label">Direct Emissions</span></div>
+  <h2 class="panel-title">Scope 1 - Direct Emissions</h2>
+  <div class="note">Stationary combustion: <b>CO2e = fuel quantity × emission factor</b>. Mobile combustion: fuel-based method preferred over distance-based (lower data-quality tier). Emission factors sourced from DEFRA / EPA / IPCC defaults - replace with site-specific data where available. Every entry is tagged to a facility from your registry, for the reporting period currently selected above.</div>
+
+  <h3 class="sub-title">Stationary Combustion</h3>
+  <div class="table-wrap">
+    <table class="entry-table" id="tbl-stationary">
+      <thead><tr><th>Facility</th><th>Fuel Type</th><th>Quantity</th><th>Unit</th><th>Tier</th><th class="col-actions"></th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </div>
+  <button class="add-row" onclick="addRow('stationary')">+ Add fuel record</button>
+
+  <h3 class="sub-title">Mobile Combustion</h3>
+  <div class="table-wrap">
+    <table class="entry-table" id="tbl-mobile">
+      <thead><tr><th>Facility</th><th>Method</th><th>Fuel Type / Vehicle Class</th><th>Quantity</th><th>Unit</th><th>Tier</th><th class="col-actions"></th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </div>
+  <button class="add-row" onclick="addRow('mobile')">+ Add mobile record</button>
+</section>
+
+<!-- ============ SCOPE 2 ============ -->
+<section id="s2" class="scope-panel">
+  <div class="section-divider"><span class="section-divider-label">Purchased Energy</span></div>
+  <h2 class="panel-title">Scope 2 - Purchased Energy</h2>
+  <div class="note">Dual reporting required under the GHG Protocol Scope 2 Guidance: <b>Location-based</b> uses the grid-average emission factor for the facility's region; <b>Market-based</b> follows the instrument hierarchy (energy attribute certificate → supplier-specific → residual mix → location-based fallback). Market-based entries should record the certificate/instrument type so the figure is defensible to an assurance provider.</div>
+
+  <h3 class="sub-title">Electricity Consumption (Location-Based)</h3>
+  <div class="table-wrap">
+    <table class="entry-table" id="tbl-s2lb">
+      <thead><tr><th>Facility</th><th>Grid Region</th><th>kWh Consumed</th><th>Year</th><th class="col-actions"></th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </div>
+  <button class="add-row" onclick="addRow('s2lb')">+ Add consumption record</button>
+
+  <h3 class="sub-title">Market-Based Instruments</h3>
+  <div class="table-wrap">
+    <table class="entry-table" id="tbl-s2mb">
+      <thead><tr><th>Facility</th><th>Instrument Type</th><th>kWh Covered</th><th>EF Override (kgCO2e/kWh, 0 for renewable EAC)</th><th class="col-actions"></th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </div>
+  <button class="add-row" onclick="addRow('s2mb')">+ Add instrument record</button>
+</section>
+
+<!-- ============ SCOPE 3 ============ -->
+<section id="s3" class="scope-panel">
+  <div class="section-divider"><span class="section-divider-label">Value Chain Emissions</span></div>
+  <h2 class="panel-title">Scope 3 - Value Chain Emissions (Categories 1–15)</h2>
+  <div class="note">Scope 3 is reported at company level by default, since most categories (purchased goods, business travel, investments) span facilities. Each category supports activity-based, spend-based, or supplier-specific calculation. Method hierarchy for data quality: supplier-specific &gt; activity-based &gt; spend-based.</div>
+  <div class="table-wrap">
+    <table class="entry-table" id="tbl-s3">
+      <thead><tr><th>Category</th><th>Method</th><th>Activity / Spend Value</th><th>Unit</th><th class="col-actions"></th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </div>
+  <button class="add-row" onclick="addRow('s3')">+ Add Scope 3 record</button>
+</section>
+<!-- ============ SBTi ============ -->
+<section id="sbti" class="scope-panel">
+  <div class="section-divider"><span class="section-divider-label">Near-Term Targets</span></div>
+  <h2 class="panel-title">SBTi Near-Term Target Setting</h2>
+  <div class="note">SBTi near-term targets (5–10 years) use the <b>Absolute Contraction Approach (ACA)</b> - a linear annual reduction applied to the base-year total - or the <b>Sectoral Decarbonization Approach (SDA)</b>, an intensity-based method requiring an output metric and a sector convergence benchmark. Near-term targets have different validation and offset-use rules than the long-term net-zero target modelled in the next tab - keep them visually and analytically separate.</div>
+
+  <div class="target-card">
+    <h4>Absolute Contraction Approach (ACA)</h4>
+    <table class="input-grid"><tr>
+      <td>Base year</td><td><input id="aca-base-year" type="number" value="2023"></td>
+      <td>Target year</td><td><input id="aca-target-year" type="number" value="2030"></td>
+      <td>Annual reduction rate (%)</td><td><input id="aca-rate" type="number" step="0.1" value="4.2"></td>
+    </tr></table>
+    <button class="btn btn-primary" onclick="runACA()">Compute ACA Trajectory</button>
+    <div id="aca-output" class="target-output"></div>
+  </div>
+
+  <div class="target-card">
+    <h4>Sectoral Decarbonization Approach (SDA / Intensity)</h4>
+    <table class="input-grid"><tr>
+      <td>Base year intensity (kgCO2e/unit output)</td><td><input id="sda-base-int" type="number" value="0.85"></td>
+      <td>Sector benchmark at convergence (kgCO2e/unit)</td><td><input id="sda-benchmark" type="number" value="0.10"></td>
+      <td>Convergence year</td><td><input id="sda-conv-year" type="number" value="2040"></td>
+    </tr><tr>
+      <td>Base year</td><td><input id="sda-base-year" type="number" value="2023"></td>
+      <td>Target year</td><td><input id="sda-target-year" type="number" value="2030"></td>
+      <td>Projected output (units, target year)</td><td><input id="sda-output" type="number" value="100000"></td>
+    </tr></table>
+    <button class="btn btn-primary" onclick="runSDA()">Compute SDA Trajectory</button>
+    <div id="sda-output-display" class="target-output"></div>
+    <div class="disclaimer-line">Simplified linear convergence model - production use requires sector-specific pathway data (e.g. IEA ETP).</div>
+  </div>
+</section>
+
+<!-- ============ NET ZERO ============ -->
+<section id="nz" class="scope-panel">
+  <div class="section-divider"><span class="section-divider-label">Long-Term Target</span></div>
+  <h2 class="panel-title">SBTi Net-Zero Standard - Long-Term Trajectory</h2>
+  <div class="note">Long-term target: at least 90% absolute reduction of Scope 1+2+3 vs. base year, by no later than 2050. Residual emissions remaining at the net-zero year must be matched 1:1 with <b>permanent carbon removals with durable storage</b> - not interim offsets or beyond-value-chain mitigation (BVCM), which do not count toward the target itself.</div>
+  <div class="target-card">
+    <table class="input-grid"><tr>
+      <td>Base year total emissions (tCO2e)</td><td><input id="nz-base-emissions" type="number" value="50000"></td>
+      <td>Base year</td><td><input id="nz-base-year" type="number" value="2023"></td>
+    </tr><tr>
+      <td>Net-zero target year</td><td><input id="nz-target-year" type="number" value="2050"></td>
+      <td>Reduction floor (%, default 90)</td><td><input id="nz-floor" type="number" value="90"></td>
+    </tr></table>
+    <button class="btn btn-primary" onclick="runNetZero()">Compute Net-Zero Trajectory</button>
+    <div id="nz-output" class="target-output"></div>
+  </div>
+</section>
+<!-- ============ OUTPUT ============ -->
+<!-- ============ TRENDS ACROSS YEARS ============ -->
+<section id="trends" class="scope-panel">
+  <div class="section-divider"><span class="section-divider-label">Multi-Year View</span></div>
+  <h2 class="panel-title">Trends Across Reporting Periods</h2>
+  <div class="note">Built from the totals already calculated for each reporting period in this workspace. Switch to a period in the bar above, run <b>Calculate</b> on its Results tab to lock in its numbers, then return here - this view reads stored results across all periods, so add at least two calculated periods to see a trend.</div>
+
+  <div class="toolbar">
+    <button class="btn btn-primary" onclick="renderTrends()">Refresh Trends</button>
+  </div>
+
+  <div id="trendsContent"></div>
+</section>
+
+<section id="out" class="scope-panel">
+  <div class="section-divider"><span class="section-divider-label">Results</span></div>
+  <h2 class="panel-title">Aggregated Results - Selected Period</h2>
+  <div class="toolbar">
+    <button class="btn btn-primary" onclick="calculateAll()">Calculate</button>
+    <button class="btn btn-warn" onclick="confirmResetCalculation()">Clear Results</button>
+  </div>
+  <div class="errbox" id="errBox"></div>
+
+  <div class="results-grid" id="statCards"></div>
+
+  <h3 class="sub-title">By Facility - Scope 1 + 2</h3>
+  <div class="table-wrap">
+    <table class="entry-table" id="tbl-facility-breakdown">
+      <thead><tr><th>Facility</th><th>Scope 1 (tCO2e)</th><th>Scope 2 LB (tCO2e)</th><th>Scope 2 MB (tCO2e)</th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+  <h3 class="sub-title">Calculation Lineage (audit trail)</h3>
+  <div class="lineage-wrap"><pre class="lineage-pre" id="lineageOutput">Run "Calculate" to populate.</pre></div>
+
+  <div class="section-divider" style="margin-top:3rem"><span class="section-divider-label">Export</span></div>
+  <h2 class="panel-title">Export &amp; Audit Outputs</h2>
+  <div class="note">All exports draw from the same underlying data model (schema v2.0.0), so the figures in every format reconcile with each other and with what's shown on screen.</div>
+
+  <div class="export-grid">
+    <div class="export-card">
+      <div class="export-card-title">Full Inventory (JSON)</div>
+      <div class="export-card-desc">Complete structured export - all periods, facilities, line items, lineage, and disclosed assumptions. This is also your save file.</div>
+      <button class="btn btn-gold" onclick="exportJSON()">Export JSON</button>
+    </div>
+    <div class="export-card">
+      <div class="export-card-title">Calculation Lineage (CSV)</div>
+      <div class="export-card-desc">Every line item with activity value, emission factor, source, version, tier, and the formula applied - ready for an auditor or assurance reviewer.</div>
+      <button class="btn btn-gold" onclick="exportCSV()">Export CSV</button>
+    </div>
+    <div class="export-card">
+      <div class="export-card-title">Auditor Workbook (Excel)</div>
+      <div class="export-card-desc">Multi-tab workbook with summary, scope-level detail, emission factor register, and methodology notes. Planned - not yet available in this version.</div>
+      <button class="btn" disabled style="opacity:0.4;cursor:not-allowed">Coming soon</button>
+    </div>
+    <div class="export-card">
+      <div class="export-card-title">Pathway Planning Export</div>
+      <div class="export-card-desc">Activity-level export structured for marginal abatement cost (MACC) and pathway modelling tools. Planned as a future companion module.</div>
+      <button class="btn" disabled style="opacity:0.4;cursor:not-allowed">Coming soon</button>
+    </div>
+  </div>
+
+  <h3 class="sub-title">JSON Export Preview</h3>
+  <div class="json-wrap"><pre class="json-pre" id="jsonPreview">-</pre></div>
+</section>
+
+</main>
+
+<footer>
+  <div class="footer-brand">Aurie's Knowledge Hub</div>
+  <div>GHG Emissions Calculator · Schema v2.0.0 · GWP set: AR6 (100-yr) · Default EF library: DEFRA 2024 / EPA eGRID 2023 / IPCC AR6 - replace with site-specific factors for production reporting</div>
+  <div style="color:rgba(201,168,76,0.5)"><a href="esos-decarbonisation.html" style="color:rgba(201,168,76,0.5);text-decoration:none">← Decarbonisation OS</a></div>
+</footer>
+<script>
+/* =========================================================
+   EMISSION FACTOR LIBRARY (versioned, sourced) - unchanged from v1
+   ========================================================= */
+const GWP = { CH4: 29.8, N2O: 273 }; // AR6 100-yr GWP, IPCC AR6 WG1 Table 7.15
+
+const EF_LIBRARY = {
+  stationary: {
+    natural_gas:  { value: 0.18316, unit: "kgCO2e/kWh_gross", source: "DEFRA 2024", version: "2024.1", tier: 2 },
+    diesel:       { value: 2.68787, unit: "kgCO2e/L", source: "DEFRA 2024", version: "2024.1", tier: 2 },
+    fuel_oil:     { value: 3.17,    unit: "kgCO2e/L", source: "EPA 2023",   version: "2023.1", tier: 2 },
+    lpg:          { value: 1.55537, unit: "kgCO2e/L", source: "DEFRA 2024", version: "2024.1", tier: 2 },
+    coal:         { value: 2.42,    unit: "kgCO2e/kg", source: "IPCC AR6",  version: "2021.1", tier: 3 }
+  },
+  mobile_fuel: {
+    petrol: { value: 2.31495, unit: "kgCO2e/L", source: "DEFRA 2024", version: "2024.1", tier: 2 },
+    diesel: { value: 2.68787, unit: "kgCO2e/L", source: "DEFRA 2024", version: "2024.1", tier: 2 },
+    cng:    { value: 0.44602, unit: "kgCO2e/kg", source: "DEFRA 2024", version: "2024.1", tier: 2 }
+  },
+  mobile_distance: {
+    car_avg:     { value: 0.168, unit: "kgCO2e/km", source: "DEFRA 2024 (avg car)", version: "2024.1", tier: 3 },
+    van:         { value: 0.251, unit: "kgCO2e/km", source: "DEFRA 2024",  version: "2024.1", tier: 3 },
+    hgv:         { value: 0.842, unit: "kgCO2e/km", source: "DEFRA 2024",  version: "2024.1", tier: 3 }
+  },
+  grid_location: {
+    US:  { value: 0.367, unit: "kgCO2e/kWh", source: "EPA eGRID 2023 US avg", version: "2023.1", tier: 2 },
+    EU:  { value: 0.230, unit: "kgCO2e/kWh", source: "EEA 2023 EU-27 avg",   version: "2023.1", tier: 2 },
+    UK:  { value: 0.207, unit: "kgCO2e/kWh", source: "DEFRA 2024 UK grid",  version: "2024.1", tier: 2 },
+    DK:  { value: 0.135, unit: "kgCO2e/kWh", source: "Energinet 2023",      version: "2023.1", tier: 2 },
+    CN:  { value: 0.581, unit: "kgCO2e/kWh", source: "IEA 2023 CN avg",     version: "2023.1", tier: 3 },
+    IN:  { value: 0.708, unit: "kgCO2e/kWh", source: "IEA 2023 IN avg",     version: "2023.1", tier: 3 },
+    global: { value: 0.436, unit: "kgCO2e/kWh", source: "IEA 2023 world avg", version: "2023.1", tier: 3 }
+  },
+  residual_mix: {
+    EU: { value: 0.40, unit: "kgCO2e/kWh", source: "AIB European Residual Mix 2023", version: "2023.1", tier: 2 },
+    US: { value: 0.45, unit: "kgCO2e/kWh", source: "Green-e Residual Mix 2023", version: "2023.1", tier: 2 }
+  },
+  scope3_activity: {
+    cat1: { value: 0.42, unit: "kgCO2e/$ (sector avg)", source: "EPA USEEIO v2.1", version: "2023.1", tier: 3 },
+    cat2: { value: 0.38, unit: "kgCO2e/$ (capital goods avg)", source: "EPA USEEIO v2.1", version: "2023.1", tier: 3 },
+    cat3: { value: 0.045, unit: "kgCO2e/kWh (WTT+T&D)", source: "DEFRA 2024 WTT", version: "2024.1", tier: 2 },
+    cat4: { value: 0.000113, unit: "kgCO2e/tonne-km (road freight)", source: "DEFRA 2024", version: "2024.1", tier: 2 },
+    cat5: { value: 21.3, unit: "kgCO2e/tonne (mixed landfill)", source: "DEFRA 2024", version: "2024.1", tier: 2 },
+    cat6: { value: 0.158, unit: "kgCO2e/passenger-km (short-haul air)", source: "DEFRA 2024", version: "2024.1", tier: 2 },
+    cat7: { value: 0.171, unit: "kgCO2e/km (avg commute mode mix)", source: "DEFRA 2024", version: "2024.1", tier: 3 },
+    cat8: { value: 0.18316, unit: "kgCO2e/kWh (leased asset energy)", source: "DEFRA 2024", version: "2024.1", tier: 2 },
+    cat9: { value: 0.000113, unit: "kgCO2e/tonne-km", source: "DEFRA 2024", version: "2024.1", tier: 2 },
+    cat10:{ value: 0.05, unit: "kgCO2e/unit processed", source: "Ecoinvent 3.9", version: "3.9", tier: 3 },
+    cat11:{ value: 0.367, unit: "kgCO2e/kWh (use-phase, grid avg)", source: "EPA eGRID 2023", version: "2023.1", tier: 3 },
+    cat12:{ value: 21.3, unit: "kgCO2e/tonne (EoL mixed)", source: "DEFRA 2024", version: "2024.1", tier: 3 },
+    cat13:{ value: 0.18316, unit: "kgCO2e/kWh (leased asset energy)", source: "DEFRA 2024", version: "2024.1", tier: 2 },
+    cat14:{ value: 0.436, unit: "kgCO2e/$ revenue (franchise S1+S2 proxy)", source: "Internal proxy", version: "1.0", tier: 3 },
+    cat15:{ value: 0.30, unit: "kgCO2e/$ invested (financed emissions proxy)", source: "PCAF generic proxy", version: "2023.1", tier: 3 }
+  },
+  scope3_spend: {
+    cat1: { value: 0.42, unit: "kgCO2e/$", source: "EPA USEEIO v2.1", version: "2023.1", tier: 3 },
+    cat2: { value: 0.38, unit: "kgCO2e/$", source: "EPA USEEIO v2.1", version: "2023.1", tier: 3 },
+    cat3: { value: 0.05, unit: "kgCO2e/$", source: "EPA USEEIO v2.1", version: "2023.1", tier: 3 },
+    cat4: { value: 0.20, unit: "kgCO2e/$ (freight services)", source: "EPA USEEIO v2.1", version: "2023.1", tier: 3 },
+    cat5: { value: 0.15, unit: "kgCO2e/$ (waste mgmt services)", source: "EPA USEEIO v2.1", version: "2023.1", tier: 3 },
+    cat6: { value: 0.25, unit: "kgCO2e/$ (travel services)", source: "EPA USEEIO v2.1", version: "2023.1", tier: 3 },
+    cat7: { value: 0.10, unit: "kgCO2e/$ (commuting proxy)", source: "Internal proxy", version: "1.0", tier: 3 },
+    cat8: { value: 0.30, unit: "kgCO2e/$ (leased real estate)", source: "EPA USEEIO v2.1", version: "2023.1", tier: 3 },
+    cat9: { value: 0.20, unit: "kgCO2e/$ (freight services)", source: "EPA USEEIO v2.1", version: "2023.1", tier: 3 },
+    cat10:{ value: 0.28, unit: "kgCO2e/$ (processing services)", source: "EPA USEEIO v2.1", version: "2023.1", tier: 3 },
+    cat11:{ value: 0.33, unit: "kgCO2e/$ (product use proxy)", source: "Internal proxy", version: "1.0", tier: 3 },
+    cat12:{ value: 0.15, unit: "kgCO2e/$ (EoL services)", source: "EPA USEEIO v2.1", version: "2023.1", tier: 3 },
+    cat13:{ value: 0.30, unit: "kgCO2e/$ (leased real estate)", source: "EPA USEEIO v2.1", version: "2023.1", tier: 3 },
+    cat14:{ value: 0.436, unit: "kgCO2e/$ revenue", source: "Internal proxy", version: "1.0", tier: 3 },
+    cat15:{ value: 0.30, unit: "kgCO2e/$ invested", source: "PCAF generic proxy", version: "2023.1", tier: 3 }
+  }
+};
+
+const CAT_NAMES = {
+  cat1:"Purchased goods & services", cat2:"Capital goods", cat3:"Fuel & energy related",
+  cat4:"Upstream transport & distribution", cat5:"Waste generated in operations",
+  cat6:"Business travel", cat7:"Employee commuting", cat8:"Upstream leased assets",
+  cat9:"Downstream transport & distribution", cat10:"Processing of sold products",
+  cat11:"Use of sold products", cat12:"End-of-life of sold products",
+  cat13:"Downstream leased assets", cat14:"Franchises", cat15:"Investments"
+};
+
+/* =========================================================
+   DATA MODEL - multi-period, multi-facility (Schema v2.0.0)
+   ========================================================= */
+const STORAGE_KEY = 'ghg_calculator_workspace_v2';
+const SCHEMA_VERSION = '2.0.0';
+
+function emptyWorkspace(){
+  const year = new Date().getFullYear();
+  return {
+    schema_version: SCHEMA_VERSION,
+    last_modified: new Date().toISOString(),
+    facilities: [
+      { id: 'fac_1', name: 'Main Facility', region: 'EU', grid_region: 'EU', active_from: year - 1, active_to: null }
+    ],
+    periods: [
+      { id: 'p_' + year, year: year, label: String(year),
+        stationary: [], mobile: [], s2lb: [], s2mb: [], s3: [],
+        sbti: { aca: { baseYear: year - 1, targetYear: year + 7, rate: 4.2 },
+                sda: { baseInt: 0.85, benchmark: 0.10, convYear: 2040, baseYear: year - 1, targetYear: year + 7, output: 100000 } },
+        netZero: { baseEmissions: 50000, baseYear: year - 1, targetYear: 2050, floor: 90 },
+        results: { scope1:0, scope2lb:0, scope2mb:0, scope3:0 },
+        lineage: []
+      }
+    ],
+    activePeriodId: 'p_' + year
+  };
+}
+
+let WS = null;          // the whole workspace object (periods + facilities)
+let rowCounter = 0;
+let isDirty = false;
+let autosaveTimer = null;
+
+function currentPeriod(){
+  return WS.periods.find(p => p.id === WS.activePeriodId) || WS.periods[0];
+}
+
+function activeFacilities(forYear){
+  const y = forYear !== undefined ? forYear : currentPeriod().year;
+  return WS.facilities.filter(f => {
+    const fromOk = f.active_from === null || f.active_from === '' || f.active_from <= y;
+    const toOk = f.active_to === null || f.active_to === '' || f.active_to >= y;
+    return fromOk && toOk;
+  });
+}
+
+/* ---------- PERSISTENCE: localStorage autosave ---------- */
+function markDirty(){
+  isDirty = true;
+  updateSaveStatus('saving');
+  clearTimeout(autosaveTimer);
+  autosaveTimer = setTimeout(autosaveNow, 900);
+}
+
+function autosaveNow(){
+  try {
+    syncStateFromDOM();
+    WS.last_modified = new Date().toISOString();
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(WS));
+    isDirty = false;
+    updateSaveStatus('saved');
+  } catch(e){
+    updateSaveStatus('error', e.message);
+  }
+}
+
+function updateSaveStatus(state, errMsg){
+  const dot = document.getElementById('saveDot');
+  const text = document.getElementById('saveStatusText');
+  if(!dot || !text) return;
+  if(state === 'saving'){
+    dot.classList.add('unsaved');
+    text.textContent = 'Saving…';
+  } else if(state === 'saved'){
+    dot.classList.remove('unsaved');
+    const t = new Date();
+    text.textContent = 'All changes saved automatically - ' + t.toLocaleTimeString();
+  } else if(state === 'error'){
+    dot.classList.add('unsaved');
+    text.textContent = 'Autosave failed: ' + (errMsg || 'unknown error') + ' - use Save Progress File as a backup.';
+  }
+}
+
+function checkForRestorableSession(){
+  let saved = null;
+  try { saved = localStorage.getItem(STORAGE_KEY); } catch(e){ return; }
+  if(!saved) return;
+  try {
+    const parsed = JSON.parse(saved);
+    if(parsed && parsed.periods && parsed.periods.length){
+      document.getElementById('restoreDetail').textContent =
+        'last edited ' + timeAgo(parsed.last_modified) + ' - ' + parsed.periods.length + ' period(s), ' + parsed.facilities.length + ' facility(ies)';
+      document.getElementById('restoreBanner').classList.add('show');
+      window._pendingRestore = parsed;
+    }
+  } catch(e){ /* corrupt save - ignore */ }
+}
+
+function timeAgo(iso){
+  if(!iso) return 'a moment ago';
+  const diffMs = Date.now() - new Date(iso).getTime();
+  const mins = Math.round(diffMs/60000);
+  if(mins < 1) return 'just now';
+  if(mins < 60) return mins + ' minute' + (mins===1?'':'s') + ' ago';
+  const hrs = Math.round(mins/60);
+  if(hrs < 24) return hrs + ' hour' + (hrs===1?'':'s') + ' ago';
+  const days = Math.round(hrs/24);
+  return days + ' day' + (days===1?'':'s') + ' ago';
+}
+
+function restoreSession(){
+  WS = window._pendingRestore;
+  document.getElementById('restoreBanner').classList.remove('show');
+  renderEverything();
+  updateSaveStatus('saved');
+}
+
+function dismissRestore(){
+  document.getElementById('restoreBanner').classList.remove('show');
+  window._pendingRestore = null;
+}
+</script>
+<script>
+/* =========================================================
+   PERIOD SELECTOR + REGISTRY RENDERING
+   ========================================================= */
+function renderPeriodSelector(){
+  const sel = document.getElementById('periodSelect');
+  sel.innerHTML = WS.periods
+    .sort((a,b)=>a.year-b.year)
+    .map(p => `<option value="${p.id}" ${p.id===WS.activePeriodId?'selected':''}>${p.label}</option>`)
+    .join('');
+}
+
+function onPeriodChange(){
+  syncStateFromDOM();
+  WS.activePeriodId = document.getElementById('periodSelect').value;
+  renderScopeTables();
+  renderSBTiInputs();
+  renderNetZeroInputs();
+  document.getElementById('statCards').innerHTML = '';
+  document.getElementById('lineageOutput').textContent = 'Run "Calculate" to populate.';
+  markDirty();
+}
+
+function addPeriod(){
+  syncStateFromDOM();
+  const lastYear = Math.max(...WS.periods.map(p=>p.year));
+  const newYear = lastYear + 1;
+  const id = 'p_' + newYear + '_' + (++rowCounter);
+  WS.periods.push({
+    id, year: newYear, label: String(newYear),
+    stationary: [], mobile: [], s2lb: [], s2mb: [], s3: [],
+    sbti: { aca: { baseYear: newYear-1, targetYear: newYear+7, rate: 4.2 },
+            sda: { baseInt: 0.85, benchmark: 0.10, convYear: 2040, baseYear: newYear-1, targetYear: newYear+7, output: 100000 } },
+    netZero: { baseEmissions: 50000, baseYear: newYear-1, targetYear: 2050, floor: 90 },
+    results: { scope1:0, scope2lb:0, scope2mb:0, scope3:0 },
+    lineage: []
+  });
+  WS.activePeriodId = id;
+  renderPeriodSelector();
+  renderScopeTables();
+  renderSBTiInputs();
+  renderNetZeroInputs();
+  markDirty();
+}
+
+function renderFacilityCount(){
+  const n = activeFacilities().length;
+  document.getElementById('facilityCount').textContent = n + ' active';
+}
+
+function goToFacilityRegistry(){
+  document.querySelector('.page-nav-link[data-tab="facilities"]').click();
+}
+
+function renderPeriodRegistry(){
+  const wrap = document.getElementById('periodRegistryRows');
+  wrap.innerHTML = WS.periods.sort((a,b)=>a.year-b.year).map(p => `
+    <div class="registry-row" style="grid-template-columns:1fr 2fr auto" data-period-id="${p.id}">
+      <input type="number" value="${p.year}" onchange="renamePeriod('${p.id}', this.value)">
+      <span style="font-size:0.8rem;color:rgba(255,255,255,0.5)">${p.stationary.length + p.mobile.length + p.s2lb.length + p.s2mb.length + p.s3.length} entries logged</span>
+      <button class="del-row" onclick="deletePeriod('${p.id}')" title="Delete period">✕</button>
+    </div>`).join('');
+}
+
+function renamePeriod(id, newYear){
+  const p = WS.periods.find(x=>x.id===id);
+  if(!p) return;
+  p.year = parseInt(newYear);
+  p.label = String(newYear);
+  renderPeriodSelector();
+  renderPeriodRegistry();
+  markDirty();
+}
+
+function deletePeriod(id){
+  if(WS.periods.length <= 1){ showError('At least one reporting period must remain.'); return; }
+  if(!confirm('Delete this reporting period and all its entries? This cannot be undone.')) return;
+  WS.periods = WS.periods.filter(p=>p.id!==id);
+  if(WS.activePeriodId === id) WS.activePeriodId = WS.periods[0].id;
+  renderPeriodSelector();
+  renderPeriodRegistry();
+  renderScopeTables();
+  markDirty();
+}
+
+function renderFacilityRegistry(){
+  const tbody = document.querySelector('#tbl-facilities tbody');
+  tbody.innerHTML = WS.facilities.map(f => `
+    <tr data-fac-id="${f.id}">
+      <td><input type="text" value="${escapeAttr(f.name)}" onchange="updateFacility('${f.id}','name',this.value)"></td>
+      <td><input type="text" value="${escapeAttr(f.region)}" onchange="updateFacility('${f.id}','region',this.value)" placeholder="e.g. Germany"></td>
+      <td><select onchange="updateFacility('${f.id}','grid_region',this.value)">${Object.keys(EF_LIBRARY.grid_location).map(r=>`<option value="${r}" ${f.grid_region===r?'selected':''}>${r}</option>`).join('')}</select></td>
+      <td><input type="number" value="${f.active_from ?? ''}" onchange="updateFacility('${f.id}','active_from',this.value)" placeholder="year"></td>
+      <td><input type="number" value="${f.active_to ?? ''}" onchange="updateFacility('${f.id}','active_to',this.value)" placeholder="ongoing"></td>
+      <td><button class="del-row" onclick="deleteFacility('${f.id}')">✕</button></td>
+    </tr>`).join('');
+  renderFacilityCount();
+}
+
+function escapeAttr(s){
+  return String(s===undefined||s===null?'':s).replace(/"/g,'&quot;');
+}
+
+function addFacilityRow(){
+  rowCounter++;
+  const id = 'fac_' + rowCounter + '_' + Date.now();
+  WS.facilities.push({ id, name: 'New Facility', region: '', grid_region: 'global', active_from: currentPeriod().year, active_to: null });
+  renderFacilityRegistry();
+  renderScopeTables();
+  markDirty();
+}
+
+function updateFacility(id, field, value){
+  const f = WS.facilities.find(x=>x.id===id);
+  if(!f) return;
+  if(field === 'active_from' || field === 'active_to'){
+    f[field] = value === '' ? null : parseInt(value);
+  } else {
+    f[field] = value;
+  }
+  renderFacilityCount();
+  renderScopeTables(); // facility renames need to propagate into row dropdowns
+  markDirty();
+}
+
+function deleteFacility(id){
+  if(WS.facilities.length <= 1){ showError('At least one facility must remain.'); return; }
+  if(!confirm('Delete this facility? Entries already tagged to it will keep the reference but it will no longer appear in dropdowns.')) return;
+  WS.facilities = WS.facilities.filter(f=>f.id!==id);
+  renderFacilityRegistry();
+  renderScopeTables();
+  markDirty();
+}
+
+function facilityOptionsHTML(selectedId){
+  const facs = activeFacilities();
+  const list = facs.length ? facs : WS.facilities; // fallback so old entries still show their facility
+  return list.map(f => `<option value="${f.id}" ${f.id===selectedId?'selected':''}>${f.name}</option>`).join('');
+}
+
+/* =========================================================
+   SCOPE 1 / 2 / 3 ROW BUILDERS (facility-aware)
+   ========================================================= */
+function renderScopeTables(){
+  const p = currentPeriod();
+  document.querySelector('#tbl-stationary tbody').innerHTML = '';
+  document.querySelector('#tbl-mobile tbody').innerHTML = '';
+  document.querySelector('#tbl-s2lb tbody').innerHTML = '';
+  document.querySelector('#tbl-s2mb tbody').innerHTML = '';
+  document.querySelector('#tbl-s3 tbody').innerHTML = '';
+
+  p.stationary.forEach(r => buildRow('stationary', r));
+  p.mobile.forEach(r => buildRow('mobile', r));
+  p.s2lb.forEach(r => buildRow('s2lb', r));
+  p.s2mb.forEach(r => buildRow('s2mb', r));
+  p.s3.forEach(r => buildRow('s3', r));
+}
+
+function addRow(kind, prefill){
+  rowCounter++;
+  const id = kind + '_' + rowCounter + '_' + Date.now();
+  const p = currentPeriod();
+  const defaultFacility = activeFacilities()[0]?.id || (WS.facilities[0] && WS.facilities[0].id) || '';
+
+  let record;
+  if(kind === 'stationary'){
+    record = prefill || { id, facility: defaultFacility, fuel: 'natural_gas', qty: 1000, unit: 'kWh_gross' };
+    p.stationary.push(record);
+  } else if(kind === 'mobile'){
+    record = prefill || { id, facility: defaultFacility, method: 'fuel', fueltype: 'petrol', qty: 500, unit: 'L' };
+    p.mobile.push(record);
+  } else if(kind === 's2lb'){
+    record = prefill || { id, facility: defaultFacility, region: 'global', kwh: 100000, year: p.year };
+    p.s2lb.push(record);
+  } else if(kind === 's2mb'){
+    record = prefill || { id, facility: defaultFacility, instrument: 'eac', kwh: 50000, efOverride: 0 };
+    p.s2mb.push(record);
+  } else if(kind === 's3'){
+    record = prefill || { id, cat: 'cat1', method: 'spend_based', value: 10000, unit: '$' };
+    p.s3.push(record);
+  }
+  buildRow(kind, record);
+  markDirty();
+}
+
+function buildRow(kind, record){
+  const tbody = document.querySelector('#tbl-' + kind + ' tbody');
+  const tr = document.createElement('tr');
+  tr.id = record.id;
+  tr.dataset.recordId = record.id;
+
+  if(kind === 'stationary'){
+    tr.innerHTML = `
+      <td><select class="f-facility">${facilityOptionsHTML(record.facility)}</select></td>
+      <td><select class="f-fuel">${Object.keys(EF_LIBRARY.stationary).map(f=>`<option value="${f}" ${record.fuel===f?'selected':''}>${f}</option>`).join('')}</select></td>
+      <td><input type="number" class="f-qty" value="${record.qty}"></td>
+      <td><select class="f-unit"><option ${record.unit==='L'?'selected':''}>L</option><option ${record.unit==='kg'?'selected':''}>kg</option><option ${record.unit==='kWh_gross'?'selected':''}>kWh_gross</option></select></td>
+      <td><span class="tag tier2">T2</span></td>
+      <td><button class="del-row" onclick="removeRow('stationary','${record.id}')">✕</button></td>`;
+  } else if(kind === 'mobile'){
+    tr.innerHTML = `
+      <td><select class="f-facility">${facilityOptionsHTML(record.facility)}</select></td>
+      <td><select class="f-method" onchange="toggleMobileFields(this)"><option value="fuel" ${record.method==='fuel'?'selected':''}>fuel-based</option><option value="distance" ${record.method==='distance'?'selected':''}>distance-based</option></select></td>
+      <td><select class="f-fueltype">${Object.keys(EF_LIBRARY.mobile_fuel).map(f=>`<option value="${f}" class="fuel-opt" ${record.method==='fuel'&&record.fueltype===f?'selected':''} ${record.method==='distance'?'hidden':''}>${f}</option>`).join('')}${Object.keys(EF_LIBRARY.mobile_distance).map(f=>`<option value="${f}" class="dist-opt" ${record.method==='distance'&&record.fueltype===f?'selected':''} ${record.method==='fuel'?'hidden':''}>${f}</option>`).join('')}</select></td>
+      <td><input type="number" class="f-qty" value="${record.qty}"></td>
+      <td><select class="f-unit"><option ${record.unit==='L'?'selected':''}>L</option><option ${record.unit==='kg'?'selected':''}>kg</option><option ${record.unit==='km'?'selected':''}>km</option></select></td>
+      <td><span class="tag ${record.method==='fuel'?'tier2':'tier3'}">${record.method==='fuel'?'T2':'T3'}</span></td>
+      <td><button class="del-row" onclick="removeRow('mobile','${record.id}')">✕</button></td>`;
+  } else if(kind === 's2lb'){
+    tr.innerHTML = `
+      <td><select class="f-facility">${facilityOptionsHTML(record.facility)}</select></td>
+      <td><select class="f-region">${Object.keys(EF_LIBRARY.grid_location).map(r=>`<option value="${r}" ${record.region===r?'selected':''}>${r}</option>`).join('')}</select></td>
+      <td><input type="number" class="f-kwh" value="${record.kwh}"></td>
+      <td><input type="number" class="f-year" value="${record.year}"></td>
+      <td><button class="del-row" onclick="removeRow('s2lb','${record.id}')">✕</button></td>`;
+  } else if(kind === 's2mb'){
+    tr.innerHTML = `
+      <td><select class="f-facility">${facilityOptionsHTML(record.facility)}</select></td>
+      <td><select class="f-instrument"><option value="eac" ${record.instrument==='eac'?'selected':''}>Renewable EAC (0 EF)</option><option value="supplier" ${record.instrument==='supplier'?'selected':''}>Supplier-specific</option><option value="residual" ${record.instrument==='residual'?'selected':''}>Residual mix</option></select></td>
+      <td><input type="number" class="f-kwh" value="${record.kwh}"></td>
+      <td><input type="number" step="0.001" class="f-ef-override" value="${record.efOverride}"></td>
+      <td><button class="del-row" onclick="removeRow('s2mb','${record.id}')">✕</button></td>`;
+  } else if(kind === 's3'){
+    tr.innerHTML = `
+      <td><select class="f-cat">${Object.keys(CAT_NAMES).map(c=>`<option value="${c}" ${record.cat===c?'selected':''}>${c.toUpperCase()} - ${CAT_NAMES[c]}</option>`).join('')}</select></td>
+      <td><select class="f-method"><option value="activity_based" ${record.method==='activity_based'?'selected':''}>activity-based</option><option value="spend_based" ${record.method==='spend_based'?'selected':''}>spend-based</option><option value="supplier_specific" ${record.method==='supplier_specific'?'selected':''}>supplier-specific</option></select></td>
+      <td><input type="number" class="f-value" value="${record.value}"></td>
+      <td><input type="text" class="f-unit" placeholder="e.g. $, tonne-km, kWh" value="${escapeAttr(record.unit)}"></td>
+      <td><button class="del-row" onclick="removeRow('s3','${record.id}')">✕</button></td>`;
+  }
+  tbody.appendChild(tr);
+  tr.querySelectorAll('input,select').forEach(el => el.addEventListener('change', markDirty));
+}
+
+function removeRow(kind, recordId){
+  const p = currentPeriod();
+  p[kind] = p[kind].filter(r => r.id !== recordId);
+  const tr = document.getElementById(recordId);
+  if(tr) tr.remove();
+  markDirty();
+}
+
+function toggleMobileFields(sel){
+  const tr = sel.closest('tr');
+  const fueltypeSelect = tr.querySelector('.f-fueltype');
+  const isDistance = sel.value === 'distance';
+  fueltypeSelect.querySelectorAll('option').forEach(opt=>{
+    const isDistOpt = opt.classList.contains('dist-opt');
+    opt.hidden = isDistance ? !isDistOpt : isDistOpt;
+  });
+  tr.querySelector('.tag').className = 'tag ' + (isDistance ? 'tier3' : 'tier2');
+  tr.querySelector('.tag').textContent = isDistance ? 'T3' : 'T2';
+}
+</script>
+<script>
+/* =========================================================
+   SYNC: read current DOM rows back into the data model
+   (called before every save / export / period switch)
+   ========================================================= */
+function syncStateFromDOM(){
+  const p = currentPeriod();
+  if(!p) return;
+
+  p.stationary = Array.from(document.querySelectorAll('#tbl-stationary tbody tr')).map(tr => ({
+    id: tr.dataset.recordId,
+    facility: tr.querySelector('.f-facility').value,
+    fuel: tr.querySelector('.f-fuel').value,
+    qty: parseFloat(tr.querySelector('.f-qty').value) || 0,
+    unit: tr.querySelector('.f-unit').value
+  }));
+
+  p.mobile = Array.from(document.querySelectorAll('#tbl-mobile tbody tr')).map(tr => ({
+    id: tr.dataset.recordId,
+    facility: tr.querySelector('.f-facility').value,
+    method: tr.querySelector('.f-method').value,
+    fueltype: tr.querySelector('.f-fueltype').value,
+    qty: parseFloat(tr.querySelector('.f-qty').value) || 0,
+    unit: tr.querySelector('.f-unit').value
+  }));
+
+  p.s2lb = Array.from(document.querySelectorAll('#tbl-s2lb tbody tr')).map(tr => ({
+    id: tr.dataset.recordId,
+    facility: tr.querySelector('.f-facility').value,
+    region: tr.querySelector('.f-region').value,
+    kwh: parseFloat(tr.querySelector('.f-kwh').value) || 0,
+    year: parseInt(tr.querySelector('.f-year').value) || p.year
+  }));
+
+  p.s2mb = Array.from(document.querySelectorAll('#tbl-s2mb tbody tr')).map(tr => ({
+    id: tr.dataset.recordId,
+    facility: tr.querySelector('.f-facility').value,
+    instrument: tr.querySelector('.f-instrument').value,
+    kwh: parseFloat(tr.querySelector('.f-kwh').value) || 0,
+    efOverride: parseFloat(tr.querySelector('.f-ef-override').value) || 0
+  }));
+
+  p.s3 = Array.from(document.querySelectorAll('#tbl-s3 tbody tr')).map(tr => ({
+    id: tr.dataset.recordId,
+    cat: tr.querySelector('.f-cat').value,
+    method: tr.querySelector('.f-method').value,
+    value: parseFloat(tr.querySelector('.f-value').value) || 0,
+    unit: tr.querySelector('.f-unit').value
+  }));
+
+  // SBTi + Net Zero inputs (only sync if those tabs have rendered inputs present)
+  if(document.getElementById('aca-base-year')){
+    p.sbti.aca = {
+      baseYear: parseInt(document.getElementById('aca-base-year').value),
+      targetYear: parseInt(document.getElementById('aca-target-year').value),
+      rate: parseFloat(document.getElementById('aca-rate').value)
+    };
+    p.sbti.sda = {
+      baseInt: parseFloat(document.getElementById('sda-base-int').value),
+      benchmark: parseFloat(document.getElementById('sda-benchmark').value),
+      convYear: parseInt(document.getElementById('sda-conv-year').value),
+      baseYear: parseInt(document.getElementById('sda-base-year').value),
+      targetYear: parseInt(document.getElementById('sda-target-year').value),
+      output: parseFloat(document.getElementById('sda-output').value)
+    };
+  }
+  if(document.getElementById('nz-base-emissions')){
+    p.netZero = {
+      baseEmissions: parseFloat(document.getElementById('nz-base-emissions').value),
+      baseYear: parseInt(document.getElementById('nz-base-year').value),
+      targetYear: parseInt(document.getElementById('nz-target-year').value),
+      floor: parseFloat(document.getElementById('nz-floor').value)
+    };
+  }
+}
+
+function renderSBTiInputs(){
+  const p = currentPeriod();
+  document.getElementById('aca-base-year').value = p.sbti.aca.baseYear;
+  document.getElementById('aca-target-year').value = p.sbti.aca.targetYear;
+  document.getElementById('aca-rate').value = p.sbti.aca.rate;
+  document.getElementById('sda-base-int').value = p.sbti.sda.baseInt;
+  document.getElementById('sda-benchmark').value = p.sbti.sda.benchmark;
+  document.getElementById('sda-conv-year').value = p.sbti.sda.convYear;
+  document.getElementById('sda-base-year').value = p.sbti.sda.baseYear;
+  document.getElementById('sda-target-year').value = p.sbti.sda.targetYear;
+  document.getElementById('sda-output').value = p.sbti.sda.output;
+  document.getElementById('aca-output').innerHTML = '';
+  document.getElementById('sda-output-display').innerHTML = '';
+  document.querySelectorAll('#sbti input').forEach(el => el.addEventListener('change', markDirty));
+}
+
+function renderNetZeroInputs(){
+  const p = currentPeriod();
+  document.getElementById('nz-base-emissions').value = p.netZero.baseEmissions;
+  document.getElementById('nz-base-year').value = p.netZero.baseYear;
+  document.getElementById('nz-target-year').value = p.netZero.targetYear;
+  document.getElementById('nz-floor').value = p.netZero.floor;
+  document.getElementById('nz-output').innerHTML = '';
+  document.querySelectorAll('#nz input').forEach(el => el.addEventListener('change', markDirty));
+}
+
+/* =========================================================
+   CALCULATION ENGINE (facility-aware, ported from v1)
+   ========================================================= */
+function lineageEntry(scope, category, method, activityVal, activityUnit, ef, co2e_kg, facilityId){
+  const fac = WS.facilities.find(f=>f.id===facilityId);
+  return {
+    scope, category, method,
+    facility_id: facilityId || null,
+    facility_name: fac ? fac.name : (facilityId ? facilityId : 'Company-wide'),
+    activity_value: activityVal, activity_unit: activityUnit,
+    ef_value: ef.value, ef_unit: ef.unit, ef_source: ef.source, ef_version: ef.version, ef_tier: ef.tier,
+    co2e_kg: co2e_kg, co2e_tonnes: co2e_kg/1000,
+    formula_applied: `${activityVal} ${activityUnit} × ${ef.value} ${ef.unit} = ${co2e_kg.toFixed(3)} kgCO2e`,
+    timestamp: new Date().toISOString()
+  };
+}
+
+function calcStationary(p){
+  let total = 0;
+  p.stationary.forEach(r => {
+    const ef = EF_LIBRARY.stationary[r.fuel];
+    const co2e = r.qty * ef.value;
+    total += co2e;
+    p.lineage.push(lineageEntry('1','stationary_combustion','activity_based',r.qty,r.unit,ef,co2e,r.facility));
+  });
+  return total;
+}
+
+function calcMobile(p){
+  let total = 0;
+  p.mobile.forEach(r => {
+    const ef = r.method === 'fuel' ? EF_LIBRARY.mobile_fuel[r.fueltype] : (EF_LIBRARY.mobile_distance[r.fueltype] || EF_LIBRARY.mobile_distance.car_avg);
+    const co2e = r.qty * ef.value;
+    total += co2e;
+    p.lineage.push(lineageEntry('1','mobile_combustion', r.method==='fuel'?'activity_based (fuel)':'activity_based (distance, Tier3 proxy)', r.qty, r.unit, ef, co2e, r.facility));
+  });
+  return total;
+}
+
+function calcScope2LB(p){
+  let total = 0;
+  p.s2lb.forEach(r => {
+    const ef = EF_LIBRARY.grid_location[r.region] || EF_LIBRARY.grid_location.global;
+    const co2e = r.kwh * ef.value;
+    total += co2e;
+    p.lineage.push(lineageEntry('2','location_based','grid_average', r.kwh, 'kWh', ef, co2e, r.facility));
+  });
+  return total;
+}
+
+function calcScope2MB(p){
+  let total = 0;
+  p.s2mb.forEach(r => {
+    let efVal, efObj;
+    if(r.instrument === 'eac'){
+      efVal = r.efOverride || 0;
+      efObj = { value: efVal, unit:'kgCO2e/kWh', source:'EAC/REC instrument-specific (user attested)', version:'n/a', tier:1 };
+    } else if(r.instrument === 'supplier'){
+      efVal = r.efOverride || 0;
+      efObj = { value: efVal, unit:'kgCO2e/kWh', source:'Supplier-specific disclosure', version:'n/a', tier:1 };
+    } else {
+      efObj = EF_LIBRARY.residual_mix.EU;
+      efVal = efObj.value;
+    }
+    const co2e = r.kwh * efVal;
+    total += co2e;
+    p.lineage.push(lineageEntry('2','market_based', r.instrument, r.kwh, 'kWh', efObj, co2e, r.facility));
+  });
+  return total;
+}
+
+function calcScope3(p){
+  let total = 0;
+  p.s3.forEach(r => {
+    let ef;
+    if(r.method === 'spend_based') ef = EF_LIBRARY.scope3_spend[r.cat];
+    else ef = EF_LIBRARY.scope3_activity[r.cat];
+    const co2e = r.value * ef.value;
+    total += co2e;
+    p.lineage.push(lineageEntry('3', r.cat, r.method, r.value, r.unit, ef, co2e, null));
+  });
+  return total;
+}
+
+function calculateAll(){
+  document.getElementById('errBox').classList.remove('show');
+  syncStateFromDOM();
+  const p = currentPeriod();
+  p.lineage = [];
+  try {
+    const scope1 = calcStationary(p) + calcMobile(p);
+    const scope2lb = calcScope2LB(p);
+    const scope2mb = calcScope2MB(p);
+    const scope3 = calcScope3(p);
+    p.results = { scope1, scope2lb, scope2mb, scope3 };
+
+    const totalLB = scope1 + scope2lb + scope3;
+    const totalMB = scope1 + scope2mb + scope3;
+
+    document.getElementById('statCards').innerHTML = `
+      ${statCard('Scope 1', scope1, 's1')}
+      ${statCard('Scope 2 (Location-Based)', scope2lb, 's2')}
+      ${statCard('Scope 2 (Market-Based)', scope2mb, 's2')}
+      ${statCard('Scope 3 (all categories)', scope3, 's3')}
+      ${statCard('TOTAL - Location-Based', totalLB, 'total')}
+      ${statCard('TOTAL - Market-Based', totalMB, 'total')}
+    `;
+    renderFacilityBreakdown(p);
+    document.getElementById('lineageOutput').textContent = p.lineage.map(l=>`[S${l.scope}/${l.category}${l.facility_name?' @ '+l.facility_name:''}] ${l.formula_applied}  (src: ${l.ef_source} v${l.ef_version}, tier ${l.ef_tier})`).join('\n') || 'No entries to calculate yet - add data in the Scope 1/2/3 tabs.';
+    document.getElementById('jsonPreview').textContent = JSON.stringify(buildExportObject(), null, 2).slice(0,3000) + '\n... (truncated preview - full content on export)';
+    markDirty();
+  } catch(e){
+    showError('Calculation error: ' + e.message);
+  }
+}
+
+function renderFacilityBreakdown(p){
+  const byFac = {};
+  p.lineage.forEach(l => {
+    if(l.scope === '3') return;
+    const key = l.facility_name || 'Company-wide';
+    if(!byFac[key]) byFac[key] = { s1: 0, s2lb: 0, s2mb: 0 };
+    if(l.scope === '1') byFac[key].s1 += l.co2e_tonnes;
+    else if(l.scope === '2' && l.category === 'location_based') byFac[key].s2lb += l.co2e_tonnes;
+    else if(l.scope === '2' && l.category === 'market_based') byFac[key].s2mb += l.co2e_tonnes;
+  });
+  const tbody = document.querySelector('#tbl-facility-breakdown tbody');
+  const rows = Object.entries(byFac);
+  tbody.innerHTML = rows.length ? rows.map(([name, v]) => `
+    <tr><td>${name}</td><td>${v.s1.toFixed(2)}</td><td>${v.s2lb.toFixed(2)}</td><td>${v.s2mb.toFixed(2)}</td></tr>
+  `).join('') : `<tr><td colspan="4" style="color:var(--muted);font-style:italic">No Scope 1/2 data calculated yet.</td></tr>`;
+}
+
+/* =========================================================
+   TRENDS ACROSS REPORTING PERIODS
+   Reads stored per-period results (no recalculation here -
+   each period's numbers are whatever was last "Calculate"d
+   on its own Results tab).
+   ========================================================= */
+function periodsWithResults(){
+  syncStateFromDOM();
+  return WS.periods
+    .filter(p => (p.results.scope1||0) + (p.results.scope2lb||0) + (p.results.scope2mb||0) + (p.results.scope3||0) > 0)
+    .sort((a,b) => a.year - b.year);
+}
+
+function renderTrends(){
+  const container = document.getElementById('trendsContent');
+  const periods = periodsWithResults();
+
+  if(periods.length === 0){
+    container.innerHTML = `<div class="trend-empty">No calculated periods yet. Go to a reporting period's Results &amp; Export tab, click "Calculate", then come back here.</div>`;
+    return;
+  }
+  if(periods.length === 1){
+    container.innerHTML = `<div class="trend-empty">Only one calculated period so far (${periods[0].label}). Add another reporting period, enter its data, calculate it, and a trend line will appear here.</div>`;
+    return;
+  }
+
+  const totalsLB = periods.map(p => (p.results.scope1 + p.results.scope2lb + p.results.scope3)/1000);
+  const s1 = periods.map(p => p.results.scope1/1000);
+  const s2 = periods.map(p => p.results.scope2lb/1000);
+  const s3 = periods.map(p => p.results.scope3/1000);
+  const years = periods.map(p => p.label);
+
+  container.innerHTML = `
+    <div class="trend-grid">
+      <div class="trend-panel">
+        <div class="trend-panel-title">Multi-Year Emissions Trend (Location-Based, tCO2e)</div>
+        ${lineChartSVG(years, [
+          {name:'Total', data: totalsLB, color: 'var(--gold)'},
+          {name:'Scope 1', data: s1, color: 'var(--s1)'},
+          {name:'Scope 2 (LB)', data: s2, color: 'var(--s2)'},
+          {name:'Scope 3', data: s3, color: 'var(--s3)'}
+        ])}
+        <div class="legend-row">
+          <span><span class="legend-dot" style="background:var(--gold)"></span>Total</span>
+          <span><span class="legend-dot" style="background:var(--s1)"></span>Scope 1</span>
+          <span><span class="legend-dot" style="background:var(--s2)"></span>Scope 2 (LB)</span>
+          <span><span class="legend-dot" style="background:var(--s3)"></span>Scope 3</span>
+        </div>
+      </div>
+      <div class="trend-panel">
+        <div class="trend-panel-title">Scope Distribution - ${periods[periods.length-1].label}</div>
+        ${donutSVG(s1[s1.length-1], s2[s2.length-1], s3[s3.length-1])}
+        <div class="legend-row">
+          <span><span class="legend-dot" style="background:var(--s1)"></span>Scope 1</span>
+          <span><span class="legend-dot" style="background:var(--s2)"></span>Scope 2</span>
+          <span><span class="legend-dot" style="background:var(--s3)"></span>Scope 3</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="trend-panel-title" style="margin-top:24px">Year-on-Year Change</div>
+    ${yoyCards(periods, totalsLB)}
+
+    ${sbtiOverlayNote(periods, totalsLB)}
+  `;
+}
+
+function lineChartSVG(labels, series){
+  const W = 520, H = 220, padL = 38, padR = 14, padT = 14, padB = 28;
+  const allVals = series.flatMap(s => s.data);
+  const maxV = Math.max(...allVals) * 1.15 || 1;
+  const minV = Math.min(0, Math.min(...allVals));
+  const innerW = W - padL - padR, innerH = H - padT - padB;
+  const xStep = labels.length > 1 ? innerW / (labels.length - 1) : 0;
+  const yScale = v => padT + innerH - ((v - minV) / (maxV - minV || 1)) * innerH;
+  const xScale = i => padL + xStep * i;
+
+  const gridLines = [0,0.25,0.5,0.75,1].map(f => {
+    const y = padT + innerH * f;
+    const val = (maxV - (maxV-minV)*f).toFixed(0);
+    return `<line x1="${padL}" y1="${y}" x2="${W-padR}" y2="${y}" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
+            <text x="${padL-6}" y="${y+3}" font-size="9" fill="rgba(255,255,255,0.4)" text-anchor="end" font-family="var(--mono)">${val}</text>`;
+  }).join('');
+
+  const xLabels = labels.map((lab,i) => `<text x="${xScale(i)}" y="${H-8}" font-size="9.5" fill="rgba(255,255,255,0.45)" text-anchor="middle" font-family="var(--mono)">${lab}</text>`).join('');
+
+  const lines = series.map(s => {
+    const pts = s.data.map((v,i) => `${xScale(i)},${yScale(v)}`).join(' ');
+    const dots = s.data.map((v,i) => `<circle cx="${xScale(i)}" cy="${yScale(v)}" r="3" fill="${s.color}"/>`).join('');
+    return `<polyline points="${pts}" fill="none" stroke="${s.color}" stroke-width="2"/>${dots}`;
+  }).join('');
+
+  return `<svg viewBox="0 0 ${W} ${H}" style="width:100%;height:auto;max-height:240px">${gridLines}${lines}${xLabels}</svg>`;
+}
+
+function donutSVG(s1, s2, s3){
+  const total = s1 + s2 + s3;
+  if(total <= 0) return `<div class="trend-empty">No scope data for this period.</div>`;
+  const r = 60, cx = 90, cy = 90, strokeW = 22;
+  const circumference = 2 * Math.PI * r;
+  let offset = 0;
+  const segs = [
+    { val: s1, color: 'var(--s1)' },
+    { val: s2, color: 'var(--s2)' },
+    { val: s3, color: 'var(--s3)' }
+  ];
+  const arcs = segs.map(seg => {
+    const frac = seg.val / total;
+    const dash = frac * circumference;
+    const gap = circumference - dash;
+    const circle = `<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="${seg.color}" stroke-width="${strokeW}"
+      stroke-dasharray="${dash} ${gap}" stroke-dashoffset="${-offset}" transform="rotate(-90 ${cx} ${cy})"/>`;
+    offset += dash;
+    return circle;
+  }).join('');
+  return `<svg viewBox="0 0 180 180" style="width:180px;height:180px;display:block;margin:0 auto">
+    ${arcs}
+    <text x="${cx}" y="${cy-4}" text-anchor="middle" font-family="var(--serif)" font-size="20" fill="var(--white)">${total.toFixed(0)}</text>
+    <text x="${cx}" y="${cy+14}" text-anchor="middle" font-family="var(--sans)" font-size="9" fill="var(--muted)">tCO2e total</text>
+  </svg>`;
+}
+
+function yoyCards(periods, totalsLB){
+  const latest = periods.length - 1;
+  const prev = latest - 1;
+  const cards = [];
+
+  function deltaCard(label, curr, prior){
+    const delta = curr - prior;
+    const pct = prior !== 0 ? (delta/prior*100) : 0;
+    const dir = delta < -0.01 ? 'down' : (delta > 0.01 ? 'up' : 'flat');
+    const arrow = dir === 'down' ? '↓' : (dir === 'up' ? '↑' : '→');
+    return `<div class="yoy-card">
+      <div class="yoy-label">${label}</div>
+      <div class="yoy-value">${curr.toFixed(1)}</div>
+      <div class="yoy-delta ${dir}">${arrow} ${Math.abs(pct).toFixed(1)}% vs ${periods[prior].label}</div>
+    </div>`;
+  }
+
+  cards.push(deltaCard('Total (LB) - ' + periods[latest].label, totalsLB[latest], totalsLB[prev]));
+
+  const s1 = periods.map(p=>p.results.scope1/1000);
+  const s2 = periods.map(p=>p.results.scope2lb/1000);
+  const s3 = periods.map(p=>p.results.scope3/1000);
+  cards.push(deltaCard('Scope 1', s1[latest], s1[prev]));
+  cards.push(deltaCard('Scope 2 (LB)', s2[latest], s2[prev]));
+  cards.push(deltaCard('Scope 3', s3[latest], s3[prev]));
+
+  return `<div class="yoy-grid">${cards.join('')}</div>`;
+}
+
+function sbtiOverlayNote(periods, totalsLB){
+  const p = currentPeriod();
+  if(!p || !p.sbti || !p.sbti.aca) return '';
+  const rate = p.sbti.aca.rate / 100;
+  const baseYear = p.sbti.aca.baseYear;
+  const baseTotal = totalsLB[0];
+  const latest = periods[periods.length-1];
+  const yearsElapsed = latest.year - baseYear;
+  if(yearsElapsed <= 0 || !baseTotal) return '';
+  const requiredNow = baseTotal * Math.pow(1 - rate, yearsElapsed);
+  const actualNow = totalsLB[totalsLB.length-1];
+  const aheadBehind = actualNow <= requiredNow ? 'ahead of' : 'behind';
+  const gap = Math.abs(actualNow - requiredNow);
+  return `<div class="sbti-overlay-note">Against the SBTi ACA pathway set on the <b>${currentPeriod().label}</b> period's SBTi tab (${(rate*100).toFixed(1)}%/yr from ${baseYear}): actual emissions in ${latest.label} are <b>${aheadBehind} schedule</b> by approximately ${gap.toFixed(1)} tCO2e. This compares the most recently calculated period only - switch reporting periods and recalculate to update the comparison base.</div>`;
+}
+
+function statCard(label, kg, variant){
+  const t = (kg/1000).toFixed(2);
+  const cls = variant === 'total' ? 'stat-total' : 'stat-' + variant;
+  return `<div class="stat-card ${cls}">
+    <div class="stat-label">${label}</div>
+    <div class="stat-value">${t}</div>
+    <div class="stat-meta">tCO2e · ${kg.toFixed(1)} kg</div>
+  </div>`;
+}
+
+function showError(msg){
+  const box = document.getElementById('errBox');
+  box.textContent = msg;
+  box.classList.add('show');
+}
+
+/* =========================================================
+   SBTi TARGET-SETTING (unchanged logic from v1)
+   ========================================================= */
+function runACA(){
+  const baseYear = parseInt(document.getElementById('aca-base-year').value);
+  const targetYear = parseInt(document.getElementById('aca-target-year').value);
+  const rate = parseFloat(document.getElementById('aca-rate').value)/100;
+  const p = currentPeriod();
+  const baseEmissions = (p.results.scope1||0) + (p.results.scope2lb||0) + (p.results.scope3||0);
+  const baseTonnes = baseEmissions/1000 || 50000;
+
+  let rows = '';
+  for(let y = baseYear; y <= targetYear; y++){
+    const e = baseTonnes * Math.pow(1-rate, y-baseYear);
+    rows += `<tr><td>${y}</td><td>${e.toFixed(1)}</td></tr>`;
+  }
+  const totalReduction = (1 - Math.pow(1-rate, targetYear-baseYear)) * 100;
+  document.getElementById('aca-output').innerHTML = `
+    <p>Required cumulative reduction by ${targetYear}: <b>${totalReduction.toFixed(1)}%</b> vs base year (rate ${(rate*100).toFixed(1)}%/yr).</p>
+    <table class="traj-table"><tr><th>Year</th><th>Target tCO2e</th></tr>${rows}</table>`;
+  markDirty();
+}
+
+function runSDA(){
+  const baseInt = parseFloat(document.getElementById('sda-base-int').value);
+  const benchmark = parseFloat(document.getElementById('sda-benchmark').value);
+  const convYear = parseInt(document.getElementById('sda-conv-year').value);
+  const baseYear = parseInt(document.getElementById('sda-base-year').value);
+  const targetYear = parseInt(document.getElementById('sda-target-year').value);
+  const output = parseFloat(document.getElementById('sda-output').value);
+
+  let rows = '';
+  for(let y = baseYear; y <= Math.max(targetYear, convYear); y += Math.max(1, Math.round((targetYear-baseYear)/5)) ){
+    const frac = (y - baseYear) / (convYear - baseYear);
+    const intensity = baseInt - (baseInt - benchmark) * Math.min(frac,1);
+    rows += `<tr><td>${y}</td><td>${intensity.toFixed(4)}</td></tr>`;
+    if(y >= targetYear && y >= convYear) break;
+  }
+  const fracTarget = (targetYear - baseYear) / (convYear - baseYear);
+  const intensityTarget = baseInt - (baseInt - benchmark) * Math.min(fracTarget,1);
+  const absoluteTarget = intensityTarget * output;
+
+  document.getElementById('sda-output-display').innerHTML = `
+    <p>Target-year intensity (${targetYear}): <b>${intensityTarget.toFixed(4)} kgCO2e/unit</b> → absolute target: <b>${(absoluteTarget/1000).toFixed(1)} tCO2e</b> at projected output of ${output.toLocaleString()} units.</p>
+    <table class="traj-table"><tr><th>Year</th><th>Intensity (kgCO2e/unit)</th></tr>${rows}</table>`;
+  markDirty();
+}
+
+/* =========================================================
+   NET ZERO TRAJECTORY (unchanged logic from v1)
+   ========================================================= */
+function runNetZero(){
+  const baseEmissions = parseFloat(document.getElementById('nz-base-emissions').value);
+  const baseYear = parseInt(document.getElementById('nz-base-year').value);
+  const targetYear = parseInt(document.getElementById('nz-target-year').value);
+  const floorPct = parseFloat(document.getElementById('nz-floor').value)/100;
+
+  const longTermTarget = baseEmissions * (1 - floorPct);
+  const years = targetYear - baseYear;
+  const r = 1 - Math.pow(longTermTarget/baseEmissions, 1/years);
+
+  let rows = '';
+  for(let y = baseYear; y <= targetYear; y += Math.max(1, Math.round(years/10))){
+    const e = baseEmissions * Math.pow(1-r, y-baseYear);
+    rows += `<tr><td>${y}</td><td>${e.toFixed(1)}</td></tr>`;
+  }
+  const residual = longTermTarget;
+
+  document.getElementById('nz-output').innerHTML = `
+    <p>Implied annual reduction rate: <b>${(r*100).toFixed(2)}%/yr</b> to reach ≥${(floorPct*100).toFixed(0)}% reduction by ${targetYear}.</p>
+    <p>Residual emissions at net-zero year: <b>${residual.toFixed(1)} tCO2e</b> - must be matched 1:1 with permanent carbon removals with durable storage (not interim offsets or beyond-value-chain mitigation), per the SBTi Net-Zero Standard mitigation hierarchy.</p>
+    <table class="traj-table"><tr><th>Year</th><th>Trajectory tCO2e</th></tr>${rows}</table>`;
+  markDirty();
+}
+</script>
+<script>
+/* =========================================================
+   EXPORT - JSON (full workspace) and CSV (current period lineage)
+   ========================================================= */
+function buildExportObject(){
+  syncStateFromDOM();
+  return {
+    schema_version: SCHEMA_VERSION,
+    generated_at: new Date().toISOString(),
+    gwp_set: "AR6",
+    facilities: WS.facilities,
+    periods: WS.periods.map(p => ({
+      id: p.id, year: p.year, label: p.label,
+      results_kg: p.results,
+      results_tonnes: Object.fromEntries(Object.entries(p.results).map(([k,v])=>[k, v/1000])),
+      stationary: p.stationary, mobile: p.mobile, s2lb: p.s2lb, s2mb: p.s2mb, s3: p.s3,
+      sbti: p.sbti, netZero: p.netZero,
+      lineage: p.lineage
+    })),
+    disclosed_assumptions: [
+      "SDA uses simplified linear convergence, not full sector pathway data.",
+      "Scope 3 Cat.15 (Investments) uses a generic PCAF-style attribution proxy, not asset-class-specific PCAF methods.",
+      "Scope 2 market-based instrument quality criteria (vintage/geographic/temporal matching) are user-attested, not programmatically verified.",
+      "Net-Zero residual threshold defaults to a 90% reduction floor; sector-specific guidance may require higher (e.g. 95%).",
+      "Facility active_from/active_to dates are user-maintained and not independently verified."
+    ]
+  };
+}
+
+function exportJSON(){
+  const obj = buildExportObject();
+  const blob = new Blob([JSON.stringify(obj, null, 2)], {type:'application/json'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'ghg_calculator_export_' + currentPeriod().year + '.json';
+  a.click();
+}
+
+function exportCSV(){
+  const p = currentPeriod();
+  if(p.lineage.length === 0){ showError('Run Calculate before exporting.'); return; }
+  const headers = ['scope','category','method','facility_name','activity_value','activity_unit','ef_value','ef_unit','ef_source','ef_version','ef_tier','co2e_kg','co2e_tonnes','formula_applied'];
+  const rows = p.lineage.map(l => headers.map(h => `"${String(l[h]).replace(/"/g,'""')}"`).join(','));
+  const csv = headers.join(',') + '\n' + rows.join('\n');
+  const blob = new Blob([csv], {type:'text/csv'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'ghg_calculator_lineage_' + p.year + '.csv';
+  a.click();
+}
+
+/* =========================================================
+   SAVE / LOAD PROGRESS FILE (the real continuity mechanism)
+   ========================================================= */
+function saveProgressFile(){
+  syncStateFromDOM();
+  WS.last_modified = new Date().toISOString();
+  const blob = new Blob([JSON.stringify(WS, null, 2)], {type:'application/json'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  const dateStr = new Date().toISOString().slice(0,10);
+  a.download = `ghg_calculator_progress_${dateStr}.json`;
+  a.click();
+  updateSaveStatus('saved');
+}
+
+function loadProgressFile(input){
+  const file = input.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    try {
+      const parsed = JSON.parse(e.target.result);
+      if(!parsed.periods || !parsed.facilities){
+        showError('This file does not look like a valid GHG Calculator progress file.');
+        return;
+      }
+      if(!confirm('Loading this file will replace everything currently in the workspace. Continue?')) return;
+      WS = parsed;
+      if(!WS.activePeriodId || !WS.periods.find(p=>p.id===WS.activePeriodId)){
+        WS.activePeriodId = WS.periods[0].id;
+      }
+      renderEverything();
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(WS));
+      updateSaveStatus('saved');
+    } catch(err){
+      showError('Could not read this file: ' + err.message);
+    }
+  };
+  reader.readAsText(file);
+  input.value = '';
+}
+
+/* =========================================================
+   RESET ACTIONS
+   ========================================================= */
+function confirmResetWorkspace(){
+  if(!confirm('This clears everything - all periods, facilities, and entries - and cannot be undone. Consider using "Save Progress File" first. Continue?')) return;
+  WS = emptyWorkspace();
+  renderEverything();
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(WS));
+  updateSaveStatus('saved');
+}
+
+function confirmResetCalculation(){
+  const p = currentPeriod();
+  p.lineage = [];
+  p.results = { scope1:0, scope2lb:0, scope2mb:0, scope3:0 };
+  document.getElementById('statCards').innerHTML = '';
+  document.getElementById('lineageOutput').textContent = 'Run "Calculate" to populate.';
+  document.getElementById('jsonPreview').textContent = '-';
+  document.querySelector('#tbl-facility-breakdown tbody').innerHTML = '';
+  markDirty();
+}
+
+/* =========================================================
+   FULL RENDER (after restore / load / reset)
+   ========================================================= */
+function renderEverything(){
+  renderPeriodSelector();
+  renderPeriodRegistry();
+  renderFacilityRegistry();
+  renderScopeTables();
+  renderSBTiInputs();
+  renderNetZeroInputs();
+  document.getElementById('statCards').innerHTML = '';
+  document.getElementById('lineageOutput').textContent = 'Run "Calculate" to populate.';
+  document.getElementById('jsonPreview').textContent = '-';
+  document.querySelector('#tbl-facility-breakdown tbody').innerHTML = '';
+  document.getElementById('trendsContent').innerHTML = '';
+}
+
+/* =========================================================
+   TAB NAVIGATION
+   ========================================================= */
+document.getElementById('tabNav').addEventListener('click', (e)=>{
+  if(e.target.tagName !== 'BUTTON') return;
+  syncStateFromDOM();
+  document.querySelectorAll('#tabNav button').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.scope-panel').forEach(p=>p.classList.remove('active'));
+  e.target.classList.add('active');
+  document.getElementById(e.target.dataset.tab).classList.add('active');
+  if(e.target.dataset.tab === 'trends') renderTrends();
+});
+
+/* =========================================================
+   INIT
+   ========================================================= */
+window.addEventListener('beforeunload', () => {
+  try { syncStateFromDOM(); localStorage.setItem(STORAGE_KEY, JSON.stringify(WS)); } catch(e){}
+});
+
+(function init(){
+  let restored = false;
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if(saved){
+      checkForRestorableSession();
+      restored = true;
+    }
+  } catch(e){}
+
+  WS = emptyWorkspace();
+  renderEverything();
+
+  if(!restored){
+    // seed a couple of example rows so a first-time user sees how it works
+    addRow('stationary');
+    addRow('mobile');
+    addRow('s2lb');
+    addRow('s2mb');
+    addRow('s3');
+  }
+  updateSaveStatus('saved');
+})();
+</script>
+</body>
+</html>

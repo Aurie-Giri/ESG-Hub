@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="A five-stage structured foresight tool for scanning signals, building scenarios, and producing a board-ready Foresight Brief.">
+<title>ESG Foresight Tool - Aurie's Knowledge Hub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Inter:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --green-deep:#0e2b1a;--green-mid:#1a3d28;--green-light:#234d33;--green-dark:#091f12;
+  --gold:#c9a84c;--gold-light:#e0c07a;--gold-dim:rgba(201,168,76,0.15);
+  --white:#fff;--muted:#8a9e90;--border:rgba(201,168,76,0.18);
+  --serif:'Cormorant Garamond',Georgia,serif;--sans:'Inter',system-ui,sans-serif;--mono:'DM Mono',monospace;
+  --acc:#1D9E75;--acc-dim:rgba(29,158,117,0.10);--acc-bdr:rgba(29,158,117,0.28);--acc-light:#5DCAA5;
+  --warn:#e07070;--warn-dim:rgba(224,112,112,0.12);--warn-bdr:rgba(224,112,112,0.32);
+  --amber:#e0a73c;--amber-dim:rgba(224,167,60,0.12);--amber-bdr:rgba(224,167,60,0.30);
+  --s-accel:#1a9e75;--s-friction:#c9a84c;--s-disrupt:#e07070;--s-reinvent:#7b5ea7;
+}
+html{scroll-behavior:smooth}
+body{background:var(--green-deep);color:var(--white);font-family:var(--sans);font-weight:300;font-size:15px;line-height:1.7;min-height:100vh}
+::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:var(--green-deep)}::-webkit-scrollbar-thumb{background:rgba(201,168,76,0.35);border-radius:3px}
+
+.page-header{padding:6.5rem 2.5rem 2.5rem;background:radial-gradient(ellipse at 70% 30%,rgba(26,61,40,0.95) 0%,var(--green-deep) 65%);border-bottom:1px solid var(--border)}
+.back-link{font-size:0.7rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);text-decoration:none;display:inline-flex;align-items:center;gap:6px;margin-bottom:1.1rem;transition:color 0.15s}
+.back-link:hover{color:var(--gold)}
+.page-eyebrow{font-size:0.7rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem;display:flex;align-items:center;gap:1rem}
+.page-eyebrow::before{content:'';width:2.5rem;height:1px;background:var(--gold);display:inline-block}
+h1.page-title{font-family:var(--serif);font-size:clamp(1.8rem,3.6vw,3rem);font-weight:300;line-height:1.1;margin-bottom:0.7rem}
+h1.page-title em{font-style:italic;color:var(--gold)}
+.page-desc{font-size:0.92rem;color:rgba(255,255,255,0.58);max-width:700px;line-height:1.8;margin-bottom:1.4rem}
+.header-meta{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:0.5rem}
+.meta-badge{padding:4px 13px;font-size:10px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;font-family:var(--sans)}
+.save-strip{background:var(--green-mid);border-bottom:1px solid var(--border);padding:10px 2.5rem;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.save-strip-left{display:flex;align-items:center;gap:10px;flex:1;min-width:200px}
+.save-dot{width:7px;height:7px;border-radius:50%;background:var(--acc);flex-shrink:0;box-shadow:0 0 6px var(--acc-bdr)}
+.save-dot.unsaved{background:var(--gold);box-shadow:0 0 6px rgba(201,168,76,0.4)}
+.save-status-text{font-size:0.76rem;color:rgba(255,255,255,0.55);font-family:var(--mono)}
+.save-actions{display:flex;gap:8px;flex-wrap:wrap}
+.btn{font-family:var(--sans);font-size:0.72rem;font-weight:500;letter-spacing:0.05em;padding:7px 16px;border:1px solid rgba(201,168,76,0.3);background:transparent;color:rgba(255,255,255,0.75);cursor:pointer;transition:all 0.15s;text-transform:uppercase}
+.btn:hover{border-color:var(--gold);color:var(--gold-light);background:var(--gold-dim)}
+.btn.btn-primary{background:var(--acc-dim);border-color:var(--acc-bdr);color:var(--acc-light)}
+.btn.btn-primary:hover{background:rgba(29,158,117,0.22)}
+.btn.btn-gold{background:var(--gold-dim);border-color:rgba(201,168,76,0.4);color:var(--gold)}
+.btn.btn-warn{border-color:var(--warn-bdr);color:var(--warn)}
+input.file-input-hidden{display:none}
+.restore-banner{background:var(--acc-dim);border-bottom:1px solid var(--acc-bdr);padding:12px 2.5rem;display:none;align-items:center;gap:16px;flex-wrap:wrap}
+.restore-banner.show{display:flex}
+.restore-text{font-size:0.82rem;color:rgba(255,255,255,0.8);flex:1}
+.restore-text b{color:var(--acc-light)}
+.page-nav{background:var(--green-mid);border-bottom:1px solid var(--border);padding:0 2.5rem;display:flex;overflow-x:auto;position:sticky;top:64px;z-index:90}
+.page-nav-btn{padding:12px 18px;font-size:0.72rem;letter-spacing:0.07em;text-transform:uppercase;color:rgba(255,255,255,0.45);border-bottom:2px solid transparent;white-space:nowrap;transition:all 0.15s;cursor:pointer;background:none;border-top:none;border-left:none;border-right:none;font-family:var(--sans)}
+.page-nav-btn:hover{color:var(--gold-light)}
+.page-nav-btn.active{color:var(--gold);border-bottom-color:var(--gold)}
+main{padding:0 2.5rem 5rem;max-width:1100px;margin:0 auto}
+.tool-panel{display:none;padding-top:2.5rem}
+.tool-panel.active{display:block}
+.section-divider{border-top:2px solid var(--gold);position:relative;margin:2.5rem 0 1.6rem}
+.section-divider-label{position:absolute;top:-12px;left:0;background:var(--green-deep);padding:0 14px 0 0;font-size:9px;letter-spacing:0.22em;text-transform:uppercase;color:var(--gold);font-family:var(--sans);font-weight:500}
+h2.panel-title{font-family:var(--serif);font-size:1.6rem;font-weight:300;color:var(--white);margin-bottom:0.6rem}
+h3.sub-title{font-family:var(--serif);font-size:1.1rem;font-weight:400;color:var(--acc-light);margin:1.8rem 0 0.6rem}
+.note{font-size:0.82rem;color:rgba(255,255,255,0.6);background:rgba(201,168,76,0.05);border-left:3px solid var(--gold);padding:10px 16px;margin:10px 0 16px;line-height:1.65}
+.note b{color:var(--gold-light)}
+.body-prose{font-size:0.88rem;color:rgba(255,255,255,0.7);line-height:1.75;margin-bottom:0.8rem;max-width:740px}
+.body-prose strong{color:rgba(255,255,255,0.9);font-weight:500}
+.field-label{display:block;margin:12px 0 5px;font-size:0.78rem;font-weight:500;color:var(--gold-light);letter-spacing:0.02em}
+.field-hint{font-size:0.72rem;color:var(--muted);margin-bottom:5px}
+input[type=text],input[type=number],select,textarea{width:100%;padding:9px 12px;border:1px solid rgba(201,168,76,0.25);background:var(--green-dark);color:var(--white);font-family:var(--sans);font-size:0.86rem;border-radius:0}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--gold)}
+textarea{min-height:80px;resize:vertical}
+::placeholder{color:rgba(255,255,255,0.3)}
+select option{background:var(--green-mid)}
+.setup-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px}
+.setup-card{background:var(--green-mid);border:1px solid var(--border);border-top:2px solid var(--gold);padding:20px 22px}
+.size-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:12px 0}
+.size-card{border:1px solid var(--border);padding:14px 16px;cursor:pointer;transition:all 0.15s;background:var(--green-mid)}
+.size-card:hover{border-color:var(--gold)}
+.size-card.selected{border-color:var(--acc);background:var(--acc-dim)}
+.size-card-title{font-size:0.84rem;font-weight:500;color:var(--white);margin-bottom:3px}
+.size-card-desc{font-size:0.72rem;color:var(--muted);line-height:1.45}
+.domain-tabs{display:flex;gap:0;border-bottom:1px solid var(--border);margin-bottom:16px;overflow-x:auto}
+.domain-tab{padding:9px 14px;font-size:0.7rem;letter-spacing:0.06em;text-transform:uppercase;color:rgba(255,255,255,0.4);cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;transition:all 0.15s;font-family:var(--sans);background:none;border-top:none;border-left:none;border-right:none}
+.domain-tab.active{color:var(--gold);border-bottom-color:var(--gold)}
+.signal-domain{display:none}.signal-domain.active{display:block}
+.signal-card{background:var(--green-mid);border:1px solid var(--border);padding:12px 14px;margin-bottom:6px}
+.signal-card-top{display:flex;gap:10px;align-items:flex-start;margin-bottom:6px}
+.signal-num{font-family:var(--mono);font-size:0.68rem;color:var(--gold);min-width:22px;padding-top:2px}
+.signal-text{flex:1;font-size:0.82rem;color:rgba(255,255,255,0.75);line-height:1.5}
+.signal-strength{display:flex;gap:5px;align-items:center;flex-shrink:0}
+.strength-label{font-size:0.62rem;color:var(--muted);letter-spacing:0.04em}
+.strength-btn{width:18px;height:18px;border-radius:50%;border:1px solid rgba(255,255,255,0.15);background:none;cursor:pointer;transition:all 0.15s;font-size:0}
+.strength-btn.weak.sel{background:var(--amber);border-color:var(--amber)}
+.strength-btn.strong.sel{background:var(--acc);border-color:var(--acc)}
+.signal-meta{display:flex;gap:6px;flex-wrap:wrap}
+.signal-badge{font-size:0.6rem;padding:1px 7px;border-radius:2px;font-weight:500;letter-spacing:0.05em}
+.badge-push{background:rgba(29,158,117,0.12);color:var(--acc-light);border:1px solid var(--acc-bdr)}
+.badge-pull{background:rgba(123,94,167,0.12);color:#c39bd3;border:1px solid rgba(123,94,167,0.3)}
+.badge-weight{background:rgba(224,112,112,0.12);color:#e07070;border:1px solid rgba(224,112,112,0.3)}
+.add-signal-row{display:flex;gap:8px;align-items:flex-start;margin-top:10px}
+.add-signal-input{flex:1;padding:8px 10px;border:1px dashed rgba(201,168,76,0.25);background:rgba(0,0,0,0.1);color:var(--white);font-family:var(--sans);font-size:0.82rem}
+.scenario-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin:14px 0}
+.scenario-card{border:1px solid;padding:20px 22px;position:relative;overflow:hidden;background:var(--green-mid)}
+.scenario-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+.sc-accel{border-color:rgba(29,158,117,0.3)}.sc-accel::before{background:var(--s-accel)}
+.sc-friction{border-color:rgba(201,168,76,0.3)}.sc-friction::before{background:var(--s-friction)}
+.sc-disrupt{border-color:rgba(224,112,112,0.3)}.sc-disrupt::before{background:var(--s-disrupt)}
+.sc-reinvent{border-color:rgba(123,94,167,0.3)}.sc-reinvent::before{background:var(--s-reinvent)}
+.scenario-eyebrow{font-size:0.64rem;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;margin-bottom:5px}
+.sc-accel .scenario-eyebrow{color:var(--s-accel)}
+.sc-friction .scenario-eyebrow{color:var(--s-friction)}
+.sc-disrupt .scenario-eyebrow{color:var(--s-disrupt)}
+.sc-reinvent .scenario-eyebrow{color:var(--s-reinvent)}
+.scenario-title{font-family:var(--serif);font-size:1.15rem;color:var(--white);margin-bottom:8px}
+.scenario-narrative{font-size:0.8rem;color:rgba(255,255,255,0.58);line-height:1.6;margin-bottom:10px}
+.indicator-label{font-size:0.66rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-bottom:5px}
+.indicator-item{font-size:0.76rem;color:rgba(255,255,255,0.5);padding:3px 0;border-bottom:1px solid rgba(255,255,255,0.04);line-height:1.4}
+.indicator-item::before{content:'-> ';color:var(--gold)}
+.wt-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border:1px solid var(--border);margin:10px 0}
+.wt-cell{background:var(--green-mid);padding:14px 16px}
+.wt-cell-header{display:flex;align-items:center;gap:6px;margin-bottom:8px}
+.wt-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.wt-name{font-size:0.7rem;font-weight:600;letter-spacing:0.06em;color:rgba(255,255,255,0.6)}
+.ir-status-sel{font-size:0.72rem;padding:5px 8px;border:1px solid rgba(201,168,76,0.2);background:var(--green-dark);color:rgba(255,255,255,0.6);font-family:var(--sans);border-radius:0}
+textarea.wt-notes{min-height:60px;font-size:0.78rem;margin-top:6px}
+.rm-row{display:grid;grid-template-columns:190px 1fr;gap:8px;margin-bottom:5px;align-items:start}
+.rm-bars{display:grid;grid-template-columns:repeat(4,1fr);gap:3px}
+.rm-bar{height:26px;border-radius:2px;display:flex;align-items:center;justify-content:center;font-size:0.6rem;font-weight:600;letter-spacing:0.05em;cursor:pointer;transition:opacity 0.15s;text-transform:uppercase}
+.rm-robust{background:rgba(29,158,117,0.2);border:1px solid var(--acc-bdr);color:var(--acc-light)}
+.rm-conditional{background:rgba(224,167,60,0.15);border:1px solid var(--amber-bdr);color:var(--amber)}
+.rm-reconsider{background:rgba(224,112,112,0.15);border:1px solid var(--warn-bdr);color:var(--warn)}
+.rm-na{background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.07);color:rgba(255,255,255,0.18)}
+.indicator-row{background:var(--green-mid);border:1px solid var(--border);padding:14px 16px;margin-bottom:8px}
+.ai-panel{background:var(--green-dark);border:1px dashed rgba(201,168,76,0.3);padding:16px 18px;margin:12px 0}
+.ai-panel-label{font-size:0.68rem;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--gold);margin-bottom:8px}
+.ai-result{font-size:0.82rem;color:rgba(255,255,255,0.7);line-height:1.65;display:none;margin-top:10px}
+.brief-output{background:var(--green-mid);border:1px solid var(--border);border-top:3px solid var(--gold);padding:28px 32px;margin-bottom:20px}
+.brief-company{font-family:var(--serif);font-size:1.6rem;font-weight:300;margin-bottom:6px}
+.brief-meta{font-size:0.78rem;color:var(--muted);margin-bottom:20px;font-family:var(--mono)}
+.brief-section{margin-bottom:20px;padding-bottom:20px;border-bottom:1px solid var(--border)}
+.brief-section:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}
+.brief-section-label{font-size:8px;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);margin-bottom:8px}
+.brief-4grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.brief-sc{padding:10px 12px;border:1px solid}
+.brief-sc-name{font-size:0.68rem;font-weight:600;letter-spacing:0.08em;margin-bottom:4px}
+.brief-sc-text{font-size:0.76rem;color:rgba(255,255,255,0.55);line-height:1.4}
+.brief-action{display:flex;gap:10px;padding:7px 0;border-bottom:1px solid rgba(255,255,255,0.04);font-size:0.82rem;color:rgba(255,255,255,0.7);line-height:1.45}
+.brief-action:last-child{border-bottom:none}
+.brief-action-num{font-family:var(--mono);font-size:0.7rem;color:var(--gold);min-width:20px;flex-shrink:0}
+.brief-indicators-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.brief-indicator{padding:8px 10px;background:rgba(0,0,0,0.15);border:1px solid rgba(255,255,255,0.06)}
+.bi-name{font-size:0.74rem;color:rgba(255,255,255,0.7);margin-bottom:2px}
+.bi-owner{font-size:0.66rem;color:var(--muted);font-family:var(--mono)}
+.method-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:14px 0}
+.method-card{background:var(--green-mid);border:1px solid var(--border);padding:16px 18px}
+.method-card-num{font-family:var(--mono);font-size:0.68rem;color:var(--gold);margin-bottom:4px}
+.method-card-title{font-family:var(--serif);font-size:1rem;color:var(--white);margin-bottom:6px}
+.method-card-text{font-size:0.78rem;color:rgba(255,255,255,0.52);line-height:1.6}
+.source-block{border:1px solid var(--border);border-left:3px solid var(--gold);padding:12px 14px;margin-bottom:8px}
+.source-name{font-weight:600;font-size:0.86rem;color:var(--white);margin-bottom:3px}
+.source-desc{font-size:0.78rem;color:rgba(255,255,255,0.48);line-height:1.55;margin-bottom:5px}
+.source-link{font-size:0.72rem;color:var(--gold);text-decoration:none;font-family:var(--mono)}
+.source-link:hover{text-decoration:underline}
+.principle-row{display:flex;gap:14px;align-items:flex-start;padding:9px 0;border-bottom:1px solid rgba(255,255,255,0.04)}
+.principle-row:last-child{border-bottom:none}
+.principle-num{font-family:var(--mono);font-size:0.7rem;color:var(--gold);min-width:24px;padding-top:2px;flex-shrink:0}
+.principle-title{font-size:0.84rem;font-weight:500;color:var(--white);margin-bottom:2px}
+.principle-text{font-size:0.76rem;color:rgba(255,255,255,0.48);line-height:1.5}
+.how-to-step{display:grid;grid-template-columns:38px 1fr;gap:12px;margin-bottom:18px}
+.hts-num{font-family:var(--serif);font-size:1.8rem;font-weight:300;color:var(--gold);line-height:1.1}
+.hts-title{font-size:0.88rem;font-weight:600;color:var(--white);margin-bottom:4px}
+.hts-text{font-size:0.8rem;color:rgba(255,255,255,0.52);line-height:1.65}
+.hts-time{font-size:0.66rem;color:var(--muted);font-family:var(--mono);margin-top:4px}
+.glossary-row{display:grid;grid-template-columns:150px 1fr;gap:12px;padding:7px 0;border-bottom:1px solid rgba(255,255,255,0.04)}
+.glossary-row:last-child{border-bottom:none}
+.glossary-term{font-size:0.8rem;font-weight:500;color:var(--acc-light)}
+.glossary-def{font-size:0.76rem;color:rgba(255,255,255,0.5);line-height:1.5}
+footer{padding:20px 2.5rem;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;color:var(--muted);font-size:0.75rem;flex-wrap:wrap;gap:8px;background:var(--green-dark)}
+.footer-brand{font-family:var(--serif);font-size:0.9rem;color:var(--gold)}
+@media(max-width:900px){
+  .setup-grid,.method-grid,.scenario-grid,.wt-grid,.brief-4grid,.size-grid{grid-template-columns:1fr}
+  .rm-row{grid-template-columns:1fr}
+  .page-header,main,footer,.save-strip,.page-nav{padding-left:1.5rem;padding-right:1.5rem}
+  .nav-link{min-width:80px;padding:0 0.9rem}
+  .nav-brand{padding:0 1.2rem;font-size:1.05rem}
+}
+@media(max-width:560px){.nav-link-sub{display:none}.brief-indicators-grid{grid-template-columns:1fr}}
+@media print{
+  nav,.save-strip,.page-nav,.restore-banner{display:none}
+  .tool-panel{display:none !important}
+  #brief{display:block !important}
+  main{padding:0}
+}
+
+/* ── NAV (standardised) ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; align-items: stretch;
+  background: rgba(9,31,18,0.97); backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+  height: 64px;
+}
+.nav-brand {
+  display: flex; align-items: center;
+  padding: 0 2.5rem;
+  font-family: var(--serif); font-size: 1.25rem; font-weight: 600;
+  letter-spacing: 0.04em; color: var(--white); text-decoration: none;
+  border-right: 1px solid var(--border);
+  flex-shrink: 0; transition: background 0.2s;
+}
+.nav-brand:hover { background: rgba(201,168,76,0.06); }
+.nav-brand span { color: var(--gold); }
+.nav-sections { display: flex; align-items: stretch; list-style: none; flex: 1; overflow-x: auto; }
+.nav-sections li { display: flex; }
+.nav-link {
+  display: flex; flex-direction: column; justify-content: center;
+  padding: 0 1.6rem; text-decoration: none;
+  border-right: 1px solid var(--border);
+  transition: background 0.18s; min-width: 120px;
+}
+.nav-link:hover { background: rgba(201,168,76,0.06); }
+.nav-link.active { background: var(--gold-dim); border-bottom: 2px solid var(--gold); }
+.nav-link-primary { font-size: 0.78rem; font-weight: 500; letter-spacing: 0.05em; color: rgba(255,255,255,0.88); line-height: 1.2; white-space: nowrap; }
+.nav-link-sub { font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); line-height: 1; margin-top: 3px; white-space: nowrap; }
+.nav-link:hover .nav-link-primary { color: var(--gold-light); }
+.nav-link:hover .nav-link-sub { color: rgba(201,168,76,0.6); }
+.nav-link.active .nav-link-primary { color: var(--gold); }
+.nav-link.active .nav-link-sub { color: rgba(201,168,76,0.7); }
+.nav-about {
+  display: flex; align-items: center; padding: 0 1.8rem;
+  font-size: 0.78rem; font-weight: 500; letter-spacing: 0.05em;
+  color: rgba(255,255,255,0.6); text-decoration: none;
+  margin-left: auto; transition: color 0.18s; white-space: nowrap;
+}
+.nav-about:hover { color: var(--gold); }
+@media (max-width: 768px) {
+  .nav-link { min-width: 100px; padding: 0 1rem; }
+  .nav-brand { padding: 0 1.2rem; font-size: 1.05rem; }
+}
+@media (max-width: 560px) {
+  .nav-link-sub { display: none; }
+  .nav-link { min-width: 80px; padding: 0 0.8rem; }
+}
+</style>
+</head>
+<body>
+<nav>
+  <a class="nav-brand" href="index.html">Aurie's <span>Knowledge Hub</span></a>
+  <ul class="nav-sections">
+    <li>
+      <a class="nav-link" href="ceo-insights.html">
+        <span class="nav-link-primary">CEO Insights</span>
+        <span class="nav-link-sub">For the leadership</span>
+      </a>
+    </li>
+    <li>
+      <a class="nav-link active" href="tools.html">
+        <span class="nav-link-primary">Tools &amp; Templates</span>
+        <span class="nav-link-sub">For ESG teams</span>
+      </a>
+    </li>
+    <li>
+      <a class="nav-link" href="resource-library.html">
+        <span class="nav-link-primary">Resource Library</span>
+        <span class="nav-link-sub">For practitioners</span>
+      </a>
+    </li>
+    <li>
+      <a class="nav-link" href="thought-papers.html">
+        <span class="nav-link-primary">Thought Papers</span>
+        <span class="nav-link-sub">For the curious</span>
+      </a>
+    </li>
+  </ul>
+  <a class="nav-about" href="about.html">About Me</a>
+</nav>
+<div class="page-header">
+  <a class="back-link" href="tools.html">- Toolkits</a>
+  <p class="page-eyebrow">Toolkits - ESG Foresight</p>
+  <h1 class="page-title">ESG Foresight Tool - <em>What Future Are You Preparing For?</em></h1>
+  <p class="page-desc">A five-stage structured foresight process for senior leadership teams - focused on climate, sustainability, and ESG. Scan signals, build four scenarios, stress-test your strategy, and produce a board-ready Foresight Brief. Fully offline. All data stays in your browser.</p>
+  <div class="header-meta">
+    <span class="meta-badge" style="background:var(--acc-dim);border:1px solid var(--acc-bdr);color:var(--acc-light)">5 Stages</span>
+    <span class="meta-badge" style="background:var(--gold-dim);border:1px solid rgba(201,168,76,0.4);color:var(--gold)">4 Scenarios</span>
+    <span class="meta-badge" style="background:rgba(123,94,167,0.12);border:1px solid rgba(123,94,167,0.3);color:#c39bd3">AI-Assisted Narratives</span>
+    <span class="meta-badge" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.5)">Fully Offline - Small, Medium and Large Companies</span>
+  </div>
+</div>
+<div class="restore-banner" id="restoreBanner">
+  <span class="restore-text">Saved session found - <b id="restoreDetail">last edited recently</b>. Restore your work?</span>
+  <button class="btn btn-primary" onclick="TOOL.restoreSession()">Restore session</button>
+  <button class="btn" onclick="TOOL.dismissRestore()">Start fresh</button>
+</div>
+<div class="save-strip">
+  <div class="save-strip-left">
+    <span class="save-dot" id="saveDot"></span>
+    <span class="save-status-text" id="saveStatusText">All changes saved automatically to this browser</span>
+  </div>
+  <div class="save-actions">
+    <button class="btn btn-gold" onclick="TOOL.saveFile()">Down Save Progress</button>
+    <button class="btn" onclick="document.getElementById('loadInput').click()">Up Load Progress</button>
+    <input type="file" id="loadInput" class="file-input-hidden" accept="application/json" onchange="TOOL.loadFile(this)">
+    <button class="btn btn-warn" onclick="TOOL.confirmReset()">Reset All</button>
+  </div>
+</div>
+<div class="page-nav">
+  <button class="page-nav-btn active" data-tab="methodology">Methodology</button>
+  <button class="page-nav-btn" data-tab="setup">1 - Orient</button>
+  <button class="page-nav-btn" data-tab="sense">2 - Sense</button>
+  <button class="page-nav-btn" data-tab="explore">3 - Explore</button>
+  <button class="page-nav-btn" data-tab="assess">4 - Assess</button>
+  <button class="page-nav-btn" data-tab="monitor">5 - Monitor</button>
+  <button class="page-nav-btn" data-tab="brief">Foresight Brief</button>
+</div>
+<main>
+
+<!-- METHODOLOGY -->
+<section id="methodology" class="tool-panel active">
+  <div class="section-divider"><span class="section-divider-label">About This Tool</span></div>
+  <h2 class="panel-title">Methodology, Sources &amp; How to Use</h2>
+
+  <p class="body-prose">This tool brings together fifty years of accumulated foresight practice from the world's leading futures institutions, adapted for one specific purpose: helping senior leadership teams in businesses of all sizes understand what different ESG and climate futures mean for their strategy, and what decisions they need to make now - regardless of which future arrives.</p>
+  <p class="body-prose">Strategic foresight is not prediction. It does not tell you what will happen. It tells you what could happen, helps you understand the forces shaping each possible future, and gives you a structured way to stress-test your current strategy against all of them. The most valuable output is not the scenarios themselves - it is the leadership conversation that would not otherwise happen, and the specific decisions and early warning indicators that conversation produces.</p>
+  <div class="note"><b>What this tool is not:</b> It is not a compliance tracker, a risk register, or a forecasting model. All of those exist and all produce the wrong output for senior leadership. This tool produces strategic foresight - a different and complementary capability.</div>
+
+  <h3 class="sub-title">Theoretical Foundations</h3>
+  <div class="method-grid">
+    <div class="method-card"><div class="method-card-num">01</div><div class="method-card-title">Systems Thinking</div><div class="method-card-text">From Donella Meadows (Thinking in Systems) and Peter Senge (The Fifth Discipline). Before exploring futures, understand how complex systems behave - stocks, flows, feedback loops, delays, and leverage points. Most planning errors occur because organisations focus on events rather than the system structures producing them. The "boiling frog" failure mode - gradual deterioration going unnoticed until crisis - is a systems problem. Foresight practice is the mechanism for extending the detection threshold.</div></div>
+    <div class="method-card"><div class="method-card-num">02</div><div class="method-card-title">Scenario Planning</div><div class="method-card-text">From Peter Schwartz (The Art of the Long View), architect of Shell's scenario process. The discipline: identify the focal question, map driving forces, separate critical uncertainties from predetermined elements, select scenario logics, build internally consistent narratives, windtunnel your strategy against each scenario, and identify leading indicators. Shell's scenarios anticipated the 1973 oil crisis - the most cited case of foresight producing competitive advantage.</div></div>
+    <div class="method-card"><div class="method-card-num">03</div><div class="method-card-title">Futures Archetypes</div><div class="method-card-text">From Jim Dator (University of Hawaii) and the Institute for the Future (IFTF). Four generic futures - Growth/Continuation, Constraint/Discipline, Collapse/Crisis, and Transformation - derived from systematic analysis of how societies imagine the future. Not scenarios themselves, but narrative templates revealing how different assumption sets lead to radically different strategic requirements. IFTF operationalised these for business practice over fifty years.</div></div>
+    <div class="method-card"><div class="method-card-num">04</div><div class="method-card-title">Causal Layered Analysis</div><div class="method-card-text">From Sohail Inayatullah (Six Pillars). Four levels of depth: Litany (surface events and headlines), Systemic causes (economic and political dynamics), Worldview (the paradigm making the system seem rational), Myth/metaphor (the deep story structuring the worldview). Most organisations engage with ESG at the Litany level - regulations and reporting. Genuine transformation requires working at the worldview level. CLA makes this possible.</div></div>
+    <div class="method-card"><div class="method-card-num">05</div><div class="method-card-title">Cognitive Foresight</div><div class="method-card-text">From Daniel Kahneman (Thinking, Fast and Slow), Nassim Taleb (The Black Swan), and Nate Silver (The Signal and the Noise). Why foresight is hard: the planning fallacy (systematic over-optimism), WYSIATI (we build narratives from available information, unaware of what we cannot see), the availability heuristic (over-weighting vivid recent events), and the ludic fallacy (formal risk models exclude the events that matter most). Understanding these failure modes is the first step to overcoming them.</div></div>
+    <div class="method-card"><div class="method-card-num">06</div><div class="method-card-title">Disruption and Strategy</div><div class="method-card-text">From Clayton Christensen (The Innovator's Dilemma) and Richard Rumelt (Good Strategy / Bad Strategy). Seeing the signal is not enough - the organisational response to foresight is structurally constrained by existing business models and incentives. Good strategy requires a diagnosis, a guiding policy, and coherent actions. Foresight without this kernel is a reporting exercise. The goal of this tool is to produce the kernel, not the report.</div></div>
+  </div>
+
+  <h3 class="sub-title">Primary Sources and Institutions</h3>
+  <div class="source-block">
+    <div class="source-name">Copenhagen Institute for Futures Studies (CIFS)</div>
+    <div class="source-desc">Founded 1969. One of the world's leading foresight institutions. This tool draws on CIFS's 10 Principles for Strategic Foresight, the Copenhagen Frame (five-stage engagement model), and the Applied Strategic Foresight Toolkit - including the Futures Triangle, Enablers &amp; Blockers, Three Horizons, windtunneling, and hybrid scenario methods. The core CIFS concept of "reperception" - achieving genuinely new ways of seeing the world, not just new information about it - is the deepest goal of this tool.</div>
+    <a class="source-link" href="https://www.cifs.dk" target="_blank">cifs.dk</a>
+  </div>
+  <div class="source-block">
+    <div class="source-name">Institute for the Future (IFTF)</div>
+    <div class="source-desc">Founded 1968 by Paul Baran, Olaf Helmer, and Ted Gordon - originators of the Delphi Method. The world's oldest foresight research organisation. This tool draws on IFTF's Prepare-Foresight-Insight-Action cycle, the signals and drivers framework ("signals are to drivers as raindrops are to clouds"), the Four Archetypes scenario method, Waves of Change, and Stakeholder Impact Mapping.</div>
+    <a class="source-link" href="https://www.iftf.org" target="_blank">iftf.org</a>
+  </div>
+  <div class="source-block">
+    <div class="source-name">Shell Scenarios</div>
+    <div class="source-desc">Shell pioneered corporate scenario planning in the 1960s-70s under Pierre Wack, producing the first corporate scenarios that anticipated the 1973 oil crisis. The methodology - codified by Peter Schwartz in The Art of the Long View - forms the structural backbone of this tool's scenario construction and windtunneling stages.</div>
+    <a class="source-link" href="https://www.shell.com/energy-and-innovation/the-energy-future/scenarios.html" target="_blank">shell.com/scenarios</a>
+  </div>
+  <div class="source-block">
+    <div class="source-name">Key Texts</div>
+    <div class="source-desc">Thinking in Systems (Donella Meadows, 2008) - The Fifth Discipline (Peter Senge, 1990) - The Art of the Long View (Peter Schwartz, 1991) - Six Pillars: Futures Thinking for Transforming (Sohail Inayatullah, 2008) - Thinking, Fast and Slow (Daniel Kahneman, 2011) - The Black Swan (Nassim Taleb, 2007) - The Signal and the Noise (Nate Silver, 2012) - The Innovator's Dilemma (Clayton Christensen, 1997) - Good Strategy / Bad Strategy (Richard Rumelt, 2011)</div>
+  </div>
+
+  <h3 class="sub-title">The 10 Principles for Strategic Foresight</h3>
+  <p class="body-prose" style="margin-bottom:12px">Developed by CIFS from decades of applied foresight practice, these principles govern every design decision in this tool. Reproduced here in adapted form.</p>
+  <div style="background:var(--green-mid);border:1px solid var(--border);padding:14px 20px">
+    <div class="principle-row"><div class="principle-num">01</div><div><div class="principle-title">Systems-thinking for resilience</div><div class="principle-text">Strategic foresight focuses on potential changes in the external environment - including signals that would otherwise be disregarded. A capability for anticipating systemic change, not just monitoring trends.</div></div></div>
+    <div class="principle-row"><div class="principle-num">02</div><div><div class="principle-title">Foresight and strategy are complementary parts of one process</div><div class="principle-text">Without foresight, strategy becomes blind to contextual change. Without strategy, foresight becomes conjecture. Foresight outcomes are not strategies in themselves - they should inspire insights for strategic planning.</div></div></div>
+    <div class="principle-row"><div class="principle-num">03</div><div><div class="principle-title">Look beyond the traditional planning horizon</div><div class="principle-text">Thinking within three to five years limits mental flexibility and leads to path-dependent thinking. Thinking 10+ years out better enables exploration of viable alternatives significantly different from today.</div></div></div>
+    <div class="principle-row"><div class="principle-num">04</div><div><div class="principle-title">Applicable to a broad range of contexts</div><div class="principle-text">Better strategic anticipation; innovation to spur new thinking; future-proofing to stress-test existing strategies; and thought-leadership beyond the organisation. Not all foresight projects need to be large-scale.</div></div></div>
+    <div class="principle-row"><div class="principle-num">05</div><div><div class="principle-title">Exploring plausible futures, not making predictions</div><div class="principle-text">The future is inherently unpredictable. We explore plausible futures informed by trajectories, emergent signals, and critical uncertainties - not a single point forecast.</div></div></div>
+    <div class="principle-row"><div class="principle-num">06</div><div><div class="principle-title">The process is at least as important as the outcomes</div><div class="principle-text">The future is not a destination - it is a tool. The process should develop learning, broaden horizons, and build shared understanding of potential future outcomes.</div></div></div>
+    <div class="principle-row"><div class="principle-num">07</div><div><div class="principle-title">Explore the future before considering implications for the present</div><div class="principle-text">We are trying to learn about the present through the lens of the future - not trying to understand the future from the perspective of the present. This reversal is the core discipline.</div></div></div>
+    <div class="principle-row"><div class="principle-num">08</div><div><div class="principle-title">Collective intelligence</div><div class="principle-text">Quality foresight can only be generated through dialogue between people bringing diverse perspectives. It is not possible to passively study the future and hope to learn much worthwhile.</div></div></div>
+    <div class="principle-row"><div class="principle-num">09</div><div><div class="principle-title">Challenge mental models and organisational perspectives</div><div class="principle-text">Strategic foresight should challenge our tendency to favour the business-as-usual future. Obsolete images of the future should be refreshed, for decisions less clouded by biases and misguided assumptions.</div></div></div>
+    <div class="principle-row"><div class="principle-num">10</div><div><div class="principle-title">Pragmatic, not academic</div><div class="principle-text">Successful strategic foresight is pragmatic and hands-on. It relies on rigorous structured methodologies and the fine art of sense-making, intuition, curiosity, and creativity.</div></div></div>
+  </div>
+
+  <h3 class="sub-title">How to Use This Tool</h3>
+  <p class="body-prose">The tool works best as a structured leadership workshop of two to three hours, with three to eight people from across the organisation - not only the sustainability team. The most valuable participants are those who will make or influence the decisions the foresight is meant to inform.</p>
+  <div class="how-to-step"><div class="hts-num">1</div><div><div class="hts-title">Orient - set the focal question (Stage 1)</div><div class="hts-text">Define the strategic question the foresight must answer. This is the most important step and the most commonly skipped. The focal question shapes everything that follows - the lens through which signals are evaluated, the test scenarios are compared against, and the frame that makes the Foresight Brief actionable. Set your planning horizon (10 years recommended for ESG), sector, and company size. Then surface your "used future" - the future your current strategy is implicitly assuming.</div><div class="hts-time">Suggested time: 20-30 minutes</div></div></div>
+  <div class="how-to-step"><div class="hts-num">2</div><div><div class="hts-title">Sense - scan signals and map drivers (Stage 2)</div><div class="hts-text">Work through the six ESG scanning domains. The tool provides a curated library of current signals; add your own. Rate each signal weak or strong, and note its Futures Triangle role: push of the present (driving change), pull of the future (shaping aspirations or fears), or weight of the past (structural resistance). You are looking for signals that make you pause - observations that do not fit the business-as-usual assumption.</div><div class="hts-time">Suggested time: 40-60 minutes</div></div></div>
+  <div class="how-to-step"><div class="hts-num">3</div><div><div class="hts-title">Explore - build and inhabit four scenarios (Stage 3)</div><div class="hts-text">Read each scenario as if it were a dispatch from 2035. Suspend disbelief. The goal is not to evaluate which is most likely - it is to genuinely inhabit each world and understand what it would mean for your organisation. Optionally generate AI narratives tailored to your sector and focal question. Capture the team's key insights before moving on.</div><div class="hts-time">Suggested time: 40-50 minutes</div></div></div>
+  <div class="how-to-step"><div class="hts-num">4</div><div><div class="hts-title">Assess - windtunnel your strategy (Stage 4)</div><div class="hts-text">Test your current strategy against all four scenarios. For each: how does it perform, what is the biggest threat, what opportunity is being missed? Classify each strategic priority on the Strategy Resilience Map: Robust (act now, works in all futures), Conditional (watch and adapt), or Reconsider (fragile in some futures). The optional CLA depth layer goes below the surface for teams exploring transformation rather than adaptation.</div><div class="hts-time">Suggested time: 30-40 minutes</div></div></div>
+  <div class="how-to-step"><div class="hts-num">5</div><div><div class="hts-title">Monitor - set up the early warning system (Stage 5)</div><div class="hts-text">Define five to ten leading indicators that will tell you which scenario is beginning to emerge. Assign an owner, a threshold, and a review trigger for each. This is the stage that converts foresight from a one-off exercise into a continuous capability. Return quarterly; when an indicator crosses its threshold it should trigger a leadership conversation - not a crisis response.</div><div class="hts-time">Suggested time: 20-30 minutes</div></div></div>
+  <div class="how-to-step"><div class="hts-num">6</div><div><div class="hts-title">Foresight Brief - board-ready output</div><div class="hts-text">Auto-generated from your completed stages: the focal question, four scenario headlines with windtunnel verdicts, the current signal assessment, strategy resilience priorities, and the leading indicators being monitored. Designed for the 20-minute board slot. Print or save as PDF.</div><div class="hts-time">Auto-generated from Stages 1-5</div></div></div>
+
+  <h3 class="sub-title">Glossary of Key Terms</h3>
+  <div style="background:var(--green-mid);border:1px solid var(--border);padding:12px 20px">
+    <div class="glossary-row"><div class="glossary-term">Signal</div><div class="glossary-def">A specific, concrete, present-day observation hinting at where the world might be headed. Signals are to drivers as raindrops are to clouds. A good signal makes you pause - "that's different."</div></div>
+    <div class="glossary-row"><div class="glossary-term">Driver</div><div class="glossary-def">A broad, long-term macro force likely to have significant impact on the future. Identified through STEEP (Social, Technological, Environmental, Economic, Political). Unlike signals, drivers change slowly.</div></div>
+    <div class="glossary-row"><div class="glossary-term">Futures Triangle</div><div class="glossary-def">Inayatullah's map of three forces: push of the present (trends driving change), pull of the future (aspirations and fears shaping behaviour), weight of the past (inertia and path dependency resisting change).</div></div>
+    <div class="glossary-row"><div class="glossary-term">Scenario</div><div class="glossary-def">A plausible, internally consistent narrative describing a possible future world. Not a prediction. Always plural, always alternative.</div></div>
+    <div class="glossary-row"><div class="glossary-term">Predetermined element</div><div class="glossary-def">A development that will almost certainly occur regardless of how other uncertainties resolve - population ageing, carbon pathway pressure. Scenarios should be built around uncertainties, not predetermined elements.</div></div>
+    <div class="glossary-row"><div class="glossary-term">Critical uncertainty</div><div class="glossary-def">A factor with high potential impact and genuinely uncertain outcome - it could go either way, and its resolution determines which world emerges.</div></div>
+    <div class="glossary-row"><div class="glossary-term">Windtunneling</div><div class="glossary-def">Testing a strategy against multiple scenarios to assess performance under different futures. Reveals which choices are robust (good in all futures), conditional (good in some), or fragile (damaging in some).</div></div>
+    <div class="glossary-row"><div class="glossary-term">Leading indicator</div><div class="glossary-def">An observable, present-day metric or event that signals which scenario is beginning to emerge. The early warning system that makes foresight a continuous practice.</div></div>
+    <div class="glossary-row"><div class="glossary-term">Reperception</div><div class="glossary-def">The CIFS term for the deepest output of foresight - not new information, but a genuinely new way of seeing the world. The point at which a leadership team's mental model shifts.</div></div>
+    <div class="glossary-row"><div class="glossary-term">Causal Layered Analysis</div><div class="glossary-def">Inayatullah's method for going below surface events (Litany) to systemic causes, worldview, and deep myth. Used to distinguish cosmetic strategic change from genuine transformation.</div></div>
+  </div>
+
+  <div style="margin-top:24px"><button class="btn btn-primary" onclick="TOOL.goTab('setup')">Begin - Stage 1: Orient</button></div>
+</section>
+
+<!-- ════ METHODOLOGY TAB ════ -->
+<section id="methodology" class="tool-panel active">
+<div class="section-divider"><span class="section-divider-label">About This Tool</span></div>
+<h2 class="panel-title">Methodology, Sources & How to Use</h2>
+<p class="body-prose">This tool brings together fifty years of accumulated foresight practice from the world's leading futures institutions, adapted for one specific purpose: helping senior leadership teams in businesses of all sizes understand what different ESG and climate futures mean for their strategy, and what decisions they need to make now - regardless of which future arrives.</p>
+<p class="body-prose">Strategic foresight is not prediction. It does not tell you what will happen. It tells you what could happen, helps you understand the forces shaping each possible future, and gives you a structured way to stress-test your current strategy against all of them. The most valuable output is not the scenarios themselves - it is the leadership conversation that would not otherwise happen, and the specific decisions and early warning indicators that conversation produces.</p>
+<div class="note"><b>What this tool is not:</b> It is not a compliance tracker, a risk register, or a forecasting model. All of those exist and all produce the wrong output for senior leadership. This tool produces strategic foresight - a different and complementary capability.</div>
+
+<h3 class="sub-title">Theoretical Foundations</h3>
+<p class="body-prose">The tool draws on five intellectual traditions, combined into a single coherent practice:</p>
+<div class="method-grid">
+  <div class="method-card"><div class="method-card-num">01</div><div class="method-card-title">Systems Thinking</div><div class="method-card-text">From Donella Meadows (Thinking in Systems) and Peter Senge (The Fifth Discipline). Before exploring futures, understand how complex systems behave - through stocks, flows, feedback loops, delays, and leverage points. Most strategic planning errors occur because organisations focus on events rather than the system structures producing them. The "boiling frog" failure mode - gradual deterioration going unnoticed until crisis - is a systems problem. Foresight practice is the mechanism for extending the detection threshold.</div></div>
+  <div class="method-card"><div class="method-card-num">02</div><div class="method-card-title">Scenario Planning</div><div class="method-card-text">From Peter Schwartz (The Art of the Long View), originator of Shell's scenario planning process. The core discipline: identify your focal strategic question, map the driving forces, identify critical uncertainties versus predetermined elements, select scenario logics, build internally consistent narratives, windtunnel your strategy against each scenario, and identify leading indicators. The 2x2 matrix built around two critical uncertainties is the most widely validated tool in strategic foresight.</div></div>
+  <div class="method-card"><div class="method-card-num">03</div><div class="method-card-title">Futures Archetypes</div><div class="method-card-text">From Jim Dator (University of Hawaii) and the Institute for the Future (IFTF). Four generic futures - Growth/Continuation, Constraint/Discipline, Collapse/Crisis, and Transformation - derived from systematic analysis of how human societies across history and culture tend to imagine the future. Not scenarios themselves, but narrative templates that reveal how different sets of assumptions lead to radically different strategic requirements.</div></div>
+  <div class="method-card"><div class="method-card-num">04</div><div class="method-card-title">Causal Layered Analysis</div><div class="method-card-text">From Sohail Inayatullah (Six Pillars). Four levels of depth: Litany (surface events and headlines), Systemic causes (economic and political dynamics), Worldview (the paradigm making the system seem rational), Myth/metaphor (the deep story structuring the worldview). Most organisations engage with ESG at the Litany level (regulations, reporting). Genuine strategic transformation requires working at the worldview level. CLA is the tool that makes this possible.</div></div>
+  <div class="method-card"><div class="method-card-num">05</div><div class="method-card-title">Cognitive Foresight</div><div class="method-card-text">From Daniel Kahneman (Thinking, Fast and Slow), Nassim Taleb (The Black Swan), and Nate Silver (The Signal and the Noise). Why foresight is hard: the planning fallacy (systematic over-optimism), WYSIATI (narratives from available information only), the availability heuristic (over-weighting vivid recent events), and the ludic fallacy (formal risk models excluding the events that matter most). Understanding these failure modes is the first step to overcoming them.</div></div>
+  <div class="method-card"><div class="method-card-num">06</div><div class="method-card-title">Disruption & Strategy</div><div class="method-card-text">From Clayton Christensen (The Innovator's Dilemma) and Richard Rumelt (Good Strategy / Bad Strategy). Seeing the signal is not enough - the organisational response to foresight is structurally constrained by existing business models and incentive systems. Good strategy requires a diagnosis (the real challenge), a guiding policy (the overall approach), and coherent actions (resource commitments). Foresight without this kernel is a reporting exercise. The goal of this tool is to produce the kernel, not the report.</div></div>
+</div>
+
+<h3 class="sub-title">Primary Sources and Institutions</h3>
+<div class="source-block"><div class="source-name">Copenhagen Institute for Futures Studies (CIFS)</div><div class="source-desc">Founded 1969. The tool draws on CIFS's 10 Principles for Strategic Foresight, the Copenhagen Frame (five-stage engagement model), and their Applied Strategic Foresight Toolkit - including the Futures Triangle, Enablers & Blockers, Three Horizons, and scenario building methods. The core CIFS concept of "reperception" - achieving genuinely new ways of seeing the world - is the deepest goal of this tool.</div><a class="source-link" href="https://www.cifs.dk" target="_blank" rel="noopener">cifs.dk</a></div>
+<div class="source-block"><div class="source-name">Institute for the Future (IFTF)</div><div class="source-desc">Founded 1968 by Paul Baran, Olaf Helmer, and Ted Gordon - the originators of the Delphi Method. The tool draws on IFTF's Prepare-Foresight-Insight-Action cycle, the signals and drivers framework, the Four Archetypes scenario method (originally developed by Jim Dator at the University of Hawaii), the Waves of Change method, and Stakeholder Impact Mapping.</div><a class="source-link" href="https://www.iftf.org" target="_blank" rel="noopener">iftf.org</a></div>
+<div class="source-block"><div class="source-name">Shell Scenarios</div><div class="source-desc">Shell pioneered corporate scenario planning in the 1960s and 1970s under Pierre Wack, producing the scenarios that predicted the 1973 oil crisis. Their methodology - adapted by Peter Schwartz into The Art of the Long View - forms the structural backbone of this tool's scenario construction process.</div><a class="source-link" href="https://www.shell.com/energy-and-innovation/the-energy-future/scenarios.html" target="_blank" rel="noopener">shell.com/scenarios</a></div>
+<div class="source-block"><div class="source-name">Key Texts</div><div class="source-desc">Thinking in Systems (Meadows, 2008) - The Fifth Discipline (Senge, 1990) - The Art of the Long View (Schwartz, 1991) - Six Pillars (Inayatullah, 2008) - Thinking, Fast and Slow (Kahneman, 2011) - The Black Swan (Taleb, 2007) - The Signal and the Noise (Silver, 2012) - The Innovator's Dilemma (Christensen, 1997) - Good Strategy / Bad Strategy (Rumelt, 2011)</div></div>
+
+<h3 class="sub-title">The 10 Principles for Strategic Foresight</h3>
+<p class="body-prose" style="margin-bottom:12px">Adapted from CIFS's published principles, developed from decades of applied foresight practice.</p>
+<div style="background:var(--green-mid);border:1px solid var(--border);padding:14px 18px">
+  <div class="principle-row"><div class="principle-num">01</div><div><div class="principle-title">Systems-thinking for resilience</div><div class="principle-text">Focus on potential changes in the external environment - including signals that would otherwise be disregarded.</div></div></div>
+  <div class="principle-row"><div class="principle-num">02</div><div><div class="principle-title">Foresight and strategy are one process</div><div class="principle-text">Without foresight, strategy becomes blind to contextual change. Without strategy, foresight becomes conjecture.</div></div></div>
+  <div class="principle-row"><div class="principle-num">03</div><div><div class="principle-title">Look beyond the planning horizon</div><div class="principle-text">Thinking within 3-5 years limits mental flexibility. Thinking 10+ years out enables exploration of genuinely different alternatives.</div></div></div>
+  <div class="principle-row"><div class="principle-num">04</div><div><div class="principle-title">Applicable to any context and scale</div><div class="principle-text">Better anticipation, innovation, future-proofing, and thought-leadership. Not all foresight projects need to be large-scale.</div></div></div>
+  <div class="principle-row"><div class="principle-num">05</div><div><div class="principle-title">Exploring plausible futures, not predictions</div><div class="principle-text">The future is inherently unpredictable. We explore plausible futures informed by trajectories, signals, and critical uncertainties.</div></div></div>
+  <div class="principle-row"><div class="principle-num">06</div><div><div class="principle-title">The process is as important as the outcomes</div><div class="principle-text">The future is not a destination - it is a tool. The process develops learning, broadens horizons, and builds shared understanding.</div></div></div>
+  <div class="principle-row"><div class="principle-num">07</div><div><div class="principle-title">Explore the future before implications for the present</div><div class="principle-text">Learn about the present through the lens of the future, not the future from the perspective of the present.</div></div></div>
+  <div class="principle-row"><div class="principle-num">08</div><div><div class="principle-title">Collective intelligence</div><div class="principle-text">Quality foresight can only be generated through dialogue between people bringing diverse perspectives.</div></div></div>
+  <div class="principle-row"><div class="principle-num">09</div><div><div class="principle-title">Challenge mental models</div><div class="principle-text">Challenge the tendency to favour the business-as-usual future. Refresh obsolete images of the future.</div></div></div>
+  <div class="principle-row"><div class="principle-num">10</div><div><div class="principle-title">Pragmatic, not academic</div><div class="principle-text">Successful foresight relies on rigorous methods and the fine art of sense-making, intuition, curiosity, and creativity.</div></div></div>
+</div>
+
+<h3 class="sub-title">How to Use This Tool</h3>
+<p class="body-prose">The tool works best as a structured leadership workshop of two to three hours, with three to eight people from across the organisation - not only the sustainability team.</p>
+<div class="how-to-step"><div class="hts-num">1</div><div><div class="hts-title">Orient - set the focal question (Stage 1)</div><div class="hts-text">Define the strategic question the foresight must answer. Set your planning horizon (we recommend 10 years for ESG foresight), your sector, and company size. Surface your "used future" - the future your strategy is implicitly assuming.</div><div class="hts-time">20-30 minutes</div></div></div>
+<div class="how-to-step"><div class="hts-num">2</div><div><div class="hts-title">Sense - scan signals and map drivers (Stage 2)</div><div class="hts-text">Work through six ESG scanning domains. Rate each signal as weak or strong. Classify signals using the Futures Triangle: push of the present (driving change), pull of the future (shaping aspirations), or weight of the past (structural resistance). Add your own signals.</div><div class="hts-time">40-60 minutes</div></div></div>
+<div class="how-to-step"><div class="hts-num">3</div><div><div class="hts-title">Explore - build and inhabit four scenarios (Stage 3)</div><div class="hts-text">Four ESG-adapted scenario narratives based on Dator's archetypes: Acceleration, Friction, Disruption, Reinvention. Each with leading indicators and strategic questions. AI-generated sector-specific narratives available.</div><div class="hts-time">40-50 minutes</div></div></div>
+<div class="how-to-step"><div class="hts-num">4</div><div><div class="hts-title">Assess - windtunnel your strategy (Stage 4)</div><div class="hts-text">Test your strategy against all four scenarios. Build a Strategy Resilience Map showing which priorities are robust across all futures (act now), conditional (watch and adapt), or fragile (reconsider). Optional CLA depth layer.</div><div class="hts-time">30-40 minutes</div></div></div>
+<div class="how-to-step"><div class="hts-num">5</div><div><div class="hts-title">Monitor - early warning system (Stage 5)</div><div class="hts-text">Define leading indicators with owners, thresholds, and review triggers. Return quarterly. This converts foresight from a one-off exercise into a continuous organisational capability.</div><div class="hts-time">20-30 minutes</div></div></div>
+<div class="how-to-step"><div class="hts-num">6</div><div><div class="hts-title">Foresight Brief - board-ready output</div><div class="hts-text">Auto-generated one-page summary: focal question, four scenario headlines, strategy resilience verdict, three priority decisions, five leading indicators. Designed for the 20-minute board slot. Print or save as PDF.</div><div class="hts-time">Auto-generated</div></div></div>
+
+<h3 class="sub-title">Glossary of Key Terms</h3>
+<div style="background:var(--green-mid);border:1px solid var(--border);padding:12px 18px">
+  <div class="glossary-row"><div class="glossary-term">Signal</div><div class="glossary-def">A specific, present-day observation that hints at where the world might be headed. Signals are to drivers as raindrops are to clouds.</div></div>
+  <div class="glossary-row"><div class="glossary-term">Driver</div><div class="glossary-def">A broad, long-term macro force likely to have significant impact, identified through the STEEP framework (Social, Technological, Environmental, Economic, Political).</div></div>
+  <div class="glossary-row"><div class="glossary-term">Futures Triangle</div><div class="glossary-def">Framework by Inayatullah: push of the present (trends driving change), pull of the future (aspirations and fears), weight of the past (inertia and path dependency).</div></div>
+  <div class="glossary-row"><div class="glossary-term">Scenario</div><div class="glossary-def">A plausible, internally consistent narrative describing a possible future world. Not a prediction - a structured exploration. Always plural and alternative.</div></div>
+  <div class="glossary-row"><div class="glossary-term">Predetermined element</div><div class="glossary-def">A development almost certain to occur regardless of other uncertainties. Scenarios should be built around uncertainties, not predetermined elements.</div></div>
+  <div class="glossary-row"><div class="glossary-term">Critical uncertainty</div><div class="glossary-def">A factor with high potential impact and genuinely uncertain outcome - could go either way. The axes of the scenario matrix.</div></div>
+  <div class="glossary-row"><div class="glossary-term">Windtunneling</div><div class="glossary-def">Testing a strategy against multiple scenarios to reveal which choices are robust (good in all futures), conditional, or fragile.</div></div>
+  <div class="glossary-row"><div class="glossary-term">Leading indicator</div><div class="glossary-def">An observable metric or event that signals which scenario is beginning to emerge. The early warning system.</div></div>
+  <div class="glossary-row"><div class="glossary-term">Reperception</div><div class="glossary-def">CIFS term for the deepest foresight output - not new information, but a genuinely new way of seeing the world.</div></div>
+  <div class="glossary-row"><div class="glossary-term">CLA</div><div class="glossary-def">Causal Layered Analysis (Inayatullah): Litany, Systemic causes, Worldview, Myth/metaphor. Distinguishes cosmetic change from genuine transformation.</div></div>
+</div>
+<div style="margin-top:24px"><button class="btn btn-primary" onclick="TOOL.goTab('setup')">Begin - Stage 1: Orient</button></div>
+</section>
+
+<!-- ════ STAGE 1: ORIENT ════ -->
+<section id="setup" class="tool-panel">
+<div class="section-divider"><span class="section-divider-label">Stage 1</span></div>
+<h2 class="panel-title">Orient - Frame the Question</h2>
+<div class="note">Define the strategic question this foresight must answer. <b>A good focal question is specific, strategic, and decision-oriented.</b> Not "what will climate change do?" but "how should we adapt our capital allocation given three very different possible futures for carbon pricing and physical risk?"</div>
+<div class="setup-grid">
+  <div class="setup-card">
+    <label class="field-label">Organisation name</label>
+    <input type="text" id="orgName" placeholder="e.g. Nordhavn Group" oninput="TOOL.markDirty()">
+    <label class="field-label">Lead facilitator / preparer</label>
+    <input type="text" id="orgPreparer" placeholder="e.g. Chief Sustainability Officer" oninput="TOOL.markDirty()">
+    <label class="field-label">Date of foresight exercise</label>
+    <input type="text" id="orgDate" placeholder="e.g. Q3 2026" oninput="TOOL.markDirty()">
+    <label class="field-label">Foresight horizon</label>
+    <select id="orgHorizon" onchange="TOOL.markDirty()">
+      <option value="5">5 years (near-term strategy)</option>
+      <option value="10" selected>10 years (recommended for ESG)</option>
+      <option value="15">15 years (long-range planning)</option>
+      <option value="20">20 years (deep futures)</option>
+    </select>
+  </div>
+  <div class="setup-card">
+    <label class="field-label">Primary sector</label>
+    <select id="orgSector" onchange="TOOL.markDirty()">
+      <option value="">-- Select sector --</option>
+      <option value="energy">Energy (oil, gas, utilities, renewables)</option>
+      <option value="materials">Materials, mining and chemicals</option>
+      <option value="manufacturing">Manufacturing and industrials</option>
+      <option value="food">Food, beverage and agriculture</option>
+      <option value="transport">Transport and logistics</option>
+      <option value="construction">Construction and real estate</option>
+      <option value="finance">Financial services</option>
+      <option value="tech">Technology and digital</option>
+      <option value="health">Healthcare and life sciences</option>
+      <option value="retail">Retail and consumer goods</option>
+      <option value="services">Professional services</option>
+      <option value="other">Other</option>
+    </select>
+    <label class="field-label">Geography of operations</label>
+    <select id="orgGeo" onchange="TOOL.markDirty()">
+      <option value="">-- Select --</option>
+      <option value="eu">European Union</option><option value="nordic">Nordic</option><option value="uk">United Kingdom</option>
+      <option value="us">United States</option><option value="apac">Asia-Pacific</option><option value="em">Emerging markets</option><option value="global">Global</option>
+    </select>
+    <label class="field-label">Reporting framework</label>
+    <select id="orgReporting" onchange="TOOL.markDirty()">
+      <option value="">-- Select --</option>
+      <option value="csrd-w1">CSRD Wave 1 (reporting now)</option><option value="csrd-w2">CSRD Wave 2 (FY2027)</option>
+      <option value="vsme">VSME Voluntary Standard</option><option value="issb">ISSB / TCFD</option><option value="voluntary">Voluntary / no mandate</option>
+    </select>
+  </div>
+</div>
+<label class="field-label">Company size</label>
+<div class="size-grid">
+  <div class="size-card" id="sizeCard-small" onclick="TOOL.setSize('small')"><div class="size-card-title">Small</div><div class="size-card-desc">Under 250 employees. Streamlined process - orient, pre-built scenarios, 3 indicators.</div></div>
+  <div class="size-card" id="sizeCard-medium" onclick="TOOL.setSize('medium')"><div class="size-card-title">Medium</div><div class="size-card-desc">250-1,000 employees. Full five-stage process with signal scanning and resilience map.</div></div>
+  <div class="size-card" id="sizeCard-large" onclick="TOOL.setSize('large')"><div class="size-card-title">Large</div><div class="size-card-desc">Over 1,000 employees. Full process with AI narratives, CLA depth option, custom axes.</div></div>
+</div>
+<div class="section-divider"><span class="section-divider-label">The Focal Question</span></div>
+<label class="field-label">Your focal strategic question</label>
+<div class="field-hint">The single most important strategic decision or challenge this foresight must illuminate.</div>
+<textarea id="focalQuestion" placeholder="Example: How should we adapt our capital allocation and product portfolio strategy given radically different possible futures for climate regulation, carbon pricing, and physical risk over the next decade?" oninput="TOOL.markDirty()"></textarea>
+<label class="field-label" style="margin-top:14px">Your current planning assumption (your "used future")</label>
+<div class="field-hint">What future is your current strategy implicitly assuming? Name it.</div>
+<textarea id="usedFuture" placeholder="Example: We are assuming continued but gradual regulatory tightening, stable energy markets with moderate carbon pricing, and no major physical climate events affecting our operations before 2030..." oninput="TOOL.markDirty()"></textarea>
+<label class="field-label" style="margin-top:14px">Three things you are most confident about (predetermined elements)</label>
+<textarea id="predetermined" placeholder="Example: 1. Carbon pricing will be higher in 2035 than today.  2. ESG disclosure requirements will continue to tighten globally.  3. Renewable energy costs will continue to fall..." oninput="TOOL.markDirty()"></textarea>
+<label class="field-label" style="margin-top:14px">Two things you are most uncertain about (critical uncertainties)</label>
+<div class="field-hint">These could become the axes of your scenario matrix.</div>
+<textarea id="uncertainties" placeholder="Example: 1. The pace of physical climate disruption - major threshold events in the 2030s, or gradual change?  2. Geopolitical fragmentation - will ESG regulation converge or diverge?" oninput="TOOL.markDirty()"></textarea>
+<div style="margin-top:20px;display:flex;gap:10px">
+  <button class="btn btn-primary" onclick="TOOL.goTab('sense')">Continue to Stage 2: Sense</button>
+  <button class="btn" onclick="TOOL.goTab('explore')">Skip to Scenarios</button>
+</div>
+</section>
+
+<!-- ════ STAGE 2: SENSE ════ -->
+<section id="sense" class="tool-panel">
+<div class="section-divider"><span class="section-divider-label">Stage 2</span></div>
+<h2 class="panel-title">Sense - Scan Signals and Map Drivers</h2>
+<div class="note">Work through six ESG scanning domains. Rate each signal as weak or strong. Classify its Futures Triangle role: <b>push</b> (driving change), <b>pull</b> (shaping aspirations/fears), or <b>weight</b> (structural resistance). Add your own signals at the bottom of each domain.</div>
+<div class="domain-tabs" id="domainTabs">
+  <button class="domain-tab active" data-domain="climate">Climate & Physical</button>
+  <button class="domain-tab" data-domain="policy">Policy & Regulation</button>
+  <button class="domain-tab" data-domain="markets">Markets & Finance</button>
+  <button class="domain-tab" data-domain="tech">Technology</button>
+  <button class="domain-tab" data-domain="social">Social & Labour</button>
+  <button class="domain-tab" data-domain="nature">Nature & Biodiversity</button>
+</div>
+<div id="signalPanels"></div>
+<div style="margin-top:20px;display:flex;gap:10px">
+  <button class="btn btn-primary" onclick="TOOL.goTab('explore')">Continue to Stage 3: Explore</button>
+  <button class="btn" onclick="TOOL.goTab('setup')">Back to Orient</button>
+</div>
+</section>
+
+<!-- ════ STAGE 3: EXPLORE ════ -->
+<section id="explore" class="tool-panel">
+<div class="section-divider"><span class="section-divider-label">Stage 3</span></div>
+<h2 class="panel-title">Explore - Four Scenarios</h2>
+<div class="note">Read each scenario as if it were a dispatch from 2035. Suspend disbelief. The goal is not to evaluate likelihood - it is to genuinely inhabit each world and understand what it would mean for your organisation. Based on Jim Dator's Four Generic Futures.</div>
+<div class="scenario-grid" id="scenarioGrid"></div>
+<div class="section-divider"><span class="section-divider-label">AI-Assisted Scenario Narratives</span></div>
+<div class="ai-panel">
+  <div class="ai-panel-label">Generate Sector-Specific Narratives</div>
+  <p style="font-size:0.78rem;color:var(--muted);margin-bottom:10px">Generate four narrative descriptions tailored to your sector and focal question. Requires internet connection.</p>
+  <button class="btn btn-gold" onclick="TOOL.generateScenarios()" id="genBtn">Generate AI Narratives</button>
+  <div class="ai-result" id="aiResult"></div>
+</div>
+<label class="field-label" style="margin-top:16px">Your scenario notes and team observations</label>
+<textarea id="scenarioNotes" placeholder="What surprised you? Which scenario felt most uncomfortable? Where did the team's assumptions get challenged?" oninput="TOOL.markDirty()"></textarea>
+<div style="margin-top:20px;display:flex;gap:10px">
+  <button class="btn btn-primary" onclick="TOOL.goTab('assess')">Continue to Stage 4: Assess</button>
+  <button class="btn" onclick="TOOL.goTab('sense')">Back to Sense</button>
+</div>
+</section>
+
+<!-- ════ STAGE 4: ASSESS ════ -->
+<section id="assess" class="tool-panel">
+<div class="section-divider"><span class="section-divider-label">Stage 4</span></div>
+<h2 class="panel-title">Assess - Windtunnel Your Strategy</h2>
+<div class="note">Test your current strategy against all four scenarios. For each: how well does the current approach perform? Use the <b>Strategy Resilience Map</b> to classify each priority as Robust (act now), Conditional (watch), or Reconsider (review the assumption).</div>
+<label class="field-label">The strategy or decision being tested</label>
+<textarea id="strategyUnderTest" placeholder="Describe the specific strategy, initiative, or decision to stress-test against the four scenarios..." oninput="TOOL.markDirty()"></textarea>
+<h3 class="sub-title">Windtunnel - Performance in Each Scenario</h3>
+<div class="wt-grid" id="wtGrid"></div>
+<h3 class="sub-title">Strategy Resilience Map</h3>
+<p class="body-prose" style="margin-bottom:8px">Click each cell to cycle through: -- / Robust / Conditional / Reconsider</p>
+<div id="resilienceMap"></div>
+<button class="btn btn-gold" onclick="TOOL.addRMRow()" style="margin-top:8px">+ Add Strategic Priority</button>
+
+<div class="section-divider"><span class="section-divider-label">CLA - Optional Depth Layer</span></div>
+<p class="body-prose">Causal Layered Analysis (Inayatullah) goes below the surface to reveal why the challenge exists at a deeper level.</p>
+<label class="field-label">Litany - surface events and headlines</label>
+<textarea id="claLitany" placeholder="What are the headline events and visible pressures?" oninput="TOOL.markDirty()"></textarea>
+<label class="field-label" style="margin-top:10px">Systemic causes - the dynamics behind the litany</label>
+<textarea id="claSystem" placeholder="What economic and political structures are producing these surface events?" oninput="TOOL.markDirty()"></textarea>
+<label class="field-label" style="margin-top:10px">Worldview - the paradigm making it seem rational</label>
+<textarea id="claWorldview" placeholder="What belief system makes the current approach seem sensible?" oninput="TOOL.markDirty()"></textarea>
+<label class="field-label" style="margin-top:10px">Preferred future - genuinely transformational change</label>
+<textarea id="claPreferred" placeholder="If you could design the preferred future from scratch, unconstrained..." oninput="TOOL.markDirty()"></textarea>
+<div style="margin-top:20px;display:flex;gap:10px">
+  <button class="btn btn-primary" onclick="TOOL.goTab('monitor')">Continue to Stage 5: Monitor</button>
+  <button class="btn" onclick="TOOL.goTab('explore')">Back to Explore</button>
+</div>
+</section>
+
+<!-- ════ STAGE 5: MONITOR ════ -->
+<section id="monitor" class="tool-panel">
+<div class="section-divider"><span class="section-divider-label">Stage 5</span></div>
+<h2 class="panel-title">Monitor - Early Warning System</h2>
+<div class="note">Define leading indicators that will tell you which scenario is emerging. Assign an owner and threshold for each. <b>This converts foresight from a one-off exercise into a continuous organisational capability.</b> Return quarterly.</div>
+<div id="indicatorRows"></div>
+<button class="btn btn-gold" onclick="TOOL.addIndicator()" style="margin-top:8px">+ Add Indicator</button>
+<h3 class="sub-title">Review Cadence</h3>
+<div class="setup-grid">
+  <div class="setup-card">
+    <label class="field-label">Review frequency</label>
+    <select id="reviewCadence" onchange="TOOL.markDirty()">
+      <option value="monthly">Monthly</option><option value="quarterly" selected>Quarterly (recommended)</option>
+      <option value="biannual">Bi-annual</option><option value="annual">Annual</option>
+    </select>
+    <label class="field-label" style="margin-top:10px">Next scheduled review</label>
+    <input type="text" id="nextReview" placeholder="e.g. October 2026 strategy day" oninput="TOOL.markDirty()">
+  </div>
+  <div class="setup-card">
+    <label class="field-label">Monitoring programme owner</label>
+    <input type="text" id="monitorOwner" placeholder="e.g. Chief Sustainability Officer" oninput="TOOL.markDirty()">
+    <label class="field-label" style="margin-top:10px">Current scenario assessment - which world are signals pointing toward?</label>
+    <select id="currentScenario" onchange="TOOL.markDirty()">
+      <option value="">-- Too early to call --</option>
+      <option value="accel">Acceleration</option><option value="friction">Friction</option>
+      <option value="disrupt">Disruption</option><option value="reinvent">Reinvention</option>
+      <option value="mixed">Mixed signals</option>
+    </select>
+  </div>
+</div>
+<div style="margin-top:20px;display:flex;gap:10px">
+  <button class="btn btn-primary" onclick="TOOL.goTab('brief')">Generate Foresight Brief</button>
+  <button class="btn" onclick="TOOL.goTab('assess')">Back to Assess</button>
+</div>
+</section>
+
+<!-- ════ FORESIGHT BRIEF ════ -->
+<section id="brief" class="tool-panel">
+<div class="section-divider"><span class="section-divider-label">Board-Ready Output</span></div>
+<h2 class="panel-title">Foresight Brief</h2>
+<div class="note">One-page board-ready summary designed for the 20-minute board slot. Print or save as PDF.</div>
+<div style="display:flex;gap:10px;margin-bottom:20px">
+  <button class="btn btn-gold" onclick="window.print()">Print / Save PDF</button>
+  <button class="btn" onclick="TOOL.exportJSON()">Export Full Data (JSON)</button>
+</div>
+<div id="briefContent"></div>
+</section>
+
+</main>
+<footer>
+  <div class="footer-brand">Aurie's Knowledge Hub</div>
+  <div>ESG Foresight Tool - Methodology: CIFS, IFTF, Schwartz, Inayatullah, Dator - 2026</div>
+  <div>All data stored locally in your browser only</div>
+</footer>
+<script>
+const SIGNALS={
+climate:[
+{text:'Global average temperature reached 1.5C above pre-industrial levels for the first full calendar year in 2024, triggering debate about whether the Paris target has been breached.',type:'push'},
+{text:'The 2025 Atlantic hurricane season produced the highest economic damage on record with insured losses exceeding $400bn for the first time.',type:'push'},
+{text:'Arctic sea ice extent hit a new record low in September 2025, accelerating permafrost thaw and methane release projections.',type:'push'},
+{text:'A major European insurer announced it will cease underwriting coastal commercial real estate in eight EU member states from 2027.',type:'push'},
+{text:'Climate attribution science can now assign economic damages from individual extreme weather events to specific emitters with high confidence.',type:'push'},
+{text:'Several major pension funds have begun disclosing stranded-asset exposure in annual reports under CSRD financial materiality provisions.',type:'push'}
+],
+policy:[
+{text:'The EU Commission adopted the post-Omnibus simplified ESRS (C(2026) 5010) in July 2026, reducing mandatory datapoints by 61% but retaining the core disclosure architecture.',type:'push'},
+{text:'CBAM entered its definitive regime in 2026, covering steel, cement, aluminium, fertilizers, electricity, and hydrogen with verified embedded carbon certificates.',type:'push'},
+{text:'California SB 253 requires Scope 1-3 GHG reporting for all companies with over $1bn revenue doing business in California, effective FY2026.',type:'push'},
+{text:'CSDDD mandatory human rights and environmental due diligence enters force for largest companies in 2027, with civil and criminal liability.',type:'push'},
+{text:'The US SEC scaled back its climate disclosure rules after legal challenges - Scope 3 removed, materiality-based approach retained for large filers.',type:'weight'},
+{text:'India BRSR Core with mandatory assurance for top 150 companies is the first mandatory sustainability assurance regime in a major emerging market.',type:'push'},
+{text:'The EU Nature Restoration Law entered force with binding ecosystem restoration targets to 2030.',type:'push'}
+],
+markets:[
+{text:'Green bond issuance exceeded $1 trillion in a single year for the first time in 2024, with sustainability-linked bonds representing over 12% of global corporate bond issuance.',type:'pull'},
+{text:'Major European banks are applying climate transition risk haircuts to commercial real estate loans in carbon-intensive building stock.',type:'push'},
+{text:'Moody\'s and S&P now publish explicit ESG risk scores alongside credit ratings - companies with CSRD gaps receive lower transition risk assessments.',type:'push'},
+{text:'The voluntary carbon market suffered a credibility crisis in 2023-24 following widespread quality investigations.',type:'weight'},
+{text:'Maersk embedded a $75/t internal shadow carbon price across all investment decisions - now referenced in multiple CSRD transition plan disclosures.',type:'pull'},
+{text:'First major EU green taxonomy-aligned infrastructure fund raised EUR8bn from pension allocators.',type:'pull'}
+],
+tech:[
+{text:'Perovskite solar cells achieved 30%+ efficiency at lab scale in 2025, with commercial production pilots underway.',type:'pull'},
+{text:'Green hydrogen production costs fell below $3/kg in favourable locations - approaching cost-competitive industrial decarbonisation.',type:'pull'},
+{text:'AI-powered climate risk modelling now produces asset-level physical risk assessments at 1km resolution.',type:'pull'},
+{text:'Battery energy storage system costs fell 40% in 2024, accelerating grid-scale storage deployment.',type:'pull'},
+{text:'Direct Air Capture costs remain above $400/tCO2, far above levels needed for mass-scale deployment.',type:'weight'},
+{text:'Generative AI training and inference energy demand is growing at 30%+ annually, creating material Scope 2 exposure for tech companies.',type:'push'}
+],
+social:[
+{text:'The EU Pay Transparency Directive requires gender pay gap disclosure for companies with 100+ employees from 2027.',type:'push'},
+{text:'Generation Z workers are 3x more likely to leave an employer due to ESG concerns than Baby Boomers.',type:'pull'},
+{text:'A landmark CSDDD civil liability case was filed against a European fashion retailer for supply chain labour violations.',type:'push'},
+{text:'Denmark 2024 Green Tripartite Agreement extended carbon pricing to agriculture including livestock - the first national regime to price agricultural emissions.',type:'push'},
+{text:'Forced labour import ban enforcement (EU Forced Labour Regulation) entered operational phase in 2027.',type:'push'},
+{text:'Just transition provisions are now embedded in CSRD S1 and S2 standards - companies must disclose how climate strategy affects worker communities.',type:'push'}
+],
+nature:[
+{text:'TNFD recommendations were formally adopted by 320+ companies in their first year, with disclosures now referenced by CSRD ESRS E4.',type:'pull'},
+{text:'The EU Deforestation Regulation entered enforcement for seven commodities in 2026 - requiring geolocation of production sites.',type:'push'},
+{text:'A landmark legal ruling in New Zealand established that a river has legal personhood - part of a growing rights-of-nature trend.',type:'pull'},
+{text:'Kunming-Montreal 30x30 targets are creating protected area designations affecting mining, agriculture, and infrastructure pipelines.',type:'push'},
+{text:'Biodiversity credits are emerging as a nascent market instrument but without governance infrastructure.',type:'weight'},
+{text:'The IPBES assessment found 1 million species at risk of extinction - quantifying corporate supply chain dependency exposure.',type:'push'}
+]};
+
+const SCENARIOS=[
+{id:'accel',cls:'sc-accel',dot:'#1D9E75',archetype:'Growth / Continuation',name:'Acceleration',headline:'The transition outpaces expectation',
+narrative:'It is 2035. The clean energy transition happened faster than almost anyone predicted. A combination of technology cost curves, policy ambition, and capital market pressure created a self-reinforcing cycle. Carbon pricing is above EUR200/tCO2 across most major markets. Renewables generate over 70% of EU electricity. Companies that invested early in sustainable products, circular business models, and decarbonised supply chains have outperformed the index by 40%. The laggards are scrambling.',
+indicators:['EUA carbon price exceeds EUR150/tCO2 before 2028','Renewable share of EU electricity exceeds 65% by 2030','Green bond issuance exceeds $2 trillion/year','10+ G20 countries implement ISSB-aligned mandatory reporting','CBAM expanded to additional sectors beyond initial six'],
+questions:['Are we moving fast enough to capture first-mover advantage?','Which current products would be demand leaders in this world?','What would we need to invest in now to be the preferred partner by 2030?']},
+{id:'friction',cls:'sc-friction',dot:'#c9a84c',archetype:'Constraint / Discipline',name:'Friction',headline:'Transition is slow, contested, and uneven',
+narrative:'It is 2035. The transition is happening but it is grinding. Regulatory frameworks vary dramatically between jurisdictions. Carbon pricing is fragmented and politically contested. Companies operating globally face incompatible disclosure regimes. The winners are the most adaptable navigators of complexity. Supply chain due diligence failures are the dominant source of corporate litigation. Greenwashing enforcement is the dominant regulatory risk.',
+indicators:['EU-US regulatory divergence deepens after 2026 US elections','Carbon border measure retaliations from major trading partners','CSRD compliance costs exceed projections by 40%+','Voluntary carbon market quality scandals continue post-2025','Supply chain due diligence litigation exceeds 50 cases/year in EU courts'],
+questions:['How do we manage compliance across incompatible regulatory regimes?','Where is our supply chain most exposed to CSDDD civil liability?','Which competitors would be advantaged by regulatory fragmentation?']},
+{id:'disrupt',cls:'sc-disrupt',dot:'#e07070',archetype:'Collapse / Crisis',name:'Disruption',headline:'A shock forces rapid, disorderly adjustment',
+narrative:'It is 2035. A cascade of physical climate events in 2028-2030 - simultaneous crop failures, Category 5 hurricanes making European landfall, a major coastal city flooding - triggered emergency policy responses that compressed a decade of planned transition into three years. Insurance markets withdrew from large geographies. Stranded asset write-downs wiped out the equity of several major fossil fuel companies. The companies that survived best had prepared for exactly this scenario.',
+indicators:['Two or more major climate tipping points show accelerating feedback','Insured climate losses exceed $600bn in a single year before 2030','Major sovereign wealth fund liquidates fossil fuel positions citing systemic risk','Emergency EU climate legislation passed outside normal cycle','5%+ of corporate bond issuance repriced due to physical climate risk'],
+questions:['Which assets or operations are in highest physical risk geographies?','How long could our supply chain function if key sourcing regions are disrupted?','What is our liquidity position if insurance becomes unavailable for key assets?']},
+{id:'reinvent',cls:'sc-reinvent',dot:'#7b5ea7',archetype:'Transformation',name:'Reinvention',headline:'A paradigm shift changes the rules of the game',
+narrative:'It is 2035. The competitive landscape is unrecognisable. The convergence of AI, biotechnology, and clean energy created entirely new business models making old categories meaningless. Companies defined by what outcomes they enabled displaced those defined by what they produced. Product-lifecycle impact accounting replaced Scope 3, including biodiversity, water, and social outcomes. The companies at the top figured out early that sustainability and competitiveness had become the same thing.',
+indicators:['Major tech company displaces an incumbent in energy, food, or materials by solving sustainability constraints','New impact accounting standards adopted by a major stock exchange','Biological manufacturing displaces conventional chemistry in a major product category','AI-enabled circular economy closes a major material loop at scale','City or region achieves net-positive biodiversity as competitive attraction'],
+questions:['If the rules changed completely, what capabilities would still matter?','Which competitive advantages are based on assumptions that could become obsolete?','What would a company purpose-built for the 2035 context look like?']}
+];
+
+const STORAGE_KEY='foresight_tool_v1';
+const TOOL={
+state:{orgName:'',orgPreparer:'',orgDate:'',orgHorizon:'10',orgSector:'',orgGeo:'',orgReporting:'',orgSize:'',focalQuestion:'',usedFuture:'',predetermined:'',uncertainties:'',signals:{},scenarioNotes:'',strategyUnderTest:'',wtNotes:{accel:'',friction:'',disrupt:'',reinvent:''},wtVerdict:{accel:'',friction:'',disrupt:'',reinvent:''},rmRows:[],claLitany:'',claSystem:'',claWorldview:'',claPreferred:'',indicators:[],reviewCadence:'quarterly',nextReview:'',monitorOwner:'',currentScenario:'',savedAt:null},
+_pending:null,
+
+init(){
+  const raw=localStorage.getItem(STORAGE_KEY);
+  if(raw){try{const s=JSON.parse(raw);this._pending=s;const b=document.getElementById('restoreBanner');const d=document.getElementById('restoreDetail');if(s.savedAt)d.textContent='last saved '+new Date(s.savedAt).toLocaleString();b.classList.add('show');}catch(e){}}
+  document.querySelectorAll('.page-nav-btn').forEach(btn=>{btn.addEventListener('click',()=>this.goTab(btn.dataset.tab));});
+  document.querySelectorAll('.domain-tab').forEach(tab=>{tab.addEventListener('click',()=>this.setDomain(tab.dataset.domain));});
+  this._autosaveInterval=setInterval(()=>this._autosave(),30000);
+  this._updateSaveDot(true);
+  this.renderSignals();this.renderScenarios();this.renderWindtunnel();this.renderResilienceMap();this.renderIndicators();this.renderBrief();
+},
+restoreSession(){if(this._pending){this.state=this._pending;this._pending=null;document.getElementById('restoreBanner').classList.remove('show');this._populateInputs();this.renderAll();this._updateSaveDot(true);}},
+dismissRestore(){this._pending=null;document.getElementById('restoreBanner').classList.remove('show');},
+_populateInputs(){
+  const s=this.state;const set=(id,v)=>{const el=document.getElementById(id);if(el&&v!==undefined)el.value=v;};
+  set('orgName',s.orgName);set('orgPreparer',s.orgPreparer);set('orgDate',s.orgDate);set('orgHorizon',s.orgHorizon);
+  set('orgSector',s.orgSector);set('orgGeo',s.orgGeo);set('orgReporting',s.orgReporting);
+  set('focalQuestion',s.focalQuestion);set('usedFuture',s.usedFuture);set('predetermined',s.predetermined);set('uncertainties',s.uncertainties);
+  set('scenarioNotes',s.scenarioNotes);set('strategyUnderTest',s.strategyUnderTest);
+  set('claLitany',s.claLitany);set('claSystem',s.claSystem);set('claWorldview',s.claWorldview);set('claPreferred',s.claPreferred);
+  set('reviewCadence',s.reviewCadence);set('nextReview',s.nextReview);set('monitorOwner',s.monitorOwner);set('currentScenario',s.currentScenario);
+  if(s.orgSize)this.setSize(s.orgSize);
+},
+markDirty(){this._updateSaveDot(false);this._syncInputs();clearTimeout(this._dt);this._dt=setTimeout(()=>this._autosave(),4000);},
+_syncInputs(){
+  const g=id=>{const el=document.getElementById(id);return el?el.value:'';};
+  Object.assign(this.state,{orgName:g('orgName'),orgPreparer:g('orgPreparer'),orgDate:g('orgDate'),orgHorizon:g('orgHorizon'),orgSector:g('orgSector'),orgGeo:g('orgGeo'),orgReporting:g('orgReporting'),focalQuestion:g('focalQuestion'),usedFuture:g('usedFuture'),predetermined:g('predetermined'),uncertainties:g('uncertainties'),scenarioNotes:g('scenarioNotes'),strategyUnderTest:g('strategyUnderTest'),claLitany:g('claLitany'),claSystem:g('claSystem'),claWorldview:g('claWorldview'),claPreferred:g('claPreferred'),reviewCadence:g('reviewCadence'),nextReview:g('nextReview'),monitorOwner:g('monitorOwner'),currentScenario:g('currentScenario')});
+},
+_autosave(){this._syncInputs();this.state.savedAt=new Date().toISOString();localStorage.setItem(STORAGE_KEY,JSON.stringify(this.state));this._updateSaveDot(true);document.getElementById('saveStatusText').textContent='Auto-saved - '+new Date().toLocaleTimeString();},
+_updateSaveDot(saved){const d=document.getElementById('saveDot');if(saved)d.classList.remove('unsaved');else d.classList.add('unsaved');},
+saveFile(){this._syncInputs();this.state.savedAt=new Date().toISOString();const b=new Blob([JSON.stringify(this.state,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='foresight-'+(this.state.orgName||'org').replace(/\s+/g,'-')+'-'+new Date().toISOString().slice(0,10)+'.json';a.click();this._updateSaveDot(true);},
+loadFile(input){const f=input.files[0];if(!f)return;const r=new FileReader();r.onload=e=>{try{this.state=JSON.parse(e.target.result);this._populateInputs();this.renderAll();this._autosave();alert('Progress loaded.');}catch(err){alert('Error: '+err.message);}};r.readAsText(f);input.value='';},
+confirmReset(){if(confirm('Reset all foresight progress? Cannot be undone.')){localStorage.removeItem(STORAGE_KEY);location.reload();}},
+goTab(tab){
+  document.querySelectorAll('.tool-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.page-nav-btn').forEach(b=>b.classList.remove('active'));
+  const panel=document.getElementById(tab);if(panel)panel.classList.add('active');
+  document.querySelectorAll('.page-nav-btn').forEach(b=>{if(b.dataset.tab===tab)b.classList.add('active');});
+  if(tab==='brief')this.renderBrief();
+},
+setSize(sz){this.state.orgSize=sz;document.querySelectorAll('.size-card').forEach(c=>c.classList.remove('selected'));const el=document.getElementById('sizeCard-'+sz);if(el)el.classList.add('selected');this.markDirty();},
+setDomain(domain){document.querySelectorAll('.domain-tab').forEach(t=>t.classList.remove('active'));document.querySelectorAll('.signal-domain').forEach(d=>d.classList.remove('active'));const tab=document.querySelector('[data-domain="'+domain+'"]');const panel=document.getElementById('domain-'+domain);if(tab)tab.classList.add('active');if(panel)panel.classList.add('active');},
+
+renderSignals(){
+  const c=document.getElementById('signalPanels');if(!c)return;if(!this.state.signals)this.state.signals={};c.innerHTML='';
+  Object.keys(SIGNALS).forEach((domain,di)=>{
+    const panel=document.createElement('div');panel.className='signal-domain'+(di===0?' active':'');panel.id='domain-'+domain;
+    const curated=SIGNALS[domain];const custom=(this.state.signals[domain]||[]).filter(s=>s&&s.custom);
+    const all=[...curated.map(s=>({...s,custom:false})),...custom];
+    panel.innerHTML=all.map((sig,idx)=>{
+      const saved=(this.state.signals[domain]||[])[idx]||{};const str=saved.strength||'';
+      const tl={push:'Push of present',pull:'Pull of future',weight:'Weight of past'};
+      const tc={push:'badge-push',pull:'badge-pull',weight:'badge-weight'};
+      const ty=saved.type||sig.type||'push';
+      return '<div class="signal-card"><div class="signal-card-top"><span class="signal-num">'+String(idx+1).padStart(2,'0')+'</span><span class="signal-text">'+sig.text+'</span><div class="signal-strength"><span class="strength-label">W</span><button class="strength-btn weak'+(str==='weak'?' sel':'')+'" onclick="TOOL.setStrength(\''+domain+'\','+idx+',\'weak\')"></button><button class="strength-btn strong'+(str==='strong'?' sel':'')+'" onclick="TOOL.setStrength(\''+domain+'\','+idx+',\'strong\')"></button><span class="strength-label">S</span></div></div><div class="signal-meta"><span class="signal-badge '+tc[ty]+'">'+tl[ty]+'</span>'+(sig.custom?'<span class="signal-badge" style="background:rgba(255,255,255,0.05);color:rgba(255,255,255,0.3);border:1px solid rgba(255,255,255,0.1)">Your signal</span>':'')+'</div></div>';
+    }).join('')+'<div class="add-signal-row"><input class="add-signal-input" placeholder="Add your own signal..." id="sigIn-'+domain+'"><select id="sigTy-'+domain+'" style="width:110px;padding:7px;border:1px solid rgba(201,168,76,0.25);background:var(--green-dark);color:rgba(255,255,255,0.6);font-size:0.76rem;border-radius:0"><option value="push">Push</option><option value="pull">Pull</option><option value="weight">Weight</option></select><button class="btn btn-primary" onclick="TOOL.addSignal(\''+domain+'\')">Add</button></div>';
+    c.appendChild(panel);
+  });
+},
+setStrength(d,i,s){if(!this.state.signals[d])this.state.signals[d]=[];if(!this.state.signals[d][i])this.state.signals[d][i]={};this.state.signals[d][i].strength=s;this.markDirty();this.renderSignals();this.setDomain(d);},
+addSignal(d){const inp=document.getElementById('sigIn-'+d);const ty=document.getElementById('sigTy-'+d);if(!inp||!inp.value.trim())return;if(!this.state.signals[d])this.state.signals[d]=[];this.state.signals[d].push({text:inp.value.trim(),type:ty?ty.value:'push',custom:true,strength:''});inp.value='';this.markDirty();this.renderSignals();this.setDomain(d);},
+
+renderScenarios(){
+  const g=document.getElementById('scenarioGrid');if(!g)return;
+  g.innerHTML=SCENARIOS.map(sc=>'<div class="scenario-card '+sc.cls+'"><div class="scenario-eyebrow">'+sc.archetype+'</div><div class="scenario-title">'+sc.name+' - '+sc.headline+'</div><div class="scenario-narrative">'+sc.narrative+'</div><div style="margin-top:10px"><div class="indicator-label">Leading indicators to watch</div>'+sc.indicators.map(i=>'<div class="indicator-item">'+i+'</div>').join('')+'</div><div style="margin-top:10px"><div class="indicator-label">Strategic questions</div>'+sc.questions.map(q=>'<div class="indicator-item">'+q+'</div>').join('')+'</div></div>').join('');
+},
+async generateScenarios(){
+  const btn=document.getElementById('genBtn');const res=document.getElementById('aiResult');
+  const sector=this.state.orgSector||'business';const q=this.state.focalQuestion||'strategic ESG preparedness';const h=this.state.orgHorizon||'10';
+  btn.disabled=true;btn.textContent='Generating...';res.style.display='block';res.innerHTML='<span style="color:var(--muted);font-style:italic">Generating sector-specific narratives...</span>';
+  try{
+    const yr=parseInt(new Date().getFullYear())+parseInt(h);
+    const prompt='You are a strategic foresight expert. Generate four short (3-4 sentence) scenario narratives for a '+sector+' company, each set in '+yr+', focused on: "'+q+'". Use labels: ACCELERATION, FRICTION, DISRUPTION, REINVENTION. Format as LABEL: [narrative]. Be sector-specific and concrete.';
+    const response=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:1000,messages:[{role:'user',content:prompt}]})});
+    const data=await response.json();const text=data.content.map(b=>b.text||'').join('');
+    const colors={ACCELERATION:'var(--s-accel)',FRICTION:'var(--s-friction)',DISRUPTION:'var(--s-disrupt)',REINVENTION:'var(--s-reinvent)'};
+    res.innerHTML=text.split('\n').filter(l=>l.trim()).map(line=>{
+      const m=line.match(/^(ACCELERATION|FRICTION|DISRUPTION|REINVENTION):\s*(.*)/i);
+      if(m)return '<div style="margin-bottom:10px;padding:10px 14px;border-left:3px solid '+colors[m[1].toUpperCase()]+';background:rgba(0,0,0,0.1)"><div style="font-size:0.66rem;font-weight:600;letter-spacing:0.12em;color:'+colors[m[1].toUpperCase()]+';margin-bottom:4px">'+m[1].toUpperCase()+'</div><div style="font-size:0.82rem;color:rgba(255,255,255,0.7);line-height:1.6">'+m[2]+'</div></div>';
+      return '<div style="font-size:0.82rem;color:rgba(255,255,255,0.6);margin-bottom:4px">'+line+'</div>';
+    }).join('');
+  }catch(e){res.innerHTML='<span style="color:var(--warn)">Could not generate - requires internet. Use pre-built scenarios above.</span>';}
+  btn.disabled=false;btn.textContent='Generate AI Narratives';
+},
+
+renderWindtunnel(){
+  const g=document.getElementById('wtGrid');if(!g)return;
+  g.innerHTML=SCENARIOS.map(sc=>'<div class="wt-cell"><div class="wt-cell-header"><div class="wt-dot" style="background:'+sc.dot+'"></div><div class="wt-name">'+sc.name+'</div></div><select class="ir-status-sel" style="width:100%;margin-bottom:6px" onchange="TOOL.setWtVerdict(\''+sc.id+'\',this.value)"><option value="">-- Verdict --</option><option value="robust"'+((this.state.wtVerdict||{})[sc.id]==='robust'?' selected':'')+'>Robust</option><option value="conditional"'+((this.state.wtVerdict||{})[sc.id]==='conditional'?' selected':'')+'>Conditional</option><option value="reconsider"'+((this.state.wtVerdict||{})[sc.id]==='reconsider'?' selected':'')+'>Reconsider</option></select><label style="font-size:0.66rem;color:var(--muted);letter-spacing:0.06em;display:block;margin-bottom:3px">THREATS & OPPORTUNITIES</label><textarea class="wt-notes" placeholder="Key threats and opportunities in this scenario..." onchange="TOOL.setWtNotes(\''+sc.id+'\',this.value)">'+((this.state.wtNotes||{})[sc.id]||'')+'</textarea></div>').join('');
+},
+setWtVerdict(id,v){if(!this.state.wtVerdict)this.state.wtVerdict={};this.state.wtVerdict[id]=v;this.markDirty();},
+setWtNotes(id,v){if(!this.state.wtNotes)this.state.wtNotes={};this.state.wtNotes[id]=v;this.markDirty();},
+
+renderResilienceMap(){
+  const el=document.getElementById('resilienceMap');if(!el)return;
+  if(!this.state.rmRows||!this.state.rmRows.length){this.state.rmRows=[{label:'Capital allocation strategy',accel:'',friction:'',disrupt:'',reinvent:''},{label:'Supply chain and sourcing',accel:'',friction:'',disrupt:'',reinvent:''},{label:'Product/service portfolio',accel:'',friction:'',disrupt:'',reinvent:''},{label:'ESG reporting programme',accel:'',friction:'',disrupt:'',reinvent:''},{label:'Talent and culture strategy',accel:'',friction:'',disrupt:'',reinvent:''}];}
+  const labels={'':'--','robust':'Robust','conditional':'Cond.','reconsider':'Review'};
+  const cls={'':'rm-na','robust':'rm-robust','conditional':'rm-conditional','reconsider':'rm-reconsider'};
+  el.innerHTML='<div class="rm-row" style="margin-bottom:3px"><div style="font-size:0.66rem;color:var(--muted);letter-spacing:0.08em;text-transform:uppercase">Priority</div><div class="rm-bars">'+SCENARIOS.map(s=>'<div style="font-size:0.6rem;color:'+s.dot+';letter-spacing:0.06em;text-align:center;font-weight:600;padding:4px 0">'+s.name.toUpperCase()+'</div>').join('')+'</div></div>'+
+  this.state.rmRows.map((row,ri)=>'<div class="rm-row"><input style="background:rgba(0,0,0,0.15);border:1px solid rgba(255,255,255,0.08);color:rgba(255,255,255,0.7);padding:4px 8px;font-size:0.76rem;width:100%" value="'+row.label+'" onchange="TOOL.updateRMLabel('+ri+',this.value)"><div class="rm-bars">'+SCENARIOS.map(s=>'<div class="rm-bar '+cls[row[s.id]||'']+'" onclick="TOOL.cycleRM('+ri+',\''+s.id+'\')" title="Click to cycle">'+labels[row[s.id]||'']+'</div>').join('')+'</div></div>').join('');
+},
+cycleRM(ri,sc){const c=['','robust','conditional','reconsider'];const cur=this.state.rmRows[ri][sc]||'';this.state.rmRows[ri][sc]=c[(c.indexOf(cur)+1)%c.length];this.markDirty();this.renderResilienceMap();},
+updateRMLabel(ri,v){this.state.rmRows[ri].label=v;this.markDirty();},
+addRMRow(){this.state.rmRows.push({label:'New priority',accel:'',friction:'',disrupt:'',reinvent:''});this.markDirty();this.renderResilienceMap();},
+
+renderIndicators(){
+  const el=document.getElementById('indicatorRows');if(!el)return;
+  if(!this.state.indicators||!this.state.indicators.length){this.state.indicators=[
+    {name:'EU ETS carbon price trajectory',owner:'CFO / Treasury',threshold:'Exceeds EUR140/tCO2 or falls below EUR60/tCO2',status:'watch'},
+    {name:'CSRD Wave 2 compliance benchmark',owner:'Head of Sustainability',threshold:'Peer disclosure score diverges >15% from ours',status:'watch'},
+    {name:'Physical climate events in operating geographies',owner:'Risk Officer',threshold:'Event in Tier 1 location causing >2 weeks disruption',status:'watch'},
+    {name:'CSDDD litigation - supply chain',owner:'General Counsel',threshold:'First enforcement action against a direct competitor',status:'watch'},
+    {name:'Renewable energy price parity',owner:'Operations',threshold:'Renewable PPA cost parity with grid in primary markets',status:'watch'}];}
+  el.innerHTML=this.state.indicators.map((ind,i)=>'<div class="indicator-row"><div style="display:grid;grid-template-columns:1fr 140px 80px;gap:10px;align-items:start;margin-bottom:8px"><input style="background:rgba(0,0,0,0.15);border:1px solid rgba(255,255,255,0.08);color:rgba(255,255,255,0.8);padding:6px 10px;font-size:0.82rem;width:100%;font-weight:500" value="'+ind.name+'" onchange="TOOL.updateInd('+i+',\'name\',this.value)"><select class="ir-status-sel" onchange="TOOL.updateInd('+i+',\'status\',this.value)"><option value="watch"'+(ind.status==='watch'?' selected':'')+'>Watching</option><option value="emerging"'+(ind.status==='emerging'?' selected':'')+'>Emerging</option><option value="confirmed"'+(ind.status==='confirmed'?' selected':'')+'>Threshold crossed</option></select><button class="btn btn-warn" onclick="TOOL.removeInd('+i+')" style="padding:4px 8px;font-size:0.66rem">Remove</button></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:10px"><div><label style="font-size:0.64rem;color:var(--muted);letter-spacing:0.08em;display:block;margin-bottom:3px">OWNER</label><input style="background:rgba(0,0,0,0.15);border:1px solid rgba(255,255,255,0.06);color:rgba(255,255,255,0.6);padding:5px 8px;font-size:0.76rem;width:100%" value="'+(ind.owner||'')+'" onchange="TOOL.updateInd('+i+',\'owner\',this.value)"></div><div><label style="font-size:0.64rem;color:var(--muted);letter-spacing:0.08em;display:block;margin-bottom:3px">THRESHOLD</label><input style="background:rgba(0,0,0,0.15);border:1px solid rgba(255,255,255,0.06);color:rgba(255,255,255,0.6);padding:5px 8px;font-size:0.76rem;width:100%" value="'+(ind.threshold||'')+'" onchange="TOOL.updateInd('+i+',\'threshold\',this.value)"></div></div></div>').join('');
+},
+addIndicator(){this.state.indicators.push({name:'New indicator',owner:'',threshold:'',status:'watch'});this.markDirty();this.renderIndicators();},
+removeInd(i){this.state.indicators.splice(i,1);this.markDirty();this.renderIndicators();},
+updateInd(i,f,v){this.state.indicators[i][f]=v;this.markDirty();},
+
+renderBrief(){
+  const el=document.getElementById('briefContent');if(!el)return;const s=this.state;
+  const selOpt=(id)=>{const el=document.getElementById(id);return el&&el.selectedOptions?el.selectedOptions[0].text:''};
+  const scLabel={accel:'Acceleration',friction:'Friction',disrupt:'Disruption',reinvent:'Reinvention',mixed:'Mixed signals'};
+  const robust=(s.rmRows||[]).filter(r=>['accel','friction','disrupt','reinvent'].every(sc=>r[sc]==='robust')).map(r=>r.label);
+  const recon=(s.rmRows||[]).filter(r=>['accel','friction','disrupt','reinvent'].some(sc=>r[sc]==='reconsider')).map(r=>r.label);
+  el.innerHTML='<div class="brief-output"><div style="border-top:3px solid var(--gold);margin-bottom:16px"></div><div class="brief-company">'+(s.orgName||'Organisation Name')+'</div><div class="brief-meta">ESG Foresight Brief - '+(s.orgDate||new Date().getFullYear())+' - '+(s.orgHorizon||10)+'-year horizon - Methodology: CIFS, IFTF, Schwartz, Dator, Inayatullah</div>'+
+  '<div class="brief-section"><div class="brief-section-label">Focal Question</div><div style="font-family:var(--serif);font-size:1.1rem;color:var(--white);line-height:1.4">'+(s.focalQuestion||'No focal question defined - return to Stage 1.')+'</div></div>'+
+  '<div class="brief-section"><div class="brief-section-label">Four Scenarios</div><div class="brief-4grid">'+SCENARIOS.map(sc=>{const v=(s.wtVerdict||{})[sc.id];const vl={robust:'Robust',conditional:'Conditional',reconsider:'Reconsider'}[v]||'--';const vc={robust:'var(--acc)',conditional:'var(--amber)',reconsider:'var(--warn)'}[v]||'rgba(255,255,255,0.3)';return '<div class="brief-sc" style="border-color:'+sc.dot+'30"><div class="brief-sc-name" style="color:'+sc.dot+'">'+sc.name+'</div><div class="brief-sc-text">'+sc.headline+'</div><div style="font-size:0.64rem;color:'+vc+';margin-top:6px;font-weight:600">'+vl+'</div></div>';}).join('')+'</div></div>'+
+  '<div class="brief-section"><div class="brief-section-label">Current Signal Assessment</div><div style="font-size:0.86rem;color:rgba(255,255,255,0.7)">'+(s.currentScenario?scLabel[s.currentScenario]||s.currentScenario:'Not yet assessed')+'</div></div>'+
+  '<div class="brief-section"><div class="brief-section-label">Strategy Resilience</div><ul style="list-style:none">'+
+  (robust.length?robust.slice(0,3).map(r=>'<li class="brief-action"><span class="brief-action-num">OK</span><span><strong style="color:var(--acc-light)">Robust across all scenarios:</strong> '+r+'</span></li>').join(''):'')+
+  (recon.length?recon.slice(0,3).map(r=>'<li class="brief-action"><span class="brief-action-num">!!</span><span><strong style="color:var(--warn)">Review required:</strong> '+r+'</span></li>').join(''):'')+
+  (!robust.length&&!recon.length?'<li class="brief-action"><span class="brief-action-num">--</span><span style="color:var(--muted)">Complete Stage 4 to populate.</span></li>':'')+
+  '</ul></div>'+
+  '<div class="brief-section"><div class="brief-section-label">Leading Indicators</div><div class="brief-indicators-grid">'+(s.indicators||[]).slice(0,6).map(ind=>'<div class="brief-indicator"><div class="bi-name">'+ind.name+'</div><div class="bi-owner">Owner: '+(ind.owner||'--')+'</div><div style="font-size:0.64rem;color:'+(ind.status==='confirmed'?'var(--warn)':ind.status==='emerging'?'var(--amber)':'var(--muted)')+';margin-top:3px;font-weight:600">'+{watch:'Watching',emerging:'Emerging',confirmed:'Threshold crossed'}[ind.status]+'</div></div>').join('')+'</div>'+(s.nextReview?'<div style="font-size:0.76rem;color:var(--muted);margin-top:8px">Next review: '+s.nextReview+' - Owner: '+(s.monitorOwner||'--')+'</div>':'')+'</div>'+
+  '<div style="border-top:1px solid rgba(201,168,76,0.2);padding-top:10px;font-size:0.7rem;color:var(--muted);display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px"><span>Aurie\'s Knowledge Hub - ESG Foresight Tool</span><span>CIFS - IFTF - Schwartz - Dator - Inayatullah</span></div></div>';
+},
+exportJSON(){this._syncInputs();const b=new Blob([JSON.stringify({state:this.state,scenarios:SCENARIOS,signals:SIGNALS},null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='foresight-export-'+(this.state.orgName||'org')+'.json';a.click();},
+renderAll(){this.renderSignals();this.renderScenarios();this.renderWindtunnel();this.renderResilienceMap();this.renderIndicators();this.renderBrief();this.setDomain('climate');}
+};
+document.addEventListener('DOMContentLoaded',()=>TOOL.init());
+</script>
+</body>
+</html>

@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="The Sustainability Transformation Operating System - turning ESG ambition into a programme of enterprise-wide change.">
+<title>Sustainability Transformation Operating System - Aurie's Knowledge Hub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Inter:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --green-deep:#0e2b1a;--green-mid:#1a3d28;--green-light:#234d33;--green-dark:#091f12;
+  --gold:#c9a84c;--gold-light:#e0c07a;--gold-dim:rgba(201,168,76,0.15);
+  --white:#ffffff;--muted:#8a9e90;--border:rgba(201,168,76,0.18);
+  --serif:'Cormorant Garamond',Georgia,serif;--sans:'Inter',system-ui,sans-serif;--mono:'DM Mono',monospace;
+  --acc:#93c5fd;--acc-dim:rgba(147,197,253,0.10);--acc-bdr:rgba(147,197,253,0.28);
+}
+html{scroll-behavior:smooth}
+body{background:var(--green-deep);color:var(--white);font-family:var(--sans);font-weight:300;font-size:16px;line-height:1.7;min-height:100vh}
+::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:var(--green-deep)}::-webkit-scrollbar-thumb{background:rgba(201,168,76,0.35);border-radius:3px}
+
+.page-header{padding:7rem 2.5rem 3rem;background:radial-gradient(ellipse at 65% 40%,rgba(26,61,40,0.9) 0%,var(--green-deep) 65%);border-bottom:1px solid var(--border)}
+.back-link{font-size:0.7rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);text-decoration:none;display:inline-flex;align-items:center;gap:6px;margin-bottom:1.2rem;transition:color 0.15s}
+.back-link:hover{color:var(--gold)}
+.page-eyebrow{font-size:0.7rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--gold);margin-bottom:1.2rem;display:flex;align-items:center;gap:1rem}
+.page-eyebrow::before{content:'';width:2.5rem;height:1px;background:var(--gold);display:inline-block}
+h1.page-title{font-family:var(--serif);font-size:clamp(2.4rem,4.5vw,4rem);font-weight:300;line-height:1.1;margin-bottom:0.8rem;border:none;padding:0}
+h1.page-title em{font-style:italic;color:var(--gold)}
+.page-desc{font-size:1rem;color:rgba(255,255,255,0.58);max-width:680px;line-height:1.8;margin-bottom:1.8rem}
+.header-meta{display:flex;gap:10px;flex-wrap:wrap}
+.meta-badge{padding:4px 14px;font-size:10px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;font-family:var(--sans)}
+.page-nav{background:var(--green-mid);border-bottom:1px solid var(--border);padding:0 2.5rem;display:flex;overflow-x:auto}
+.page-nav-link{padding:13px 20px;font-size:0.73rem;letter-spacing:0.08em;text-transform:uppercase;color:rgba(255,255,255,0.45);text-decoration:none;border-bottom:2px solid transparent;white-space:nowrap;transition:all 0.15s}
+.page-nav-link:hover{color:var(--gold-light)}
+.page-nav-link.active{color:var(--gold);border-color:var(--gold)}
+main{padding:0 2.5rem 5rem;max-width:860px;margin:0 auto}
+.section-block{margin-top:3.5rem}
+.section-divider{border-top:2px solid var(--gold);position:relative;margin-bottom:1.8rem}
+.section-divider-label{position:absolute;top:-12px;left:0;background:var(--green-deep);padding:0 14px 0 0;font-size:9px;letter-spacing:0.22em;text-transform:uppercase;color:var(--gold);font-family:var(--sans);font-weight:500}
+.logic-chain{display:flex;align-items:center;gap:0;flex-wrap:wrap;margin-bottom:2rem;padding:16px 22px;background:var(--acc-dim);border:1px solid var(--acc-bdr)}
+.logic-step{font-family:var(--serif);font-size:1.1rem;font-weight:400;color:var(--acc);white-space:nowrap}
+.logic-arrow{font-size:0.9rem;color:var(--acc-bdr);margin:0 10px;flex-shrink:0}
+.ceo-question{margin-bottom:1.8rem;padding:18px 22px;border-left:3px solid var(--acc);background:rgba(0,0,0,0.1)}
+.ceo-q-label{font-size:8px;letter-spacing:0.22em;text-transform:uppercase;color:var(--acc);font-family:var(--sans);margin-bottom:6px}
+.ceo-q-text{font-family:var(--serif);font-size:1.05rem;font-style:italic;color:rgba(255,255,255,0.8);line-height:1.6}
+.summary-para{font-size:1rem;color:rgba(255,255,255,0.65);line-height:1.85;margin-bottom:1rem}
+.summary-para:last-child{margin-bottom:0}
+.takeaway-block{background:var(--green-mid);border:1px solid var(--border);border-top:2px solid var(--acc);padding:28px 32px;margin-bottom:1.2rem}
+.takeaway-label{font-size:9px;letter-spacing:0.22em;text-transform:uppercase;color:var(--acc);font-family:var(--sans);margin-bottom:14px}
+.takeaway-contrast{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);border:1px solid var(--border);margin-top:20px}
+.contrast-card{padding:16px 18px;background:var(--green-light)}
+.contrast-card.positive{background:var(--acc-dim)}
+.contrast-label{font-size:8px;letter-spacing:0.2em;text-transform:uppercase;font-family:var(--sans);margin-bottom:6px}
+.contrast-card:not(.positive) .contrast-label{color:var(--muted)}
+.contrast-card.positive .contrast-label{color:var(--acc)}
+.contrast-text{font-size:0.9rem;line-height:1.55}
+.contrast-card:not(.positive) .contrast-text{color:rgba(255,255,255,0.45)}
+.contrast-card.positive .contrast-text{color:rgba(255,255,255,0.82)}
+.enables-block{margin-top:1.2rem;padding:16px 20px;background:rgba(201,168,76,0.04);border:1px solid var(--border)}
+.enables-label{font-size:8px;letter-spacing:0.22em;text-transform:uppercase;color:var(--muted);font-family:var(--sans);margin-bottom:8px}
+.enables-list{display:flex;gap:6px;flex-wrap:wrap}
+.enables-chip{font-size:0.75rem;color:var(--muted);padding:3px 10px;border:1px solid rgba(255,255,255,0.1)}
+.arch-step{border:1px solid var(--acc-bdr);background:var(--acc-dim);border-radius:4px;overflow:hidden;margin-bottom:2px}
+.arch-step-header{padding:14px 20px 10px;display:grid;grid-template-columns:28px 1fr;gap:0 14px;align-items:start}
+.arch-step-num{font-family:var(--serif);font-size:1.6rem;font-weight:300;color:var(--acc);line-height:1;opacity:0.5}
+.arch-step-title{font-family:var(--serif);font-size:1.15rem;font-weight:400;color:var(--white);margin-bottom:2px}
+.arch-step-sub{font-size:0.78rem;color:rgba(255,255,255,0.5)}
+.arch-step-body{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:rgba(0,0,0,0.15);border-top:1px solid rgba(0,0,0,0.15)}
+.arch-col{padding:12px 20px;background:rgba(0,0,0,0.08)}
+.arch-col-label{font-size:8px;letter-spacing:0.18em;text-transform:uppercase;color:var(--acc);font-family:var(--sans);font-weight:500;margin-bottom:8px}
+.arch-items{display:flex;flex-direction:column;gap:4px}
+.arch-item{font-size:0.8rem;color:rgba(255,255,255,0.6);line-height:1.45;padding-left:12px;position:relative}
+.arch-item::before{content:'·';position:absolute;left:0;color:var(--acc)}
+.arch-q{font-size:0.8rem;color:rgba(255,255,255,0.6);line-height:1.5;padding-left:12px;position:relative}
+.arch-q::before{content:'→';position:absolute;left:0;color:var(--acc-bdr);font-size:10px;top:3px}
+.arch-connector{display:flex;justify-content:center;height:28px;align-items:center;color:rgba(201,168,76,0.35);font-size:16px}
+.outcomes-block{border:1px solid var(--acc-bdr);background:var(--acc-dim);border-radius:4px;padding:20px 24px}
+.outcomes-label{font-size:9px;letter-spacing:0.22em;text-transform:uppercase;color:var(--acc);font-family:var(--sans);margin-bottom:12px}
+.outcomes-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px 24px}
+.outcome-item{display:flex;align-items:baseline;gap:8px;font-size:0.88rem;color:rgba(255,255,255,0.75);line-height:1.4}
+.outcome-item::before{content:'✓';color:var(--acc);font-size:11px;flex-shrink:0}
+.fw-group{margin-bottom:1.8rem}
+.fw-group-title{font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);font-family:var(--sans);font-weight:500;margin-bottom:10px;display:flex;align-items:center;gap:10px}
+.fw-group-title::after{content:'';flex:1;height:1px;background:linear-gradient(to right,rgba(201,168,76,0.25),transparent)}
+.fw-cards{display:grid;grid-template-columns:1fr 1fr;gap:2px;background:var(--border);border:1px solid var(--border)}
+.fw-card{background:var(--green-mid);padding:14px 18px;text-decoration:none;transition:background 0.15s;display:block;position:relative}
+.fw-card:hover{background:var(--green-light)}
+.fw-card-code{font-family:var(--mono);font-size:10px;color:var(--gold-light);letter-spacing:0.06em;margin-bottom:4px}
+.fw-card-name{font-size:0.85rem;color:rgba(255,255,255,0.8);line-height:1.4;margin-bottom:4px;padding-right:20px}
+.fw-card-org{font-size:0.72rem;color:var(--muted)}
+.fw-card-arrow{position:absolute;top:14px;right:14px;font-size:12px;color:var(--muted);transition:color 0.15s}
+.fw-card:hover .fw-card-arrow{color:var(--gold)}
+footer{padding:20px 2.5rem;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;color:var(--muted);font-size:0.75rem;flex-wrap:wrap;gap:8px;letter-spacing:0.06em;background:var(--green-dark)}
+.footer-brand{font-family:var(--serif);font-size:0.9rem;color:var(--gold);font-weight:400}
+@media(max-width:800px){
+  .nav-link{min-width:88px;padding:0 0.8rem}.nav-brand{padding:0 1.2rem;font-size:1.05rem}
+  .page-header,main,footer,.page-nav{padding-left:1.5rem;padding-right:1.5rem}
+  .arch-step-body,.takeaway-contrast,.fw-cards,.outcomes-grid{grid-template-columns:1fr}
+  .arch-step-header{grid-template-columns:24px 1fr}
+}
+@media(max-width:560px){.nav-link-sub{display:none}.nav-link{min-width:70px;padding:0 0.6rem}}
+
+/* ── NAV (standardised) ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; align-items: stretch;
+  background: rgba(9,31,18,0.97); backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+  height: 64px;
+}
+.nav-brand {
+  display: flex; align-items: center;
+  padding: 0 2.5rem;
+  font-family: var(--serif); font-size: 1.25rem; font-weight: 600;
+  letter-spacing: 0.04em; color: var(--white); text-decoration: none;
+  border-right: 1px solid var(--border);
+  flex-shrink: 0; transition: background 0.2s;
+}
+.nav-brand:hover { background: rgba(201,168,76,0.06); }
+.nav-brand span { color: var(--gold); }
+.nav-sections { display: flex; align-items: stretch; list-style: none; flex: 1; overflow-x: auto; }
+.nav-sections li { display: flex; }
+.nav-link {
+  display: flex; flex-direction: column; justify-content: center;
+  padding: 0 1.6rem; text-decoration: none;
+  border-right: 1px solid var(--border);
+  transition: background 0.18s; min-width: 120px;
+}
+.nav-link:hover { background: rgba(201,168,76,0.06); }
+.nav-link.active { background: var(--gold-dim); border-bottom: 2px solid var(--gold); }
+.nav-link-primary { font-size: 0.78rem; font-weight: 500; letter-spacing: 0.05em; color: rgba(255,255,255,0.88); line-height: 1.2; white-space: nowrap; }
+.nav-link-sub { font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); line-height: 1; margin-top: 3px; white-space: nowrap; }
+.nav-link:hover .nav-link-primary { color: var(--gold-light); }
+.nav-link:hover .nav-link-sub { color: rgba(201,168,76,0.6); }
+.nav-link.active .nav-link-primary { color: var(--gold); }
+.nav-link.active .nav-link-sub { color: rgba(201,168,76,0.7); }
+.nav-about {
+  display: flex; align-items: center; padding: 0 1.8rem;
+  font-size: 0.78rem; font-weight: 500; letter-spacing: 0.05em;
+  color: rgba(255,255,255,0.6); text-decoration: none;
+  margin-left: auto; transition: color 0.18s; white-space: nowrap;
+}
+.nav-about:hover { color: var(--gold); }
+@media (max-width: 768px) {
+  .nav-link { min-width: 100px; padding: 0 1rem; }
+  .nav-brand { padding: 0 1.2rem; font-size: 1.05rem; }
+}
+@media (max-width: 560px) {
+  .nav-link-sub { display: none; }
+  .nav-link { min-width: 80px; padding: 0 0.8rem; }
+}
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Sustainability Transformation Operating System",
+  "description": "The Sustainability Transformation Operating System - turning ESG ambition into a programme of enterprise-wide change.",
+  "author": {
+    "@type": "Person",
+    "name": "Aurie",
+    "url": "https://REPLACE-WITH-YOUR-DOMAIN/about.html"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Aurie's Knowledge Hub",
+    "url": "https://REPLACE-WITH-YOUR-DOMAIN/index.html"
+  },
+  "datePublished": "2026-01-01",
+  "dateModified": "2026-07-06",
+  "url": "https://REPLACE-WITH-YOUR-DOMAIN/esos-sustainability-transformation.html"
+}
+</script>
+</head>
+<body>
+<nav>
+  <a class="nav-brand" href="index.html">Aurie's <span>Knowledge Hub</span></a>
+  <ul class="nav-sections">
+    <li>
+      <a class="nav-link" href="ceo-insights.html">
+        <span class="nav-link-primary">CEO Insights</span>
+        <span class="nav-link-sub">For the leadership</span>
+      </a>
+    </li>
+    <li>
+      <a class="nav-link" href="tools.html">
+        <span class="nav-link-primary">Tools &amp; Templates</span>
+        <span class="nav-link-sub">For ESG teams</span>
+      </a>
+    </li>
+    <li>
+      <a class="nav-link active" href="resource-library.html">
+        <span class="nav-link-primary">Resource Library</span>
+        <span class="nav-link-sub">For practitioners</span>
+      </a>
+    </li>
+    <li>
+      <a class="nav-link" href="thought-papers.html">
+        <span class="nav-link-primary">Thought Papers</span>
+        <span class="nav-link-sub">For the curious</span>
+      </a>
+    </li>
+  </ul>
+  <a class="nav-about" href="about.html">About Me</a>
+</nav>
+<div class="page-header">
+  <a class="back-link" href="tools.html">← Toolkits</a>
+  <p class="page-eyebrow">Toolkits · Q1 Governance · Operating System 3 of 14</p>
+  <h1 class="page-title">Sustainability Transformation <em>Operating System</em></h1>
+  <p class="page-desc">How to turn sustainability ambition into a coordinated enterprise transformation programme that delivers measurable business outcomes.</p>
+  <div class="header-meta"><span class="meta-badge" style="background:rgba(147,197,253,0.12);border:1px solid rgba(147,197,253,0.3);color:#93c5fd;">7 layers</span><span class="meta-badge" style="background:var(--gold-dim);border:1px solid rgba(201,168,76,0.4);color:var(--gold);">ISSB · TPT · SBTi · CSRD</span><span class="meta-badge" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.5);">Question 1 - How do we govern?</span></div>
+</div>
+<div class="page-nav">
+  <a class="page-nav-link active" href="#summary">Summary Logic</a>
+  <a class="page-nav-link" href="#takeaway">CEO Takeaway</a>
+  <a class="page-nav-link" href="#architecture">OS Architecture</a>
+  <a class="page-nav-link" href="#frameworks">Frameworks</a>
+</div>
+<main>
+
+<div class="section-block" id="summary">
+  <div class="section-divider"><span class="section-divider-label">Section 1 - Summary Logic</span></div>
+  <div class="logic-chain"><span class="logic-step">Align</span><span class="logic-arrow">→</span><span class="logic-step">Prioritise</span><span class="logic-arrow">→</span><span class="logic-step">Mobilise</span><span class="logic-arrow">→</span><span class="logic-step">Execute</span><span class="logic-arrow">→</span><span class="logic-step">Measure</span><span class="logic-arrow">→</span><span class="logic-step">Transform</span></div>
+  <div class="ceo-question">
+    <div class="ceo-q-label">The CEO question this OS answers</div>
+    <div class="ceo-q-text">"How do we turn sustainability ambition into a coordinated enterprise transformation programme that delivers measurable business outcomes?"</div>
+  </div>
+  <p class="summary-para">The Sustainability Transformation OS provides the management architecture to translate sustainability commitments into strategy, investment decisions, operational programmes, and measurable outcomes. It ensures sustainability is managed with the same discipline as other enterprise transformations - with clear priorities, ownership, resources, milestones, and value creation objectives.</p><p class="summary-para">The purpose is to move from fragmented sustainability initiatives towards an integrated transformation portfolio that aligns business strategy, sustainability objectives, capital allocation, and operational execution.</p>
+</div>
+
+<div class="section-block" id="takeaway">
+  <div class="section-divider"><span class="section-divider-label">Section 2 - CEO Takeaway</span></div>
+  <div class="takeaway-block">
+    <div class="takeaway-label">The transformation</div>
+    <div class="takeaway-contrast">
+      <div class="contrast-card">
+        <div class="contrast-label">From</div>
+        <div class="contrast-text">"We have sustainability commitments."</div>
+      </div>
+      <div class="contrast-card positive">
+        <div class="contrast-label">To</div>
+        <div class="contrast-text">"We have a managed enterprise transformation programme with clear priorities, investment, accountability, and measurable outcomes."</div>
+      </div>
+    </div>
+  </div>
+  <div class="enables-block">
+    <div class="enables-label">This OS connects to and enables</div>
+    <div class="enables-list"><span class="enables-chip">Decarbonisation OS</span><span class="enables-chip">Water Stewardship OS</span><span class="enables-chip">Biodiversity OS</span><span class="enables-chip">Circular Economy OS</span><span class="enables-chip">ESG Data &amp; Reporting OS</span><span class="enables-chip">Sustainable Finance OS</span></div>
+  </div>
+</div>
+
+<div class="section-block" id="architecture">
+  <div class="section-divider"><span class="section-divider-label">Section 3 - Operating System Architecture</span></div>
+  <p style="font-size:0.9rem;color:rgba(255,255,255,0.5);margin-bottom:2rem;font-style:italic;max-width:620px">The 7-layer architecture flows from strategic foundation through to continuous improvement. Each layer builds on the one above.</p>
+  <div class="arch-wrap">
+    
+  <div class="arch-step">
+    <div class="arch-step-header">
+      <div class="arch-step-num">1</div>
+      <div>
+        <div class="arch-step-title">Enterprise ambition &amp; strategic alignment</div>
+        <div class="arch-step-sub">Define the sustainability direction and business purpose</div>
+      </div>
+    </div>
+    <div class="arch-step-body">
+      <div class="arch-col">
+        <div class="arch-col-label">Building blocks</div>
+        <div class="arch-items"><div class="arch-item">Enterprise sustainability vision</div><div class="arch-item">Sustainability ambition</div><div class="arch-item">Strategic priorities</div><div class="arch-item">Business strategy integration</div><div class="arch-item">Long-term transition direction</div><div class="arch-item">Leadership alignment</div><div class="arch-item">Enterprise objectives</div></div>
+      </div>
+      <div class="arch-col">
+        <div class="arch-col-label">Key questions</div>
+        <div class="arch-items"><div class="arch-q">What role does sustainability play in our future strategy?</div><div class="arch-q">Is sustainability integrated into business priorities?</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="arch-connector">↓</div>
+  <div class="arch-step">
+    <div class="arch-step-header">
+      <div class="arch-step-num">2</div>
+      <div>
+        <div class="arch-step-title">Materiality, opportunity &amp; transformation prioritisation</div>
+        <div class="arch-step-sub">Identify where action creates the greatest impact</div>
+      </div>
+    </div>
+    <div class="arch-step-body">
+      <div class="arch-col">
+        <div class="arch-col-label">Building blocks</div>
+        <div class="arch-items"><div class="arch-item">Double materiality assessment</div><div class="arch-item">Business impact assessment</div><div class="arch-item">Risk and opportunity analysis</div><div class="arch-item">Value chain assessment</div><div class="arch-item">Transformation hotspots</div><div class="arch-item">Strategic prioritisation criteria</div></div>
+      </div>
+      <div class="arch-col">
+        <div class="arch-col-label">Key questions</div>
+        <div class="arch-items"><div class="arch-q">Where should we focus our resources?</div><div class="arch-q">Which sustainability issues matter most to the business?</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="arch-connector">↓</div>
+  <div class="arch-step">
+    <div class="arch-step-header">
+      <div class="arch-step-num">3</div>
+      <div>
+        <div class="arch-step-title">Transformation roadmap &amp; target setting</div>
+        <div class="arch-step-sub">Convert ambition into measurable pathways</div>
+      </div>
+    </div>
+    <div class="arch-step-body">
+      <div class="arch-col">
+        <div class="arch-col-label">Building blocks</div>
+        <div class="arch-items"><div class="arch-item">Sustainability roadmap</div><div class="arch-item">Targets and milestones</div><div class="arch-item">Transition pathways</div><div class="arch-item">Implementation timelines</div><div class="arch-item">Performance indicators</div><div class="arch-item">Accountability assignment</div></div>
+      </div>
+      <div class="arch-col">
+        <div class="arch-col-label">Key questions</div>
+        <div class="arch-items"><div class="arch-q">What does success look like?</div><div class="arch-q">What must happen and by when?</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="arch-connector">↓</div>
+  <div class="arch-step">
+    <div class="arch-step-header">
+      <div class="arch-step-num">4</div>
+      <div>
+        <div class="arch-step-title">Portfolio management &amp; resource allocation</div>
+        <div class="arch-step-sub">Build the investment and delivery engine</div>
+      </div>
+    </div>
+    <div class="arch-step-body">
+      <div class="arch-col">
+        <div class="arch-col-label">Building blocks</div>
+        <div class="arch-items"><div class="arch-item">Transformation portfolio</div><div class="arch-item">Initiative prioritisation</div><div class="arch-item">Capital requirements</div><div class="arch-item">Resource allocation</div><div class="arch-item">Business case development</div><div class="arch-item">Investment governance</div><div class="arch-item">Programme management</div></div>
+      </div>
+      <div class="arch-col">
+        <div class="arch-col-label">Key questions</div>
+        <div class="arch-items"><div class="arch-q">Are we funding the right initiatives?</div><div class="arch-q">Are resources aligned with ambition?</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="arch-connector">↓</div>
+  <div class="arch-step">
+    <div class="arch-step-header">
+      <div class="arch-step-num">5</div>
+      <div>
+        <div class="arch-step-title">Implementation &amp; business integration</div>
+        <div class="arch-step-sub">Embed sustainability into operations</div>
+      </div>
+    </div>
+    <div class="arch-step-body">
+      <div class="arch-col">
+        <div class="arch-col-label">Building blocks</div>
+        <div class="arch-items"><div class="arch-item">Operational execution</div><div class="arch-item">Functional ownership</div><div class="arch-item">Business process integration</div><div class="arch-item">Procurement alignment</div><div class="arch-item">Technology deployment</div><div class="arch-item">Change management</div><div class="arch-item">Capability building</div></div>
+      </div>
+      <div class="arch-col">
+        <div class="arch-col-label">Key questions</div>
+        <div class="arch-items"><div class="arch-q">Is sustainability embedded into daily operations?</div><div class="arch-q">Are business functions enabled to deliver change?</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="arch-connector">↓</div>
+  <div class="arch-step">
+    <div class="arch-step-header">
+      <div class="arch-step-num">6</div>
+      <div>
+        <div class="arch-step-title">Performance management &amp; value creation</div>
+        <div class="arch-step-sub">Track progress and business outcomes</div>
+      </div>
+    </div>
+    <div class="arch-step-body">
+      <div class="arch-col">
+        <div class="arch-col-label">Building blocks</div>
+        <div class="arch-items"><div class="arch-item">Transformation KPIs</div><div class="arch-item">Benefits tracking</div><div class="arch-item">Sustainability performance dashboards</div><div class="arch-item">Financial impact measurement</div><div class="arch-item">Risk monitoring</div><div class="arch-item">Progress reviews</div></div>
+      </div>
+      <div class="arch-col">
+        <div class="arch-col-label">Key questions</div>
+        <div class="arch-items"><div class="arch-q">Are we achieving measurable outcomes?</div><div class="arch-q">Is sustainability creating business value?</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="arch-connector">↓</div>
+  <div class="arch-step">
+    <div class="arch-step-header">
+      <div class="arch-step-num">7</div>
+      <div>
+        <div class="arch-step-title">Strategy refresh &amp; continuous improvement</div>
+        <div class="arch-step-sub">Adapt the transformation journey over time</div>
+      </div>
+    </div>
+    <div class="arch-step-body">
+      <div class="arch-col">
+        <div class="arch-col-label">Building blocks</div>
+        <div class="arch-items"><div class="arch-item">Strategy review cycles</div><div class="arch-item">Emerging risk assessment</div><div class="arch-item">Technology evolution</div><div class="arch-item">Regulatory changes</div><div class="arch-item">Lessons learned</div><div class="arch-item">Continuous improvement</div></div>
+      </div>
+      <div class="arch-col">
+        <div class="arch-col-label">Key questions</div>
+        <div class="arch-items"><div class="arch-q">Are we adapting fast enough?</div><div class="arch-q">Is our transformation pathway still relevant?</div></div>
+      </div>
+    </div>
+  </div>
+  
+    <div class="arch-connector">↓</div>
+    <div class="outcomes-block">
+      <div class="outcomes-label">Outcomes</div>
+      <div class="outcomes-grid"><div class="outcome-item">Integrated sustainability strategy</div><div class="outcome-item">Clear transformation priorities</div><div class="outcome-item">Funded implementation roadmap</div><div class="outcome-item">Enterprise ownership</div><div class="outcome-item">Measurable business outcomes</div><div class="outcome-item">Continuous adaptation and improvement</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="section-block" id="frameworks">
+  <div class="section-divider"><span class="section-divider-label">Section 4 - Relevant Frameworks</span></div>
+  <p style="font-size:0.9rem;color:rgba(255,255,255,0.5);margin-bottom:2rem;font-style:italic;max-width:620px">All framework references link to the original source document. Scores and assessments in this OS are based on official texts only.</p>
+  <div class="fw-group">
+  <div class="fw-group-title">Sustainability Strategy &amp; Transition Planning</div>
+  <div class="fw-cards"><a class="fw-card" href="https://www.ifrs.org/issued-standards/ifrs-sustainability-standards-navigator/" target="_blank" rel="noopener">
+  <div class="fw-card-code">IFRS S1 &amp; S2</div>
+  <div class="fw-card-name">ISSB Sustainability Disclosure Standards</div>
+  <div class="fw-card-org">ISSB - International Sustainability Standards Board</div>
+  <span class="fw-card-arrow">↗</span>
+</a><a class="fw-card" href="https://transitiontaskforce.net/disclosure-framework/" target="_blank" rel="noopener">
+  <div class="fw-card-code">TPT</div>
+  <div class="fw-card-name">Transition Plan Taskforce Disclosure Framework</div>
+  <div class="fw-card-org">Transition Plan Taskforce (TPT)</div>
+  <span class="fw-card-arrow">↗</span>
+</a><a class="fw-card" href="https://www.gfanzero.com/our-work/transition-planning/" target="_blank" rel="noopener">
+  <div class="fw-card-code">GFANZ</div>
+  <div class="fw-card-name">Transition Planning Guidance</div>
+  <div class="fw-card-org">Glasgow Financial Alliance for Net Zero</div>
+  <span class="fw-card-arrow">↗</span>
+</a><a class="fw-card" href="https://www.fsb-tcfd.org/recommendations/" target="_blank" rel="noopener">
+  <div class="fw-card-code">TCFD</div>
+  <div class="fw-card-name">TCFD Strategy and Risk Management Recommendations</div>
+  <div class="fw-card-org">Task Force on Climate-related Financial Disclosures</div>
+  <span class="fw-card-arrow">↗</span>
+</a></div>
+</div><div class="fw-group">
+  <div class="fw-group-title">Climate &amp; Sustainability Target Frameworks</div>
+  <div class="fw-cards"><a class="fw-card" href="https://sciencebasedtargets.org/net-zero" target="_blank" rel="noopener">
+  <div class="fw-card-code">SBTi</div>
+  <div class="fw-card-name">Science Based Targets initiative Corporate Net-Zero Standard</div>
+  <div class="fw-card-org">Science Based Targets initiative</div>
+  <span class="fw-card-arrow">↗</span>
+</a><a class="fw-card" href="https://sciencebasedtargets.org/about-us/sbtn" target="_blank" rel="noopener">
+  <div class="fw-card-code">SBTN</div>
+  <div class="fw-card-name">Science Based Targets Network</div>
+  <div class="fw-card-org">Science Based Targets Network</div>
+  <span class="fw-card-arrow">↗</span>
+</a><a class="fw-card" href="https://ghgprotocol.org/corporate-standard" target="_blank" rel="noopener">
+  <div class="fw-card-code">GHG Protocol</div>
+  <div class="fw-card-name">GHG Protocol Corporate Standard</div>
+  <div class="fw-card-org">World Resources Institute / WBCSD</div>
+  <span class="fw-card-arrow">↗</span>
+</a><a class="fw-card" href="https://www.efrag.org/en/projects/esrs-set1-sustainability-reporting-standards" target="_blank" rel="noopener">
+  <div class="fw-card-code">CSRD / ESRS</div>
+  <div class="fw-card-name">CSRD Transition Planning Requirements</div>
+  <div class="fw-card-org">EFRAG</div>
+  <span class="fw-card-arrow">↗</span>
+</a></div>
+</div>
+</div>
+
+</main>
+<footer>
+  <div class="footer-brand">Aurie's Knowledge Hub</div>
+  <div>Toolkits · June 2026</div>
+  <div style="color:rgba(201,168,76,0.5)"><a href="tools.html" style="color:rgba(201,168,76,0.5);text-decoration:none">← Toolkits</a></div>
+</footer>
+<script>
+const nl=document.querySelectorAll('.page-nav-link');
+nl.forEach(l=>l.addEventListener('click',function(e){e.preventDefault();nl.forEach(x=>x.classList.remove('active'));this.classList.add('active');const t=document.querySelector(this.getAttribute('href'));if(t)t.scrollIntoView({behavior:'smooth',block:'start'})}) );
+const obs=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting){const id=e.target.id;nl.forEach(l=>l.classList.toggle('active',l.getAttribute('href')==='#'+id))}}),{rootMargin:'-64px 0px -60% 0px'});
+['summary','takeaway','architecture','frameworks'].forEach(id=>{const el=document.getElementById(id);if(el)obs.observe(el)});
+</script>
+</body>
+</html>

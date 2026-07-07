@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="A cross-standard comparison of 182 ESG disclosure requirements across 13 domains and 10 major reporting frameworks.">
+<title>Corporate Sustainability Reporting Frameworks - Aurie's Knowledge Hub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Inter:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --green-deep:  #0e2b1a;
+    --green-mid:   #1a3d28;
+    --green-light: #234d33;
+    --green-hover: #2a5c3d;
+    --gold:        #c9a84c;
+    --gold-light:  #e0c07a;
+    --gold-dim:    rgba(201,168,76,0.15);
+    --ivory:       #f5f0e8;
+    --white:       #ffffff;
+    --muted:       #8a9e90;
+    --border:      rgba(201,168,76,0.18);
+    --serif:       'Cormorant Garamond', Georgia, serif;
+    --sans:        'Inter', system-ui, sans-serif;
+    --mono:        'DM Mono', monospace;
+    /* Score colours */
+    --s3: #4ade80;
+    --s3-dim: rgba(74,222,128,0.16);
+    --s2: #c9a84c;
+    --s2-dim: rgba(201,168,76,0.16);
+    --s1: #93c5fd;
+    --s1-dim: rgba(147,197,253,0.14);
+    --s0: rgba(255,255,255,0.06);
+    --s0-text: rgba(255,255,255,0.2);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--green-deep);
+    color: var(--white);
+    font-family: var(--sans);
+    font-weight: 300;
+    line-height: 1.6;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  ::-webkit-scrollbar { width: 5px; height: 5px; }
+  ::-webkit-scrollbar-track { background: var(--green-deep); }
+  ::-webkit-scrollbar-thumb { background: rgba(201,168,76,0.35); border-radius: 3px; }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top:0; left:0; right:0; z-index:100;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:1.1rem 2.5rem;
+    background:rgba(14,43,26,0.96); backdrop-filter:blur(14px);
+    border-bottom:1px solid var(--border);
+  }
+  .nav-brand { font-family:var(--serif); font-size:1.3rem; font-weight:600; letter-spacing:0.04em; color:var(--white); text-decoration:none; }
+  .nav-brand span { color:var(--gold); }
+  .nav-links { display:flex; gap:2.5rem; list-style:none; }
+  .nav-links a { font-size:0.76rem; letter-spacing:0.12em; text-transform:uppercase; color:rgba(255,255,255,0.6); text-decoration:none; transition:color 0.2s; }
+  .nav-links a:hover, .nav-links a.active { color:var(--gold); }
+
+  /* ── PAGE HEADER ── */
+  .page-header {
+    padding: 7rem 2.5rem 3.5rem;
+    background: radial-gradient(ellipse at 65% 40%, rgba(26,61,40,0.9) 0%, var(--green-deep) 65%);
+    border-bottom: 1px solid var(--border);
+  }
+  .page-eyebrow {
+    font-size:0.7rem; letter-spacing:0.22em; text-transform:uppercase;
+    color:var(--gold); margin-bottom:1.2rem;
+    display:flex; align-items:center; gap:1rem;
+  }
+  .page-eyebrow::before { content:''; width:2.5rem; height:1px; background:var(--gold); display:inline-block; }
+  h1.page-title {
+    font-family:var(--serif); font-size:clamp(2.2rem,4vw,3.6rem);
+    font-weight:300; line-height:1.1; margin-bottom:0.8rem; border:none; padding:0;
+  }
+  h1.page-title em { font-style:italic; color:var(--gold); }
+  h2.page-sub {
+    font-family:var(--serif); font-size:1rem; font-weight:300;
+    color:rgba(255,255,255,0.55); letter-spacing:0.06em;
+    margin-bottom:1.4rem; border:none; padding:0;
+  }
+  .page-desc { font-size:0.9rem; color:rgba(255,255,255,0.55); max-width:620px; line-height:1.75; }
+
+  .header-meta {
+    display:flex; gap:10px; flex-wrap:wrap; margin-top:1.8rem;
+  }
+  .meta-badge {
+    padding:4px 14px; font-size:10px; font-weight:500;
+    letter-spacing:0.1em; text-transform:uppercase; font-family:var(--sans);
+  }
+
+  /* ── CONTROLS ── */
+  .controls-bar {
+    position: sticky; top:63px; z-index:80;
+    background:var(--green-mid); border-bottom:1px solid var(--border);
+    padding:12px 2.5rem; display:flex; gap:8px; flex-wrap:wrap; align-items:center;
+  }
+  .filter-label {
+    font-size:10px; color:var(--muted); text-transform:uppercase;
+    letter-spacing:0.14em; flex-shrink:0; margin-right:2px;
+  }
+  .filter-btn {
+    padding:5px 13px; border:1px solid rgba(201,168,76,0.2);
+    background:transparent; color:var(--muted); font-size:11px; font-weight:500;
+    cursor:pointer; transition:all 0.18s; font-family:var(--sans); letter-spacing:0.04em;
+  }
+  .filter-btn:hover { border-color:var(--gold); color:var(--gold-light); background:var(--gold-dim); }
+  .filter-btn.active { background:var(--gold-dim); border-color:var(--gold); color:var(--gold); }
+  .ctrl-sep { width:1px; height:22px; background:var(--border); margin:0 4px; flex-shrink:0; }
+  .search-wrap { margin-left:auto; position:relative; }
+  .search-input {
+    background:rgba(14,43,26,0.8); border:1px solid rgba(201,168,76,0.2);
+    color:var(--white); font-family:var(--sans); font-size:11px;
+    padding:5px 12px 5px 30px; outline:none; width:200px; transition:border-color 0.2s;
+  }
+  .search-input::placeholder { color:var(--muted); }
+  .search-input:focus { border-color:var(--gold); }
+  .search-icon { position:absolute; left:9px; top:50%; transform:translateY(-50%); font-size:11px; color:var(--muted); pointer-events:none; }
+
+  /* ── LEGEND ── */
+  .legend-strip {
+    padding:12px 2.5rem; background:var(--green-deep);
+    border-bottom:1px solid var(--border);
+    display:flex; gap:20px; flex-wrap:wrap; align-items:center;
+  }
+  .legend-item { display:flex; align-items:center; gap:7px; font-size:11px; color:rgba(255,255,255,0.55); }
+  .legend-swatch { width:22px; height:10px; flex-shrink:0; }
+
+  /* ── MAIN TABLE AREA ── */
+  main { padding:2rem 2.5rem 3rem; }
+
+  /* domain block */
+  .domain-block { margin-bottom:2.5rem; }
+  .domain-block.hidden { display:none; }
+
+  .domain-header {
+    display:flex; align-items:center; gap:12px;
+    padding:14px 0 8px 0;
+    border-top:1px solid var(--border);
+    margin-bottom:4px;
+    cursor:pointer;
+    user-select:none;
+  }
+  .domain-label {
+    font-family:var(--serif); font-size:14px; letter-spacing:0.18em;
+    color:var(--gold); text-transform:uppercase; font-weight:400;
+  }
+  .domain-count {
+    font-size:10px; color:var(--muted); font-family:var(--mono);
+    margin-left:auto;
+  }
+  .domain-chevron { color:var(--gold); font-size:11px; transition:transform 0.2s; }
+  .domain-block.collapsed .domain-chevron { transform:rotate(-90deg); }
+  .domain-body { overflow:hidden; }
+  .domain-block.collapsed .domain-body { display:none; }
+
+  /* table wrapper */
+  .table-wrapper {
+    overflow-x:auto;
+    padding-bottom:4px;
+  }
+  .comp-table {
+    width:100%;
+    min-width:980px;
+    border-collapse:collapse;
+    font-size:11.5px;
+  }
+
+  /* sticky column headers */
+  .comp-table thead th {
+    position:sticky; top:0;
+    background:var(--green-mid);
+    padding:7px 10px;
+    font-size:9px; letter-spacing:0.12em; text-transform:uppercase;
+    color:var(--muted); font-weight:500; font-family:var(--sans);
+    border-bottom:1px solid var(--border);
+    white-space:nowrap;
+    text-align:center;
+  }
+  .comp-table thead th.col-sub { text-align:left; min-width:180px; }
+  .comp-table thead th.col-scope { text-align:left; min-width:130px; color:rgba(255,255,255,0.35); }
+
+  /* scope group header rows */
+  .scope-row td {
+    padding:10px 10px 4px 0;
+    font-size:10px; letter-spacing:0.16em; text-transform:uppercase;
+    color:rgba(255,255,255,0.35); font-family:var(--sans);
+    border-top:1px solid rgba(255,255,255,0.04);
+  }
+
+  /* data rows */
+  .data-row { transition:background 0.12s; }
+  .data-row:hover td { background:rgba(201,168,76,0.03); }
+  .data-row.row-hidden { display:none; }
+  .data-row td {
+    padding:7px 6px;
+    border-bottom:1px solid rgba(255,255,255,0.04);
+    vertical-align:middle;
+  }
+  .data-row td.td-sub {
+    font-size:11.5px; color:rgba(255,255,255,0.75);
+    padding-left:0; white-space:nowrap;
+  }
+  .data-row td.td-scope {
+    font-size:10px; color:var(--muted); font-family:var(--mono);
+    white-space:nowrap;
+  }
+
+  /* score cells */
+  .score-cell {
+    text-align:center;
+    width:52px; min-width:44px;
+  }
+  .score-chip {
+    display:inline-flex; align-items:center; justify-content:center;
+    width:28px; height:20px;
+    font-family:var(--mono); font-size:11px; font-weight:500;
+  }
+  .sc-3 { background:var(--s3-dim); color:var(--s3); }
+  .sc-2 { background:var(--s2-dim); color:var(--s2); }
+  .sc-1 { background:var(--s1-dim); color:var(--s1); }
+  .sc-0 { background:var(--s0); color:var(--s0-text); }
+
+  /* ── DEMARCATION ── */
+  .section-divider {
+    margin: 4rem 0 0;
+    padding: 3rem 2.5rem 2.5rem;
+    background: rgba(14,43,26,0.6);
+    border-top: 2px solid var(--gold);
+    border-bottom: 1px solid var(--border);
+    position: relative;
+  }
+  .section-divider::before {
+    content: '▾  Scoring Methodology';
+    position: absolute;
+    top: -13px; left: 2.5rem;
+    background: var(--green-deep);
+    padding: 0 14px;
+    font-size: 9px; letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--gold); font-family: var(--sans); font-weight: 500;
+  }
+  .methodology-intro {
+    font-size:13px; color:rgba(255,255,255,0.5); max-width:680px;
+    line-height:1.7; margin-bottom:2rem;
+    font-style:italic;
+  }
+
+  /* ── SCORE DEFINITIONS ── */
+  .score-defs {
+    display:grid; grid-template-columns:repeat(4,1fr); gap:1px;
+    background:var(--border); border:1px solid var(--border);
+    margin-bottom:2.5rem;
+  }
+  .score-def-card {
+    background:var(--green-mid); padding:20px 22px; position:relative; overflow:hidden;
+  }
+  .score-def-card::after {
+    content:''; position:absolute; top:0; left:0; right:0; height:2px;
+  }
+  .sc3-card::after { background:var(--s3); }
+  .sc2-card::after { background:var(--s2); }
+  .sc1-card::after { background:var(--s1); }
+  .sc0-card::after { background:rgba(255,255,255,0.15); }
+
+  .score-def-num {
+    font-family:var(--serif); font-size:42px; font-weight:300; line-height:1;
+    margin-bottom:4px;
+  }
+  .sc3-card .score-def-num { color:var(--s3); }
+  .sc2-card .score-def-num { color:var(--s2); }
+  .sc1-card .score-def-num { color:var(--s1); }
+  .sc0-card .score-def-num { color:rgba(255,255,255,0.2); }
+
+  .score-def-label {
+    font-size:10px; letter-spacing:0.16em; text-transform:uppercase;
+    margin-bottom:8px; font-weight:500;
+  }
+  .sc3-card .score-def-label { color:var(--s3); }
+  .sc2-card .score-def-label { color:var(--s2); }
+  .sc1-card .score-def-label { color:var(--s1); }
+  .sc0-card .score-def-label { color:rgba(255,255,255,0.3); }
+
+  .score-def-desc { font-size:11.5px; color:rgba(255,255,255,0.55); line-height:1.6; }
+
+  /* ── STANDARDS STATUS ── */
+  .meth-section-title {
+    font-size:9px; letter-spacing:0.2em; text-transform:uppercase;
+    color:var(--gold); margin-bottom:1.2rem; font-family:var(--sans);
+    display:flex; align-items:center; gap:10px;
+  }
+  .meth-section-title::after {
+    content:''; flex:1; height:1px;
+    background:linear-gradient(to right, rgba(201,168,76,0.3), transparent);
+  }
+
+  .standards-grid {
+    display:grid; grid-template-columns:repeat(2,1fr); gap:1px;
+    background:var(--border); border:1px solid var(--border);
+    margin-bottom:2.5rem;
+  }
+  .std-card {
+    background:var(--green-mid); padding:18px 22px;
+  }
+  .std-name {
+    font-family:var(--mono); font-size:12px; color:var(--gold-light);
+    margin-bottom:4px; letter-spacing:0.06em;
+  }
+  .std-desc { font-size:11.5px; color:rgba(255,255,255,0.58); line-height:1.65; }
+  .std-status {
+    display:inline-block; margin-top:8px; padding:2px 8px;
+    font-size:9px; letter-spacing:0.1em; text-transform:uppercase;
+    font-family:var(--sans); font-weight:500;
+  }
+  .status-mandatory { background:rgba(74,222,128,0.1); color:#4ade80; border:1px solid rgba(74,222,128,0.2); }
+  .status-voluntary { background:rgba(147,197,253,0.1); color:#93c5fd; border:1px solid rgba(147,197,253,0.2); }
+  .status-historical { background:rgba(255,255,255,0.06); color:rgba(255,255,255,0.4); border:1px solid rgba(255,255,255,0.1); }
+
+  /* ── CORRECTIONS ── */
+  .corrections-list { margin-bottom:2rem; }
+  .correction-row {
+    display:grid; grid-template-columns:200px 1fr;
+    gap:12px; padding:10px 0;
+    border-bottom:1px solid rgba(255,255,255,0.05);
+    font-size:11.5px;
+  }
+  .correction-key {
+    font-family:var(--mono); font-size:11px; color:var(--gold-light);
+    letter-spacing:0.04em;
+  }
+  .correction-val { color:rgba(255,255,255,0.58); line-height:1.6; }
+
+  /* ── FOOTER ── */
+  footer {
+    padding:20px 2.5rem; border-top:1px solid var(--border);
+    display:flex; justify-content:space-between; align-items:center;
+    color:var(--muted); font-size:10px; flex-wrap:wrap; gap:8px;
+    letter-spacing:0.06em; margin-top:1rem;
+  }
+  .footer-brand {
+    font-family:var(--serif); font-size:13px; color:var(--gold);
+    font-weight:400; letter-spacing:0.04em;
+  }
+
+  @media(max-width:900px) {
+    nav { padding:1rem 1.5rem; } .nav-links { display:none; }
+    .page-header, main, footer { padding-left:1.5rem; padding-right:1.5rem; }
+    .controls-bar, .legend-strip, .section-divider { padding-left:1.5rem; padding-right:1.5rem; }
+    .score-defs { grid-template-columns:1fr 1fr; }
+    .standards-grid { grid-template-columns:1fr; }
+    .correction-row { grid-template-columns:1fr; gap:4px; }
+  }
+
+/* ── NAV (standardised) ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; align-items: stretch;
+  background: rgba(9,31,18,0.97); backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+  height: 64px;
+}
+.nav-brand {
+  display: flex; align-items: center;
+  padding: 0 2.5rem;
+  font-family: var(--serif); font-size: 1.25rem; font-weight: 600;
+  letter-spacing: 0.04em; color: var(--white); text-decoration: none;
+  border-right: 1px solid var(--border);
+  flex-shrink: 0; transition: background 0.2s;
+}
+.nav-brand:hover { background: rgba(201,168,76,0.06); }
+.nav-brand span { color: var(--gold); }
+.nav-sections { display: flex; align-items: stretch; list-style: none; flex: 1; overflow-x: auto; }
+.nav-sections li { display: flex; }
+.nav-link {
+  display: flex; flex-direction: column; justify-content: center;
+  padding: 0 1.6rem; text-decoration: none;
+  border-right: 1px solid var(--border);
+  transition: background 0.18s; min-width: 120px;
+}
+.nav-link:hover { background: rgba(201,168,76,0.06); }
+.nav-link.active { background: var(--gold-dim); border-bottom: 2px solid var(--gold); }
+.nav-link-primary { font-size: 0.78rem; font-weight: 500; letter-spacing: 0.05em; color: rgba(255,255,255,0.88); line-height: 1.2; white-space: nowrap; }
+.nav-link-sub { font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); line-height: 1; margin-top: 3px; white-space: nowrap; }
+.nav-link:hover .nav-link-primary { color: var(--gold-light); }
+.nav-link:hover .nav-link-sub { color: rgba(201,168,76,0.6); }
+.nav-link.active .nav-link-primary { color: var(--gold); }
+.nav-link.active .nav-link-sub { color: rgba(201,168,76,0.7); }
+.nav-about {
+  display: flex; align-items: center; padding: 0 1.8rem;
+  font-size: 0.78rem; font-weight: 500; letter-spacing: 0.05em;
+  color: rgba(255,255,255,0.6); text-decoration: none;
+  margin-left: auto; transition: color 0.18s; white-space: nowrap;
+}
+.nav-about:hover { color: var(--gold); }
+@media (max-width: 768px) {
+  .nav-link { min-width: 100px; padding: 0 1rem; }
+  .nav-brand { padding: 0 1.2rem; font-size: 1.05rem; }
+}
+@media (max-width: 560px) {
+  .nav-link-sub { display: none; }
+  .nav-link { min-width: 80px; padding: 0 0.8rem; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-brand" href="index.html">Aurie's <span>Knowledge Hub</span></a>
+  <ul class="nav-sections">
+    <li>
+      <a class="nav-link" href="ceo-insights.html">
+        <span class="nav-link-primary">CEO Insights</span>
+        <span class="nav-link-sub">For the leadership</span>
+      </a>
+    </li>
+    <li>
+      <a class="nav-link" href="tools.html">
+        <span class="nav-link-primary">Tools &amp; Templates</span>
+        <span class="nav-link-sub">For ESG teams</span>
+      </a>
+    </li>
+    <li>
+      <a class="nav-link active" href="resource-library.html">
+        <span class="nav-link-primary">Resource Library</span>
+        <span class="nav-link-sub">For practitioners</span>
+      </a>
+    </li>
+    <li>
+      <a class="nav-link" href="thought-papers.html">
+        <span class="nav-link-primary">Thought Papers</span>
+        <span class="nav-link-sub">For the curious</span>
+      </a>
+    </li>
+  </ul>
+  <a class="nav-about" href="about.html">About Me</a>
+</nav>
+
+<!-- ═══ HERO / PAGE HEADER ═══ -->
+<div class="page-header">
+  <p class="page-eyebrow">Comparative Analysis · 182 Disclosure Points · 10 Standards</p>
+  <h1 class="page-title">Corporate Sustainability Reporting <em>Frameworks</em></h1>
+  <p class="page-desc">A cross-standard assessment of 182 ESG disclosure requirements across 13 domains. Scores reflect verified mandatory or recommended coverage within each framework's official text - not implementation guides or practitioner interpretation.</p>
+  <div class="header-meta">
+    <span class="meta-badge" style="background:var(--gold-dim);border:1px solid rgba(201,168,76,0.4);color:var(--gold);">182 Disclosure Points</span>
+    <span class="meta-badge" style="background:rgba(74,222,128,0.1);border:1px solid rgba(74,222,128,0.25);color:#4ade80;">10 Standards Compared</span>
+    <span class="meta-badge" style="background:rgba(147,197,253,0.1);border:1px solid rgba(147,197,253,0.25);color:#93c5fd;">13 Domains</span>
+    <span class="meta-badge" style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);color:rgba(255,255,255,0.5);">Sources Verified Jun 2026</span>
+  </div>
+</div>
+
+<!-- ═══ CONTROLS ═══ -->
+<div class="controls-bar">
+  <span class="filter-label">Domain:</span>
+  <button class="filter-btn active" id="btn-all" onclick="filterDomain('all',this)">All</button>
+  <div class="ctrl-sep"></div>
+  <span class="filter-label">Score:</span>
+  <button class="filter-btn" id="btn-s3" onclick="filterScore(3,this)" style="color:#4ade80;border-color:rgba(74,222,128,0.3)">3 - Full</button>
+  <button class="filter-btn" id="btn-s2" onclick="filterScore(2,this)" style="color:var(--gold);border-color:rgba(201,168,76,0.3)">2 - Partial</button>
+  <button class="filter-btn" id="btn-s1" onclick="filterScore(1,this)" style="color:#93c5fd;border-color:rgba(147,197,253,0.3)">1 - Limited</button>
+  <button class="filter-btn" id="btn-s0" onclick="filterScore(0,this)" style="color:rgba(255,255,255,0.35)">0 - None</button>
+  <div class="ctrl-sep"></div>
+  <span class="filter-label">Standard:</span>
+  <button class="filter-btn" id="btn-std-all" onclick="filterStandard('all',this)">All</button>
+  <button class="filter-btn" onclick="filterStandard('CSRD',this)">CSRD</button>
+  <button class="filter-btn" onclick="filterStandard('GRI',this)">GRI</button>
+  <button class="filter-btn" onclick="filterStandard('CDP',this)">CDP</button>
+  <button class="filter-btn" onclick="filterStandard('ISSB',this)">ISSB</button>
+  <button class="filter-btn" onclick="filterStandard('TCFD',this)">TCFD</button>
+  <button class="filter-btn" onclick="filterStandard('TNFD',this)">TNFD</button>
+  <button class="filter-btn" onclick="filterStandard('SB253',this)">SB253</button>
+  <button class="filter-btn" onclick="filterStandard('SB261',this)">SB261</button>
+  <button class="filter-btn" onclick="filterStandard('CSDS',this)">CSDS</button>
+  <button class="filter-btn" onclick="filterStandard('BRSR',this)">BRSR</button>
+  <div class="search-wrap">
+    <span class="search-icon">🔍</span>
+    <input class="search-input" type="text" id="search-box" placeholder="Search requirements…" oninput="applyFilters()">
+  </div>
+</div>
+
+<!-- ═══ LEGEND ═══ -->
+<div class="legend-strip">
+  <div class="legend-item"><div class="legend-swatch" style="background:var(--s3-dim);border:1px solid rgba(74,222,128,0.25)"></div><span style="color:#4ade80;font-weight:500">3 Full</span> - Explicit mandatory requirement with defined metrics</div>
+  <div class="legend-item"><div class="legend-swatch" style="background:var(--s2-dim);border:1px solid rgba(201,168,76,0.25)"></div><span style="color:var(--gold);font-weight:500">2 Partial</span> - Recommended, encouraged, or material-condition only</div>
+  <div class="legend-item"><div class="legend-swatch" style="background:var(--s1-dim);border:1px solid rgba(147,197,253,0.25)"></div><span style="color:#93c5fd;font-weight:500">1 Limited</span> - Minor reference; not a standalone requirement</div>
+  <div class="legend-item"><div class="legend-swatch" style="background:var(--s0)"></div><span style="color:rgba(255,255,255,0.35);font-weight:500">0</span> - Outside scope by design or explicit exclusion</div>
+</div>
+
+<!-- ═══ MAIN TABLE ═══ -->
+<main id="main-content">
+  <!-- Rendered by JS -->
+</main>
+
+<!-- ═══ DEMARCATION + METHODOLOGY ═══ -->
+<div class="section-divider" id="methodology">
+  <p class="methodology-intro">The scoring framework below defines how each disclosure point was evaluated across the ten standards. Refer here to understand the basis for any score, assess comparability between frameworks, and review key corrections applied during verification.</p>
+
+  <div class="meth-section-title">Score Definitions</div>
+  <div class="score-defs">
+    <div class="score-def-card sc3-card">
+      <div class="score-def-num">3</div>
+      <div class="score-def-label">Full</div>
+      <div class="score-def-desc">Explicit, mandatory disclosure requirement in the standard or regulation with defined metrics or prescribed disclosure requirements.</div>
+    </div>
+    <div class="score-def-card sc2-card">
+      <div class="score-def-num">2</div>
+      <div class="score-def-label">Partial</div>
+      <div class="score-def-desc">Recommended, encouraged, or implied disclosure; required only if material; or covered via guidance rather than the standard text itself.</div>
+    </div>
+    <div class="score-def-card sc1-card">
+      <div class="score-def-num">1</div>
+      <div class="score-def-label">Limited</div>
+      <div class="score-def-desc">Minor or indirect reference; mentioned but not a standalone requirement; relies on other frameworks being applied in conjunction.</div>
+    </div>
+    <div class="score-def-card sc0-card">
+      <div class="score-def-num">0</div>
+      <div class="score-def-label">Not Covered</div>
+      <div class="score-def-desc">Outside the scope of the standard by design or explicit exclusion. No disclosure expected or requested within the framework.</div>
+    </div>
+  </div>
+
+  <div class="meth-section-title">Standards Status & Notes</div>
+  <div class="standards-grid">
+    <div class="std-card">
+      <div class="std-name">CSRD / ESRS</div>
+      <div class="std-desc">Mandatory EU regulation. ESRS Set 1 adopted 22 Dec 2023. Wave 1 reporting (FY2024). Omnibus 2026 revisions pending - threshold raised to &gt;1,000 employees and €450m turnover.</div>
+      <span class="std-status status-mandatory">Mandatory</span>
+    </div>
+    <div class="std-card">
+      <div class="std-name">GRI 2021</div>
+      <div class="std-desc">Voluntary global standard. Universal Standards mandatory for GRI-compliant reports from 1 Jan 2023. Most widely used globally (10,000+ organisations).</div>
+      <span class="std-status status-voluntary">Voluntary</span>
+    </div>
+    <div class="std-card">
+      <div class="std-name">CDP</div>
+      <div class="std-desc">Voluntary disclosure platform aligned with IFRS S2/TCFD since 2024. Annual questionnaires: Climate, Water, Forests. Investor-driven. Not a standard - a disclosure mechanism.</div>
+      <span class="std-status status-voluntary">Voluntary</span>
+    </div>
+    <div class="std-card">
+      <div class="std-name">ISSB (IFRS S1/S2)</div>
+      <div class="std-desc">Voluntary global baseline issued June 2023. Effective Jan 2024. Adopted or in-progress in 30+ jurisdictions (&gt;50% global GDP). TCFD superseded by IFRS S2. Financial materiality only.</div>
+      <span class="std-status status-voluntary">Voluntary / Jurisdiction Mandatory</span>
+    </div>
+    <div class="std-card">
+      <div class="std-name">TCFD</div>
+      <div class="std-desc">Voluntary recommendations (2017). Officially wound down January 2024 - superseded by ISSB IFRS S2. Still referenced in legislation. Four pillars: Governance, Strategy, Risk Mgt, Metrics &amp; Targets.</div>
+      <span class="std-status status-historical">Disbanded Jan 2024</span>
+    </div>
+    <div class="std-card">
+      <div class="std-name">TNFD</div>
+      <div class="std-desc">Voluntary framework. Final recommendations September 2023. 500+ adopters. Nature-focused. Mirrors TCFD structure. Introduces LEAP (Locate, Evaluate, Assess, Prepare) methodology.</div>
+      <span class="std-status status-voluntary">Voluntary</span>
+    </div>
+    <div class="std-card">
+      <div class="std-name">SB 253</div>
+      <div class="std-desc">Mandatory California law (Health &amp; Safety Code §38532). US companies &gt;$1B revenue doing business in CA. Scope 1+2 from 2026, Scope 3 from 2027. CARB administers. Narrowly GHG-focused.</div>
+      <span class="std-status status-mandatory">Mandatory - California</span>
+    </div>
+    <div class="std-card">
+      <div class="std-name">SB 261</div>
+      <div class="std-desc">Mandatory California law (Health &amp; Safety Code §38533). US companies &gt;$500M revenue doing business in CA. Biennial climate risk report. Aligned with TCFD. SB261 injunction pending (Ninth Circuit 2026).</div>
+      <span class="std-status status-mandatory">Mandatory - California</span>
+    </div>
+    <div class="std-card">
+      <div class="std-name">CSDS</div>
+      <div class="std-desc">China Corporate Sustainability Disclosure Standards (Basic Standards Trial, Dec 2024). Climate Thematic Standard published Dec 2025. All scores reflect active CSDS requirements. CDSB consolidated into IFRS Foundation Jan 2022.</div>
+      <span class="std-status status-mandatory">Mandatory - China</span>
+    </div>
+    <div class="std-card">
+      <div class="std-name">BRSR / BRSR Core</div>
+      <div class="std-desc">Mandatory India regulation (SEBI). Top 1,000 listed companies from FY2022-23. BRSR Core (49 KPIs) mandatory for top 150 from FY2023-24, expanding to top 1,000 by FY2026-27. Reasonable assurance on Core KPIs.</div>
+      <span class="std-status status-mandatory">Mandatory - India</span>
+    </div>
+  </div>
+
+  <div class="meth-section-title">Key Corrections vs Original Submission</div>
+  <div class="corrections-list">
+    <div class="correction-row">
+      <div class="correction-key">SB253 Operational Boundary</div>
+      <div class="correction-val">Original: 3→3. Corrected: SB253 specifically uses operational/financial control; confirmed in CARB regulations Feb 2026.</div>
+    </div>
+    <div class="correction-row">
+      <div class="correction-key">SB261 Climate Strategy</div>
+      <div class="correction-val">Original: 2. Corrected →3: SB261 biennial report explicitly requires strategy alignment description and risk mitigation measures.</div>
+    </div>
+    <div class="correction-row">
+      <div class="correction-key">ISSB Financial Materiality</div>
+      <div class="correction-val">Confirmed: IFRS S1 §4 financial materiality is the core governing principle - score of 3 is correct and confirmed.</div>
+    </div>
+    <div class="correction-row">
+      <div class="correction-key">CDP Water Withdrawal</div>
+      <div class="correction-val">Confirmed: CDP Water Security module W1 explicitly requests water withdrawal data. Score 3 confirmed.</div>
+    </div>
+    <div class="correction-row">
+      <div class="correction-key">SB253 Financed Emissions</div>
+      <div class="correction-val">Confirmed: SB253 does not apply to financial institutions' financed emissions. Score 0 correct. CDP →3 for financial sector.</div>
+    </div>
+    <div class="correction-row">
+      <div class="correction-key">CSDS Confirmation</div>
+      <div class="correction-val">Confirmed as China Corporate Sustainability Disclosure Standards. Basic Standards Trial published December 2024. Climate Thematic Standard published December 2025. All scores recalibrated.</div>
+    </div>
+    <div class="correction-row">
+      <div class="correction-key">TCFD Status</div>
+      <div class="correction-val">TCFD officially disbanded Jan 2024 and superseded by ISSB IFRS S2. TCFD column retained for historical comparability - treat ISSB as the current standard.</div>
+    </div>
+    <div class="correction-row">
+      <div class="correction-key">BRSR External Assurance</div>
+      <div class="correction-val">Confirmed: BRSR Core requires reasonable assurance (more stringent than EU's limited assurance). Score 3 confirmed.</div>
+    </div>
+    <div class="correction-row">
+      <div class="correction-key">SB253 Scope 3 Timeline</div>
+      <div class="correction-val">SB253 Scope 3 reporting: from 2027 (not 2026). CARB March 2026 workshop confirmed Scope 3 timeline remains under development.</div>
+    </div>
+  </div>
+
+  <p style="font-size:11px;color:rgba(255,255,255,0.35);line-height:1.7;max-width:700px;">
+    Sources: Official standard texts (EFRAG, GRI, IFRS Foundation, TNFD, CARB, SEBI); Big 4 implementation guides; peer-reviewed academic literature. All scores verified against official standard text - not practitioner summaries or secondary sources.
+  </p>
+</div>
+
+<footer>
+  <div class="footer-brand">Aurie's Knowledge Hub</div>
+  <div>ESG Standards Comparative Analysis · Sources verified June 2026 · 182 disclosure points across 13 domains</div>
+  <div style="color:rgba(201,168,76,0.5)">Click domain headers to collapse · Filter by standard or score ↑</div>
+</footer>
+
+<script>
+const STANDARDS = ['CSRD','GRI','CDP','ISSB','TCFD','TNFD','SB253','SB261','CSDS','BRSR'];
+
+const DATA = [{"domain": "Reporting Foundation", "scopes": [{"scope": "Reporting Boundary", "items": [{"sub_scope": "Reporting Entity", "scores": {"CSRD": 3, "GRI": 3, "CDP": 2, "ISSB": 3, "TCFD": 2, "TNFD": 2, "SB253": 1, "SB261": 1, "CSDS": 3, "BRSR": 2}}, {"sub_scope": "Consolidation Approach", "scores": {"CSRD": 3, "GRI": 2, "CDP": 2, "ISSB": 3, "TCFD": 1, "TNFD": 1, "SB253": 1, "SB261": 1, "CSDS": 3, "BRSR": 2}}, {"sub_scope": "Subsidiaries Included", "scores": {"CSRD": 3, "GRI": 2, "CDP": 1, "ISSB": 3, "TCFD": 1, "TNFD": 1, "SB253": 1, "SB261": 1, "CSDS": 3, "BRSR": 2}}, {"sub_scope": "Joint Ventures", "scores": {"CSRD": 2, "GRI": 2, "CDP": 1, "ISSB": 2, "TCFD": 1, "TNFD": 1, "SB253": 0, "SB261": 0, "CSDS": 2, "BRSR": 1}}, {"sub_scope": "Operational Control Boundary", "scores": {"CSRD": 3, "GRI": 2, "CDP": 3, "ISSB": 3, "TCFD": 2, "TNFD": 2, "SB253": 3, "SB261": 1, "CSDS": 3, "BRSR": 2}}]}, {"scope": "Value Chain Coverage", "items": [{"sub_scope": "Upstream Activities", "scores": {"CSRD": 3, "GRI": 3, "CDP": 2, "ISSB": 2, "TCFD": 1, "TNFD": 2, "SB253": 0, "SB261": 0, "CSDS": 2, "BRSR": 3}}, {"sub_scope": "Downstream Activities", "scores": {"CSRD": 3, "GRI": 3, "CDP": 2, "ISSB": 2, "TCFD": 1, "TNFD": 2, "SB253": 0, "SB261": 0, "CSDS": 2, "BRSR": 2}}, {"sub_scope": "Supply Chain Coverage", "scores": {"CSRD": 3, "GRI": 3, "CDP": 2, "ISSB": 2, "TCFD": 1, "TNFD": 2, "SB253": 0, "SB261": 0, "CSDS": 2, "BRSR": 3}}]}, {"scope": "Materiality", "items": [{"sub_scope": "Impact Materiality", "scores": {"CSRD": 3, "GRI": 3, "CDP": 1, "ISSB": 0, "TCFD": 0, "TNFD": 2, "SB253": 0, "SB261": 0, "CSDS": 3, "BRSR": 2}}, {"sub_scope": "Financial Materiality", "scores": {"CSRD": 3, "GRI": 1, "CDP": 2, "ISSB": 3, "TCFD": 3, "TNFD": 2, "SB253": 1, "SB261": 3, "CSDS": 3, "BRSR": 1}}, {"sub_scope": "Double Materiality", "scores": {"CSRD": 3, "GRI": 2, "CDP": 1, "ISSB": 0, "TCFD": 0, "TNFD": 1, "SB253": 0, "SB261": 0, "CSDS": 3, "BRSR": 1}}, {"sub_scope": "Material Topics", "scores": {"CSRD": 3, "GRI": 3, "CDP": 2, "ISSB": 2, "TCFD": 1, "TNFD": 2, "SB253": 0, "SB261": 0, "CSDS": 3, "BRSR": 3}}]}, {"scope": "Stakeholders", "items": [{"sub_scope": "Stakeholder Identification", "scores": {"CSRD": 3, "GRI": 3, "CDP": 1, "ISSB": 1, "TCFD": 0, "TNFD": 2, "SB253": 0, "SB261": 0, "CSDS": 2, "BRSR": 3}}, {"sub_scope": "Stakeholder Engagement Process", "scores": {"CSRD": 3, "GRI": 3, "CDP": 1, "ISSB": 1, "TCFD": 0, "TNFD": 2, "SB253": 0, "SB261": 0, "CSDS": 2, "BRSR": 3}}]}, {"scope": "Assurance", "items": [{"sub_scope": "External Assurance", "scores": {"CSRD": 3, "GRI": 2, "CDP": 2, "ISSB": 2, "TCFD": 1, "TNFD": 1, "SB253": 3, "SB261": 2, "CSDS": 2, "BRSR": 3}}]}]}, {"domain": "Governance", "scopes": [{"scope": "Board Oversight", "items": [{"sub_scope": "Sustainability Oversight", "scores": {"CSRD": 3, "GRI": 2, "CDP": 3, "ISSB": 3, "TCFD": 3, "TNFD": 3, "SB253": 1, "SB261": 3, "CSDS": 3, "BRSR": 3}}, {"sub_scope": "Climate Oversight", "scores": {"CSRD": 3, "GRI": 2, "CDP": 3, "ISSB": 3, "TCFD": 3, "TNFD": 3, "SB253": 1, "SB261": 3, "CSDS": 3, "BRSR": 2}}, {"sub_scope": "Nature Oversight", "scores": {"CSRD": 3, "GRI": 2, "CDP": 2, "ISSB": 1, "TCFD": 0, "TNFD": 3, "SB253": 0, "SB261": 0, "CSDS": 1, "BRSR": 1}}, {"sub_scope": "Committee Structure", "scores": {"CSRD": 3, "GRI": 2, "CDP": 2, "ISSB": 3, "TCFD": 3, "TNFD": 3, "SB253": 0, "SB261": 2, "CSDS": 3, "BRSR": 3}}, {"sub_scope": "Board ESG Competency", "scores": {"CSRD": 3, "GRI": 2, "CDP": 2, "ISSB": 3, "TCFD": 2, "TNFD": 3, "SB253": 0, "SB261": 2, "CSDS": 2, "BRSR": 2}}]}, {"scope": "Management", "items": [{"sub_scope": "Executive Accountability", "scores": {"CSRD": 3, "GRI": 2, "CDP": 3, "ISSB": 3, "TCFD": 3, "TNFD": 3, "SB253": 1, "SB261": 3, "CSDS": 3, "BRSR": 3}}, {"sub_scope": "ESG Responsibilities", "scores": {"CSRD": 3, "GRI": 2, "CDP": 2, "ISSB": 3, "TCFD": 2, "TNFD": 3, "SB253": 0, "SB261": 2, "CSDS": 3, "BRSR": 3}}, {"sub_scope": "Management Incentives", "scores": {"CSRD": 3, "GRI": 1, "CDP": 2, "ISSB": 2, "TCFD": 2, "TNFD": 2, "SB253": 0, "SB261": 1, "CSDS": 2, "BRSR": 2}}]}, {"scope": "Internal Controls", "items": [{"sub_scope": "Sustainability Data Controls", "scores": {"CSRD": 3, "GRI": 1, "CDP": 2, "ISSB": 3, "TCFD": 2, "TNFD": 2, "SB253": 2, "SB261": 2, "CSDS": 3, "BRSR": 2}}, {"sub_scope": "Data Validation", "scores": {"CSRD": 3, "GRI": 2, "CDP": 2, "ISSB": 3, "TCFD": 2, "TNFD": 2, "SB253": 2, "SB261": 2, "CSDS": 3, "BRSR": 2}}, {"sub_scope": "Internal Audit Coverage", "scores": {"CSRD": 3, "GRI": 1, "CDP": 1, "ISSB": 2, "TCFD": 1, "TNFD": 1, "SB253": 0, "SB261": 1, "CSDS": 2, "BRSR": 2}}]}, {"scope": "Data Governance", "items": [{"sub_scope": "Data Ownership", "scores": {"CSRD": 3, "GRI": 1, "CDP": 2, "ISSB": 3, "TCFD": 2, "TNFD": 2, "SB253": 1, "SB261": 1, "CSDS": 3, "BRSR": 2}}, {"sub_scope": "Data Quality Management", "scores": {"CSRD": 3, "GRI": 2, "CDP": 2, "ISSB": 3, "TCFD": 2, "TNFD": 2, "SB253": 2, "SB261": 2, "CSDS": 3, "BRSR": 2}}]}]}, {"domain": "Strategy & Risk", "scopes": [{"scope": "Strategy", "items": [{"sub_scope": "Sustainability Strategy", "scores": {"CSRD": 3, "GRI": 2, "CDP": 2, "ISSB": 3, "TCFD": 3, "TNFD": 3, "SB253": 0, "SB261": 2, "CSDS": 3, "BRSR": 2}}, {"sub_scope": "Climate Strategy", "scores": {"CSRD": 3, "GRI": 2, "CDP": 3, "ISSB": 3, "TCFD": 3, "TNFD": 2, "SB253": 3, "SB261": 3, "CSDS": 3, "BRSR": 2}}, {"sub_scope": "Nature Strategy", "scores": {"CSRD": 3, "GRI": 2, "CDP": 2, "ISSB": 1, "TCFD": 0, "TNFD": 3, "SB253": 0, "SB261": 0, "CSDS": 1, "BRSR": 1}}, {"sub_scope": "Integration into Business Model", "scores": {"CSRD": 3, "GRI": 2, "CDP": 2, "ISSB": 3, "TCFD": 3, "TNFD": 3, "SB253": 0, "SB261": 2, "CSDS": 3, "BRSR": 2}}, {"sub_scope": "Sustainable Products & Services", "scores": {"CSRD": 3, "GRI": 2, "CDP": 2, "ISSB": 2, "TCFD": 1, "TNFD": 2, "SB253": 0, "SB261": 0, "CSDS": 2, "BRSR": 2}}]}, {"scope": "Transition Planning", "items": [{"sub_scope": "Climate Transition Plan", "scores": {"CSRD": 3, "GRI": 1, "CDP": 3, "ISSB": 3, "TCFD": 3, "TNFD": 2, "SB253": 2, "SB261": 2, "CSDS": 3, "BRSR": 1}}, {"sub_scope": "Nature Transition Plan", "scores": {"CSRD": 3, "GRI": 1, "CDP": 1, "ISSB": 0, "TCFD": 0, "TNFD": 3, "SB253": 0, "SB261": 0, "CSDS": 1, "BRSR": 0}}, {"sub_scope": "Decarbonisation Roadmap", "scores": {"CSRD": 3, "GRI": 1, "CDP": 3, "ISSB": 3, "TCFD": 3, "TNFD": 2, "SB253": 3, "SB261": 2, "CSDS": 3, "BRSR": 1}}]}, {"scope": "Risk Management", "items": [{"sub_scope": "Risk Identification", "scores": {"CSRD": 3, "GRI": 2, "CDP": 3, "ISSB": 3, "TCFD": 3, "TNFD": 3, "SB253": 1, "SB261": 3, "CSDS": 3, "BRSR": 2}}, {"sub_scope": "Risk Assessment", "scores": {"CSRD": 3, "GRI": 2, "CDP": 3, "ISSB": 3, "TCFD": 3, "TNFD": 3, "SB253": 1, "SB261": 3, "CSDS": 3, "BRSR": 2}}, {"sub_scope": "Risk Prioritisation", "scores": {"CSRD": 3, "GRI": 2, "CDP": 2, "ISSB": 3, "TCFD": 3, "TNFD": 3, "SB253": 0, "SB261": 2, "CSDS": 3, "BRSR": 2}}, {"sub_scope": "Risk Mitigation", "scores": {"CSRD": 3, "GRI": 2, "CDP": 3, "ISSB": 3, "TCFD": 3, "TNFD": 3, "SB253": 0, "SB261": 3, "CSDS": 3, "BRSR": 2}}]}, {"scope": "Opportunity Management", "items": [{"sub_scope": "Sustainability Opportunities", "scores": {"CSRD": 3, "GRI": 2, "CDP": 2, "ISSB": 3, "TCFD": 3, "TNFD": 3, "SB253": 0, "SB261": 2, "CSDS": 3, "BRSR": 1}}, {"sub_scope": "Climate Opportunities", "scores": {"CSRD": 3, "GRI": 1, "CDP": 3, "ISSB": 3, "TCFD": 3, "TNFD": 2, "SB253": 1, "SB261": 2, "CSDS": 3, "BRSR": 1}}, {"sub_scope": "Nature Opportunities", "scores": {"CSRD": 3, "GRI": 1, "CDP": 1, "ISSB": 1, "TCFD": 0, "TNFD": 3, "SB253": 0, "SB261": 0, "CSDS": 1, "BRSR": 0}}]}, {"scope": "Resilience", "items": [{"sub_scope": "Climate Resilience", "scores": {"CSRD": 3, "GRI": 1, "CDP": 3, "ISSB": 3, "TCFD": 3, "TNFD": 2, "SB253": 1, "SB261": 3, "CSDS": 3, "BRSR": 1}}, {"sub_scope": "Nature Resilience", "scores": {"CSRD": 3, "GRI": 1, "CDP": 1, "ISSB": 1, "TCFD": 0, "TNFD": 3, "SB253": 0, "SB261": 0, "CSDS": 1, "BRSR": 0}}]}, {"scope": "Scenario Analysis", "items": [{"sub_scope": "Climate Scenario Analysis", "scores": {"CSRD": 3, "GRI": 1, "CDP": 3, "ISSB": 3, "TCFD": 3, "TNFD": 2, "SB253": 1, "SB261": 3, "CSDS": 3, "BRSR": 1}}, {"sub_scope": "Nature Scenario Analysis", "scores": {"CSRD": 3, "GRI": 1, "CDP": 1, "ISSB": 1, "TCFD": 0, "TNFD": 3, "SB253": 0, "SB261": 0, "CSDS": 1, "BRSR": 0}}, {"sub_scope": "Stress Testing", "scores": {"CSRD": 3, "GRI": 1, "CDP": 2, "ISSB": 3, "TCFD": 3, "TNFD": 2, "SB253": 0, "SB261": 2, "CSDS": 3, "BRSR": 1}}]}]}, {"domain": "Climate & Energy", "scopes": [{"scope": "GHG Emissions", "items": [{"sub_scope": "Scope 1 Emissions", "scores": {"CSRD": 3, "GRI": 3, "CDP": 3, "ISSB": 3, "TCFD": 2, "TNFD": 1, "SB253": 3, "SB261": 0, "CSDS": 3, "BRSR": 2}}, {"sub_scope": "Scope 2 Emissions", "scores": {"CSRD": 3, "GRI": 3, "CDP": 3, "ISSB": 3, "TCFD": 2, "TNFD": 1, "SB253": 3, "SB261": 0, "CSDS": 3, "BRSR": 2}}, {"sub_scope": "Location-Based Scope 2", "scores": {"CSRD": 3, "GRI": 3, "CDP": 3, "ISSB": 3, "TCFD": 1, "TNFD": 0, "SB253": 3, "SB261": 0, "CSDS": 3, "BRSR": 1}}, {"sub_scope": "Market-Based Scope 2", "scores": {"CSRD": 3, "GRI": 2, "CDP": 3, "ISSB": 3, "TCFD": 1, "TNFD": 0, "SB253": 3, "SB261": 0, "CSDS": 3, "BRSR": 1}}, {"sub_scope": "Scope 3 Emissions", "scores": {"CSRD": 3, "GRI": 3, "CDP": 3, "ISSB": 3, "TCFD": 2, "TNFD": 1, "SB253": 3, "SB261": 0, "CSDS": 3, "BRSR": 2}}, {"sub_scope": "Purchased Goods & Services (Cat 1)", "scores": {"CSRD": 3, "GRI": 3, "CDP": 3, "ISSB": 2, "TCFD": 1, "TNFD": 0, "SB253": 2, "SB261": 0, "CSDS": 2, "BRSR": 1}}, {"sub_scope": "Capital Goods (Cat 2)", "scores": {"CSRD": 3, "GRI": 2, "CDP": 3, "ISSB": 2, "TCFD": 1, "TNFD": 0, "SB253": 2, "SB261": 0, "CSDS": 2, "BRSR": 1}}, {"sub_scope": "Fuel & Energy Activities (Cat 3)", "scores": {"CSRD": 3, "GRI": 3, "CDP": 3, "ISSB": 2, "TCFD": 1, "TNFD": 0, "SB253": 2, "SB261": 0, "CSDS": 2, "BRSR": 1}}, {"sub_scope": "Transportation & Distribution (Cat 4/9)", "scores": {"CSRD": 3, "GRI": 3, "CDP": 3, "ISSB": 2, "TCFD": 1, "TNFD": 0, "SB253": 2, "SB261": 0, "CSDS": 2, "BRSR": 1}}, {"sub_scope": "Waste Generated (Cat 5)", "scores": {"CSRD": 3, "GRI": 3, "CDP": 2, "ISSB": 1, "TCFD": 0, "TNFD": 0, "SB253": 1, "SB261": 0, "CSDS": 1, "BRSR": 1}}, {"sub_scope": "Business Travel (Cat 6)", "scores": {"CSRD": 3, "GRI": 3, "CDP": 2, "ISSB": 1, "TCFD": 0, "TNFD": 0, "SB253": 1, "SB261": 0, "CSDS": 1, "BRSR": 1}}, {"sub_scope": "Employee Commuting (Cat 7)", "scores": {"CSRD": 3, "GRI": 3, "CDP": 2, "ISSB": 1, "TCFD": 0, "TNFD": 0, "SB253": 1, "SB261": 0, "CSDS": 1, "BRSR": 1}}, {"sub_scope": "Processing of Sold Products (Cat 10)", "scores": {"CSRD": 3, "GRI": 2, "CDP": 3, "ISSB": 2, "TCFD": 1, "TNFD": 0, "SB253": 2, "SB261": 0, "CSDS": 2, "BRSR": 1}}, {"sub_scope": "Use of Sold Products (Cat 11)", "scores": {"CSRD": 3, "GRI": 3, "CDP": 3, "ISSB": 2, "TCFD": 1, "TNFD": 0, "SB253": 2, "SB261": 0, "CSDS": 2, "BRSR": 1}}, {"sub_scope": "Investments / Financed Emissions (Cat 15)", "scores": {"CSRD": 2, "GRI": 1, "CDP": 3, "ISSB": 2, "TCFD": 1, "TNFD": 0, "SB253": 0, "SB261": 0, "CSDS": 1, "BRSR": 0}}]}, {"scope": "Emissions Intensity", "items": [{"sub_scope": "Revenue Intensity", "scores": {"CSRD": 3, "GRI": 2, "CDP": 3, "ISSB": 3, "TCFD": 2, "TNFD": 1, "SB253": 2, "SB261": 1, "CSDS": 3, "BRSR": 2}}, {"sub_scope": "Production Intensity", "scores": {"CSRD": 3, "GRI": 2, "CDP": 3, "ISSB": 2, "TCFD": 1, "TNFD": 1, "SB253": 2, "SB261": 1, "CSDS": 2, "BRSR": 2}}]}, {"scope": "Energy", "items": [{"sub_scope": "Total Energy Consumption", "scores": {"CSRD": 3, "GRI": 3, "CDP": 3, "ISSB": 2, "TCFD": 1, "TNFD": 0, "SB253": 0, "SB261": 0, "CSDS": 2, "BRSR": 2}}, {"sub_scope": "Renewable Energy Consumption", "scores": {"CSRD": 3, "GRI": 3, "CDP": 3, "ISSB": 2, "TCFD": 1, "TNFD": 0, "SB253": 0, "SB261": 0, "CSDS": 2, "BRSR": 2}}, {"sub_scope": "Non-Renewable Energy Consumption", "scores": {"CSRD": 3, "GRI": 3, "CDP": 3, "ISSB": 2, "TCFD": 1, "TNFD": 0, "SB253": 0, "SB261": 0, "CSDS": 2, "BRSR": 2}}, {"sub_scope": "Energy Mix", "scores": {"CSRD": 3, "GRI": 3, "CDP": 3, "ISSB": 2, "TCFD": 1, "TNFD": 0, "SB253": 0, "SB261": 0, "CSDS": 2, "BRSR": 2}}, {"sub_scope": "Energy Intensity", "scores": {"CSRD": 3, "GRI": 3, "CDP": 3, "ISSB": 2, "TCFD": 1, "TNFD": 0, "SB253": 0, "SB261": 0, "CSDS": 2, "BRSR": 2}}]}, {"scope": "Targets", "items": [{"sub_scope": "Emissions Reduction Target", "scores": {"CSRD": 3, "GRI": 2, "CDP": 3, "ISSB": 3, "TCFD": 3, "TNFD": 2, "SB253": 3, "SB261": 2, "CSDS": 3, "BRSR": 2}}, {"sub_scope": "Net-Zero Target", "scores": {"CSRD": 3, "GRI": 2, "CDP": 3, "ISSB": 3, "TCFD": 3, "TNFD": 1, "SB253": 2, "SB261": 2, "CSDS": 3, "BRSR": 1}}, {"sub_scope": "Science-Based Target (SBTi)", "scores": {"CSRD": 2, "GRI": 1, "CDP": 3, "ISSB": 2, "TCFD": 2, "TNFD": 1, "SB253": 1, "SB261": 1, "CSDS": 2, "BRSR": 1}}]}, {"scope": "Carbon Pricing", "items": [{"sub_scope": "Internal Carbon Price", "scores": {"CSRD": 3, "GRI": 1, "CDP": 3, "ISSB": 2, "TCFD": 2, "TNFD": 1, "SB253": 0, "SB261": 1, "CSDS": 2, "BRSR": 1}}, {"sub_scope": "Carbon Credits", "scores": {"CSRD": 3, "GRI": 2, "CDP": 3, "ISSB": 2, "TCFD": 2, "TNFD": 1, "SB253": 0, "SB261": 1, "CSDS": 2, "BRSR": 1}}, {"sub_scope": "Carbon Offsets", "scores": {"CSRD": 3, "GRI": 2, "CDP": 3, "ISSB": 2, "TCFD": 2, "TNFD": 1, "SB253": 0, "SB261": 1, "CSDS": 2, "BRSR": 1}}]}]}, {"domain": "Water", "scopes": [{"scope": "Water Resources", "items": [{"sub_scope": "Water Withdrawal", "scores": {"CSRD": 3, "GRI": 3, "CDP": 3, "ISSB": 1, "TCFD": 0, "TNFD": 2, "SB253": 0, "SB261": 0, "CSDS": 1, "BRSR": 3}}, {"sub_scope": "Surface Water", "scores": {"CSRD": 3, "GRI": 3, "CDP": 3, "ISSB": 1, "TCFD": 0, "TNFD": 2, "SB253": 0, "SB261": 0, "CSDS": 1, "BRSR": 2}}, {"sub_scope": "Groundwater", "scores": {"CSRD": 3, "GRI": 3, "CDP": 3, "ISSB": 1, "TCFD": 0, "TNFD": 2, "SB253": 0, "SB261": 0, "CSDS": 1, "BRSR": 2}}, {"sub_scope": "Municipal Water", "scores": {"CSRD": 3, "GRI": 3, "CDP": 3, "ISSB": 1, "TCFD": 0, "TNFD": 2, "SB253": 0, "SB261": 0, "CSDS": 1, "BRSR": 2}}, {"sub_scope": "Water Consumption", "scores": {"CSRD": 3, "GRI": 3, "CDP": 3, "ISSB": 1, "TCFD": 0, "TNFD": 2, "SB253": 0, "SB261": 0, "CSDS": 1, "BRSR": 3}}, {"sub_scope": "Water Discharge", "scores": {"CSRD": 3, "GRI": 3, "CDP": 3, "ISSB": 1, "TCFD": 0, "TNFD": 2, "SB253": 0, "SB261": 0, "CSDS": 1, "BRSR": 3}}, {"sub_scope": "Water Quality", "scores": {"CSRD": 3, "GRI": 3, "CDP": 3, "ISSB": 1, "TCFD": 0, "TNFD": 2, "SB253": 0, "SB261": 0, "CSDS": 1, "BRSR": 2}}, {"sub_scope": "Water-Stressed Areas", "scores": {"CSRD": 3, "GRI": 3, "CDP": 3, "ISSB": 2, "TCFD": 1, "TNFD": 3, "SB253": 0, "SB261": 0, "CSDS": 2, "BRSR": 2}}, {"sub_scope": "Water Recycling", "scores": {"CSRD": 3, "GRI": 3, "CDP": 2, "ISSB": 1, "TCFD": 0, "TNFD": 2, "SB253": 0, "SB261": 0, "CSDS": 1, "BRSR": 2}}, {"sub_scope": "Water Efficiency", "scores": {"CSRD": 3, "GRI": 3, "CDP": 2, "ISSB": 1, "TCFD": 0, "TNFD": 2, "SB253": 0, "SB261": 0, "CSDS": 1, "BRSR": 2}}]}]}, {"domain": "Biodiversity & Nature", "scopes": [{"scope": "Biodiversity", "items": [{"sub_scope": "Protected Areas", "scores": {"CSRD": 3, "GRI": 3, "CDP": 2, "ISSB": 1, "TCFD": 0, "TNFD": 3, "SB253": 0, "SB261": 0, "CSDS": 1, "BRSR": 2}}, {"sub_scope": "Key Biodiversity Areas", "scores": {"CSRD": 3, "GRI": 2, "CDP": 2, "ISSB": 1, "TCFD": 0, "TNFD": 3, "SB253": 0, "SB261": 0, "CSDS": 1, "BRSR": 1}}, {"sub_scope": "Threatened Species", "scores": {"CSRD": 3, "GRI": 3, "CDP": 2, "ISSB": 1, "TCFD": 0, "TNFD": 3, "SB253": 0, "SB261": 0, "CSDS": 1, "BRSR": 1}}, {"sub_scope": "Habitat Impacts", "scores": {"CSRD": 3, "GRI": 3, "CDP": 2, "ISSB": 1, "TCFD": 0, "TNFD": 3, "SB253": 0, "SB261": 0, "CSDS": 1, "BRSR": 1}}, {"sub_scope": "Biodiversity Restoration", "scores": {"CSRD": 3, "GRI": 2, "CDP": 1, "ISSB": 1, "TCFD": 0, "TNFD": 3, "SB253": 0, "SB261": 0, "CSDS": 1, "BRSR": 1}}]}, {"scope": "Ecosystems", "items": [{"sub_scope": "Ecosystem Dependencies", "scores": {"CSRD": 3, "GRI": 1, "CDP": 1, "ISSB": 1, "TCFD": 0, "TNFD": 3, "SB253": 0, "SB261": 0, "CSDS": 1, "BRSR": 0}}, {"sub_scope": "Ecosystem Impacts", "scores": {"CSRD": 3, "GRI": 3, "CDP": 1, "ISSB": 1, "TCFD": 0, "TNFD": 3, "SB253": 0, "SB261": 0, "CSDS": 1, "BRSR": 1}}, {"sub_scope": "Ecosystem Services", "scores": {"CSRD": 3, "GRI": 2, "CDP": 1, "ISSB": 1, "TCFD": 0, "TNFD": 3, "SB253": 0, "SB261": 0, "CSDS": 1, "BRSR": 0}}]}, {"scope": "Land Use", "items": [{"sub_scope": "Land Conversion", "scores": {"CSRD": 3, "GRI": 2, "CDP": 2, "ISSB": 1, "TCFD": 0, "TNFD": 3, "SB253": 0, "SB261": 0, "CSDS": 1, "BRSR": 1}}, {"sub_scope": "Deforestation", "scores": {"CSRD": 3, "GRI": 3, "CDP": 3, "ISSB": 1, "TCFD": 0, "TNFD": 3, "SB253": 0, "SB261": 0, "CSDS": 1, "BRSR": 2}}, {"sub_scope": "Reforestation", "scores": {"CSRD": 3, "GRI": 2, "CDP": 2, "ISSB": 1, "TCFD": 0, "TNFD": 3, "SB253": 0, "SB261": 0, "CSDS": 1, "BRSR": 1}}]}, {"scope": "Commodities", "items": [{"sub_scope": "Palm Oil", "scores": {"CSRD": 2, "GRI": 2, "CDP": 3, "ISSB": 0, "TCFD": 0, "TNFD": 3, "SB253": 0, "SB261": 0, "CSDS": 1, "BRSR": 1}}, {"sub_scope": "Soy", "scores": {"CSRD": 2, "GRI": 2, "CDP": 3, "ISSB": 0, "TCFD": 0, "TNFD": 3, "SB253": 0, "SB261": 0, "CSDS": 1, "BRSR": 1}}, {"sub_scope": "Cattle", "scores": {"CSRD": 2, "GRI": 2, "CDP": 3, "ISSB": 0, "TCFD": 0, "TNFD": 3, "SB253": 0, "SB261": 0, "CSDS": 1, "BRSR": 1}}, {"sub_scope": "Timber", "scores": {"CSRD": 2, "GRI": 2, "CDP": 3, "ISSB": 0, "TCFD": 0, "TNFD": 3, "SB253": 0, "SB261": 0, "CSDS": 1, "BRSR": 1}}]}]}, {"domain": "Circular Economy & Waste", "scopes": [{"scope": "Materials", "items": [{"sub_scope": "Raw Material Consumption", "scores": {"CSRD": 3, "GRI": 3, "CDP": 1, "ISSB": 0, "TCFD": 0, "TNFD": 1, "SB253": 0, "SB261": 0, "CSDS": 1, "BRSR": 2}}, {"sub_scope": "Recycled Inputs", "scores": {"CSRD": 3, "GRI": 3, "CDP": 1, "ISSB": 0, "TCFD": 0, "TNFD": 1, "SB253": 0, "SB261": 0, "CSDS": 1, "BRSR": 2}}, {"sub_scope": "Renewable Inputs", "scores": {"CSRD": 3, "GRI": 2, "CDP": 1, "ISSB": 0, "TCFD": 0, "TNFD": 1, "SB253": 0, "SB261": 0, "CSDS": 1, "BRSR": 1}}]}, {"scope": "Product Circularity", "items": [{"sub_scope": "Reusable Products", "scores": {"CSRD": 3, "GRI": 2, "CDP": 1, "ISSB": 0, "TCFD": 0, "TNFD": 1, "SB253": 0, "SB261": 0, "CSDS": 1, "BRSR": 2}}, {"sub_scope": "Repairability", "scores": {"CSRD": 3, "GRI": 2, "CDP": 1, "ISSB": 0, "TCFD": 0, "TNFD": 1, "SB253": 0, "SB261": 0, "CSDS": 1, "BRSR": 1}}, {"sub_scope": "Recyclability", "scores": {"CSRD": 3, "GRI": 2, "CDP": 1, "ISSB": 0, "TCFD": 0, "TNFD": 1, "SB253": 0, "SB261": 0, "CSDS": 1, "BRSR": 2}}]}, {"scope": "Packaging", "items": [{"sub_scope": "Packaging Materials", "scores": {"CSRD": 3, "GRI": 2, "CDP": 1, "ISSB": 0, "TCFD": 0, "TNFD": 1, "SB253": 0, "SB261": 0, "CSDS": 1, "BRSR": 2}}]}, {"scope": "Waste", "items": [{"sub_scope": "Hazardous Waste", "scores": {"CSRD": 3, "GRI": 3, "CDP": 2, "ISSB": 0, "TCFD": 0, "TNFD": 1, "SB253": 0, "SB261": 0, "CSDS": 1, "BRSR": 2}}, {"sub_scope": "Non-Hazardous Waste", "scores": {"CSRD": 3, "GRI": 3, "CDP": 2, "ISSB": 0, "TCFD": 0, "TNFD": 1, "SB253": 0, "SB261": 0, "CSDS": 1, "BRSR": 2}}, {"sub_scope": "Waste Recycled", "scores": {"CSRD": 3, "GRI": 3, "CDP": 2, "ISSB": 0, "TCFD": 0, "TNFD": 1, "SB253": 0, "SB261": 0, "CSDS": 1, "BRSR": 2}}, {"sub_scope": "Waste Reused", "scores": {"CSRD": 3, "GRI": 2, "CDP": 1, "ISSB": 0, "TCFD": 0, "TNFD": 1, "SB253": 0, "SB261": 0, "CSDS": 1, "BRSR": 1}}, {"sub_scope": "Waste Landfilled", "scores": {"CSRD": 3, "GRI": 3, "CDP": 2, "ISSB": 0, "TCFD": 0, "TNFD": 1, "SB253": 0, "SB261": 0, "CSDS": 1, "BRSR": 2}}, {"sub_scope": "Waste Incinerated", "scores": {"CSRD": 3, "GRI": 3, "CDP": 2, "ISSB": 0, "TCFD": 0, "TNFD": 1, "SB253": 0, "SB261": 0, "CSDS": 1, "BRSR": 2}}, {"sub_scope": "Circular Economy Initiatives", "scores": {"CSRD": 3, "GRI": 2, "CDP": 1, "ISSB": 0, "TCFD": 0, "TNFD": 2, "SB253": 0, "SB261": 0, "CSDS": 1, "BRSR": 2}}]}]}, {"domain": "Pollution", "scopes": [{"scope": "Air Pollution", "items": [{"sub_scope": "NOx", "scores": {"CSRD": 3, "GRI": 3, "CDP": 1, "ISSB": 0, "TCFD": 0, "TNFD": 1, "SB253": 0, "SB261": 0, "CSDS": 0, "BRSR": 2}}, {"sub_scope": "SOx", "scores": {"CSRD": 3, "GRI": 3, "CDP": 1, "ISSB": 0, "TCFD": 0, "TNFD": 1, "SB253": 0, "SB261": 0, "CSDS": 0, "BRSR": 2}}, {"sub_scope": "Particulate Matter", "scores": {"CSRD": 3, "GRI": 3, "CDP": 1, "ISSB": 0, "TCFD": 0, "TNFD": 1, "SB253": 0, "SB261": 0, "CSDS": 0, "BRSR": 2}}, {"sub_scope": "VOCs", "scores": {"CSRD": 3, "GRI": 2, "CDP": 1, "ISSB": 0, "TCFD": 0, "TNFD": 1, "SB253": 0, "SB261": 0, "CSDS": 0, "BRSR": 1}}]}, {"scope": "Water Pollution", "items": [{"sub_scope": "Water Pollution Incidents", "scores": {"CSRD": 3, "GRI": 3, "CDP": 2, "ISSB": 0, "TCFD": 0, "TNFD": 1, "SB253": 0, "SB261": 0, "CSDS": 1, "BRSR": 2}}]}, {"scope": "Soil Pollution", "items": [{"sub_scope": "Soil Contamination", "scores": {"CSRD": 3, "GRI": 2, "CDP": 1, "ISSB": 0, "TCFD": 0, "TNFD": 1, "SB253": 0, "SB261": 0, "CSDS": 0, "BRSR": 1}}]}, {"scope": "Pollution Events", "items": [{"sub_scope": "Environmental Incidents", "scores": {"CSRD": 3, "GRI": 3, "CDP": 2, "ISSB": 0, "TCFD": 0, "TNFD": 1, "SB253": 0, "SB261": 0, "CSDS": 1, "BRSR": 2}}, {"sub_scope": "Spills", "scores": {"CSRD": 3, "GRI": 3, "CDP": 2, "ISSB": 0, "TCFD": 0, "TNFD": 1, "SB253": 0, "SB261": 0, "CSDS": 1, "BRSR": 2}}]}, {"scope": "Local Pollution", "items": [{"sub_scope": "Noise Pollution", "scores": {"CSRD": 3, "GRI": 2, "CDP": 1, "ISSB": 0, "TCFD": 0, "TNFD": 1, "SB253": 0, "SB261": 0, "CSDS": 0, "BRSR": 1}}, {"sub_scope": "Light Pollution", "scores": {"CSRD": 2, "GRI": 1, "CDP": 0, "ISSB": 0, "TCFD": 0, "TNFD": 1, "SB253": 0, "SB261": 0, "CSDS": 0, "BRSR": 0}}]}]}, {"domain": "Workforce & Human Capital", "scopes": [{"scope": "Employment", "items": [{"sub_scope": "Total Workforce", "scores": {"CSRD": 3, "GRI": 3, "CDP": 1, "ISSB": 1, "TCFD": 0, "TNFD": 0, "SB253": 0, "SB261": 0, "CSDS": 1, "BRSR": 3}}, {"sub_scope": "Headcount", "scores": {"CSRD": 3, "GRI": 3, "CDP": 1, "ISSB": 1, "TCFD": 0, "TNFD": 0, "SB253": 0, "SB261": 0, "CSDS": 1, "BRSR": 3}}, {"sub_scope": "New Hires", "scores": {"CSRD": 3, "GRI": 3, "CDP": 1, "ISSB": 1, "TCFD": 0, "TNFD": 0, "SB253": 0, "SB261": 0, "CSDS": 1, "BRSR": 2}}, {"sub_scope": "Employee Turnover", "scores": {"CSRD": 3, "GRI": 3, "CDP": 1, "ISSB": 1, "TCFD": 0, "TNFD": 0, "SB253": 0, "SB261": 0, "CSDS": 1, "BRSR": 3}}, {"sub_scope": "Workforce Location", "scores": {"CSRD": 3, "GRI": 2, "CDP": 1, "ISSB": 1, "TCFD": 0, "TNFD": 0, "SB253": 0, "SB261": 0, "CSDS": 1, "BRSR": 2}}, {"sub_scope": "Contract Types", "scores": {"CSRD": 3, "GRI": 3, "CDP": 1, "ISSB": 1, "TCFD": 0, "TNFD": 0, "SB253": 0, "SB261": 0, "CSDS": 1, "BRSR": 3}}]}, {"scope": "Benefits", "items": [{"sub_scope": "Employee Benefits", "scores": {"CSRD": 3, "GRI": 3, "CDP": 0, "ISSB": 1, "TCFD": 0, "TNFD": 0, "SB253": 0, "SB261": 0, "CSDS": 1, "BRSR": 3}}, {"sub_scope": "Healthcare Benefits", "scores": {"CSRD": 2, "GRI": 2, "CDP": 0, "ISSB": 0, "TCFD": 0, "TNFD": 0, "SB253": 0, "SB261": 0, "CSDS": 1, "BRSR": 2}}, {"sub_scope": "Parental Leave", "scores": {"CSRD": 3, "GRI": 2, "CDP": 0, "ISSB": 0, "TCFD": 0, "TNFD": 0, "SB253": 0, "SB261": 0, "CSDS": 1, "BRSR": 2}}]}, {"scope": "Labour Relations", "items": [{"sub_scope": "Collective Bargaining Coverage", "scores": {"CSRD": 3, "GRI": 3, "CDP": 0, "ISSB": 1, "TCFD": 0, "TNFD": 0, "SB253": 0, "SB261": 0, "CSDS": 1, "BRSR": 3}}, {"sub_scope": "Worker Representation", "scores": {"CSRD": 3, "GRI": 3, "CDP": 0, "ISSB": 1, "TCFD": 0, "TNFD": 0, "SB253": 0, "SB261": 0, "CSDS": 1, "BRSR": 3}}]}, {"scope": "OHS", "items": [{"sub_scope": "OHS Management System", "scores": {"CSRD": 3, "GRI": 3, "CDP": 0, "ISSB": 1, "TCFD": 0, "TNFD": 0, "SB253": 0, "SB261": 0, "CSDS": 1, "BRSR": 3}}, {"sub_scope": "Injury Rates", "scores": {"CSRD": 3, "GRI": 3, "CDP": 0, "ISSB": 1, "TCFD": 0, "TNFD": 0, "SB253": 0, "SB261": 0, "CSDS": 1, "BRSR": 3}}, {"sub_scope": "Fatalities", "scores": {"CSRD": 3, "GRI": 3, "CDP": 0, "ISSB": 1, "TCFD": 0, "TNFD": 0, "SB253": 0, "SB261": 0, "CSDS": 1, "BRSR": 3}}, {"sub_scope": "Work-Related Ill Health", "scores": {"CSRD": 3, "GRI": 3, "CDP": 0, "ISSB": 1, "TCFD": 0, "TNFD": 0, "SB253": 0, "SB261": 0, "CSDS": 1, "BRSR": 3}}]}, {"scope": "Training & Development", "items": [{"sub_scope": "Training Hours", "scores": {"CSRD": 3, "GRI": 3, "CDP": 0, "ISSB": 1, "TCFD": 0, "TNFD": 0, "SB253": 0, "SB261": 0, "CSDS": 1, "BRSR": 3}}, {"sub_scope": "Skills Development", "scores": {"CSRD": 3, "GRI": 3, "CDP": 0, "ISSB": 1, "TCFD": 0, "TNFD": 0, "SB253": 0, "SB261": 0, "CSDS": 1, "BRSR": 3}}]}, {"scope": "Diversity & Inclusion", "items": [{"sub_scope": "Workforce Diversity", "scores": {"CSRD": 3, "GRI": 3, "CDP": 1, "ISSB": 1, "TCFD": 0, "TNFD": 0, "SB253": 0, "SB261": 0, "CSDS": 1, "BRSR": 3}}, {"sub_scope": "Gender Representation", "scores": {"CSRD": 3, "GRI": 3, "CDP": 1, "ISSB": 1, "TCFD": 0, "TNFD": 0, "SB253": 0, "SB261": 0, "CSDS": 1, "BRSR": 3}}, {"sub_scope": "Board Diversity", "scores": {"CSRD": 3, "GRI": 2, "CDP": 1, "ISSB": 2, "TCFD": 1, "TNFD": 1, "SB253": 0, "SB261": 1, "CSDS": 2, "BRSR": 3}}]}, {"scope": "Pay Equity", "items": [{"sub_scope": "Gender Pay Gap", "scores": {"CSRD": 3, "GRI": 3, "CDP": 0, "ISSB": 1, "TCFD": 0, "TNFD": 0, "SB253": 0, "SB261": 0, "CSDS": 1, "BRSR": 2}}, {"sub_scope": "Equal Pay Practices", "scores": {"CSRD": 3, "GRI": 3, "CDP": 0, "ISSB": 1, "TCFD": 0, "TNFD": 0, "SB253": 0, "SB261": 0, "CSDS": 1, "BRSR": 2}}]}]}, {"domain": "Human Rights & Supply Chain", "scopes": [{"scope": "Human Rights Governance", "items": [{"sub_scope": "Human Rights Policy", "scores": {"CSRD": 3, "GRI": 3, "CDP": 0, "ISSB": 1, "TCFD": 0, "TNFD": 1, "SB253": 0, "SB261": 0, "CSDS": 1, "BRSR": 3}}]}, {"scope": "Due Diligence", "items": [{"sub_scope": "Human Rights Due Diligence", "scores": {"CSRD": 3, "GRI": 3, "CDP": 0, "ISSB": 1, "TCFD": 0, "TNFD": 1, "SB253": 0, "SB261": 0, "CSDS": 1, "BRSR": 3}}, {"sub_scope": "Impact Assessment", "scores": {"CSRD": 3, "GRI": 3, "CDP": 0, "ISSB": 1, "TCFD": 0, "TNFD": 2, "SB253": 0, "SB261": 0, "CSDS": 1, "BRSR": 2}}]}, {"scope": "Labour Rights", "items": [{"sub_scope": "Child Labour", "scores": {"CSRD": 3, "GRI": 3, "CDP": 0, "ISSB": 1, "TCFD": 0, "TNFD": 1, "SB253": 0, "SB261": 0, "CSDS": 1, "BRSR": 3}}, {"sub_scope": "Forced Labour", "scores": {"CSRD": 3, "GRI": 3, "CDP": 0, "ISSB": 1, "TCFD": 0, "TNFD": 1, "SB253": 0, "SB261": 0, "CSDS": 1, "BRSR": 3}}, {"sub_scope": "Freedom of Association", "scores": {"CSRD": 3, "GRI": 3, "CDP": 0, "ISSB": 1, "TCFD": 0, "TNFD": 1, "SB253": 0, "SB261": 0, "CSDS": 1, "BRSR": 3}}]}, {"scope": "Indigenous Rights", "items": [{"sub_scope": "Indigenous Peoples Engagement", "scores": {"CSRD": 3, "GRI": 3, "CDP": 0, "ISSB": 1, "TCFD": 0, "TNFD": 3, "SB253": 0, "SB261": 0, "CSDS": 1, "BRSR": 2}}]}, {"scope": "Supply Chain", "items": [{"sub_scope": "Supplier ESG Assessment", "scores": {"CSRD": 3, "GRI": 3, "CDP": 1, "ISSB": 1, "TCFD": 0, "TNFD": 2, "SB253": 0, "SB261": 0, "CSDS": 1, "BRSR": 3}}, {"sub_scope": "Supplier Code of Conduct", "scores": {"CSRD": 3, "GRI": 3, "CDP": 1, "ISSB": 1, "TCFD": 0, "TNFD": 2, "SB253": 0, "SB261": 0, "CSDS": 1, "BRSR": 3}}, {"sub_scope": "Supplier Audits", "scores": {"CSRD": 3, "GRI": 3, "CDP": 1, "ISSB": 1, "TCFD": 0, "TNFD": 2, "SB253": 0, "SB261": 0, "CSDS": 1, "BRSR": 2}}, {"sub_scope": "Modern Slavery Risk", "scores": {"CSRD": 3, "GRI": 3, "CDP": 0, "ISSB": 1, "TCFD": 0, "TNFD": 1, "SB253": 0, "SB261": 0, "CSDS": 1, "BRSR": 3}}]}]}, {"domain": "Customers & Communities", "scopes": [{"scope": "Community Impact", "items": [{"sub_scope": "Local Community Engagement", "scores": {"CSRD": 3, "GRI": 3, "CDP": 0, "ISSB": 1, "TCFD": 0, "TNFD": 2, "SB253": 0, "SB261": 0, "CSDS": 1, "BRSR": 3}}, {"sub_scope": "Community Impact Assessment", "scores": {"CSRD": 3, "GRI": 3, "CDP": 0, "ISSB": 1, "TCFD": 0, "TNFD": 2, "SB253": 0, "SB261": 0, "CSDS": 1, "BRSR": 3}}, {"sub_scope": "Social Investment", "scores": {"CSRD": 3, "GRI": 3, "CDP": 0, "ISSB": 0, "TCFD": 0, "TNFD": 1, "SB253": 0, "SB261": 0, "CSDS": 1, "BRSR": 3}}]}, {"scope": "Product Responsibility", "items": [{"sub_scope": "Product Safety", "scores": {"CSRD": 3, "GRI": 3, "CDP": 0, "ISSB": 0, "TCFD": 0, "TNFD": 0, "SB253": 0, "SB261": 0, "CSDS": 1, "BRSR": 2}}, {"sub_scope": "Product Quality", "scores": {"CSRD": 3, "GRI": 3, "CDP": 0, "ISSB": 0, "TCFD": 0, "TNFD": 0, "SB253": 0, "SB261": 0, "CSDS": 1, "BRSR": 2}}]}, {"scope": "Customer Information", "items": [{"sub_scope": "Product Labelling", "scores": {"CSRD": 3, "GRI": 2, "CDP": 0, "ISSB": 0, "TCFD": 0, "TNFD": 0, "SB253": 0, "SB261": 0, "CSDS": 1, "BRSR": 2}}]}, {"scope": "Customer Privacy", "items": [{"sub_scope": "Data Privacy", "scores": {"CSRD": 3, "GRI": 2, "CDP": 0, "ISSB": 1, "TCFD": 0, "TNFD": 0, "SB253": 0, "SB261": 0, "CSDS": 1, "BRSR": 2}}]}, {"scope": "Digital Responsibility", "items": [{"sub_scope": "Cybersecurity Governance", "scores": {"CSRD": 3, "GRI": 2, "CDP": 0, "ISSB": 2, "TCFD": 1, "TNFD": 1, "SB253": 0, "SB261": 1, "CSDS": 2, "BRSR": 2}}]}]}, {"domain": "Ethics & Business Conduct", "scopes": [{"scope": "Corporate Governance", "items": [{"sub_scope": "Governance Structure", "scores": {"CSRD": 3, "GRI": 2, "CDP": 1, "ISSB": 3, "TCFD": 3, "TNFD": 3, "SB253": 0, "SB261": 2, "CSDS": 3, "BRSR": 3}}]}, {"scope": "Ethics", "items": [{"sub_scope": "Code of Conduct", "scores": {"CSRD": 3, "GRI": 3, "CDP": 0, "ISSB": 1, "TCFD": 0, "TNFD": 1, "SB253": 0, "SB261": 0, "CSDS": 2, "BRSR": 3}}]}, {"scope": "Anti-Corruption", "items": [{"sub_scope": "Anti-Bribery Policy", "scores": {"CSRD": 3, "GRI": 3, "CDP": 0, "ISSB": 1, "TCFD": 0, "TNFD": 1, "SB253": 0, "SB261": 0, "CSDS": 2, "BRSR": 3}}, {"sub_scope": "Corruption Risk Assessment", "scores": {"CSRD": 3, "GRI": 3, "CDP": 0, "ISSB": 1, "TCFD": 0, "TNFD": 1, "SB253": 0, "SB261": 0, "CSDS": 3, "BRSR": 3}}]}, {"scope": "Whistleblowing", "items": [{"sub_scope": "Whistleblower Mechanisms", "scores": {"CSRD": 3, "GRI": 3, "CDP": 0, "ISSB": 1, "TCFD": 0, "TNFD": 1, "SB253": 0, "SB261": 0, "CSDS": 2, "BRSR": 3}}]}, {"scope": "Public Policy", "items": [{"sub_scope": "Lobbying Activities", "scores": {"CSRD": 3, "GRI": 2, "CDP": 0, "ISSB": 1, "TCFD": 0, "TNFD": 1, "SB253": 0, "SB261": 0, "CSDS": 1, "BRSR": 2}}]}, {"scope": "Tax Governance", "items": [{"sub_scope": "Tax Policy", "scores": {"CSRD": 3, "GRI": 3, "CDP": 0, "ISSB": 1, "TCFD": 0, "TNFD": 1, "SB253": 0, "SB261": 0, "CSDS": 1, "BRSR": 2}}]}, {"scope": "Compliance", "items": [{"sub_scope": "Fines & Sanctions", "scores": {"CSRD": 3, "GRI": 3, "CDP": 0, "ISSB": 1, "TCFD": 0, "TNFD": 1, "SB253": 0, "SB261": 0, "CSDS": 2, "BRSR": 3}}]}]}, {"domain": "Financial Effects & Capital Allocation", "scopes": [{"scope": "Financial Effects", "items": [{"sub_scope": "Financial Impact Assessment", "scores": {"CSRD": 3, "GRI": 1, "CDP": 2, "ISSB": 3, "TCFD": 3, "TNFD": 2, "SB253": 1, "SB261": 3, "CSDS": 1, "BRSR": 1}}, {"sub_scope": "Cash Flow Effects", "scores": {"CSRD": 3, "GRI": 1, "CDP": 2, "ISSB": 3, "TCFD": 3, "TNFD": 2, "SB253": 1, "SB261": 3, "CSDS": 3, "BRSR": 1}}]}, {"scope": "Capital Allocation", "items": [{"sub_scope": "Sustainability Capex", "scores": {"CSRD": 3, "GRI": 1, "CDP": 2, "ISSB": 3, "TCFD": 2, "TNFD": 2, "SB253": 1, "SB261": 2, "CSDS": 3, "BRSR": 1}}, {"sub_scope": "Green Investments", "scores": {"CSRD": 3, "GRI": 1, "CDP": 1, "ISSB": 2, "TCFD": 2, "TNFD": 1, "SB253": 0, "SB261": 1, "CSDS": 2, "BRSR": 1}}]}, {"scope": "Sustainable Finance", "items": [{"sub_scope": "Green Bonds", "scores": {"CSRD": 2, "GRI": 1, "CDP": 1, "ISSB": 2, "TCFD": 1, "TNFD": 1, "SB253": 0, "SB261": 0, "CSDS": 1, "BRSR": 0}}]}, {"scope": "Targets", "items": [{"sub_scope": "Sustainability KPIs", "scores": {"CSRD": 3, "GRI": 3, "CDP": 2, "ISSB": 3, "TCFD": 3, "TNFD": 3, "SB253": 2, "SB261": 3, "CSDS": 3, "BRSR": 2}}]}, {"scope": "Scenario Analysis", "items": [{"sub_scope": "Climate Financial Scenarios", "scores": {"CSRD": 3, "GRI": 1, "CDP": 2, "ISSB": 3, "TCFD": 3, "TNFD": 2, "SB253": 1, "SB261": 3, "CSDS": 3, "BRSR": 1}}]}, {"scope": "Resilience", "items": [{"sub_scope": "Business Model Resilience", "scores": {"CSRD": 3, "GRI": 1, "CDP": 2, "ISSB": 3, "TCFD": 3, "TNFD": 2, "SB253": 1, "SB261": 3, "CSDS": 3, "BRSR": 1}}]}]}] ;
+
+let activeDomain = 'all';
+let activeScore  = null;
+let activeStd    = 'all';
+
+function scoreClass(v) {
+  if (v === null || v === undefined) return 'sc-0';
+  return `sc-${v}`;
+}
+function scoreLabel(v) {
+  if (v === null || v === undefined) return '-';
+  return v;
+}
+
+function buildTable() {
+  const main = document.getElementById('main-content');
+  main.innerHTML = '';
+
+  DATA.forEach(domain => {
+    const block = document.createElement('div');
+    block.className = 'domain-block';
+    block.dataset.domain = domain.domain;
+
+    // Domain header
+    const hdr = document.createElement('div');
+    hdr.className = 'domain-header';
+    hdr.innerHTML = `
+      <span class="domain-label">${domain.domain}</span>
+      <span class="domain-count">${domain.scopes.reduce((a,s)=>a+s.items.length,0)} points</span>
+      <span class="domain-chevron">▾</span>`;
+    hdr.onclick = () => {
+      block.classList.toggle('collapsed');
+    };
+    block.appendChild(hdr);
+
+    // Domain body
+    const body = document.createElement('div');
+    body.className = 'domain-body';
+
+    const wrapper = document.createElement('div');
+    wrapper.className = 'table-wrapper';
+
+    const table = document.createElement('table');
+    table.className = 'comp-table';
+
+    // thead
+    const thead = document.createElement('thead');
+    thead.innerHTML = `<tr>
+      <th class="col-sub">Disclosure Point</th>
+      <th class="col-scope">Scope</th>
+      ${STANDARDS.map(s=>`<th>${s}</th>`).join('')}
+    </tr>`;
+    table.appendChild(thead);
+
+    const tbody = document.createElement('tbody');
+
+    domain.scopes.forEach(scopeGroup => {
+      // scope sub-header row
+      const sr = document.createElement('tr');
+      sr.className = 'scope-row';
+      sr.innerHTML = `<td colspan="${2+STANDARDS.length}">${scopeGroup.scope}</td>`;
+      tbody.appendChild(sr);
+
+      scopeGroup.items.forEach(item => {
+        const tr = document.createElement('tr');
+        tr.className = 'data-row';
+        tr.dataset.domain = domain.domain;
+        tr.dataset.sub = (item.sub_scope || '').toLowerCase();
+        tr.dataset.scope = scopeGroup.scope.toLowerCase();
+
+        // Build score data attrs
+        const scoreAttrs = STANDARDS.map(s => {
+          const v = item.scores[s];
+          return `data-std-${s.toLowerCase().replace(/\s/g,'_')}="${v !== null && v !== undefined ? v : ''}"`;
+        }).join(' ');
+        tr.setAttribute('data-scores', STANDARDS.map(s => item.scores[s]).join(','));
+
+        tr.innerHTML = `
+          <td class="td-sub">${item.sub_scope || ''}</td>
+          <td class="td-scope">${scopeGroup.scope}</td>
+          ${STANDARDS.map(s => {
+            const v = item.scores[s];
+            return `<td class="score-cell"><span class="score-chip ${scoreClass(v)}">${scoreLabel(v)}</span></td>`;
+          }).join('')}`;
+
+        tbody.appendChild(tr);
+      });
+    });
+
+    table.appendChild(tbody);
+    wrapper.appendChild(table);
+    body.appendChild(wrapper);
+    block.appendChild(body);
+    main.appendChild(block);
+  });
+}
+
+function applyFilters() {
+  const q = document.getElementById('search-box').value.toLowerCase().trim();
+
+  document.querySelectorAll('.data-row').forEach(row => {
+    const domainMatch = activeDomain === 'all' || row.dataset.domain === activeDomain;
+    const searchMatch = !q || row.dataset.sub.includes(q) || row.dataset.scope.includes(q);
+
+    let scoreMatch = true;
+    if (activeScore !== null) {
+      const scores = row.dataset.scores.split(',').map(v => v === '' ? null : parseInt(v));
+      if (activeStd === 'all') {
+        scoreMatch = scores.some(v => v === activeScore);
+      } else {
+        const idx = STANDARDS.indexOf(activeStd);
+        scoreMatch = idx >= 0 && scores[idx] === activeScore;
+      }
+    } else if (activeStd !== 'all') {
+      const idx = STANDARDS.indexOf(activeStd);
+      // highlight standard - no filter, just keep visible
+      scoreMatch = true;
+    }
+
+    row.classList.toggle('row-hidden', !(domainMatch && searchMatch && scoreMatch));
+  });
+
+  // Show/hide domain blocks based on whether they have visible rows
+  document.querySelectorAll('.domain-block').forEach(block => {
+    const visRows = block.querySelectorAll('.data-row:not(.row-hidden)');
+    block.classList.toggle('hidden', visRows.length === 0);
+  });
+}
+
+function filterDomain(domain, btn) {
+  activeDomain = domain;
+  document.querySelectorAll('#btn-all').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  applyFilters();
+}
+
+function filterScore(score, btn) {
+  if (activeScore === score) {
+    activeScore = null;
+    if (btn) btn.classList.remove('active');
+  } else {
+    activeScore = score;
+    document.querySelectorAll('#btn-s0,#btn-s1,#btn-s2,#btn-s3').forEach(b => b.classList.remove('active'));
+    if (btn) btn.classList.add('active');
+  }
+  // clear domain btn active
+  document.getElementById('btn-all').classList.add('active');
+  applyFilters();
+}
+
+function filterStandard(std, btn) {
+  activeStd = std;
+  document.querySelectorAll('.filter-btn').forEach(b => {
+    if (b.id === 'btn-std-all' || b.textContent.trim() === std) return;
+    if (['CSRD','GRI','CDP','ISSB','TCFD','TNFD','SB253','SB261','CSDS','BRSR','All'].includes(b.textContent.trim())) {
+      b.classList.remove('active');
+    }
+  });
+  if (btn) {
+    document.querySelectorAll('.controls-bar .filter-btn').forEach(b => {
+      if (['CSRD','GRI','CDP','ISSB','TCFD','TNFD','SB253','SB261','CSDS','BRSR'].includes(b.textContent.trim())) {
+        b.classList.remove('active');
+      }
+    });
+    btn.classList.toggle('active', std !== 'all');
+    if (std === 'all') document.getElementById('btn-std-all').classList.add('active');
+  }
+
+  // If a standard is selected, highlight its column visually
+  document.querySelectorAll('.comp-table thead th').forEach((th, i) => {
+    if (i < 2) return;
+    const s = STANDARDS[i-2];
+    th.style.color = (std !== 'all' && s === std) ? 'var(--gold)' : '';
+  });
+
+  applyFilters();
+}
+
+buildTable();
+document.getElementById('btn-all').classList.add('active');
+document.getElementById('btn-std-all').classList.add('active');
+</script>
+</body>
+</html>

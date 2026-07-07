@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sustainability Reporting Regulations - Status 2026 - Aurie's Knowledge Hub</title>
+<meta name="description" content="A global tracker of ESG and sustainability reporting regulations, their current status, and official sources. Updated for 2026.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Inter:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --green-deep:#0e2b1a;--green-mid:#1a3d28;--green-light:#234d33;--green-dark:#091f12;
+  --gold:#c9a84c;--gold-light:#e0c07a;--gold-dim:rgba(201,168,76,0.15);
+  --white:#ffffff;--muted:#8a9e90;--border:rgba(201,168,76,0.18);
+  --serif:'Cormorant Garamond',Georgia,serif;
+  --sans:'Inter',system-ui,sans-serif;
+  --mono:'DM Mono',monospace;
+  --in-force:#1a6b3a;--in-force-dim:rgba(26,107,58,0.15);--in-force-bdr:rgba(26,107,58,0.35);
+  --upcoming:#e67e22;--upcoming-dim:rgba(230,126,34,0.12);--upcoming-bdr:rgba(230,126,34,0.3);
+  --developing:#4a5568;--developing-dim:rgba(74,85,104,0.15);--developing-bdr:rgba(74,85,104,0.3);
+  --not-in-force:#c0392b;--not-in-force-dim:rgba(192,57,43,0.12);--not-in-force-bdr:rgba(192,57,43,0.3);
+}
+html{scroll-behavior:smooth}
+body{background:var(--green-deep);color:var(--white);font-family:var(--sans);font-weight:300;font-size:16px;line-height:1.7;min-height:100vh}
+::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:var(--green-deep)}::-webkit-scrollbar-thumb{background:rgba(201,168,76,0.35);border-radius:3px}
+
+/* PAGE HEADER */
+.page-header{padding:7rem 2.5rem 3rem;background:radial-gradient(ellipse at 65% 40%,rgba(26,61,40,0.9) 0%,var(--green-deep) 65%);border-bottom:1px solid var(--border)}
+.back-link{font-size:0.7rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);text-decoration:none;display:inline-flex;align-items:center;gap:6px;margin-bottom:1.2rem;transition:color 0.15s}
+.back-link:hover{color:var(--gold)}
+.page-eyebrow{font-size:0.7rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--gold);margin-bottom:1.2rem;display:flex;align-items:center;gap:1rem}
+.page-eyebrow::before{content:'';width:2.5rem;height:1px;background:var(--gold);display:inline-block}
+h1.page-title{font-family:var(--serif);font-size:clamp(2.2rem,4vw,3.4rem);font-weight:300;line-height:1.1;margin-bottom:0.8rem}
+h1.page-title em{font-style:italic;color:var(--gold)}
+.page-desc{font-size:1rem;color:rgba(255,255,255,0.58);max-width:680px;line-height:1.8;margin-bottom:1.8rem}
+
+/* STATUS LEGEND */
+.legend{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:0}
+.legend-item{display:flex;align-items:center;gap:6px;font-size:0.72rem;font-weight:500;letter-spacing:0.06em;padding:4px 12px;border:1px solid;border-radius:2px;font-family:var(--sans)}
+.s-in-force{background:var(--in-force-dim);border-color:var(--in-force-bdr);color:#5dcaa5}
+.s-upcoming{background:var(--upcoming-dim);border-color:var(--upcoming-bdr);color:#f0a55a}
+.s-developing{background:var(--developing-dim);border-color:var(--developing-bdr);color:#9aa5b4}
+.s-not{background:var(--not-in-force-dim);border-color:var(--not-in-force-bdr);color:#e07070}
+
+/* MAIN */
+main{padding:3rem 2.5rem 5rem}
+
+/* FILTER BAR */
+.filter-bar{display:flex;align-items:center;gap:8px;margin-bottom:1.5rem;flex-wrap:wrap}
+.filter-label{font-size:0.72rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);font-family:var(--mono);margin-right:4px}
+.filter-btn{font-size:0.72rem;padding:5px 14px;border:1px solid rgba(255,255,255,0.12);background:transparent;color:rgba(255,255,255,0.5);cursor:pointer;font-family:var(--sans);letter-spacing:0.05em;transition:all 0.15s;border-radius:2px}
+.filter-btn:hover{border-color:var(--gold);color:var(--gold)}
+.filter-btn.active{background:var(--gold-dim);border-color:var(--gold);color:var(--gold)}
+.filter-count{font-size:0.7rem;color:var(--muted);font-family:var(--mono);margin-left:auto}
+
+/* TABLE */
+.table-wrap{overflow-x:auto;border:1px solid var(--border)}
+table{width:100%;border-collapse:collapse;min-width:760px}
+thead tr{background:var(--green-mid)}
+thead th{padding:11px 14px;text-align:left;font-size:0.68rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--gold);font-weight:500;font-family:var(--sans);border-bottom:1px solid var(--border);white-space:nowrap}
+tbody tr{border-bottom:1px solid rgba(255,255,255,0.05);transition:background 0.1s}
+tbody tr:hover{background:rgba(255,255,255,0.03)}
+tbody tr.row-hidden{display:none}
+tbody td{padding:11px 14px;font-size:0.82rem;vertical-align:top;line-height:1.5;color:rgba(255,255,255,0.75)}
+td.col-country{font-weight:500;color:var(--white);white-space:nowrap}
+td.col-short{font-family:var(--mono);font-size:0.72rem;color:var(--gold);white-space:nowrap}
+td.col-year{font-family:var(--mono);font-size:0.78rem;color:var(--muted);white-space:nowrap}
+td.col-link a{color:var(--muted);text-decoration:none;font-size:0.75rem;border-bottom:1px solid rgba(255,255,255,0.1);padding-bottom:1px;transition:all 0.15s}
+td.col-link a:hover{color:var(--gold);border-color:var(--gold)}
+
+/* STATUS BADGES */
+.status-badge{display:inline-block;font-size:0.65rem;font-weight:500;letter-spacing:0.08em;padding:2px 8px;border:1px solid;border-radius:2px;white-space:nowrap;font-family:var(--sans)}
+.status-in-force{background:var(--in-force-dim);border-color:var(--in-force-bdr);color:#5dcaa5}
+.status-upcoming{background:var(--upcoming-dim);border-color:var(--upcoming-bdr);color:#f0a55a}
+.status-developing{background:var(--developing-dim);border-color:var(--developing-bdr);color:#9aa5b4}
+.status-not{background:var(--not-in-force-dim);border-color:var(--not-in-force-bdr);color:#e07070}
+
+/* SECTION DIVIDER */
+.section-divider{border-top:2px solid var(--gold);position:relative;margin:2.5rem 0 1.5rem}
+.section-divider-label{position:absolute;top:-11px;left:0;background:var(--green-deep);padding:0 12px 0 0;font-size:8px;letter-spacing:0.22em;text-transform:uppercase;color:var(--gold);font-family:var(--sans);font-weight:500}
+
+/* FOOTER */
+footer{padding:20px 2.5rem;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;color:var(--muted);font-size:0.75rem;flex-wrap:wrap;gap:8px;letter-spacing:0.06em;background:var(--green-dark)}
+.footer-brand{font-family:var(--serif);font-size:0.9rem;color:var(--gold);font-weight:400}
+
+@media(max-width:768px){
+  .nav-link{min-width:88px;padding:0 0.8rem}.nav-brand{padding:0 1.2rem;font-size:1.05rem}
+  .page-header,main,footer{padding-left:1.5rem;padding-right:1.5rem}
+}
+@media(max-width:560px){.nav-link-sub{display:none}.nav-link{min-width:70px;padding:0 0.6rem}}
+
+/* ── NAV (standardised) ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; align-items: stretch;
+  background: rgba(9,31,18,0.97); backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+  height: 64px;
+}
+.nav-brand {
+  display: flex; align-items: center;
+  padding: 0 2.5rem;
+  font-family: var(--serif); font-size: 1.25rem; font-weight: 600;
+  letter-spacing: 0.04em; color: var(--white); text-decoration: none;
+  border-right: 1px solid var(--border);
+  flex-shrink: 0; transition: background 0.2s;
+}
+.nav-brand:hover { background: rgba(201,168,76,0.06); }
+.nav-brand span { color: var(--gold); }
+.nav-sections { display: flex; align-items: stretch; list-style: none; flex: 1; overflow-x: auto; }
+.nav-sections li { display: flex; }
+.nav-link {
+  display: flex; flex-direction: column; justify-content: center;
+  padding: 0 1.6rem; text-decoration: none;
+  border-right: 1px solid var(--border);
+  transition: background 0.18s; min-width: 120px;
+}
+.nav-link:hover { background: rgba(201,168,76,0.06); }
+.nav-link.active { background: var(--gold-dim); border-bottom: 2px solid var(--gold); }
+.nav-link-primary { font-size: 0.78rem; font-weight: 500; letter-spacing: 0.05em; color: rgba(255,255,255,0.88); line-height: 1.2; white-space: nowrap; }
+.nav-link-sub { font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); line-height: 1; margin-top: 3px; white-space: nowrap; }
+.nav-link:hover .nav-link-primary { color: var(--gold-light); }
+.nav-link:hover .nav-link-sub { color: rgba(201,168,76,0.6); }
+.nav-link.active .nav-link-primary { color: var(--gold); }
+.nav-link.active .nav-link-sub { color: rgba(201,168,76,0.7); }
+.nav-about {
+  display: flex; align-items: center; padding: 0 1.8rem;
+  font-size: 0.78rem; font-weight: 500; letter-spacing: 0.05em;
+  color: rgba(255,255,255,0.6); text-decoration: none;
+  margin-left: auto; transition: color 0.18s; white-space: nowrap;
+}
+.nav-about:hover { color: var(--gold); }
+@media (max-width: 768px) {
+  .nav-link { min-width: 100px; padding: 0 1rem; }
+  .nav-brand { padding: 0 1.2rem; font-size: 1.05rem; }
+}
+@media (max-width: 560px) {
+  .nav-link-sub { display: none; }
+  .nav-link { min-width: 80px; padding: 0 0.8rem; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-brand" href="index.html">Aurie's <span>Knowledge Hub</span></a>
+  <ul class="nav-sections">
+    <li>
+      <a class="nav-link" href="ceo-insights.html">
+        <span class="nav-link-primary">CEO Insights</span>
+        <span class="nav-link-sub">For the leadership</span>
+      </a>
+    </li>
+    <li>
+      <a class="nav-link" href="tools.html">
+        <span class="nav-link-primary">Tools &amp; Templates</span>
+        <span class="nav-link-sub">For ESG teams</span>
+      </a>
+    </li>
+    <li>
+      <a class="nav-link active" href="resource-library.html">
+        <span class="nav-link-primary">Resource Library</span>
+        <span class="nav-link-sub">For practitioners</span>
+      </a>
+    </li>
+    <li>
+      <a class="nav-link" href="thought-papers.html">
+        <span class="nav-link-primary">Thought Papers</span>
+        <span class="nav-link-sub">For the curious</span>
+      </a>
+    </li>
+  </ul>
+  <a class="nav-about" href="about.html">About Me</a>
+</nav>
+
+<div class="page-header">
+  <a class="back-link" href="resource-library.html">← Expert Library</a>
+  <p class="page-eyebrow">Expert Library · Regulation Tracker · Global Coverage</p>
+  <h1 class="page-title">Sustainability Reporting Regulations <em>- Status 2026</em></h1>
+  <p class="page-desc">A tracker of the top 20 ESG and sustainability reporting regulations globally. Scope, status, and official source for each. Updated June 2026.</p>
+  <div class="legend">
+    <span class="legend-item s-in-force">● In Force</span>
+    <span class="legend-item s-upcoming">● Upcoming / Phased-in</span>
+    <span class="legend-item s-developing">● Developing</span>
+    <span class="legend-item s-not">● Not in Force</span>
+  </div>
+</div>
+
+<main>
+
+  <!-- FILTER BAR -->
+  <div class="filter-bar">
+    <span class="filter-label">Filter:</span>
+    <button class="filter-btn active" onclick="filterTable('all', this)">All</button>
+    <button class="filter-btn" onclick="filterTable('in-force', this)">In Force</button>
+    <button class="filter-btn" onclick="filterTable('upcoming', this)">Upcoming</button>
+    <button class="filter-btn" onclick="filterTable('developing', this)">Developing</button>
+    <button class="filter-btn" onclick="filterTable('not', this)">Not in Force</button>
+    <span class="filter-count" id="row-count">20 regulations</span>
+  </div>
+
+  <!-- MAIN TABLE -->
+  <div class="table-wrap">
+    <table id="reg-table">
+      <thead>
+        <tr>
+          <th>Country / Region</th>
+          <th>Regulation</th>
+          <th>Short Form</th>
+          <th>Status</th>
+          <th>Year</th>
+          <th>Source</th>
+        </tr>
+      </thead>
+      <tbody>
+
+        <!-- EU -->
+        <tr data-status="in-force">
+          <td class="col-country">🇪🇺 European Union</td>
+          <td>Corporate Sustainability Reporting Directive</td>
+          <td class="col-short">CSRD</td>
+          <td><span class="status-badge status-in-force">In Force</span></td>
+          <td class="col-year">2024+</td>
+          <td class="col-link"><a href="https://finance.ec.europa.eu/capital-markets-union-and-financial-markets/company-reporting-and-auditing/company-reporting/corporate-sustainability-reporting_en" target="_blank" rel="noopener">European Commission ↗</a></td>
+        </tr>
+
+        <!-- ARGENTINA -->
+        <tr data-status="developing">
+          <td class="col-country">🇦🇷 Argentina</td>
+          <td>ESG disclosure rules under securities / market regulation</td>
+          <td class="col-short">ESG disclosure</td>
+          <td><span class="status-badge status-developing">Developing</span></td>
+          <td class="col-year">2025+</td>
+          <td class="col-link"><a href="https://www.argentina.gob.ar/ambiente" target="_blank" rel="noopener">Argentine Government ↗</a></td>
+        </tr>
+
+        <!-- AUSTRALIA -->
+        <tr data-status="upcoming">
+          <td class="col-country">🇦🇺 Australia</td>
+          <td>Climate-related financial disclosure regime</td>
+          <td class="col-short">Climate reporting regime</td>
+          <td><span class="status-badge status-upcoming">Upcoming / Phased-in</span></td>
+          <td class="col-year">2025+</td>
+          <td class="col-link"><a href="https://treasury.gov.au/climate" target="_blank" rel="noopener">Australian Treasury ↗</a></td>
+        </tr>
+
+        <!-- BRAZIL -->
+        <tr data-status="developing">
+          <td class="col-country">🇧🇷 Brazil</td>
+          <td>Sustainability and governance disclosure requirements under securities regulation</td>
+          <td class="col-short">ESG disclosure</td>
+          <td><span class="status-badge status-developing">Developing</span></td>
+          <td class="col-year">2025+</td>
+          <td class="col-link"><a href="https://www.gov.br/mma/pt-br" target="_blank" rel="noopener">Ministry of Environment ↗</a></td>
+        </tr>
+
+        <!-- CANADA -->
+        <tr data-status="upcoming">
+          <td class="col-country">🇨🇦 Canada</td>
+          <td>Climate-related disclosure regime</td>
+          <td class="col-short">Climate reporting regime</td>
+          <td><span class="status-badge status-upcoming">Upcoming / Phased-in</span></td>
+          <td class="col-year">2025+</td>
+          <td class="col-link"><a href="https://www.canada.ca/en/environment-climate-change.html" target="_blank" rel="noopener">Government of Canada ↗</a></td>
+        </tr>
+
+        <!-- CHINA -->
+        <tr data-status="upcoming">
+          <td class="col-country">🇨🇳 China</td>
+          <td>Corporate Sustainability Disclosure Standards</td>
+          <td class="col-short">CSDS</td>
+          <td><span class="status-badge status-upcoming">Upcoming / Phased-in</span></td>
+          <td class="col-year">2026+</td>
+          <td class="col-link"><a href="https://www.mee.gov.cn" target="_blank" rel="noopener">Ministry of Ecology ↗</a></td>
+        </tr>
+
+        <!-- INDIA -->
+        <tr data-status="in-force">
+          <td class="col-country">🇮🇳 India</td>
+          <td>Business Responsibility and Sustainability Reporting</td>
+          <td class="col-short">BRSR</td>
+          <td><span class="status-badge status-in-force">In Force</span></td>
+          <td class="col-year">2023+</td>
+          <td class="col-link"><a href="https://www.sebi.gov.in" target="_blank" rel="noopener">SEBI ↗</a></td>
+        </tr>
+
+        <!-- INDONESIA -->
+        <tr data-status="in-force">
+          <td class="col-country">🇮🇩 Indonesia</td>
+          <td>Sustainability reporting requirements for listed companies</td>
+          <td class="col-short">Sustainability reporting</td>
+          <td><span class="status-badge status-in-force">In Force / Upcoming</span></td>
+          <td class="col-year">2024+</td>
+          <td class="col-link"><a href="https://www.ojk.go.id" target="_blank" rel="noopener">OJK ↗</a></td>
+        </tr>
+
+        <!-- JAPAN -->
+        <tr data-status="in-force">
+          <td class="col-country">🇯🇵 Japan</td>
+          <td>Sustainability disclosure and climate-related disclosure regime</td>
+          <td class="col-short">Climate disclosure</td>
+          <td><span class="status-badge status-in-force">In Force / Upcoming</span></td>
+          <td class="col-year">2023+</td>
+          <td class="col-link"><a href="https://www.fsa.go.jp/en/" target="_blank" rel="noopener">Japan FSA ↗</a></td>
+        </tr>
+
+        <!-- MEXICO -->
+        <tr data-status="developing">
+          <td class="col-country">🇲🇽 Mexico</td>
+          <td>ESG / sustainability disclosure requirements under securities regulation</td>
+          <td class="col-short">ESG disclosure</td>
+          <td><span class="status-badge status-developing">Developing</span></td>
+          <td class="col-year">2025+</td>
+          <td class="col-link"><a href="https://www.gob.mx/semarnat" target="_blank" rel="noopener">SEMARNAT ↗</a></td>
+        </tr>
+
+        <!-- KOREA -->
+        <tr data-status="upcoming">
+          <td class="col-country">🇰🇷 Republic of Korea</td>
+          <td>Sustainability disclosure framework for listed companies</td>
+          <td class="col-short">K-ESG</td>
+          <td><span class="status-badge status-upcoming">Upcoming / In Force</span></td>
+          <td class="col-year">2025+</td>
+          <td class="col-link"><a href="https://www.fsc.go.kr/en" target="_blank" rel="noopener">Korean FSC ↗</a></td>
+        </tr>
+
+        <!-- RUSSIA -->
+        <tr data-status="developing">
+          <td class="col-country">🇷🇺 Russia</td>
+          <td>Sustainability reporting / ESG disclosure requirements</td>
+          <td class="col-short">ESG disclosure</td>
+          <td><span class="status-badge status-developing">Developing</span></td>
+          <td class="col-year">2025+</td>
+          <td class="col-link"><a href="https://www.mnr.gov.ru" target="_blank" rel="noopener">Ministry of Natural Resources ↗</a></td>
+        </tr>
+
+        <!-- SAUDI ARABIA -->
+        <tr data-status="developing">
+          <td class="col-country">🇸🇦 Saudi Arabia</td>
+          <td>ESG disclosure and sustainability reporting guidance</td>
+          <td class="col-short">ESG disclosure</td>
+          <td><span class="status-badge status-developing">Developing</span></td>
+          <td class="col-year">2025+</td>
+          <td class="col-link"><a href="https://www.cma.org.sa/en" target="_blank" rel="noopener">Saudi CMA ↗</a></td>
+        </tr>
+
+        <!-- SOUTH AFRICA -->
+        <tr data-status="upcoming">
+          <td class="col-country">🇿🇦 South Africa</td>
+          <td>Sustainability and climate disclosure regime</td>
+          <td class="col-short">Sustainability reporting</td>
+          <td><span class="status-badge status-upcoming">Upcoming / In Force</span></td>
+          <td class="col-year">2024+</td>
+          <td class="col-link"><a href="https://www.treasury.gov.za" target="_blank" rel="noopener">National Treasury ↗</a></td>
+        </tr>
+
+        <!-- TURKEY -->
+        <tr data-status="developing">
+          <td class="col-country">🇹🇷 Turkey</td>
+          <td>Sustainability reporting requirements for listed companies</td>
+          <td class="col-short">Sustainability reporting</td>
+          <td><span class="status-badge status-developing">Developing</span></td>
+          <td class="col-year">2025+</td>
+          <td class="col-link"><a href="https://www.spk.gov.tr/en-us" target="_blank" rel="noopener">CMB Türkiye ↗</a></td>
+        </tr>
+
+        <!-- UK -->
+        <tr data-status="upcoming">
+          <td class="col-country">🇬🇧 United Kingdom</td>
+          <td>Sustainability Disclosure Requirements</td>
+          <td class="col-short">SDR</td>
+          <td><span class="status-badge status-upcoming">Upcoming / Phased-in</span></td>
+          <td class="col-year">2025+</td>
+          <td class="col-link"><a href="https://www.gov.uk/government/publications/sustainability-disclosure-requirements-implementation-update" target="_blank" rel="noopener">UK Government ↗</a></td>
+        </tr>
+
+        <!-- US -->
+        <tr data-status="upcoming">
+          <td class="col-country">🇺🇸 United States</td>
+          <td>State and federal climate disclosure regimes</td>
+          <td class="col-short">Climate disclosure</td>
+          <td><span class="status-badge status-upcoming">Upcoming / In Force (varies)</span></td>
+          <td class="col-year">2024+</td>
+          <td class="col-link"><a href="https://www.sec.gov/climate" target="_blank" rel="noopener">US SEC ↗</a></td>
+        </tr>
+
+        <!-- SUB-SECTION: US STATES -->
+
+        <!-- CALIFORNIA -->
+        <tr data-status="upcoming">
+          <td class="col-country" style="padding-left:28px;color:rgba(255,255,255,0.65)">↳ California</td>
+          <td>Climate Corporate Data Accountability Act / Climate-Related Financial Risk Act</td>
+          <td class="col-short">SB 253 / SB 261</td>
+          <td><span class="status-badge status-upcoming">Upcoming</span></td>
+          <td class="col-year">2026+</td>
+          <td class="col-link"><a href="https://ww2.arb.ca.gov/" target="_blank" rel="noopener">California ARB ↗</a></td>
+        </tr>
+
+        <!-- NEW YORK -->
+        <tr data-status="in-force">
+          <td class="col-country" style="padding-left:28px;color:rgba(255,255,255,0.65)">↳ New York</td>
+          <td>Mandatory Greenhouse Gas Reporting Program</td>
+          <td class="col-short">Part 253 / NY GHG</td>
+          <td><span class="status-badge status-in-force">In Force</span></td>
+          <td class="col-year">2026+</td>
+          <td class="col-link"><a href="https://www.dec.ny.gov/regulations/2534.html" target="_blank" rel="noopener">NYSDEC ↗</a></td>
+        </tr>
+
+        <!-- TEXAS -->
+        <tr data-status="not">
+          <td class="col-country" style="padding-left:28px;color:rgba(255,255,255,0.65)">↳ Texas</td>
+          <td>No single statewide ESG reporting regime; state-level environmental reporting requirements only</td>
+          <td class="col-short">N/A</td>
+          <td><span class="status-badge status-not">Not in Force</span></td>
+          <td class="col-year">N/A</td>
+          <td class="col-link"><a href="https://www.tceq.texas.gov" target="_blank" rel="noopener">TCEQ ↗</a></td>
+        </tr>
+
+      </tbody>
+    </table>
+  </div>
+
+  <div class="section-divider"><span class="section-divider-label">Notes</span></div>
+  <p style="font-size:0.82rem;color:rgba(255,255,255,0.45);line-height:1.8;max-width:700px">
+    Status classifications reflect the regulatory position as of June 2026. "In Force" indicates the regulation is currently operative and enforceable. "Upcoming / Phased-in" indicates a regulation that has been enacted but is being implemented in stages. "Developing" indicates frameworks under active development or consultation. All official links point to primary government or regulatory authority sources.
+  </p>
+
+</main>
+
+<footer>
+  <div class="footer-brand">Aurie's Knowledge Hub</div>
+  <div>Sustainability Reporting Regulations · Global Tracker · June 2026</div>
+  <div style="color:rgba(201,168,76,0.5)"><a href="resource-library.html" style="color:rgba(201,168,76,0.5);text-decoration:none">← Expert Library</a></div>
+</footer>
+
+<script>
+function filterTable(status, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const rows = document.querySelectorAll('#reg-table tbody tr');
+  let visible = 0;
+  rows.forEach(row => {
+    if (status === 'all' || row.dataset.status === status) {
+      row.classList.remove('row-hidden');
+      visible++;
+    } else {
+      row.classList.add('row-hidden');
+    }
+  });
+  document.getElementById('row-count').textContent = visible + ' regulation' + (visible !== 1 ? 's' : '');
+}
+</script>
+</body>
+</html>

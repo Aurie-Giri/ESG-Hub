@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="CEO Insights for Aurie's Knowledge Hub - board-ready ESG briefs on the decisions leadership teams are facing right now, from CSRD benchmarking to the cost of carbon.">
+<meta name="robots" content="index, follow">
+<meta property="og:title" content="CEO Insights - Aurie's Knowledge Hub">
+<meta property="og:description" content="Board-ready ESG briefs on the decisions leadership teams are facing right now.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Aurie's Knowledge Hub">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="CEO Insights - Aurie's Knowledge Hub">
+<meta name="twitter:description" content="Board-ready ESG briefs on the decisions leadership teams are facing right now.">
+<title>CEO Insights - Aurie's Knowledge Hub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Inter:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --green-deep:  #0e2b1a;
+  --green-mid:   #1a3d28;
+  --green-light: #234d33;
+  --green-dark:  #091f12;
+  --gold:        #c9a84c;
+  --gold-light:  #e0c07a;
+  --gold-dim:    rgba(201,168,76,0.15);
+  --white:       #ffffff;
+  --muted:       #8a9e90;
+  --border:      rgba(201,168,76,0.18);
+  --serif: 'Cormorant Garamond', Georgia, serif;
+  --sans:  'Inter', system-ui, sans-serif;
+  --mono:  'DM Mono', monospace;
+}
+
+html { scroll-behavior: smooth; }
+body {
+  background: var(--green-deep); color: var(--white);
+  font-family: var(--sans); font-weight: 300; line-height: 1.6;
+  min-height: 100vh;
+}
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: var(--green-deep); }
+::-webkit-scrollbar-thumb { background: rgba(201,168,76,0.35); border-radius: 3px; }
+
+/* ── PAGE HEADER ── */
+.page-header {
+  padding: 7rem 2.5rem 3rem;
+  background: radial-gradient(ellipse at 65% 40%, rgba(26,61,40,0.9) 0%, var(--green-deep) 65%);
+  border-bottom: 1px solid var(--border);
+}
+.page-eyebrow {
+  font-size: 0.7rem; letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 1.2rem;
+  display: flex; align-items: center; gap: 1rem;
+}
+.page-eyebrow::before { content: ''; width: 2.5rem; height: 1px; background: var(--gold); display: inline-block; }
+h1.page-title {
+  font-family: var(--serif); font-size: clamp(2.4rem, 4.5vw, 4rem);
+  font-weight: 300; line-height: 1.1; margin-bottom: 0.8rem; border: none; padding: 0;
+}
+h1.page-title em { font-style: italic; color: var(--gold); }
+.page-desc { font-size: 1rem; color: rgba(255,255,255,0.58); max-width: 640px; line-height: 1.8; margin-bottom: 0; }
+
+/* ── MAIN ── */
+main { padding: 3.5rem 2.5rem 5rem; max-width: 980px; margin: 0 auto; }
+
+.section-block { margin-bottom: 4.5rem; }
+.section-block:last-child { margin-bottom: 0; }
+
+.section-tab {
+  display: block; text-align: center; padding: 26px 28px;
+  background: rgba(201,168,76,0.05);
+  border: 1px solid var(--border); border-top: 2px solid var(--gold);
+}
+.section-tab-eyebrow {
+  font-size: 9px; letter-spacing: 0.28em; text-transform: uppercase;
+  color: var(--muted); font-family: var(--mono); margin-bottom: 8px;
+}
+.section-tab-title {
+  font-family: var(--serif); font-size: clamp(1.5rem, 2.6vw, 2.1rem);
+  font-weight: 300; color: var(--white); line-height: 1.2;
+}
+.section-tab-title em { font-style: italic; color: var(--gold); }
+.section-desc {
+  font-size: 0.88rem; color: rgba(255,255,255,0.5); line-height: 1.75;
+  max-width: 680px; margin: 16px auto 0; text-align: center;
+}
+
+/* ── BRIEF CARDS ── */
+.briefs-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 2px; background: var(--border); border: 1px solid var(--border);
+  margin-top: 28px;
+}
+.brief-card {
+  background: var(--green-mid);
+  padding: 26px 26px 22px;
+  display: flex; flex-direction: column;
+  position: relative; transition: background 0.15s;
+}
+.brief-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  opacity: 0.6; transition: opacity 0.2s;
+}
+.brief-card:hover::before { opacity: 1; }
+.brief-card:hover { background: var(--green-light); }
+
+.brief-card.c1::before { background: #93c5fd; } .brief-card.c1 .brief-title { color: #93c5fd; }
+.brief-card.c2::before { background: #f59e0b; } .brief-card.c2 .brief-title { color: #f59e0b; }
+.brief-card.c3::before { background: #e879f9; } .brief-card.c3 .brief-title { color: #e879f9; }
+.brief-card.c4::before { background: #4ade80; } .brief-card.c4 .brief-title { color: #4ade80; }
+.brief-card.c5::before { background: #fb923c; } .brief-card.c5 .brief-title { color: #fb923c; }
+
+.brief-num { font-family: var(--mono); font-size: 0.62rem; color: rgba(255,255,255,0.3); letter-spacing: 0.14em; margin-bottom: 10px; }
+.brief-title {
+  font-family: var(--serif); font-size: 1.2rem; font-weight: 400;
+  line-height: 1.3; margin-bottom: 10px;
+}
+.brief-headline {
+  font-size: 0.85rem; color: rgba(255,255,255,0.6); line-height: 1.7;
+  font-style: italic; margin-bottom: 18px; flex: 1;
+}
+.brief-actions { display: flex; flex-direction: column; gap: 8px; margin-top: auto; }
+.brief-link {
+  display: flex; align-items: center; justify-content: space-between; gap: 10px;
+  padding: 9px 14px; text-decoration: none;
+  border: 1px solid rgba(255,255,255,0.08); background: rgba(255,255,255,0.03);
+  transition: all 0.15s;
+}
+.brief-link.primary { border-color: rgba(201,168,76,0.35); background: rgba(201,168,76,0.08); }
+.brief-link.primary:hover { background: rgba(201,168,76,0.16); border-color: var(--gold); }
+.brief-link.tool:hover { background: rgba(255,255,255,0.07); border-color: rgba(255,255,255,0.25); }
+.brief-link-label {
+  font-size: 0.72rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase;
+  color: rgba(255,255,255,0.85);
+}
+.brief-link.primary .brief-link-label { color: var(--gold); }
+.brief-link-sub {
+  font-size: 0.62rem; letter-spacing: 0.06em; text-transform: uppercase;
+  color: var(--muted); font-family: var(--mono); flex-shrink: 0;
+}
+.brief-link-arrow { color: var(--muted); font-size: 0.85rem; flex-shrink: 0; }
+.brief-link:hover .brief-link-arrow { color: var(--gold); }
+
+/* ── FOOTER ── */
+footer {
+  padding: 20px 2.5rem; border-top: 1px solid var(--border);
+  display: flex; justify-content: space-between; align-items: center;
+  color: var(--muted); font-size: 0.75rem; flex-wrap: wrap; gap: 8px;
+  letter-spacing: 0.06em; background: var(--green-dark);
+}
+.footer-brand { font-family: var(--serif); font-size: 0.9rem; color: var(--gold); font-weight: 400; }
+
+@media(max-width: 800px) {
+  .nav-link { min-width: 88px; padding: 0 0.8rem; }
+  .nav-brand { padding: 0 1.2rem; font-size: 1.05rem; }
+  .page-header, main, footer { padding-left: 1.5rem; padding-right: 1.5rem; }
+  .briefs-grid { grid-template-columns: 1fr; }
+}
+@media(max-width: 560px) {
+  .nav-link-sub { display: none; }
+  .nav-link { min-width: 70px; padding: 0 0.6rem; }
+}
+
+/* ── NAV (standardised) ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; align-items: stretch;
+  background: rgba(9,31,18,0.97); backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+  height: 64px;
+}
+.nav-brand {
+  display: flex; align-items: center;
+  padding: 0 2.5rem;
+  font-family: var(--serif); font-size: 1.25rem; font-weight: 600;
+  letter-spacing: 0.04em; color: var(--white); text-decoration: none;
+  border-right: 1px solid var(--border);
+  flex-shrink: 0; transition: background 0.2s;
+}
+.nav-brand:hover { background: rgba(201,168,76,0.06); }
+.nav-brand span { color: var(--gold); }
+.nav-sections { display: flex; align-items: stretch; list-style: none; flex: 1; overflow-x: auto; }
+.nav-sections li { display: flex; }
+.nav-link {
+  display: flex; flex-direction: column; justify-content: center;
+  padding: 0 1.6rem; text-decoration: none;
+  border-right: 1px solid var(--border);
+  transition: background 0.18s; min-width: 120px;
+}
+.nav-link:hover { background: rgba(201,168,76,0.06); }
+.nav-link.active { background: var(--gold-dim); border-bottom: 2px solid var(--gold); }
+.nav-link-primary { font-size: 0.78rem; font-weight: 500; letter-spacing: 0.05em; color: rgba(255,255,255,0.88); line-height: 1.2; white-space: nowrap; }
+.nav-link-sub { font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); line-height: 1; margin-top: 3px; white-space: nowrap; }
+.nav-link:hover .nav-link-primary { color: var(--gold-light); }
+.nav-link:hover .nav-link-sub { color: rgba(201,168,76,0.6); }
+.nav-link.active .nav-link-primary { color: var(--gold); }
+.nav-link.active .nav-link-sub { color: rgba(201,168,76,0.7); }
+.nav-about {
+  display: flex; align-items: center; padding: 0 1.8rem;
+  font-size: 0.78rem; font-weight: 500; letter-spacing: 0.05em;
+  color: rgba(255,255,255,0.6); text-decoration: none;
+  margin-left: auto; transition: color 0.18s; white-space: nowrap;
+}
+.nav-about:hover { color: var(--gold); }
+@media (max-width: 768px) {
+  .nav-link { min-width: 100px; padding: 0 1rem; }
+  .nav-brand { padding: 0 1.2rem; font-size: 1.05rem; }
+}
+@media (max-width: 560px) {
+  .nav-link-sub { display: none; }
+  .nav-link { min-width: 80px; padding: 0 0.8rem; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-brand" href="index.html">Aurie's <span>Knowledge Hub</span></a>
+  <ul class="nav-sections">
+    <li>
+      <a class="nav-link active" href="ceo-insights.html">
+        <span class="nav-link-primary">CEO Insights</span>
+        <span class="nav-link-sub">For the leadership</span>
+      </a>
+    </li>
+    <li>
+      <a class="nav-link" href="tools.html">
+        <span class="nav-link-primary">Tools &amp; Templates</span>
+        <span class="nav-link-sub">For ESG teams</span>
+      </a>
+    </li>
+    <li>
+      <a class="nav-link" href="resource-library.html">
+        <span class="nav-link-primary">Resource Library</span>
+        <span class="nav-link-sub">For practitioners</span>
+      </a>
+    </li>
+    <li>
+      <a class="nav-link" href="thought-papers.html">
+        <span class="nav-link-primary">Thought Papers</span>
+        <span class="nav-link-sub">For the curious</span>
+      </a>
+    </li>
+  </ul>
+  <a class="nav-about" href="about.html">About Me</a>
+</nav>
+
+<!-- ═══ PAGE HEADER ═══ -->
+<div class="page-header">
+  <p class="page-eyebrow">CEO Insights · For the Leadership</p>
+  <h1 class="page-title">CEO Insights.</h1>
+  <p class="page-desc">Board-ready briefs on the ESG decisions leadership teams are facing right now - grounded in regulatory text, market data, and 25+ years of practice.</p>
+</div>
+
+<!-- ═══ MAIN ═══ -->
+<main>
+
+  <div class="section-block">
+    <div class="section-tab">
+      <div class="section-tab-eyebrow">Five Briefs · Updated 2026</div>
+      <div class="section-tab-title">CEO <em>Briefs</em></div>
+    </div>
+    <p class="section-desc">Each brief distills one board-level ESG question into an executive headline, the underlying data, and - where one exists - a tool to act on it.</p>
+
+    <div class="briefs-grid">
+
+      <div class="brief-card c1">
+        <div class="brief-num">Brief 01 · Reporting</div>
+        <div class="brief-title">CSRD Benchmarking: Danish Global Brands</div>
+        <div class="brief-headline">Ten Danish global companies' first mandatory CSRD statements average 4.0 out of 5 - but the 1.6-point spread between best and worst is already visible to investors.</div>
+        <div class="brief-actions">
+          <a class="brief-link primary" href="ceo-insights-csrd-benchmarking.html">
+            <span class="brief-link-label">Read the Brief</span>
+            <span class="brief-link-arrow">→</span>
+          </a>
+          <a class="brief-link tool" href="tools-csrd-reporting.html">
+            <span class="brief-link-label">CSRD Reporting Tool</span>
+            <span class="brief-link-sub">Related tool</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="brief-card c2">
+        <div class="brief-num">Brief 02 · Regulation</div>
+        <div class="brief-title">EU CSRD Omnibus Simplification</div>
+        <div class="brief-headline">The Omnibus proposal cuts mandatory CSRD datapoints by 61% - but not the disclosure obligation, the assurance requirement, or the CSDDD due diligence underneath it.</div>
+        <div class="brief-actions">
+          <a class="brief-link primary" href="ceo-insights-omnibus-assessment.html">
+            <span class="brief-link-label">Read the Brief</span>
+            <span class="brief-link-arrow">→</span>
+          </a>
+          <a class="brief-link tool" href="tools-csddd.html">
+            <span class="brief-link-label">CSDDD Readiness Tool</span>
+            <span class="brief-link-sub">Related tool</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="brief-card c3">
+        <div class="brief-num">Brief 03 · Carbon</div>
+        <div class="brief-title">Corporate Decarbonisation and the Cost of Carbon</div>
+        <div class="brief-headline">Carbon costs are already in your cost base. As EUA prices move toward €145 by 2030 and €200 by 2035, most companies still haven't quantified their exposure.</div>
+        <div class="brief-actions">
+          <a class="brief-link primary" href="ceo-insights-cost-of-carbon.html">
+            <span class="brief-link-label">Read the Brief</span>
+            <span class="brief-link-arrow">→</span>
+          </a>
+          <a class="brief-link tool" href="tools-hidden-cost-of-carbon.html">
+            <span class="brief-link-label">Carbon Cost Exposure Tool</span>
+            <span class="brief-link-sub">Related tool</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="brief-card c4">
+        <div class="brief-num">Brief 04 · Regulation</div>
+        <div class="brief-title">EU ESG Regulation Landscape</div>
+        <div class="brief-headline">60 EU ESG regulations mapped across 8 policy areas - 51 already in force, 57% rated high implementation effort. The direction is set.</div>
+        <div class="brief-actions">
+          <a class="brief-link primary" href="ceo-insights-esg-regulations.html">
+            <span class="brief-link-label">Read the Brief</span>
+            <span class="brief-link-arrow">→</span>
+          </a>
+          <a class="brief-link tool" href="tools-eu-regulation-navigator.html">
+            <span class="brief-link-label">EU ESG Regulation Navigator</span>
+            <span class="brief-link-sub">Related tool</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="brief-card c5">
+        <div class="brief-num">Brief 05 · Reporting</div>
+        <div class="brief-title">Compliance-Led ESG Reporting: A Global Perspective</div>
+        <div class="brief-headline">20 jurisdictions analysed across the G20 - ESG reporting is now mandatory or phasing in everywhere, with ISSB emerging as the de facto global baseline.</div>
+        <div class="brief-actions">
+          <a class="brief-link primary" href="ceo-insights-global-esg-reporting.html">
+            <span class="brief-link-label">Read the Brief</span>
+            <span class="brief-link-arrow">→</span>
+          </a>
+          <a class="brief-link tool" href="tools-vsme-reporting.html">
+            <span class="brief-link-label">VSME Reporting Tool</span>
+            <span class="brief-link-sub">Related tool</span>
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  <div class="footer-brand">Aurie's Knowledge Hub</div>
+  <div>CEO Insights · Board Briefs · Updated 2026</div>
+  <div style="color:rgba(201,168,76,0.5)"><a href="index.html" style="color:rgba(201,168,76,0.5);text-decoration:none">← Home</a></div>
+</footer>
+
+</body>
+</html>

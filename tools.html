@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Tools & Templates for ESG teams - nine interactive calculators and structured tools, from GHG accounting to double materiality, CSRD reporting, and strategic foresight.">
+<meta name="robots" content="index, follow">
+<meta property="og:title" content="Tools & Templates - Aurie's Knowledge Hub">
+<meta property="og:description" content="Nine interactive tools and templates for ESG teams putting strategy into everyday practice.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Aurie's Knowledge Hub">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Tools & Templates - Aurie's Knowledge Hub">
+<meta name="twitter:description" content="Nine interactive tools and templates for ESG teams putting strategy into everyday practice.">
+<title>Tools &amp; Templates - Aurie's Knowledge Hub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Inter:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --green-deep:  #0e2b1a;
+  --green-mid:   #1a3d28;
+  --green-light: #234d33;
+  --green-dark:  #091f12;
+  --gold:        #c9a84c;
+  --gold-light:  #e0c07a;
+  --gold-dim:    rgba(201,168,76,0.15);
+  --white:       #ffffff;
+  --muted:       #8a9e90;
+  --border:      rgba(201,168,76,0.18);
+  --serif: 'Cormorant Garamond', Georgia, serif;
+  --sans:  'Inter', system-ui, sans-serif;
+  --mono:  'DM Mono', monospace;
+}
+
+html { scroll-behavior: smooth; }
+body {
+  background: var(--green-deep); color: var(--white);
+  font-family: var(--sans); font-weight: 300; line-height: 1.6;
+  min-height: 100vh;
+}
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: var(--green-deep); }
+::-webkit-scrollbar-thumb { background: rgba(201,168,76,0.35); border-radius: 3px; }
+
+/* ── PAGE HEADER ── */
+.page-header {
+  padding: 7rem 2.5rem 3rem;
+  background: radial-gradient(ellipse at 65% 40%, rgba(26,61,40,0.9) 0%, var(--green-deep) 65%);
+  border-bottom: 1px solid var(--border);
+}
+.page-eyebrow {
+  font-size: 0.7rem; letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 1.2rem;
+  display: flex; align-items: center; gap: 1rem;
+}
+.page-eyebrow::before { content: ''; width: 2.5rem; height: 1px; background: var(--gold); display: inline-block; }
+h1.page-title {
+  font-family: var(--serif); font-size: clamp(2.4rem, 4.5vw, 4rem);
+  font-weight: 300; line-height: 1.1; margin-bottom: 0.8rem; border: none; padding: 0;
+}
+h1.page-title em { font-style: italic; color: var(--gold); }
+.page-desc { font-size: 1rem; color: rgba(255,255,255,0.58); max-width: 640px; line-height: 1.8; margin-bottom: 0; }
+
+/* ── MAIN ── */
+main { padding: 3.5rem 2.5rem 5rem; max-width: 980px; margin: 0 auto; }
+
+.section-block { margin-bottom: 4.5rem; }
+.section-block:last-child { margin-bottom: 0; }
+
+.section-tab {
+  display: block; text-align: center; padding: 26px 28px;
+  background: rgba(201,168,76,0.05);
+  border: 1px solid var(--border); border-top: 2px solid var(--gold);
+}
+.section-tab-eyebrow {
+  font-size: 9px; letter-spacing: 0.28em; text-transform: uppercase;
+  color: var(--muted); font-family: var(--mono); margin-bottom: 8px;
+}
+.section-tab-title {
+  font-family: var(--serif); font-size: clamp(1.5rem, 2.6vw, 2.1rem);
+  font-weight: 300; color: var(--white); line-height: 1.2;
+}
+.section-tab-title em { font-style: italic; color: var(--gold); }
+.section-desc {
+  font-size: 0.88rem; color: rgba(255,255,255,0.5); line-height: 1.75;
+  max-width: 680px; margin: 16px auto 0; text-align: center;
+}
+
+/* ── TOOL-TAB GRID ── */
+.tool-tabs-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 2px; background: var(--border); border: 1px solid var(--border);
+  margin-top: 28px;
+}
+.tool-tab {
+  background: var(--green-mid); padding: 20px 22px;
+  display: block; text-decoration: none; position: relative;
+  transition: background 0.15s;
+}
+.tool-tab:hover { background: var(--green-light); }
+.tool-tab::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  opacity: 0.6; transition: opacity 0.2s;
+}
+.tool-tab:hover::before { opacity: 1; }
+
+.tool-tab-meta { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+.tool-tab-num { font-family: var(--mono); font-size: 0.62rem; color: rgba(255,255,255,0.25); letter-spacing: 0.1em; }
+.tool-tab-status {
+  font-size: 0.62rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase;
+  padding: 2px 7px; border-radius: 2px;
+  background: rgba(74,222,128,0.12); color: #4ade80; border: 1px solid rgba(74,222,128,0.25);
+}
+.tool-tab-title {
+  font-family: var(--serif); font-size: 1.1rem; font-weight: 400; color: var(--white);
+  line-height: 1.3; margin-bottom: 8px;
+}
+.tool-tab-desc { font-size: 0.8rem; color: rgba(255,255,255,0.45); line-height: 1.6; }
+.tool-tab-cta {
+  display: inline-block; margin-top: 12px; font-size: 0.68rem; font-weight: 500;
+  letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold);
+}
+.tool-tab:hover .tool-tab-cta { color: var(--gold-light); }
+
+/* Distinct colour per tool */
+.tool-tab.c1::before { background: #60a5fa; } .tool-tab.c1 .tool-tab-title { color: #cfe4ff; }
+.tool-tab.c2::before { background: #f59e0b; } .tool-tab.c2 .tool-tab-title { color: #ffe4b8; }
+.tool-tab.c3::before { background: #e879f9; } .tool-tab.c3 .tool-tab-title { color: #fbd7fd; }
+.tool-tab.c4::before { background: #4ade80; } .tool-tab.c4 .tool-tab-title { color: #d3f8df; }
+.tool-tab.c5::before { background: #fb923c; } .tool-tab.c5 .tool-tab-title { color: #ffdcbd; }
+.tool-tab.c6::before { background: #2dd4bf; } .tool-tab.c6 .tool-tab-title { color: #c6f5ee; }
+.tool-tab.c7::before { background: #a78bfa; } .tool-tab.c7 .tool-tab-title { color: #e4d9ff; }
+.tool-tab.c8::before { background: #f87171; } .tool-tab.c8 .tool-tab-title { color: #ffd9d9; }
+.tool-tab.c9::before { background: #fbbf24; } .tool-tab.c9 .tool-tab-title { color: #fff3c4; }
+
+/* ── FOOTER ── */
+footer {
+  padding: 20px 2.5rem; border-top: 1px solid var(--border);
+  display: flex; justify-content: space-between; align-items: center;
+  color: var(--muted); font-size: 0.75rem; flex-wrap: wrap; gap: 8px;
+  letter-spacing: 0.06em; background: var(--green-dark);
+}
+.footer-brand { font-family: var(--serif); font-size: 0.9rem; color: var(--gold); font-weight: 400; }
+
+@media(max-width: 900px) {
+  .tool-tabs-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media(max-width: 800px) {
+  .nav-link { min-width: 88px; padding: 0 0.8rem; }
+  .nav-brand { padding: 0 1.2rem; font-size: 1.05rem; }
+  .page-header, main, footer { padding-left: 1.5rem; padding-right: 1.5rem; }
+}
+@media(max-width: 560px) {
+  .nav-link-sub { display: none; }
+  .nav-link { min-width: 70px; padding: 0 0.6rem; }
+  .tool-tabs-grid { grid-template-columns: 1fr; }
+}
+
+/* ── NAV (standardised) ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; align-items: stretch;
+  background: rgba(9,31,18,0.97); backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+  height: 64px;
+}
+.nav-brand {
+  display: flex; align-items: center;
+  padding: 0 2.5rem;
+  font-family: var(--serif); font-size: 1.25rem; font-weight: 600;
+  letter-spacing: 0.04em; color: var(--white); text-decoration: none;
+  border-right: 1px solid var(--border);
+  flex-shrink: 0; transition: background 0.2s;
+}
+.nav-brand:hover { background: rgba(201,168,76,0.06); }
+.nav-brand span { color: var(--gold); }
+.nav-sections { display: flex; align-items: stretch; list-style: none; flex: 1; overflow-x: auto; }
+.nav-sections li { display: flex; }
+.nav-link {
+  display: flex; flex-direction: column; justify-content: center;
+  padding: 0 1.6rem; text-decoration: none;
+  border-right: 1px solid var(--border);
+  transition: background 0.18s; min-width: 120px;
+}
+.nav-link:hover { background: rgba(201,168,76,0.06); }
+.nav-link.active { background: var(--gold-dim); border-bottom: 2px solid var(--gold); }
+.nav-link-primary { font-size: 0.78rem; font-weight: 500; letter-spacing: 0.05em; color: rgba(255,255,255,0.88); line-height: 1.2; white-space: nowrap; }
+.nav-link-sub { font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); line-height: 1; margin-top: 3px; white-space: nowrap; }
+.nav-link:hover .nav-link-primary { color: var(--gold-light); }
+.nav-link:hover .nav-link-sub { color: rgba(201,168,76,0.6); }
+.nav-link.active .nav-link-primary { color: var(--gold); }
+.nav-link.active .nav-link-sub { color: rgba(201,168,76,0.7); }
+.nav-about {
+  display: flex; align-items: center; padding: 0 1.8rem;
+  font-size: 0.78rem; font-weight: 500; letter-spacing: 0.05em;
+  color: rgba(255,255,255,0.6); text-decoration: none;
+  margin-left: auto; transition: color 0.18s; white-space: nowrap;
+}
+.nav-about:hover { color: var(--gold); }
+@media (max-width: 768px) {
+  .nav-link { min-width: 100px; padding: 0 1rem; }
+  .nav-brand { padding: 0 1.2rem; font-size: 1.05rem; }
+}
+@media (max-width: 560px) {
+  .nav-link-sub { display: none; }
+  .nav-link { min-width: 80px; padding: 0 0.8rem; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-brand" href="index.html">Aurie's <span>Knowledge Hub</span></a>
+  <ul class="nav-sections">
+    <li>
+      <a class="nav-link" href="ceo-insights.html">
+        <span class="nav-link-primary">CEO Insights</span>
+        <span class="nav-link-sub">For the leadership</span>
+      </a>
+    </li>
+    <li>
+      <a class="nav-link active" href="tools.html">
+        <span class="nav-link-primary">Tools &amp; Templates</span>
+        <span class="nav-link-sub">For ESG teams</span>
+      </a>
+    </li>
+    <li>
+      <a class="nav-link" href="resource-library.html">
+        <span class="nav-link-primary">Resource Library</span>
+        <span class="nav-link-sub">For practitioners</span>
+      </a>
+    </li>
+    <li>
+      <a class="nav-link" href="thought-papers.html">
+        <span class="nav-link-primary">Thought Papers</span>
+        <span class="nav-link-sub">For the curious</span>
+      </a>
+    </li>
+  </ul>
+  <a class="nav-about" href="about.html">About Me</a>
+</nav>
+
+<!-- ═══ PAGE HEADER ═══ -->
+<div class="page-header">
+  <p class="page-eyebrow">Tools &amp; Templates · For ESG Teams</p>
+  <h1 class="page-title">Tools &amp; Templates.</h1>
+  <p class="page-desc">Interactive calculators and structured tools built to standard - for putting ESG strategy into everyday practice. Every tool runs fully offline; nothing leaves your browser.</p>
+</div>
+
+<!-- ═══ MAIN ═══ -->
+<main>
+
+  <div class="section-block">
+    <div class="section-tab">
+      <div class="section-tab-eyebrow">Nine Tools · Updated 2026</div>
+      <div class="section-tab-title">Tools <em>and</em> Templates</div>
+    </div>
+    <p class="section-desc">From GHG accounting to double materiality, CSRD reporting, and strategic foresight - each tool is self-contained, works offline, and saves locally in your browser.</p>
+
+    <div class="tool-tabs-grid">
+
+      <a class="tool-tab c1" href="tools-ghg-calculator.html">
+        <div class="tool-tab-meta"><span class="tool-tab-num">01</span><span class="tool-tab-status">Available</span></div>
+        <div class="tool-tab-title">GHG Emissions Calculator</div>
+        <div class="tool-tab-desc">A multi-year, multi-facility GHG inventory tool aligned to the GHG Protocol, SBTi, and ISO 14064 - with full calculation lineage and local save/load.</div>
+        <div class="tool-tab-cta">Open Tool →</div>
+      </a>
+
+      <a class="tool-tab c2" href="tools-csrd-reporting.html">
+        <div class="tool-tab-meta"><span class="tool-tab-num">02</span><span class="tool-tab-status">Available</span></div>
+        <div class="tool-tab-title">CSRD Reporting Tool - Post-Omnibus</div>
+        <div class="tool-tab-desc">Structured reporting across all 325 datapoint clusters and 11 ESRS standards - materiality gating, progress dashboard, and audit trail export.</div>
+        <div class="tool-tab-cta">Open Tool →</div>
+      </a>
+
+      <a class="tool-tab c3" href="tools-csddd.html">
+        <div class="tool-tab-meta"><span class="tool-tab-num">03</span><span class="tool-tab-status">Available</span></div>
+        <div class="tool-tab-title">CSDDD Readiness Tool</div>
+        <div class="tool-tab-desc">A scope checker, risk scoring model, supplier register, action tracker, and transition plan navigator for the Corporate Sustainability Due Diligence Directive.</div>
+        <div class="tool-tab-cta">Open Tool →</div>
+      </a>
+
+      <a class="tool-tab c4" href="tools-decarbonisation.html">
+        <div class="tool-tab-meta"><span class="tool-tab-num">04</span><span class="tool-tab-status">Available</span></div>
+        <div class="tool-tab-title">Decarbonisation Decision Tool</div>
+        <div class="tool-tab-desc">Compares decarbonisation pathways on more than cost alone - keeping the mitigation hierarchy in view instead of just ranking by cheapest credit.</div>
+        <div class="tool-tab-cta">Open Tool →</div>
+      </a>
+
+      <a class="tool-tab c5" href="tools-hidden-cost-of-carbon.html">
+        <div class="tool-tab-meta"><span class="tool-tab-num">05</span><span class="tool-tab-status">Available</span></div>
+        <div class="tool-tab-title">Carbon Cost Exposure Tool</div>
+        <div class="tool-tab-desc">Surfaces the carbon cost already hidden in your P&amp;L - a three-layer exposure calculator covering EU ETS, national carbon tax, and CBAM.</div>
+        <div class="tool-tab-cta">Open Tool →</div>
+      </a>
+
+      <a class="tool-tab c6" href="tools-eu-regulation-navigator.html">
+        <div class="tool-tab-meta"><span class="tool-tab-num">06</span><span class="tool-tab-status">Available</span></div>
+        <div class="tool-tab-title">EU ESG Regulation Navigator</div>
+        <div class="tool-tab-desc">Maps liability versus effort across 60 EU ESG laws - filter by industry and print a compliance shortlist.</div>
+        <div class="tool-tab-cta">Open Tool →</div>
+      </a>
+
+      <a class="tool-tab c7" href="tools-materiality.html">
+        <div class="tool-tab-meta"><span class="tool-tab-num">07</span><span class="tool-tab-status">Available</span></div>
+        <div class="tool-tab-title">Double Materiality Assessment Tool</div>
+        <div class="tool-tab-desc">A three-stage tool aligned to post-Omnibus ESRS - identifies material topics, scores impact and financial materiality, and drafts board-ready narrative.</div>
+        <div class="tool-tab-cta">Open Tool →</div>
+      </a>
+
+      <a class="tool-tab c8" href="tools-vsme-reporting.html">
+        <div class="tool-tab-meta"><span class="tool-tab-num">08</span><span class="tool-tab-status">Available</span></div>
+        <div class="tool-tab-title">VSME Reporting Tool</div>
+        <div class="tool-tab-desc">Offline tool for the Voluntary Sustainability Reporting Standard - Basic and Comprehensive Module disclosures, with shadow report generation.</div>
+        <div class="tool-tab-cta">Open Tool →</div>
+      </a>
+
+      <a class="tool-tab c9" href="tools-foresight.html">
+        <div class="tool-tab-meta"><span class="tool-tab-num">09</span><span class="tool-tab-status">Available</span></div>
+        <div class="tool-tab-title">ESG Foresight Tool</div>
+        <div class="tool-tab-desc">A five-stage structured foresight process - scan signals, build scenarios, stress-test strategy, and produce a board-ready Foresight Brief.</div>
+        <div class="tool-tab-cta">Open Tool →</div>
+      </a>
+
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  <div class="footer-brand">Aurie's Knowledge Hub</div>
+  <div>Tools &amp; Templates · Nine Tools · Updated 2026</div>
+  <div style="color:rgba(201,168,76,0.5)"><a href="index.html" style="color:rgba(201,168,76,0.5);text-decoration:none">← Home</a></div>
+</footer>
+
+</body>
+</html>

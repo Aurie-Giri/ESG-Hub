@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Implementation profiles for core and supporting ISO standards relevant to ESG - what each one is, why it matters, and how to implement it.">
+<title>ISO Standard Profiles &#8212; Aurie&#39;s Knowledge Hub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Inter:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --green-deep:#0e2b1a;--green-mid:#1a3d28;--green-light:#234d33;
+  --gold:#c9a84c;--gold-light:#e0c07a;--gold-dim:rgba(201,168,76,0.15);
+  --white:#ffffff;--muted:#8a9e90;--border:rgba(201,168,76,0.18);
+  --serif:'Cormorant Garamond',Georgia,serif;
+  --sans:'Inter',system-ui,sans-serif;
+  --mono:'DM Mono',monospace;
+}
+html{scroll-behavior:smooth}
+body{background:var(--green-deep);color:var(--white);font-family:var(--sans);font-weight:300;line-height:1.6;min-height:100vh}
+::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:var(--green-deep)}::-webkit-scrollbar-thumb{background:rgba(201,168,76,0.35);border-radius:3px}
+
+.page-header{padding:7rem 2.5rem 3rem;background:radial-gradient(ellipse at 65% 40%,rgba(26,61,40,0.9) 0%,var(--green-deep) 65%);border-bottom:1px solid var(--border)}
+.page-eyebrow{font-size:0.7rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--gold);margin-bottom:1.2rem;display:flex;align-items:center;gap:1rem}
+.page-eyebrow::before{content:'';width:2.5rem;height:1px;background:var(--gold);display:inline-block}
+h1.page-title{font-family:var(--serif);font-size:clamp(2.2rem,4vw,3.6rem);font-weight:300;line-height:1.1;margin-bottom:0.8rem;border:none;padding:0}
+h1.page-title em{font-style:italic;color:var(--gold)}
+.page-desc{font-size:0.9rem;color:rgba(255,255,255,0.55);max-width:640px;line-height:1.75;margin-bottom:1.8rem}
+.header-meta{display:flex;gap:10px;flex-wrap:wrap}
+.meta-badge{padding:4px 14px;font-size:10px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;font-family:var(--sans)}
+.jump-nav{position:sticky;top:63px;z-index:80;background:var(--green-mid);border-bottom:1px solid var(--border);padding:10px 2.5rem;display:flex;gap:5px;flex-wrap:wrap;align-items:center}
+.jump-label{font-size:9px;letter-spacing:0.16em;text-transform:uppercase;color:var(--muted);flex-shrink:0;margin-right:2px}
+.jump-btn{padding:3px 10px;font-size:9.5px;font-family:var(--mono);background:transparent;border:1px solid rgba(201,168,76,0.2);color:rgba(255,255,255,0.5);cursor:pointer;transition:all 0.15s;white-space:nowrap;text-decoration:none;letter-spacing:0.04em}
+.jump-btn:hover{border-color:var(--gold);color:var(--gold-light);background:var(--gold-dim)}
+.jump-sep{width:1px;height:18px;background:var(--border);flex-shrink:0;margin:0 6px}
+main{padding:2.5rem 2.5rem 2rem}
+.section-block{margin-bottom:3rem}
+.section-header{display:flex;align-items:baseline;gap:14px;padding:14px 0 10px;border-top:2px solid var(--gold);margin-bottom:1.5rem}
+.section-num{font-family:var(--serif);font-size:2.8rem;font-weight:300;line-height:1;color:var(--gold);opacity:0.5;flex-shrink:0}
+.section-title-block{flex:1}
+.section-label{font-family:var(--serif);font-size:1.4rem;font-weight:300;color:var(--white);margin-bottom:3px}
+.section-desc{font-size:11px;color:var(--muted);font-style:italic;line-height:1.5}
+.section-count{font-family:var(--mono);font-size:10px;color:var(--muted);align-self:center;flex-shrink:0}
+.cards-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:2px;background:var(--border);border:1px solid var(--border)}
+.iso-card{background:var(--green-mid);display:flex;flex-direction:column;transition:background 0.15s}
+.iso-card:hover{background:var(--green-light)}
+.card-top{padding:20px 22px 14px;border-bottom:1px solid rgba(201,168,76,0.1)}
+.card-iso{font-family:var(--mono);font-size:11px;letter-spacing:0.08em;margin-bottom:5px;font-weight:500}
+.card-name{font-family:var(--serif);font-size:1.25rem;font-weight:300;color:var(--white);line-height:1.25}
+.card-body{padding:16px 22px;flex:1;display:flex;flex-direction:column;gap:10px}
+.card-row{display:grid;grid-template-columns:52px 1fr;gap:0 10px;align-items:start}
+.card-label{font-size:8.5px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;font-family:var(--sans);padding-top:2px}
+.card-text{font-size:12px;color:rgba(255,255,255,0.68);line-height:1.6}
+.card-footer{padding:14px 22px;display:flex;flex-direction:column;gap:8px}
+.card-advice,.card-next{display:flex;flex-direction:column;gap:3px}
+.advice-label,.next-label{font-size:8px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;font-family:var(--sans)}
+.advice-text{font-size:12px;color:rgba(255,255,255,0.8);font-style:italic;font-family:var(--serif);line-height:1.5}
+.next-text{font-size:11.5px;color:rgba(255,255,255,0.65);line-height:1.5}
+footer{padding:20px 2.5rem;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;color:var(--muted);font-size:10px;flex-wrap:wrap;gap:8px;letter-spacing:0.06em;margin-top:2rem}
+.footer-brand{font-family:var(--serif);font-size:13px;color:var(--gold);font-weight:400}
+@media(max-width:1000px){.cards-grid{grid-template-columns:1fr}}
+@media(max-width:800px){
+  nav{padding:1rem 1.5rem}.page-header,main,footer,.jump-nav{padding-left:1.5rem;padding-right:1.5rem}
+}
+
+/* ── NAV (standardised) ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; align-items: stretch;
+  background: rgba(9,31,18,0.97); backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+  height: 64px;
+}
+.nav-brand {
+  display: flex; align-items: center;
+  padding: 0 2.5rem;
+  font-family: var(--serif); font-size: 1.25rem; font-weight: 600;
+  letter-spacing: 0.04em; color: var(--white); text-decoration: none;
+  border-right: 1px solid var(--border);
+  flex-shrink: 0; transition: background 0.2s;
+}
+.nav-brand:hover { background: rgba(201,168,76,0.06); }
+.nav-brand span { color: var(--gold); }
+.nav-sections { display: flex; align-items: stretch; list-style: none; flex: 1; overflow-x: auto; }
+.nav-sections li { display: flex; }
+.nav-link {
+  display: flex; flex-direction: column; justify-content: center;
+  padding: 0 1.6rem; text-decoration: none;
+  border-right: 1px solid var(--border);
+  transition: background 0.18s; min-width: 120px;
+}
+.nav-link:hover { background: rgba(201,168,76,0.06); }
+.nav-link.active { background: var(--gold-dim); border-bottom: 2px solid var(--gold); }
+.nav-link-primary { font-size: 0.78rem; font-weight: 500; letter-spacing: 0.05em; color: rgba(255,255,255,0.88); line-height: 1.2; white-space: nowrap; }
+.nav-link-sub { font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); line-height: 1; margin-top: 3px; white-space: nowrap; }
+.nav-link:hover .nav-link-primary { color: var(--gold-light); }
+.nav-link:hover .nav-link-sub { color: rgba(201,168,76,0.6); }
+.nav-link.active .nav-link-primary { color: var(--gold); }
+.nav-link.active .nav-link-sub { color: rgba(201,168,76,0.7); }
+.nav-about {
+  display: flex; align-items: center; padding: 0 1.8rem;
+  font-size: 0.78rem; font-weight: 500; letter-spacing: 0.05em;
+  color: rgba(255,255,255,0.6); text-decoration: none;
+  margin-left: auto; transition: color 0.18s; white-space: nowrap;
+}
+.nav-about:hover { color: var(--gold); }
+@media (max-width: 768px) {
+  .nav-link { min-width: 100px; padding: 0 1rem; }
+  .nav-brand { padding: 0 1.2rem; font-size: 1.05rem; }
+}
+@media (max-width: 560px) {
+  .nav-link-sub { display: none; }
+  .nav-link { min-width: 80px; padding: 0 0.8rem; }
+}
+</style>
+</head>
+<body>
+<nav>
+  <a class="nav-brand" href="index.html">Aurie's <span>Knowledge Hub</span></a>
+  <ul class="nav-sections">
+    <li>
+      <a class="nav-link" href="ceo-insights.html">
+        <span class="nav-link-primary">CEO Insights</span>
+        <span class="nav-link-sub">For the leadership</span>
+      </a>
+    </li>
+    <li>
+      <a class="nav-link" href="tools.html">
+        <span class="nav-link-primary">Tools &amp; Templates</span>
+        <span class="nav-link-sub">For ESG teams</span>
+      </a>
+    </li>
+    <li>
+      <a class="nav-link active" href="resource-library.html">
+        <span class="nav-link-primary">Resource Library</span>
+        <span class="nav-link-sub">For practitioners</span>
+      </a>
+    </li>
+    <li>
+      <a class="nav-link" href="thought-papers.html">
+        <span class="nav-link-primary">Thought Papers</span>
+        <span class="nav-link-sub">For the curious</span>
+      </a>
+    </li>
+  </ul>
+  <a class="nav-about" href="about.html">About Me</a>
+</nav>
+<div class="page-header">
+  <p class="page-eyebrow">ISO Standard Profiles &#183; Categories 2 &amp; 3 &#183; Implementation Guidance</p>
+  <h1 class="page-title">ISO Standards &#8212; <em>Practical Profiles</em></h1>
+  <p class="page-desc">Implementation profiles for the Core ESG Standards (Category 2) and Supporting Compliance Standards (Category 3). Each card covers what the standard is, why it matters, when to apply it, how to implement it, and the immediate next step.</p>
+  <div class="header-meta">
+    <span class="meta-badge" style="background:rgba(74,222,128,0.1);border:1px solid rgba(74,222,128,0.25);color:#4ade80;">10 Core ESG Standards</span>
+    <span class="meta-badge" style="background:rgba(147,197,253,0.1);border:1px solid rgba(147,197,253,0.25);color:#93c5fd;">8 Supporting Standards</span>
+    <span class="meta-badge" style="background:var(--gold-dim);border:1px solid rgba(201,168,76,0.4);color:var(--gold);">Source: iso.org</span>
+  </div>
+</div>
+<div class="jump-nav">
+  <span class="jump-label">Cat. 2:</span><a class="jump-btn" href="#card-2-1">ISO 14001</a><a class="jump-btn" href="#card-2-2">ISO 50001</a><a class="jump-btn" href="#card-2-3">ISO 14064-1</a><a class="jump-btn" href="#card-2-4">ISO 14067</a><a class="jump-btn" href="#card-2-5">ISO 20400</a><a class="jump-btn" href="#card-2-6">ISO 37301</a><a class="jump-btn" href="#card-2-7">ISO 27001</a><a class="jump-btn" href="#card-2-8">ISO 31000</a><a class="jump-btn" href="#card-2-9">ISO 45001</a><a class="jump-btn" href="#card-2-10">ISO 14006</a>
+  <div class="jump-sep"></div>
+  <span class="jump-label">Cat. 3:</span><a class="jump-btn" href="#card-3-1">ISO 14004</a><a class="jump-btn" href="#card-3-2">ISO 14005</a><a class="jump-btn" href="#card-3-3">ISO 14008</a><a class="jump-btn" href="#card-3-4">ISO 14020</a><a class="jump-btn" href="#card-3-5">ISO 14031</a><a class="jump-btn" href="#card-3-6">ISO 14040</a><a class="jump-btn" href="#card-3-7">ISO 14046</a><a class="jump-btn" href="#card-3-8">ISO 14064-2</a>
+</div>
+<main>
+<div class="section-block">
+  <div class="section-header">
+    <div class="section-num">2</div>
+    <div class="section-title-block">
+      <div class="section-label">Core ESG Standards</div>
+      <div class="section-desc">Directly support sustainability execution and compliance readiness.</div>
+    </div>
+    <div class="section-count">10 standards</div>
+  </div>
+  <div class="cards-grid"><div class="iso-card" id="card-2-1"><div class="card-top"><div class="card-iso" style="color:#4ade80">ISO 14001:2015</div><div class="card-name">Environmental Management</div></div><div class="card-body"><div class="card-row"><div class="card-label" style="color:#4ade80">What</div><div class="card-text">Environmental management system requirements; certifiable standard.</div></div><div class="card-row"><div class="card-label" style="color:#4ade80">Why</div><div class="card-text">Helps control environmental risks, support compliance, and create structured ESG data.</div></div><div class="card-row"><div class="card-label" style="color:#4ade80">When</div><div class="card-text">Use when environmental impacts, legal obligations, or site-level controls matter.</div></div><div class="card-row"><div class="card-label" style="color:#4ade80">How</div><div class="card-text">Define scope, identify environmental aspects, set objectives, implement controls, monitor performance, review improvement.</div></div></div><div class="card-footer" style="background:rgba(74,222,128,0.12);border-top:1px solid rgba(74,222,128,0.25)"><div class="card-advice"><span class="advice-label" style="color:#4ade80">Leadership advice</span><span class="advice-text">Treat environmental performance as a managed operating system, not a reporting task.</span></div><div class="card-next"><span class="next-label" style="color:#4ade80">Next step &#8594;</span><span class="next-text">Run a gap assessment against current environmental controls and evidence.</span></div></div></div>
+<div class="iso-card" id="card-2-2"><div class="card-top"><div class="card-iso" style="color:#4ade80">ISO 50001:2018</div><div class="card-name">Energy Management</div></div><div class="card-body"><div class="card-row"><div class="card-label" style="color:#4ade80">What</div><div class="card-text">Energy management system requirements; certifiable standard.</div></div><div class="card-row"><div class="card-label" style="color:#4ade80">Why</div><div class="card-text">Reduces energy cost, improves efficiency, and supports decarbonization evidence.</div></div><div class="card-row"><div class="card-label" style="color:#4ade80">When</div><div class="card-text">Use when energy is a material cost or emissions driver.</div></div><div class="card-row"><div class="card-label" style="color:#4ade80">How</div><div class="card-text">Establish energy baseline, define EnPIs, identify significant energy uses, implement action plans, track and improve.</div></div></div><div class="card-footer" style="background:rgba(74,222,128,0.12);border-top:1px solid rgba(74,222,128,0.25)"><div class="card-advice"><span class="advice-label" style="color:#4ade80">Leadership advice</span><span class="advice-text">Energy efficiency should be managed like a business performance metric.</span></div><div class="card-next"><span class="next-label" style="color:#4ade80">Next step &#8594;</span><span class="next-text">Identify the top three energy-consuming processes or sites.</span></div></div></div>
+<div class="iso-card" id="card-2-3"><div class="card-top"><div class="card-iso" style="color:#4ade80">ISO 14064-1:2018</div><div class="card-name">Organizational GHG Accounting</div></div><div class="card-body"><div class="card-row"><div class="card-label" style="color:#4ade80">What</div><div class="card-text">Requirements and guidance for organizational GHG quantification; can be used as a verifiable inventory framework.</div></div><div class="card-row"><div class="card-label" style="color:#4ade80">Why</div><div class="card-text">Supports CSRD climate data, CBAM-related emissions control, and audit-ready carbon reporting.</div></div><div class="card-row"><div class="card-label" style="color:#4ade80">When</div><div class="card-text">Use when the company reports Scope 1, 2, and relevant Scope 3 emissions.</div></div><div class="card-row"><div class="card-label" style="color:#4ade80">How</div><div class="card-text">Set organizational boundaries, collect emissions data, apply calculation methods, document assumptions, review quality.</div></div></div><div class="card-footer" style="background:rgba(74,222,128,0.12);border-top:1px solid rgba(74,222,128,0.25)"><div class="card-advice"><span class="advice-label" style="color:#4ade80">Leadership advice</span><span class="advice-text">Climate data is only useful if it is consistent, comparable, and auditable.</span></div><div class="card-next"><span class="next-label" style="color:#4ade80">Next step &#8594;</span><span class="next-text">Map all emissions sources to owners and data systems.</span></div></div></div>
+<div class="iso-card" id="card-2-4"><div class="card-top"><div class="card-iso" style="color:#4ade80">ISO 14067:2018</div><div class="card-name">Product Carbon Footprint</div></div><div class="card-body"><div class="card-row"><div class="card-label" style="color:#4ade80">What</div><div class="card-text">Product carbon footprint requirements; not a management system, but used for product-level carbon accounting.</div></div><div class="card-row"><div class="card-label" style="color:#4ade80">Why</div><div class="card-text">Strongly relevant for DPP, CBAM-related product data, and customer carbon disclosure.</div></div><div class="card-row"><div class="card-label" style="color:#4ade80">When</div><div class="card-text">Use for products with carbon claims, supplier data needs, or eco-design work.</div></div><div class="card-row"><div class="card-label" style="color:#4ade80">How</div><div class="card-text">Define product system boundary, collect life-cycle data, calculate footprint, document methods, verify if needed.</div></div></div><div class="card-footer" style="background:rgba(74,222,128,0.12);border-top:1px solid rgba(74,222,128,0.25)"><div class="card-advice"><span class="advice-label" style="color:#4ade80">Leadership advice</span><span class="advice-text">Product carbon numbers must be traceable to source data, not estimates alone.</span></div><div class="card-next"><span class="next-label" style="color:#4ade80">Next step &#8594;</span><span class="next-text">Select one priority product and pilot a footprint calculation.</span></div></div></div>
+<div class="iso-card" id="card-2-5"><div class="card-top"><div class="card-iso" style="color:#4ade80">ISO 20400:2017</div><div class="card-name">Sustainable Procurement</div></div><div class="card-body"><div class="card-row"><div class="card-label" style="color:#4ade80">What</div><div class="card-text">Guidance standard for sustainable procurement; not certifiable.</div></div><div class="card-row"><div class="card-label" style="color:#4ade80">Why</div><div class="card-text">Supports CSDDD, EUDR, CSRD supply chain disclosures, and supplier risk control.</div></div><div class="card-row"><div class="card-label" style="color:#4ade80">When</div><div class="card-text">Use when procurement influences ESG outcomes or supplier compliance.</div></div><div class="card-row"><div class="card-label" style="color:#4ade80">How</div><div class="card-text">Embed sustainability criteria in sourcing, supplier selection, contracts, due diligence, monitoring, and improvement.</div></div></div><div class="card-footer" style="background:rgba(74,222,128,0.12);border-top:1px solid rgba(74,222,128,0.25)"><div class="card-advice"><span class="advice-label" style="color:#4ade80">Leadership advice</span><span class="advice-text">Procurement is one of the fastest ways to turn ESG policy into real operational change.</span></div><div class="card-next"><span class="next-label" style="color:#4ade80">Next step &#8594;</span><span class="next-text">Add sustainability clauses to the highest-risk supplier category.</span></div></div></div>
+<div class="iso-card" id="card-2-6"><div class="card-top"><div class="card-iso" style="color:#4ade80">ISO 37301:2021</div><div class="card-name">Compliance Management</div></div><div class="card-body"><div class="card-row"><div class="card-label" style="color:#4ade80">What</div><div class="card-text">Compliance management system requirements and guidance; certifiable standard.</div></div><div class="card-row"><div class="card-label" style="color:#4ade80">Why</div><div class="card-text">Helps structure legal compliance, accountability, monitoring, and escalation.</div></div><div class="card-row"><div class="card-label" style="color:#4ade80">When</div><div class="card-text">Use where multiple regulations, controls, and responsibilities need coordination.</div></div><div class="card-row"><div class="card-label" style="color:#4ade80">How</div><div class="card-text">Identify obligations, assign ownership, train people, monitor compliance, escalate breaches, review effectiveness.</div></div></div><div class="card-footer" style="background:rgba(74,222,128,0.12);border-top:1px solid rgba(74,222,128,0.25)"><div class="card-advice"><span class="advice-label" style="color:#4ade80">Leadership advice</span><span class="advice-text">Compliance should be designed into the system, not checked only after something goes wrong.</span></div><div class="card-next"><span class="next-label" style="color:#4ade80">Next step &#8594;</span><span class="next-text">Build a legal and ESG obligations register.</span></div></div></div>
+<div class="iso-card" id="card-2-7"><div class="card-top"><div class="card-iso" style="color:#4ade80">ISO 27001:2022</div><div class="card-name">Information Security</div></div><div class="card-body"><div class="card-row"><div class="card-label" style="color:#4ade80">What</div><div class="card-text">Information security management system requirements; certifiable standard.</div></div><div class="card-row"><div class="card-label" style="color:#4ade80">Why</div><div class="card-text">Supports data integrity for ESG reporting, AI governance, and control over sensitive supplier or workforce data.</div></div><div class="card-row"><div class="card-label" style="color:#4ade80">When</div><div class="card-text">Use when data quality, cyber risk, or sensitive information is material.</div></div><div class="card-row"><div class="card-label" style="color:#4ade80">How</div><div class="card-text">Define ISMS scope, assess risks, implement controls, monitor incidents, review continually.</div></div></div><div class="card-footer" style="background:rgba(74,222,128,0.12);border-top:1px solid rgba(74,222,128,0.25)"><div class="card-advice"><span class="advice-label" style="color:#4ade80">Leadership advice</span><span class="advice-text">ESG reporting is only as trustworthy as the underlying information controls.</span></div><div class="card-next"><span class="next-label" style="color:#4ade80">Next step &#8594;</span><span class="next-text">Identify the systems that feed CSRD or compliance reporting.</span></div></div></div>
+<div class="iso-card" id="card-2-8"><div class="card-top"><div class="card-iso" style="color:#4ade80">ISO 31000:2018</div><div class="card-name">Risk Management</div></div><div class="card-body"><div class="card-row"><div class="card-label" style="color:#4ade80">What</div><div class="card-text">Risk management guidelines; guidance standard, not certifiable.</div></div><div class="card-row"><div class="card-label" style="color:#4ade80">Why</div><div class="card-text">Supports enterprise risk alignment, climate risk, compliance risk, and operational resilience.</div></div><div class="card-row"><div class="card-label" style="color:#4ade80">When</div><div class="card-text">Use when sustainability risks need to be integrated into governance and planning.</div></div><div class="card-row"><div class="card-label" style="color:#4ade80">How</div><div class="card-text">Establish context, assess risks, treat risks, monitor, communicate, and review.</div></div></div><div class="card-footer" style="background:rgba(74,222,128,0.12);border-top:1px solid rgba(74,222,128,0.25)"><div class="card-advice"><span class="advice-label" style="color:#4ade80">Leadership advice</span><span class="advice-text">Sustainability risk should be treated as business risk.</span></div><div class="card-next"><span class="next-label" style="color:#4ade80">Next step &#8594;</span><span class="next-text">Add ESG risks to the enterprise risk register.</span></div></div></div>
+<div class="iso-card" id="card-2-9"><div class="card-top"><div class="card-iso" style="color:#4ade80">ISO 45001:2018</div><div class="card-name">Occupational Health & Safety</div></div><div class="card-body"><div class="card-row"><div class="card-label" style="color:#4ade80">What</div><div class="card-text">Occupational health and safety management system requirements; certifiable standard.</div></div><div class="card-row"><div class="card-label" style="color:#4ade80">Why</div><div class="card-text">Supports worker protection, due diligence, and stronger social performance.</div></div><div class="card-row"><div class="card-label" style="color:#4ade80">When</div><div class="card-text">Use where operational safety, contractor safety, or labor conditions are material.</div></div><div class="card-row"><div class="card-label" style="color:#4ade80">How</div><div class="card-text">Identify hazards, assess risks, implement controls, train, investigate incidents, improve.</div></div></div><div class="card-footer" style="background:rgba(74,222,128,0.12);border-top:1px solid rgba(74,222,128,0.25)"><div class="card-advice"><span class="advice-label" style="color:#4ade80">Leadership advice</span><span class="advice-text">A safe workplace is a governance issue, not only an HR issue.</span></div><div class="card-next"><span class="next-label" style="color:#4ade80">Next step &#8594;</span><span class="next-text">Review the top incident causes and high-risk work activities.</span></div></div></div>
+<div class="iso-card" id="card-2-10"><div class="card-top"><div class="card-iso" style="color:#4ade80">ISO 14006:2020</div><div class="card-name">Ecodesign</div></div><div class="card-body"><div class="card-row"><div class="card-label" style="color:#4ade80">What</div><div class="card-text">Guidelines for incorporating ecodesign into an EMS; guidance standard, not certifiable.</div></div><div class="card-row"><div class="card-label" style="color:#4ade80">Why</div><div class="card-text">Relevant for ESPR, DPP, PPWR, EPR, and product redesign for lower impact.</div></div><div class="card-row"><div class="card-label" style="color:#4ade80">When</div><div class="card-text">Use when product design choices affect material use, repairability, recyclability, or footprint.</div></div><div class="card-row"><div class="card-label" style="color:#4ade80">How</div><div class="card-text">Link design teams to environmental criteria, define product requirements, evaluate impacts early, iterate design.</div></div></div><div class="card-footer" style="background:rgba(74,222,128,0.12);border-top:1px solid rgba(74,222,128,0.25)"><div class="card-advice"><span class="advice-label" style="color:#4ade80">Leadership advice</span><span class="advice-text">The biggest sustainability gains often happen before production starts.</span></div><div class="card-next"><span class="next-label" style="color:#4ade80">Next step &#8594;</span><span class="next-text">Add ecodesign criteria to one product development process.</span></div></div></div></div>
+</div>
+<div class="section-block">
+  <div class="section-header">
+    <div class="section-num">3</div>
+    <div class="section-title-block">
+      <div class="section-label">Supporting Compliance Standards</div>
+      <div class="section-desc">Strengthen evidence, assurance, traceability, and implementation maturity.</div>
+    </div>
+    <div class="section-count">8 standards</div>
+  </div>
+  <div class="cards-grid"><div class="iso-card" id="card-3-1"><div class="card-top"><div class="card-iso" style="color:#93c5fd">ISO 14004:2016</div><div class="card-name">EMS Implementation Guidance</div></div><div class="card-body"><div class="card-row"><div class="card-label" style="color:#93c5fd">What</div><div class="card-text">EMS implementation guidance; guidance standard.</div></div><div class="card-row"><div class="card-label" style="color:#93c5fd">Why</div><div class="card-text">Helps build a practical EMS faster, with fewer design mistakes.</div></div><div class="card-row"><div class="card-label" style="color:#93c5fd">When</div><div class="card-text">Use when ISO 14001 is being introduced or strengthened.</div></div><div class="card-row"><div class="card-label" style="color:#93c5fd">How</div><div class="card-text">Use it to set structure, roles, documentation, objectives, and operational controls.</div></div></div><div class="card-footer" style="background:rgba(147,197,253,0.10);border-top:1px solid rgba(147,197,253,0.22)"><div class="card-advice"><span class="advice-label" style="color:#93c5fd">Leadership advice</span><span class="advice-text">A good EMS design makes compliance easier to sustain.</span></div><div class="card-next"><span class="next-label" style="color:#93c5fd">Next step &#8594;</span><span class="next-text">Use it as the playbook for your ISO 14001 rollout.</span></div></div></div>
+<div class="iso-card" id="card-3-2"><div class="card-top"><div class="card-iso" style="color:#93c5fd">ISO 14005:2019</div><div class="card-name">Phased EMS Implementation</div></div><div class="card-body"><div class="card-row"><div class="card-label" style="color:#93c5fd">What</div><div class="card-text">Phased implementation guidance for EMS; guidance standard.</div></div><div class="card-row"><div class="card-label" style="color:#93c5fd">Why</div><div class="card-text">Useful where maturity is low or rollout must be gradual.</div></div><div class="card-row"><div class="card-label" style="color:#93c5fd">When</div><div class="card-text">Use in multi-site or resource-constrained organizations.</div></div><div class="card-row"><div class="card-label" style="color:#93c5fd">How</div><div class="card-text">Implement stepwise, prioritize material aspects, and add controls over time.</div></div></div><div class="card-footer" style="background:rgba(147,197,253,0.10);border-top:1px solid rgba(147,197,253,0.22)"><div class="card-advice"><span class="advice-label" style="color:#93c5fd">Leadership advice</span><span class="advice-text">A phased approach is better than a perfect plan that never starts.</span></div><div class="card-next"><span class="next-label" style="color:#93c5fd">Next step &#8594;</span><span class="next-text">Define a phase 1 EMS scope and timeline.</span></div></div></div>
+<div class="iso-card" id="card-3-3"><div class="card-top"><div class="card-iso" style="color:#93c5fd">ISO 14008:2019</div><div class="card-name">Monetary Valuation of Environmental Impacts</div></div><div class="card-body"><div class="card-row"><div class="card-label" style="color:#93c5fd">What</div><div class="card-text">Monetary valuation of environmental impacts; guidance standard.</div></div><div class="card-row"><div class="card-label" style="color:#93c5fd">Why</div><div class="card-text">Helps translate environmental effects into business language for investment decisions.</div></div><div class="card-row"><div class="card-label" style="color:#93c5fd">When</div><div class="card-text">Use for business cases, capex prioritization, or impact comparisons.</div></div><div class="card-row"><div class="card-label" style="color:#93c5fd">How</div><div class="card-text">Apply valuation methods to selected impacts and use results in decision-making.</div></div></div><div class="card-footer" style="background:rgba(147,197,253,0.10);border-top:1px solid rgba(147,197,253,0.22)"><div class="card-advice"><span class="advice-label" style="color:#93c5fd">Leadership advice</span><span class="advice-text">Costs and impacts become easier to act on when they are expressed in the same language.</span></div><div class="card-next"><span class="next-label" style="color:#93c5fd">Next step &#8594;</span><span class="next-text">Test it on one investment or product redesign case.</span></div></div></div>
+<div class="iso-card" id="card-3-4"><div class="card-top"><div class="card-iso" style="color:#93c5fd">ISO 14020 / 14021 / 14024 / 14025</div><div class="card-name">Environmental Labels & Declarations</div></div><div class="card-body"><div class="card-row"><div class="card-label" style="color:#93c5fd">What</div><div class="card-text">Environmental labels, self-claims, eco-labels, and EPDs; mostly guidance frameworks, with different claim structures.</div></div><div class="card-row"><div class="card-label" style="color:#93c5fd">Why</div><div class="card-text">Supports truthful product communication, DPP evidence, PPWR packaging claims, and reduced greenwashing risk.</div></div><div class="card-row"><div class="card-label" style="color:#93c5fd">When</div><div class="card-text">Use when making environmental claims about products or packaging.</div></div><div class="card-row"><div class="card-label" style="color:#93c5fd">How</div><div class="card-text">Match the claim type to the right standard, verify data, avoid unsupported statements, document methods.</div></div></div><div class="card-footer" style="background:rgba(147,197,253,0.10);border-top:1px solid rgba(147,197,253,0.22)"><div class="card-advice"><span class="advice-label" style="color:#93c5fd">Leadership advice</span><span class="advice-text">Environmental claims must be evidence-based or they become a liability.</span></div><div class="card-next"><span class="next-label" style="color:#93c5fd">Next step &#8594;</span><span class="next-text">Review all current product claims against evidence.</span></div></div></div>
+<div class="iso-card" id="card-3-5"><div class="card-top"><div class="card-iso" style="color:#93c5fd">ISO 14031:2013</div><div class="card-name">Environmental Performance Evaluation</div></div><div class="card-body"><div class="card-row"><div class="card-label" style="color:#93c5fd">What</div><div class="card-text">Environmental performance evaluation guidance; guidance standard.</div></div><div class="card-row"><div class="card-label" style="color:#93c5fd">Why</div><div class="card-text">Helps define KPIs and track environmental improvement over time.</div></div><div class="card-row"><div class="card-label" style="color:#93c5fd">When</div><div class="card-text">Use when environmental performance needs to be measured and managed.</div></div><div class="card-row"><div class="card-label" style="color:#93c5fd">How</div><div class="card-text">Select indicators, collect data, analyze trends, and feed results into management review.</div></div></div><div class="card-footer" style="background:rgba(147,197,253,0.10);border-top:1px solid rgba(147,197,253,0.22)"><div class="card-advice"><span class="advice-label" style="color:#93c5fd">Leadership advice</span><span class="advice-text">What gets measured gets managed.</span></div><div class="card-next"><span class="next-label" style="color:#93c5fd">Next step &#8594;</span><span class="next-text">Define a small set of environmental KPIs.</span></div></div></div>
+<div class="iso-card" id="card-3-6"><div class="card-top"><div class="card-iso" style="color:#93c5fd">ISO 14040 / 14044</div><div class="card-name">Life Cycle Assessment</div></div><div class="card-body"><div class="card-row"><div class="card-label" style="color:#93c5fd">What</div><div class="card-text">Life cycle assessment principles and requirements; guidance framework with detailed requirements.</div></div><div class="card-row"><div class="card-label" style="color:#93c5fd">Why</div><div class="card-text">Core for ESPR, DPP, PPWR, EPR, product redesign, and footprint evidence.</div></div><div class="card-row"><div class="card-label" style="color:#93c5fd">When</div><div class="card-text">Use when product impacts must be compared across the life cycle.</div></div><div class="card-row"><div class="card-label" style="color:#93c5fd">How</div><div class="card-text">Define goal and scope, inventory data, impact assessment, interpretation, review.</div></div></div><div class="card-footer" style="background:rgba(147,197,253,0.10);border-top:1px solid rgba(147,197,253,0.22)"><div class="card-advice"><span class="advice-label" style="color:#93c5fd">Leadership advice</span><span class="advice-text">Product sustainability decisions should be based on life-cycle evidence, not isolated assumptions.</span></div><div class="card-next"><span class="next-label" style="color:#93c5fd">Next step &#8594;</span><span class="next-text">Pick one product and map its life-cycle data needs.</span></div></div></div>
+<div class="iso-card" id="card-3-7"><div class="card-top"><div class="card-iso" style="color:#93c5fd">ISO 14046:2014</div><div class="card-name">Water Footprint</div></div><div class="card-body"><div class="card-row"><div class="card-label" style="color:#93c5fd">What</div><div class="card-text">Water footprint standard; guidance framework.</div></div><div class="card-row"><div class="card-label" style="color:#93c5fd">Why</div><div class="card-text">Useful where water stress, water disclosure, or site-specific water risks matter.</div></div><div class="card-row"><div class="card-label" style="color:#93c5fd">When</div><div class="card-text">Use in water-intensive operations or regions with water scarcity.</div></div><div class="card-row"><div class="card-label" style="color:#93c5fd">How</div><div class="card-text">Define water use boundaries, gather data, assess impacts, report results.</div></div></div><div class="card-footer" style="background:rgba(147,197,253,0.10);border-top:1px solid rgba(147,197,253,0.22)"><div class="card-advice"><span class="advice-label" style="color:#93c5fd">Leadership advice</span><span class="advice-text">Water risk should be managed before it becomes operational disruption.</span></div><div class="card-next"><span class="next-label" style="color:#93c5fd">Next step &#8594;</span><span class="next-text">Identify the highest-water-use site or process.</span></div></div></div>
+<div class="iso-card" id="card-3-8"><div class="card-top"><div class="card-iso" style="color:#93c5fd">ISO 14064-2 / 14064-3 / 14065 / 14066</div><div class="card-name">GHG Verification & Validation</div></div><div class="card-body"><div class="card-row"><div class="card-label" style="color:#93c5fd">What</div><div class="card-text">Project GHG quantification, validation, verification, and verifier competence; standards used for credible carbon claims.</div></div><div class="card-row"><div class="card-label" style="color:#93c5fd">Why</div><div class="card-text">Supports CBAM, carbon projects, and assurance of climate data.</div></div><div class="card-row"><div class="card-label" style="color:#93c5fd">When</div><div class="card-text">Use when emission reduction projects or third-party verification are needed.</div></div><div class="card-row"><div class="card-label" style="color:#93c5fd">How</div><div class="card-text">Define project boundaries, calculate reductions, verify independently, ensure competent reviewers.</div></div></div><div class="card-footer" style="background:rgba(147,197,253,0.10);border-top:1px solid rgba(147,197,253,0.22)"><div class="card-advice"><span class="advice-label" style="color:#93c5fd">Leadership advice</span><span class="advice-text">Verified climate data is more valuable than unverified ambition.</span></div><div class="card-next"><span class="next-label" style="color:#93c5fd">Next step &#8594;</span><span class="next-text">Decide which GHG data needs third-party assurance.</span></div></div></div></div>
+</div>
+</main>
+<footer>
+  <div class="footer-brand">Aurie&#39;s Knowledge Hub</div>
+  <div>ISO Standard Profiles &#183; Categories 2 &amp; 3 &#183; Source: iso.org &#183; June 2026</div>
+  <div style="color:rgba(201,168,76,0.5)"><a href="standards-iso-compliance.html" style="color:rgba(201,168,76,0.6);text-decoration:none">&#8592; Back to full ISO mapping</a></div>
+</footer>
+</body>
+</html>

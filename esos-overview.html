@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="The Enterprise Sustainability Operating System - six governing questions and fourteen integrated operating system frameworks for moving from sustainability ambition to enterprise transformation.">
+<meta name="robots" content="index, follow">
+<meta property="og:title" content="Enterprise Sustainability Operating System - Aurie's Knowledge Hub">
+<meta property="og:description" content="Six governing questions. Fourteen operating systems. One integrated model for enterprise sustainability transformation.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Aurie's Knowledge Hub">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Enterprise Sustainability Operating System - Aurie's Knowledge Hub">
+<meta name="twitter:description" content="Six governing questions. Fourteen operating systems. One integrated model for enterprise sustainability transformation.">
+<title>Enterprise Sustainability Operating System - Aurie's Knowledge Hub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Inter:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --green-deep:  #0e2b1a;
+  --green-mid:   #1a3d28;
+  --green-light: #234d33;
+  --green-dark:  #091f12;
+  --gold:        #c9a84c;
+  --gold-light:  #e0c07a;
+  --gold-dim:    rgba(201,168,76,0.15);
+  --white:       #ffffff;
+  --muted:       #8a9e90;
+  --border:      rgba(201,168,76,0.18);
+  --serif:  'Cormorant Garamond', Georgia, serif;
+  --sans:   'Inter', system-ui, sans-serif;
+  --mono:   'DM Mono', monospace;
+
+  /* Question colours */
+  --q1: #93c5fd;  --q1-dim: rgba(147,197,253,0.10); --q1-bdr: rgba(147,197,253,0.25);
+  --q2: #f59e0b;  --q2-dim: rgba(245,158,11,0.10);  --q2-bdr: rgba(245,158,11,0.25);
+  --q3: #e879f9;  --q3-dim: rgba(232,121,249,0.10); --q3-bdr: rgba(232,121,249,0.25);
+  --q4: #4ade80;  --q4-dim: rgba(74,222,128,0.10);  --q4-bdr: rgba(74,222,128,0.25);
+  --q5: #f97316;  --q5-dim: rgba(249,115,22,0.10);  --q5-bdr: rgba(249,115,22,0.25);
+  --q6: #c9a84c;  --q6-dim: rgba(201,168,76,0.10);  --q6-bdr: rgba(201,168,76,0.25);
+}
+
+html { scroll-behavior: smooth; }
+body {
+  background: var(--green-deep);
+  color: var(--white);
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: 16px;
+  line-height: 1.7;
+  min-height: 100vh;
+}
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: var(--green-deep); }
+::-webkit-scrollbar-thumb { background: rgba(201,168,76,0.35); border-radius: 3px; }
+
+/* ── PAGE HEADER ── */
+.page-header {
+  padding: 7rem 2.5rem 3.5rem;
+  background: radial-gradient(ellipse at 65% 40%, rgba(26,61,40,0.9) 0%, var(--green-deep) 65%);
+  border-bottom: 1px solid var(--border);
+}
+.page-eyebrow {
+  font-size: 0.7rem; letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 1.2rem;
+  display: flex; align-items: center; gap: 1rem;
+}
+.back-link {
+  font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--muted); text-decoration: none;
+  display: inline-flex; align-items: center; gap: 6px;
+  margin-bottom: 1.2rem; transition: color 0.15s;
+}
+.back-link:hover { color: var(--gold); }
+.page-eyebrow::before { content: ''; width: 2.5rem; height: 1px; background: var(--gold); display: inline-block; }
+h1.page-title {
+  font-family: var(--serif); font-size: clamp(2.4rem, 4.5vw, 4rem);
+  font-weight: 300; line-height: 1.1; margin-bottom: 0.8rem; border: none; padding: 0;
+}
+h1.page-title em { font-style: italic; color: var(--gold); }
+.page-desc { font-size: 1rem; color: rgba(255,255,255,0.58); max-width: 640px; line-height: 1.8; margin-bottom: 2rem; }
+
+/* OS count strip */
+.os-count-strip {
+  display: flex; gap: 10px; flex-wrap: wrap;
+}
+.os-count-badge {
+  padding: 4px 14px; font-size: 10px; font-weight: 500;
+  letter-spacing: 0.1em; text-transform: uppercase; font-family: var(--sans);
+}
+
+/* ── MAIN ── */
+main { padding: 3rem 2.5rem 5rem; max-width: 900px; margin: 0 auto; }
+
+/* ── MASTER LABEL ── */
+.master-label {
+  text-align: center; margin-bottom: 2.5rem;
+  padding: 20px 24px;
+  background: rgba(201,168,76,0.05);
+  border: 1px solid var(--border);
+  border-top: 2px solid var(--gold);
+}
+.master-label-eyebrow {
+  font-size: 9px; letter-spacing: 0.28em; text-transform: uppercase;
+  color: var(--muted); font-family: var(--mono); margin-bottom: 8px;
+}
+.master-label-title {
+  font-family: var(--serif); font-size: clamp(1.4rem, 2.5vw, 2rem);
+  font-weight: 300; color: var(--white); line-height: 1.2;
+}
+.master-label-title em { font-style: italic; color: var(--gold); }
+
+/* ── QUESTION BLOCKS ── */
+.question-block { margin-bottom: 0; }
+
+.q-card {
+  border: 1px solid;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 2px;
+}
+
+.q-header {
+  padding: 18px 24px 14px;
+  display: grid;
+  grid-template-columns: 40px 1fr;
+  gap: 0 16px;
+  align-items: start;
+}
+.q-num {
+  font-family: var(--serif); font-size: 2rem; font-weight: 300;
+  line-height: 1; opacity: 0.5; padding-top: 2px;
+}
+.q-title-block {}
+.q-question {
+  font-family: var(--serif); font-size: 1.25rem; font-weight: 400;
+  line-height: 1.25; margin-bottom: 4px;
+}
+.q-purpose {
+  font-size: 0.8rem; line-height: 1.55; opacity: 0.7;
+}
+
+.q-body {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: rgba(0,0,0,0.15);
+  border-top: 1px solid rgba(0,0,0,0.2);
+}
+
+/* OS links column */
+.q-os-col { padding: 16px 20px; background: rgba(0,0,0,0.12); }
+.q-os-label {
+  font-size: 8px; letter-spacing: 0.2em; text-transform: uppercase;
+  font-family: var(--sans); font-weight: 600; opacity: 0.6; margin-bottom: 10px;
+}
+.os-list { display: flex; flex-direction: column; gap: 4px; }
+
+.os-link {
+  display: flex; align-items: center; gap: 8px;
+  padding: 6px 10px;
+  font-size: 1rem; text-decoration: none;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(255,255,255,0.03);
+  transition: all 0.15s; border-radius: 2px;
+  color: var(--gold);
+}
+.os-link:hover {
+  background: rgba(201,168,76,0.08);
+  border-color: rgba(201,168,76,0.3);
+  color: var(--gold-light);
+}
+.os-link-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  flex-shrink: 0;
+}
+.os-link-arrow { margin-left: auto; font-size: 10px; opacity: 0.4; transition: opacity 0.15s; }
+.os-link:hover .os-link-arrow { opacity: 0.8; }
+
+/* Coming soon OS - no pill, just dimmed */
+.os-link-soon {
+  display: flex; align-items: center; gap: 8px;
+  padding: 6px 10px;
+  font-size: 1rem;
+  color: rgba(201,168,76,0.35);
+  cursor: default;
+}
+.soon-pill { display: none; }
+
+/* CEO questions column */
+.q-ceo-col { padding: 16px 20px; background: rgba(0,0,0,0.06); }
+.q-ceo-label {
+  font-size: 8px; letter-spacing: 0.2em; text-transform: uppercase;
+  font-family: var(--sans); font-weight: 600; opacity: 0.6; margin-bottom: 10px;
+}
+.ceo-questions { display: flex; flex-direction: column; gap: 6px; }
+.ceo-q {
+  display: flex; align-items: baseline; gap: 8px;
+  font-size: 0.82rem; color: rgba(255,255,255,0.62); line-height: 1.5;
+}
+.ceo-q::before { content: '✓'; flex-shrink: 0; font-size: 10px; }
+
+/* Special: performance loop */
+.perf-loop {
+  display: flex; flex-direction: column; align-items: flex-start;
+  gap: 4px; margin-top: 8px;
+}
+.perf-step {
+  font-size: 0.82rem; color: rgba(255,255,255,0.62);
+  padding: 4px 12px;
+  border: 1px solid rgba(201,168,76,0.2);
+  background: rgba(201,168,76,0.05);
+  min-width: 100px; text-align: center;
+}
+.perf-arrow { font-size: 11px; color: rgba(201,168,76,0.4); margin-left: 20px; }
+
+/* Connector between question blocks */
+.q-connector {
+  display: flex; justify-content: center; align-items: center;
+  height: 40px; color: rgba(201,168,76,0.35); font-size: 20px;
+  letter-spacing: 0.1em;
+}
+
+/* Per-question colour theming */
+.q1 { border-color: var(--q1-bdr); }
+.q1 .q-header { background: var(--q1-dim); }
+.q1 .q-num { color: var(--q1); }
+.q1 .q-question { color: var(--q1); }
+.q1 .os-link-dot { background: var(--q1); }
+.q1 .ceo-q::before { color: var(--q1); }
+
+.q2 { border-color: var(--q2-bdr); }
+.q2 .q-header { background: var(--q2-dim); }
+.q2 .q-num { color: var(--q2); }
+.q2 .q-question { color: var(--q2); }
+.q2 .os-link-dot { background: var(--q2); }
+.q2 .ceo-q::before { color: var(--q2); }
+
+.q3 { border-color: var(--q3-bdr); }
+.q3 .q-header { background: var(--q3-dim); }
+.q3 .q-num { color: var(--q3); }
+.q3 .q-question { color: var(--q3); }
+.q3 .os-link-dot { background: var(--q3); }
+.q3 .ceo-q::before { color: var(--q3); }
+
+.q4 { border-color: var(--q4-bdr); }
+.q4 .q-header { background: var(--q4-dim); }
+.q4 .q-num { color: var(--q4); }
+.q4 .q-question { color: var(--q4); }
+.q4 .os-link-dot { background: var(--q4); }
+.q4 .ceo-q::before { color: var(--q4); }
+
+.q5 { border-color: var(--q5-bdr); }
+.q5 .q-header { background: var(--q5-dim); }
+.q5 .q-num { color: var(--q5); }
+.q5 .q-question { color: var(--q5); }
+.q5 .os-link-dot { background: var(--q5); }
+.q5 .ceo-q::before { color: var(--q5); }
+
+.q6 { border-color: var(--q6-bdr); }
+.q6 .q-header { background: var(--q6-dim); }
+.q6 .q-num { color: var(--q6); }
+.q6 .q-question { color: var(--q6); }
+.q6 .os-link-dot { background: var(--q6); }
+.q6 .ceo-q::before { color: var(--q6); }
+
+/* ── FOOTER ── */
+footer {
+  padding: 20px 2.5rem; border-top: 1px solid var(--border);
+  display: flex; justify-content: space-between; align-items: center;
+  color: var(--muted); font-size: 0.75rem; flex-wrap: wrap; gap: 8px;
+  letter-spacing: 0.06em; background: var(--green-dark);
+}
+.footer-brand { font-family: var(--serif); font-size: 0.9rem; color: var(--gold); font-weight: 400; }
+
+@media(max-width: 800px) {
+  .nav-link { min-width: 88px; padding: 0 0.8rem; }
+  .nav-brand { padding: 0 1.2rem; font-size: 1.05rem; }
+  .page-header, main, footer { padding-left: 1.5rem; padding-right: 1.5rem; }
+  .q-body { grid-template-columns: 1fr; }
+  .q-header { grid-template-columns: 32px 1fr; }
+  .q-num { font-size: 1.5rem; }
+}
+@media(max-width: 560px) {
+  .nav-link-sub { display: none; }
+  .nav-link { min-width: 70px; padding: 0 0.6rem; }
+}
+
+/* ── NAV (standardised) ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; align-items: stretch;
+  background: rgba(9,31,18,0.97); backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+  height: 64px;
+}
+.nav-brand {
+  display: flex; align-items: center;
+  padding: 0 2.5rem;
+  font-family: var(--serif); font-size: 1.25rem; font-weight: 600;
+  letter-spacing: 0.04em; color: var(--white); text-decoration: none;
+  border-right: 1px solid var(--border);
+  flex-shrink: 0; transition: background 0.2s;
+}
+.nav-brand:hover { background: rgba(201,168,76,0.06); }
+.nav-brand span { color: var(--gold); }
+.nav-sections { display: flex; align-items: stretch; list-style: none; flex: 1; overflow-x: auto; }
+.nav-sections li { display: flex; }
+.nav-link {
+  display: flex; flex-direction: column; justify-content: center;
+  padding: 0 1.6rem; text-decoration: none;
+  border-right: 1px solid var(--border);
+  transition: background 0.18s; min-width: 120px;
+}
+.nav-link:hover { background: rgba(201,168,76,0.06); }
+.nav-link.active { background: var(--gold-dim); border-bottom: 2px solid var(--gold); }
+.nav-link-primary { font-size: 0.78rem; font-weight: 500; letter-spacing: 0.05em; color: rgba(255,255,255,0.88); line-height: 1.2; white-space: nowrap; }
+.nav-link-sub { font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); line-height: 1; margin-top: 3px; white-space: nowrap; }
+.nav-link:hover .nav-link-primary { color: var(--gold-light); }
+.nav-link:hover .nav-link-sub { color: rgba(201,168,76,0.6); }
+.nav-link.active .nav-link-primary { color: var(--gold); }
+.nav-link.active .nav-link-sub { color: rgba(201,168,76,0.7); }
+.nav-about {
+  display: flex; align-items: center; padding: 0 1.8rem;
+  font-size: 0.78rem; font-weight: 500; letter-spacing: 0.05em;
+  color: rgba(255,255,255,0.6); text-decoration: none;
+  margin-left: auto; transition: color 0.18s; white-space: nowrap;
+}
+.nav-about:hover { color: var(--gold); }
+@media (max-width: 768px) {
+  .nav-link { min-width: 100px; padding: 0 1rem; }
+  .nav-brand { padding: 0 1.2rem; font-size: 1.05rem; }
+}
+@media (max-width: 560px) {
+  .nav-link-sub { display: none; }
+  .nav-link { min-width: 80px; padding: 0 0.8rem; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-brand" href="index.html">Aurie's <span>Knowledge Hub</span></a>
+  <ul class="nav-sections">
+    <li>
+      <a class="nav-link" href="ceo-insights.html">
+        <span class="nav-link-primary">CEO Insights</span>
+        <span class="nav-link-sub">For the leadership</span>
+      </a>
+    </li>
+    <li>
+      <a class="nav-link" href="tools.html">
+        <span class="nav-link-primary">Tools &amp; Templates</span>
+        <span class="nav-link-sub">For ESG teams</span>
+      </a>
+    </li>
+    <li>
+      <a class="nav-link active" href="resource-library.html">
+        <span class="nav-link-primary">Resource Library</span>
+        <span class="nav-link-sub">For practitioners</span>
+      </a>
+    </li>
+    <li>
+      <a class="nav-link" href="thought-papers.html">
+        <span class="nav-link-primary">Thought Papers</span>
+        <span class="nav-link-sub">For the curious</span>
+      </a>
+    </li>
+  </ul>
+  <a class="nav-about" href="about.html">About Me</a>
+</nav>
+
+<!-- ═══ PAGE HEADER ═══ -->
+<div class="page-header">
+  <a class="back-link" href="tools.html">← Toolkits</a>
+  <p class="page-eyebrow">Toolkits · Enterprise Operating Systems · 14 Frameworks</p>
+  <h1 class="page-title">Enterprise Sustainability <em>Operating System</em></h1>
+  <p class="page-desc">Six governing questions. Fourteen operating systems. One integrated model for moving from sustainability ambition to enterprise transformation. Each operating system is a working framework - not a reporting checklist.</p>
+  <div class="os-count-strip">
+    <span class="os-count-badge" style="background:var(--q1-dim);border:1px solid var(--q1-bdr);color:var(--q1)">1 · Governance</span>
+    <span class="os-count-badge" style="background:var(--q2-dim);border:1px solid var(--q2-bdr);color:var(--q2)">2 · Risk &amp; Dependency</span>
+    <span class="os-count-badge" style="background:var(--q3-dim);border:1px solid var(--q3-bdr);color:var(--q3)">3 · Finance &amp; Enablement</span>
+    <span class="os-count-badge" style="background:var(--q4-dim);border:1px solid var(--q4-bdr);color:var(--q4)">4 · Transformation</span>
+    <span class="os-count-badge" style="background:var(--q5-dim);border:1px solid var(--q5-bdr);color:var(--q5)">5 · People &amp; Society</span>
+    <span class="os-count-badge" style="background:var(--q6-dim);border:1px solid var(--q6-bdr);color:var(--q6)">6 · Performance</span>
+  </div>
+</div>
+
+<!-- ═══ MAIN ═══ -->
+<main>
+
+  <div class="master-label">
+    <div class="master-label-eyebrow">The integrated framework</div>
+    <div class="master-label-title">Enterprise Sustainability <em>Operating System</em></div>
+  </div>
+
+  <!-- ── Q1: GOVERNANCE ── -->
+  <div class="q-card q1">
+    <div class="q-header">
+      <div class="q-num">1</div>
+      <div class="q-title-block">
+        <div class="q-question">How do we govern?</div>
+        <div class="q-purpose">Create accountability, leadership ownership, decision rights, and ethical foundations.</div>
+      </div>
+    </div>
+    <div class="q-body">
+      <div class="q-os-col">
+        <div class="q-os-label">Operating Systems</div>
+        <div class="os-list">
+          <span class="os-link-soon"><span class="os-link-dot" style="background:var(--q1)"></span>Governance &amp; Ethics OS<span class="soon-pill">Coming soon</span></span>
+          <span class="os-link-soon"><span class="os-link-dot" style="background:var(--q1)"></span>Sustainability Transformation OS<span class="soon-pill">Coming soon</span></span>
+        </div>
+      </div>
+      <div class="q-ceo-col">
+        <div class="q-ceo-label">Key CEO questions</div>
+        <div class="ceo-questions">
+          <div class="ceo-q">Who owns sustainability outcomes?</div>
+          <div class="ceo-q">How is sustainability embedded into strategy?</div>
+          <div class="ceo-q">How do we make decisions and manage trade-offs?</div>
+          <div class="ceo-q">Are incentives aligned with our commitments?</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-connector">↓</div>
+
+  <!-- ── Q2: RISK & DEPENDENCY ── -->
+  <div class="q-card q2">
+    <div class="q-header">
+      <div class="q-num">2</div>
+      <div class="q-title-block">
+        <div class="q-question">How do we understand our risks, dependencies &amp; impacts?</div>
+        <div class="q-purpose">Understand where the business is exposed, dependent, and vulnerable.</div>
+      </div>
+    </div>
+    <div class="q-body">
+      <div class="q-os-col">
+        <div class="q-os-label">Operating Systems</div>
+        <div class="os-list">
+          <span class="os-link-soon"><span class="os-link-dot" style="background:var(--q2)"></span>ESG Data &amp; Reporting OS<span class="soon-pill">Coming soon</span></span>
+          <span class="os-link-soon"><span class="os-link-dot" style="background:var(--q2)"></span>Climate Adaptation OS<span class="soon-pill">Coming soon</span></span>
+          <span class="os-link-soon"><span class="os-link-dot" style="background:var(--q2)"></span>Supply Chain Due Diligence OS<span class="soon-pill">Coming soon</span></span>
+        </div>
+      </div>
+      <div class="q-ceo-col">
+        <div class="q-ceo-label">Key CEO questions</div>
+        <div class="ceo-questions">
+          <div class="ceo-q">Where are our biggest risks?</div>
+          <div class="ceo-q">What do we depend on?</div>
+          <div class="ceo-q">Where do we have limited visibility?</div>
+          <div class="ceo-q">What could disrupt our business?</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-connector">↓</div>
+
+  <!-- ── Q3: FINANCE & ENABLEMENT ── -->
+  <div class="q-card q3">
+    <div class="q-header">
+      <div class="q-num">3</div>
+      <div class="q-title-block">
+        <div class="q-question">How do we fund and enable the transition?</div>
+        <div class="q-purpose">Turn sustainability ambition into investment, innovation, and execution capability.</div>
+      </div>
+    </div>
+    <div class="q-body">
+      <div class="q-os-col">
+        <div class="q-os-label">Operating Systems</div>
+        <div class="os-list">
+          <span class="os-link-soon"><span class="os-link-dot" style="background:var(--q3)"></span>Sustainable Finance &amp; Capital Allocation OS<span class="soon-pill">Coming soon</span></span>
+          <span class="os-link-soon"><span class="os-link-dot" style="background:var(--q3)"></span>Sustainable Innovation &amp; Product OS<span class="soon-pill">Coming soon</span></span>
+          <span class="os-link-soon"><span class="os-link-dot" style="background:var(--q3)"></span>Stakeholder Engagement OS<span class="soon-pill">Coming soon</span></span>
+        </div>
+      </div>
+      <div class="q-ceo-col">
+        <div class="q-ceo-label">Key CEO questions</div>
+        <div class="ceo-questions">
+          <div class="ceo-q">Are our investments aligned with our future strategy?</div>
+          <div class="ceo-q">Where will sustainability create competitive advantage?</div>
+          <div class="ceo-q">How do we innovate our products and services?</div>
+          <div class="ceo-q">How do we maintain stakeholder trust?</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-connector">↓</div>
+
+  <!-- ── Q4: TRANSFORMATION ── -->
+  <div class="q-card q4">
+    <div class="q-header">
+      <div class="q-num">4</div>
+      <div class="q-title-block">
+        <div class="q-question">How do we transform the business and value chain?</div>
+        <div class="q-purpose">Change the physical systems that create impact.</div>
+      </div>
+    </div>
+    <div class="q-body">
+      <div class="q-os-col">
+        <div class="q-os-label">Operating Systems - Environmental Transformation</div>
+        <div class="os-list">
+          <a class="os-link" href="esos-decarbonisation.html">
+            <span class="os-link-dot" style="background:var(--q4)"></span>
+            Decarbonisation OS
+            <span class="os-link-arrow">→</span>
+          </a>
+          <a class="os-link" href="esos-water.html">
+            <span class="os-link-dot" style="background:var(--q4)"></span>
+            Water Stewardship OS
+            <span class="os-link-arrow">→</span>
+          </a>
+          <a class="os-link" href="esos-biodiversity.html">
+            <span class="os-link-dot" style="background:var(--q4)"></span>
+            Biodiversity OS
+            <span class="os-link-arrow">→</span>
+          </a>
+          <a class="os-link" href="esos-waste-circularity.html">
+            <span class="os-link-dot" style="background:var(--q4)"></span>
+            Circular Economy &amp; Waste OS
+            <span class="os-link-arrow">→</span>
+          </a>
+        </div>
+      </div>
+      <div class="q-ceo-col">
+        <div class="q-ceo-label">Key CEO questions</div>
+        <div class="ceo-questions">
+          <div class="ceo-q">How do we reduce our environmental footprint?</div>
+          <div class="ceo-q">How do we redesign our operations?</div>
+          <div class="ceo-q">How do we transform our value chain?</div>
+          <div class="ceo-q">What technologies and partnerships are required?</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-connector">↓</div>
+
+  <!-- ── Q5: PEOPLE & SOCIETY ── -->
+  <div class="q-card q5">
+    <div class="q-header">
+      <div class="q-num">5</div>
+      <div class="q-title-block">
+        <div class="q-question">How do we ensure a fair and responsible transition?</div>
+        <div class="q-purpose">Ensure transformation creates positive outcomes for people and society.</div>
+      </div>
+    </div>
+    <div class="q-body">
+      <div class="q-os-col">
+        <div class="q-os-label">Operating Systems</div>
+        <div class="os-list">
+          <span class="os-link-soon"><span class="os-link-dot" style="background:var(--q5)"></span>Human Rights OS<span class="soon-pill">Coming soon</span></span>
+          <span class="os-link-soon"><span class="os-link-dot" style="background:var(--q5)"></span>Just Transition OS<span class="soon-pill">Coming soon</span></span>
+        </div>
+      </div>
+      <div class="q-ceo-col">
+        <div class="q-ceo-label">Key CEO questions</div>
+        <div class="ceo-questions">
+          <div class="ceo-q">How do we protect people through change?</div>
+          <div class="ceo-q">Are we creating unintended impacts?</div>
+          <div class="ceo-q">How do we support workers and communities?</div>
+          <div class="ceo-q">Are we operating responsibly?</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-connector">↓</div>
+
+  <!-- ── Q6: PERFORMANCE ── -->
+  <div class="q-card q6">
+    <div class="q-header">
+      <div class="q-num">6</div>
+      <div class="q-title-block">
+        <div class="q-question">How do we prove progress and continuously improve?</div>
+        <div class="q-purpose">Create trust, transparency, and performance improvement.</div>
+      </div>
+    </div>
+    <div class="q-body">
+      <div class="q-os-col">
+        <div class="q-os-label">Operating System</div>
+        <div class="os-list">
+          <span class="os-link-soon"><span class="os-link-dot" style="background:var(--q6)"></span>ESG Data &amp; Reporting OS<span class="soon-pill">Coming soon</span></span>
+        </div>
+        <div class="q-ceo-label" style="margin-top:16px"></div>
+      </div>
+      <div class="q-ceo-col">
+        <div class="q-ceo-label">Key CEO questions</div>
+        <div class="ceo-questions">
+          <div class="ceo-q">Can we demonstrate progress?</div>
+          <div class="ceo-q">Is our data reliable?</div>
+          <div class="ceo-q">Are our claims credible?</div>
+          <div class="ceo-q">Are we improving fast enough?</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  <div class="footer-brand">Aurie's Knowledge Hub</div>
+  <div>Enterprise Sustainability Operating System · 14 Operating Frameworks · For Teams</div>
+  <div style="color:rgba(201,168,76,0.5)">4 of 14 operating systems now live · More coming</div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="A CEO brief benchmarking the first mandatory CSRD statements from ten Danish global companies, scoring quality and identifying the gap between leaders and laggards.">
+<title>CSRD Benchmarking: Danish Global Brands - ESG Insights Brief - Aurie's Knowledge Hub</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Inter:wght@300;400;500;600;700&display=swap');
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --green:#0e2b1a; --gold:#c9a84c; --ivory:#fafaf8;
+  --mid:#4a5568; --light:#f0ede8; --border:#d4c9b0;
+  --serif:'Cormorant Garamond',Georgia,serif;
+  --sans:'Inter',system-ui,sans-serif;
+  --h5:#1a7a3c; --h4:#5aaf6e; --h3:#a8d4b0;
+  --h2:#ffd966; --h1:#e06c6c;
+  --lens1:#1a3a5c; --lens2:#5a2d82; --lens3:#7a1a1a;
+}
+html,body{background:var(--ivory);color:var(--green);font-family:var(--sans);font-size:11pt;line-height:1.65;min-height:100vh}
+
+.screen-nav{background:var(--green);padding:12px 32px;display:flex;justify-content:space-between;align-items:center}
+.screen-nav a{color:rgba(255,255,255,0.6);text-decoration:none;font-size:9.5pt;font-family:var(--sans);display:flex;align-items:center;gap:6px;letter-spacing:.04em;transition:color .15s}
+.screen-nav a:hover{color:var(--gold)}
+.print-btn{background:var(--gold);color:var(--green);font-weight:600;font-size:9pt;padding:5px 16px;border:none;cursor:pointer;letter-spacing:.06em;text-transform:uppercase;font-family:var(--sans)}
+.print-btn:hover{background:#d4b05a}
+
+/* DOC WRAP */
+.doc-wrap{max-width:720px;margin:0 auto;padding:28px 36px 52px}
+
+/* TOP BAR */
+.print-topbar{border-top:3px solid var(--gold);padding:12px 0 10px;display:flex;justify-content:space-between;align-items:baseline;margin-bottom:24px}
+.print-brand{font-family:var(--serif);font-size:11pt;font-weight:400;color:var(--green);letter-spacing:.04em}
+.print-brand span{color:var(--gold)}
+.print-series{font-size:8.5pt;color:var(--mid);letter-spacing:.1em;text-transform:uppercase}
+
+/* META ROW */
+.meta-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:10px}
+.brief-num{font-size:8pt;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--gold)}
+.pill{display:inline-flex;align-items:center;gap:5px;font-size:8pt;font-weight:500;letter-spacing:.1em;text-transform:uppercase;padding:2px 9px;border:1px solid;border-radius:2px}
+.pill-reg{color:#1e40af;background:rgba(147,197,253,0.12);border-color:rgba(147,197,253,0.4)}
+.pill-insight{color:#7c3aed;background:rgba(124,58,237,0.08);border-color:rgba(124,58,237,0.3)}
+
+/* TITLE */
+h1.doc-title{font-family:var(--serif);font-size:26pt;font-weight:300;line-height:1.15;color:var(--green);margin-bottom:14px;border:none;padding:0}
+h1.doc-title em{font-style:italic;font-weight:300;color:var(--gold)}
+
+/* EXEC HEADLINE */
+.exec-headline{border-left:3px solid var(--gold);padding:10px 16px;margin-bottom:24px;background:#f5f0e4}
+.eh-label{font-size:7.5pt;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin-bottom:4px}
+.eh-text{font-size:13pt;color:var(--green);font-style:italic;line-height:1.55;font-family:var(--serif)}
+
+hr.rule{border:none;border-top:1px solid var(--border);margin:20px 0 18px}
+.section-label{font-size:9pt;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--mid);margin-bottom:8px}
+.body-text{font-size:10.5pt;color:var(--green);line-height:1.65;margin-bottom:4px}
+
+/* IMPACT CARDS */
+.impact-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:6px}
+.impact-card{border:1px solid var(--border);padding:10px 12px;background:var(--light)}
+.impact-icon{font-size:13pt;margin-bottom:4px;display:block}
+.impact-title{font-size:8pt;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:4px}
+.impact-text{font-size:9pt;color:var(--green);line-height:1.5}
+
+/* EXPOSURE TABLE */
+.exposure-table{width:100%;border-collapse:collapse;font-size:9.5pt;margin-top:6px}
+.exposure-table th{text-align:left;padding:6px 10px;font-size:8pt;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#fff;background:var(--green)}
+.exposure-table td{padding:7px 10px;color:var(--green);border-bottom:1px solid var(--border);vertical-align:top;line-height:1.5}
+.exposure-table tr:nth-child(even) td{background:var(--light)}
+.badge{display:inline-block;font-size:7pt;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:1px 6px;border-radius:2px;margin-right:4px}
+.badge-risk{background:rgba(220,38,38,0.1);color:#b91c1c;border:1px solid rgba(220,38,38,0.25)}
+.badge-opp{background:rgba(22,101,52,0.1);color:#166534;border:1px solid rgba(22,101,52,0.25)}
+
+/* LEADERSHIP QUESTIONS */
+.lq-list{list-style:none;margin-top:6px}
+.lq-item{display:flex;align-items:flex-start;gap:10px;padding:6px 0;border-bottom:1px solid var(--border);font-size:10pt;color:var(--green);line-height:1.5}
+.lq-item:last-child{border-bottom:none}
+.lq-bullet{color:var(--gold);font-size:10pt;margin-top:1px;flex-shrink:0}
+
+/* KEY TAKEAWAY */
+.key-takeaway{margin-top:20px;background:var(--green);padding:12px 16px;display:flex;align-items:flex-start;gap:12px}
+.kt-icon{font-size:14pt;flex-shrink:0;margin-top:1px}
+.kt-label{font-size:9pt;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin-bottom:3px}
+.kt-text{font-size:13pt;color:#fafaf8;font-family:var(--serif);font-style:italic;line-height:1.5}
+
+/* DEEP DIVE LINK */
+.deep-dive-link{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-top:24px;padding:12px 16px;
+  background:rgba(201,168,76,0.08);
+  border:1px solid rgba(201,168,76,0.35);
+  text-decoration:none;
+  transition:background .15s;
+}
+.deep-dive-link:hover{background:rgba(201,168,76,0.15)}
+.ddl-label{font-size:7.5pt;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin-bottom:2px}
+.ddl-text{font-size:10pt;color:var(--green)}
+.ddl-arrow{font-size:16pt;color:var(--gold);flex-shrink:0}
+
+/* ══ DEEP DIVE DIVIDER ══ */
+.deep-dive-divider{
+  margin:40px 0 32px;
+  position:relative;
+  text-align:center;
+}
+.deep-dive-divider::before{
+  content:'';
+  display:block;
+  height:3px;
+  background:linear-gradient(to right, transparent, var(--gold), transparent);
+  margin-bottom:0;
+}
+.deep-dive-divider-inner{
+  display:inline-flex;
+  align-items:center;
+  gap:14px;
+  background:var(--green);
+  color:#fff;
+  padding:10px 28px;
+  margin-top:0;
+  position:relative;
+  top:-1px;
+}
+.deep-dive-divider-label{
+  font-size:8.5pt;font-weight:700;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--gold);font-family:var(--sans);
+}
+.deep-dive-divider-sub{
+  font-size:8pt;color:rgba(255,255,255,0.5);letter-spacing:.06em;
+}
+.back-to-top{
+  display:inline-flex;align-items:center;gap:6px;
+  font-size:8.5pt;font-weight:500;color:var(--mid);
+  text-decoration:none;letter-spacing:.04em;
+  transition:color .15s;float:right;margin-top:10px;
+}
+.back-to-top:hover{color:var(--gold)}
+
+/* DEEP DIVE SECTION BLOCKS */
+.section-block{margin-bottom:24px}
+.section-header{display:flex;align-items:baseline;gap:10px;margin-bottom:10px}
+.section-num{font-size:8pt;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--gold)}
+.section-title{font-size:10pt;font-weight:600;color:var(--green);letter-spacing:.02em}
+.content-block{font-size:10pt;color:var(--green);line-height:1.7}
+.content-block p{margin-bottom:8px}
+
+/* SIGNALS */
+.signal-list{display:flex;flex-direction:column;gap:4px;margin:10px 0}
+.signal-item{padding:8px 12px;background:#fff;border:1px solid var(--border);font-size:9.5pt;line-height:1.55}
+.signal-item::before{content:'→ ';color:var(--gold);font-weight:600}
+
+/* HORIZON TABLE */
+.horizon-table{width:100%;border-collapse:collapse;margin:10px 0;font-size:9.5pt}
+.horizon-table th{text-align:left;padding:7px 10px;font-size:7.5pt;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#fff;background:var(--green)}
+.horizon-table td{padding:8px 10px;border-bottom:1px solid var(--border);vertical-align:top;line-height:1.5}
+.horizon-table td:first-child{font-weight:600;color:var(--gold);white-space:nowrap;width:150px}
+.horizon-table tr:nth-child(even) td{background:var(--light)}
+
+/* IMPL LIST */
+.impl-list{display:flex;flex-direction:column;gap:0;margin:10px 0;border:1px solid var(--border)}
+.impl-item{display:grid;grid-template-columns:150px 1fr;border-bottom:1px solid var(--border)}
+.impl-item:last-child{border-bottom:none}
+.impl-label{padding:9px 12px;background:var(--light);font-size:9pt;font-weight:600;color:var(--green);border-right:1px solid var(--border);display:flex;align-items:flex-start}
+.impl-text{padding:9px 12px;font-size:9.5pt;line-height:1.55;color:var(--green)}
+
+/* COI */
+.coi-box{background:#fff4e6;border:1px solid #e0c070;border-left:3px solid var(--gold);padding:10px 14px;margin-top:12px;font-size:9.5pt;line-height:1.6}
+.coi-label{font-size:7pt;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin-bottom:5px}
+
+/* ACTION TABLE */
+.action-table{width:100%;border-collapse:collapse;margin:10px 0;font-size:9.5pt}
+.action-table th{text-align:left;padding:7px 10px;font-size:7.5pt;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#fff;background:var(--green)}
+.action-table td{padding:8px 10px;border-bottom:1px solid var(--border);vertical-align:top;line-height:1.5}
+.action-table td:first-child{font-weight:600;color:var(--gold);width:150px;white-space:nowrap}
+.action-table td:last-child{color:var(--mid);width:80px;text-align:center}
+.action-table tr:nth-child(even) td{background:var(--light)}
+
+/* HEATMAP */
+.heatmap-section{margin:14px 0}
+.heatmap-wrap{overflow-x:auto}
+.heatmap{border-collapse:collapse;font-size:8pt;width:100%;min-width:700px}
+.heatmap .col-header{background:var(--green);color:#fff;padding:6px 4px;text-align:center;font-size:7pt;font-weight:600;line-height:1.3;vertical-align:bottom}
+.heatmap .col-header .co{font-size:7.5pt;font-weight:600;display:block}
+.heatmap .col-header .sector{font-size:6pt;opacity:0.7;font-weight:400;display:block;margin-top:2px}
+.heatmap .lens-row td{padding:5px 8px;font-size:7.5pt;font-weight:600;letter-spacing:.06em;color:#fff;vertical-align:middle}
+.heatmap .lens1 td{background:var(--lens1)}
+.heatmap .lens2 td{background:var(--lens2)}
+.heatmap .lens3 td{background:var(--lens3)}
+.heatmap .param-row td.param-name{padding:5px 8px;font-size:8pt;color:var(--green);background:#fff;border-bottom:1px solid #e8e4dc;white-space:nowrap}
+.heatmap .param-row:nth-child(even) td.param-name{background:var(--light)}
+.heatmap .score-cell{text-align:center;padding:5px 3px;font-weight:600;font-size:8pt;color:#fff;border-bottom:1px solid rgba(255,255,255,0.2);border-right:1px solid rgba(255,255,255,0.15)}
+.score-cell.s5{background:var(--h5)}
+.score-cell.s4{background:var(--h4)}
+.score-cell.s3{background:var(--h3);color:var(--green)}
+.score-cell.s2{background:var(--h2);color:var(--green)}
+.score-cell.s1{background:var(--h1)}
+.heatmap .avg-row td{font-weight:600;font-size:8pt}
+.heatmap .avg-row td.param-name{padding:6px 8px;background:rgba(0,0,0,0.06);color:var(--green);font-style:italic;border-top:1px solid var(--border)}
+.heatmap .avg-row .score-cell{border-top:1px solid rgba(255,255,255,0.3)}
+.heatmap .overall-row td{font-weight:700;font-size:8.5pt}
+.heatmap .overall-row td.param-name{background:var(--green);color:#fff;padding:7px 8px;letter-spacing:.04em}
+.heatmap .overall-row .score-cell{border-top:2px solid rgba(255,255,255,0.4)}
+.heatmap-legend{display:flex;gap:14px;margin-top:8px;flex-wrap:wrap;align-items:center}
+.legend-item{display:flex;align-items:center;gap:5px;font-size:7.5pt;color:var(--mid)}
+.legend-swatch{width:12px;height:12px;border-radius:2px}
+
+/* FOOTER */
+.print-footer{margin-top:28px;padding-top:10px;border-top:1px solid var(--gold);display:flex;justify-content:space-between;font-size:7.5pt;color:var(--mid);flex-wrap:wrap;gap:8px}
+.pf-brand{font-family:var(--serif);font-size:9pt;color:var(--green)}
+
+@media print{
+  .full-analysis-toggle{display:none}
+  #fullAnalysis{display:block !important}
+  @page{size:A4;margin:18mm 20mm}
+  .screen-nav{display:none}
+  .doc-wrap{padding:0;max-width:100%}
+  .impact-grid{break-inside:avoid}
+  .key-takeaway{break-inside:avoid}
+  .lq-item{break-inside:avoid}
+  .section-block{page-break-inside:avoid}
+  .deep-dive-link{display:none}
+  .back-to-top{display:none}
+}
+
+/* FULL ANALYSIS TOGGLE */
+.full-analysis-toggle {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 20px;
+  background: rgba(201,168,76,0.08);
+  border: 1px solid rgba(201,168,76,0.35);
+  cursor: pointer;
+  gap: 12px;
+  transition: background 0.15s;
+  margin-top: 4px;
+}
+.full-analysis-toggle:hover { background: rgba(201,168,76,0.15); }
+.fa-toggle-title {
+  font-size: 9.95pt;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--green);
+  flex: 1;
+  text-align: center;
+}
+.fa-toggle-arrow {
+  font-size: 14pt;
+  color: var(--gold);
+  flex-shrink: 0;
+  transition: transform 0.25s;
+}
+
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "CSRD Benchmarking: Danish Global Brands - ESG Insights Brief",
+  "description": "A CEO brief benchmarking the first mandatory CSRD statements from ten Danish global companies, scoring quality and identifying the gap between leaders and laggards.",
+  "author": {
+    "@type": "Person",
+    "name": "Aurie",
+    "url": "https://REPLACE-WITH-YOUR-DOMAIN/about.html"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Aurie's Knowledge Hub",
+    "url": "https://REPLACE-WITH-YOUR-DOMAIN/index.html"
+  },
+  "datePublished": "2026-01-01",
+  "dateModified": "2026-07-06",
+  "url": "https://REPLACE-WITH-YOUR-DOMAIN/ceo-insights-csrd-benchmarking.html"
+}
+</script>
+</head>
+<body>
+
+<div class="screen-nav">
+  <a href="index.html">← Aurie's Knowledge Hub</a>
+  <button class="print-btn" onclick="window.print()">⬇ Print / Save PDF</button>
+</div>
+
+<div class="doc-wrap" id="top">
+
+  <div class="print-topbar">
+    <div class="print-brand">Aurie's <span>Knowledge Hub</span></div>
+    <div class="print-series">CEO Briefs · ESG Insights &amp; Foresight</div>
+  </div>
+
+  <!-- ══ CEO BRIEF SECTION ══ -->
+
+  <div class="meta-row">
+    <span class="brief-num">CEO Brief</span>
+  </div>
+
+  <h1 class="doc-title">CSRD Benchmarking: <em>Danish Global Brands</em></h1>
+
+  <div class="exec-headline">
+    <div class="eh-label">Executive Headline</div>
+    <div class="eh-text">Ten Danish global companies published their first mandatory CSRD sustainability statements in 2025. The average composite score was 4.0 out of 5.0 across three lenses. The 1.6-point spread between best and worst is not a reporting gap. It is a strategy gap - and it is already visible to investors.</div>
+  </div>
+
+  <hr class="rule">
+
+  <div class="section-label">The Shift - What Is Changing</div>
+  <p class="body-text">CSRD has moved ESG disclosure from voluntary to mandatory, from narrative to assured, and from communications to governance. Wave 1 reports are now public documents that investors, lenders, and proxy advisors are actively benchmarking. The companies that treated CSRD preparation as a reporting exercise look different in the data from those that used it to stress-test their strategy.</p>
+
+  <hr class="rule">
+
+  <div class="section-label">Why It Matters - Business Impact</div>
+  <div class="impact-grid">
+    <div class="impact-card">
+      <span class="impact-icon">📊</span>
+      <div class="impact-title">The Integration Gap</div>
+      <div class="impact-text">Only 4 of 10 companies have ESG genuinely embedded in capital allocation. Ørsted, Maersk, Vestas, and Danfoss use shadow carbon pricing or SBTi-linked metrics in investment decisions. The other 6 report ESG but do not yet use it to decide.</div>
+    </div>
+    <div class="impact-card">
+      <span class="impact-icon">⚠️</span>
+      <div class="impact-title">Scenario Analysis Gap</div>
+      <div class="impact-text">Only 4 companies conducted scenario analysis with named reference scenarios and quantified financial outcomes. This is the most common gap in Wave 1 and the hardest to close under time pressure.</div>
+    </div>
+    <div class="impact-card">
+      <span class="impact-icon">💎</span>
+      <div class="impact-title">The Pandora Signal</div>
+      <div class="impact-text">The peer group's most significant surprise. 100% recycled metals achieved. Only company with reasonable assurance on selected metrics. TNFD referenced. A company not typically seen as an ESG leader making one of the strongest cases in the group.</div>
+    </div>
+  </div>
+
+  <hr class="rule">
+
+  <div class="section-label">Business Exposure</div>
+  <table class="exposure-table">
+    <thead><tr><th style="width:18%">Type</th><th>Exposure</th></tr></thead>
+    <tbody>
+      <tr><td><span class="badge badge-risk">Risk</span></td><td>Scenario analysis gaps and weak financial connectivity are now visible in assured, mandatory documents. Investors and proxy advisors are using this data in engagement and voting decisions.</td></tr>
+      <tr><td><span class="badge badge-risk">Risk</span></td><td>Companies that use the Omnibus simplification as a reason to slow CSRD investment will face comparatively weaker positions as Wave 1 benchmarks become the baseline for investor expectations.</td></tr>
+      <tr><td><span class="badge badge-opp">Opportunity</span></td><td>Companies that begin scenario analysis now and embed carbon pricing in capital decisions will produce measurably stronger Wave 2 disclosures - and make better long-term investment decisions.</td></tr>
+      <tr><td><span class="badge badge-opp">Opportunity</span></td><td>Transparent disclosure of gaps - as demonstrated by Maersk, FLSmidth, and Carlsberg - is correlated with higher underlying data quality in every Big 4 benchmarking framework.</td></tr>
+    </tbody>
+  </table>
+
+  <hr class="rule">
+
+  <div class="section-label">Leadership Lens</div>
+  <ul class="lq-list">
+    <li class="lq-item"><span class="lq-bullet">›</span>Has our board seen how our CSRD disclosure compares to peers on capital allocation integration?</li>
+    <li class="lq-item"><span class="lq-bullet">›</span>Do we have named reference scenarios with quantified financial outcomes - or is scenario analysis still a narrative exercise?</li>
+    <li class="lq-item"><span class="lq-bullet">›</span>Are management incentives explicitly linked to ESG targets in a way that appears in our assured statement?</li>
+    <li class="lq-item"><span class="lq-bullet">›</span>If our nature assessment concluded E4 was immaterial, will that conclusion withstand TNFD-aligned investor scrutiny?</li>
+  </ul>
+
+  <div class="key-takeaway">
+    <span class="kt-icon">💡</span>
+    <div>
+      <div class="kt-label">Key Takeaway</div>
+      <div class="kt-text">The companies at the top of this ranking did not score well because CSRD required it. They scored well because they had already decided that integrating sustainability into financial strategy was worth doing. The report reflects the practice - not the other way around.</div>
+    </div>
+  </div>
+
+  <hr class="rule">
+  <button class="full-analysis-toggle" id="faToggle" onclick="toggleFullAnalysis()">
+    <span class="fa-toggle-title">For Full Analysis - Click Here</span>
+    <span class="fa-toggle-arrow" id="faArrow">↓</span>
+  </button>
+
+  <!-- ══ COLLAPSIBLE DEEP DIVE ══ -->
+  <div id="fullAnalysis" style="display:none">
+    <hr class="rule">
+    <a class="back-to-top" href="#top" style="float:right;margin-bottom:8px">↑ Back to summary</a>
+    <div style="clear:both"></div>
+
+  <!-- SECTION 1: ANALYSIS / HEATMAP -->
+  <div class="section-block" style="clear:both;padding-top:8px">
+    <div class="section-header">
+      <span class="section-num">Section 1</span>
+      <span class="section-title">Executive Scorecard</span>
+    </div>
+    <p class="content-block" style="margin-bottom:12px;font-size:9.5pt">Scores based on direct reading of 2025 Annual Reports. Assessment methodology cross-referenced against PwC, KPMG, Deloitte, and EY CSRD benchmarking frameworks. Scoring is my judgment anchored to specific textual evidence - not algorithmic.</p>
+
+    <div class="heatmap-section">
+      <div class="heatmap-wrap">
+        <table class="heatmap">
+          <thead>
+            <tr>
+              <th style="background:var(--green);color:#fff;padding:6px 8px;text-align:left;font-size:7.5pt;width:200px;font-weight:600;letter-spacing:.04em">Parameter</th>
+              <th class="col-header"><span class="co">Ørsted</span><span class="sector">Renewable Energy</span></th>
+              <th class="col-header"><span class="co">Maersk</span><span class="sector">Shipping</span></th>
+              <th class="col-header"><span class="co">Vestas</span><span class="sector">Wind Energy</span></th>
+              <th class="col-header"><span class="co">Pandora</span><span class="sector">Jewellery</span></th>
+              <th class="col-header"><span class="co">Novo Nordisk</span><span class="sector">Pharma</span></th>
+              <th class="col-header"><span class="co">Carlsberg</span><span class="sector">Beverages</span></th>
+              <th class="col-header"><span class="co">Danfoss</span><span class="sector">Engineering</span></th>
+              <th class="col-header"><span class="co">Danske Bank</span><span class="sector">Financial</span></th>
+              <th class="col-header"><span class="co">FLSmidth</span><span class="sector">Mining Tech</span></th>
+              <th class="col-header"><span class="co">B&amp;O</span><span class="sector">Electronics</span></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="lens-row lens1"><td colspan="11">Lens 1 - Compliance: Are mandatory ESRS requirements met? Is disclosure complete and assured?</td></tr>
+            <tr class="param-row"><td class="param-name">ESRS Compliance Claim</td><td class="score-cell s5">5</td><td class="score-cell s5">5</td><td class="score-cell s4">4</td><td class="score-cell s5">5</td><td class="score-cell s4">4</td><td class="score-cell s4">4</td><td class="score-cell s4">4</td><td class="score-cell s5">5</td><td class="score-cell s4">4</td><td class="score-cell s3">3</td></tr>
+            <tr class="param-row"><td class="param-name">Double Materiality Assessment</td><td class="score-cell s5">5</td><td class="score-cell s5">5</td><td class="score-cell s5">5</td><td class="score-cell s5">5</td><td class="score-cell s4">4</td><td class="score-cell s4">4</td><td class="score-cell s4">4</td><td class="score-cell s5">5</td><td class="score-cell s4">4</td><td class="score-cell s4">4</td></tr>
+            <tr class="param-row"><td class="param-name">Reporting Boundary &amp; Value Chain</td><td class="score-cell s4">4</td><td class="score-cell s5">5</td><td class="score-cell s4">4</td><td class="score-cell s4">4</td><td class="score-cell s4">4</td><td class="score-cell s4">4</td><td class="score-cell s3">3</td><td class="score-cell s4">4</td><td class="score-cell s3">3</td><td class="score-cell s3">3</td></tr>
+            <tr class="param-row"><td class="param-name">Assurance Level &amp; Provider</td><td class="score-cell s4">4</td><td class="score-cell s4">4</td><td class="score-cell s4">4</td><td class="score-cell s5">5</td><td class="score-cell s4">4</td><td class="score-cell s4">4</td><td class="score-cell s4">4</td><td class="score-cell s4">4</td><td class="score-cell s4">4</td><td class="score-cell s4">4</td></tr>
+            <tr class="param-row"><td class="param-name">ESRS Data Point Completeness</td><td class="score-cell s5">5</td><td class="score-cell s5">5</td><td class="score-cell s4">4</td><td class="score-cell s4">4</td><td class="score-cell s3">3</td><td class="score-cell s4">4</td><td class="score-cell s4">4</td><td class="score-cell s4">4</td><td class="score-cell s4">4</td><td class="score-cell s3">3</td></tr>
+            <tr class="param-row"><td class="param-name">Prior Year Comparability &amp; Restatements</td><td class="score-cell s5">5</td><td class="score-cell s4">4</td><td class="score-cell s4">4</td><td class="score-cell s3">3</td><td class="score-cell s5">5</td><td class="score-cell s3">3</td><td class="score-cell s4">4</td><td class="score-cell s4">4</td><td class="score-cell s4">4</td><td class="score-cell s4">4</td></tr>
+            <tr class="avg-row"><td class="param-name">Compliance Average</td><td class="score-cell s5">4.7</td><td class="score-cell s5">4.7</td><td class="score-cell s4">4.2</td><td class="score-cell s4">4.3</td><td class="score-cell s4">4.0</td><td class="score-cell s4">3.8</td><td class="score-cell s4">3.8</td><td class="score-cell s4">4.3</td><td class="score-cell s4">3.8</td><td class="score-cell s3">3.5</td></tr>
+
+            <tr class="lens-row lens2"><td colspan="11">Lens 2 - Quality: Is disclosure credible, quantified, and connected to financial statements?</td></tr>
+            <tr class="param-row"><td class="param-name">Governance: Board &amp; Committee Structure</td><td class="score-cell s5">5</td><td class="score-cell s5">5</td><td class="score-cell s4">4</td><td class="score-cell s4">4</td><td class="score-cell s5">5</td><td class="score-cell s4">4</td><td class="score-cell s4">4</td><td class="score-cell s5">5</td><td class="score-cell s3">3</td><td class="score-cell s3">3</td></tr>
+            <tr class="param-row"><td class="param-name">Management Incentives Linked to ESG</td><td class="score-cell s4">4</td><td class="score-cell s4">4</td><td class="score-cell s3">3</td><td class="score-cell s4">4</td><td class="score-cell s5">5</td><td class="score-cell s3">3</td><td class="score-cell s3">3</td><td class="score-cell s5">5</td><td class="score-cell s3">3</td><td class="score-cell s3">3</td></tr>
+            <tr class="param-row"><td class="param-name">GHG Data Quality: Scope 1, 2, 3</td><td class="score-cell s5">5</td><td class="score-cell s5">5</td><td class="score-cell s5">5</td><td class="score-cell s4">4</td><td class="score-cell s4">4</td><td class="score-cell s5">5</td><td class="score-cell s4">4</td><td class="score-cell s4">4</td><td class="score-cell s4">4</td><td class="score-cell s3">3</td></tr>
+            <tr class="param-row"><td class="param-name">Climate Targets: Specificity &amp; SBTi</td><td class="score-cell s5">5</td><td class="score-cell s4">4</td><td class="score-cell s5">5</td><td class="score-cell s5">5</td><td class="score-cell s5">5</td><td class="score-cell s3">3</td><td class="score-cell s5">5</td><td class="score-cell s4">4</td><td class="score-cell s4">4</td><td class="score-cell s4">4</td></tr>
+            <tr class="param-row"><td class="param-name">Scenario Analysis: Depth &amp; Quantification</td><td class="score-cell s5">5</td><td class="score-cell s3">3</td><td class="score-cell s3">3</td><td class="score-cell s3">3</td><td class="score-cell s4">4</td><td class="score-cell s2">2</td><td class="score-cell s4">4</td><td class="score-cell s5">5</td><td class="score-cell s4">4</td><td class="score-cell s2">2</td></tr>
+            <tr class="param-row"><td class="param-name">Water &amp; Biodiversity Disclosure Quality</td><td class="score-cell s5">5</td><td class="score-cell s4">4</td><td class="score-cell s3">3</td><td class="score-cell s4">4</td><td class="score-cell s4">4</td><td class="score-cell s5">5</td><td class="score-cell s3">3</td><td class="score-cell s4">4</td><td class="score-cell s3">3</td><td class="score-cell s2">2</td></tr>
+            <tr class="param-row"><td class="param-name">Social: Workforce Data &amp; Pay Equity</td><td class="score-cell s4">4</td><td class="score-cell s5">5</td><td class="score-cell s4">4</td><td class="score-cell s4">4</td><td class="score-cell s5">5</td><td class="score-cell s4">4</td><td class="score-cell s5">5</td><td class="score-cell s4">4</td><td class="score-cell s4">4</td><td class="score-cell s4">4</td></tr>
+            <tr class="param-row"><td class="param-name">Financial Connectivity &amp; Capex Disclosure</td><td class="score-cell s5">5</td><td class="score-cell s4">4</td><td class="score-cell s4">4</td><td class="score-cell s4">4</td><td class="score-cell s3">3</td><td class="score-cell s3">3</td><td class="score-cell s4">4</td><td class="score-cell s4">4</td><td class="score-cell s3">3</td><td class="score-cell s3">3</td></tr>
+            <tr class="avg-row"><td class="param-name">Quality Average</td><td class="score-cell s5">4.8</td><td class="score-cell s4">4.2</td><td class="score-cell s4">3.9</td><td class="score-cell s4">4.0</td><td class="score-cell s4">4.4</td><td class="score-cell s4">3.6</td><td class="score-cell s4">4.0</td><td class="score-cell s4">4.4</td><td class="score-cell s4">3.5</td><td class="score-cell s3">3.0</td></tr>
+
+            <tr class="lens-row lens3"><td colspan="11">Lens 3 - Strategy: Does ESG create competitive advantage? Is the company a transition leader or follower?</td></tr>
+            <tr class="param-row"><td class="param-name">Transition Plan: Specificity &amp; Credibility</td><td class="score-cell s5">5</td><td class="score-cell s5">5</td><td class="score-cell s5">5</td><td class="score-cell s4">4</td><td class="score-cell s4">4</td><td class="score-cell s3">3</td><td class="score-cell s4">4</td><td class="score-cell s4">4</td><td class="score-cell s4">4</td><td class="score-cell s3">3</td></tr>
+            <tr class="param-row"><td class="param-name">Nature &amp; Biodiversity Strategy</td><td class="score-cell s5">5</td><td class="score-cell s3">3</td><td class="score-cell s4">4</td><td class="score-cell s4">4</td><td class="score-cell s3">3</td><td class="score-cell s4">4</td><td class="score-cell s2">2</td><td class="score-cell s3">3</td><td class="score-cell s2">2</td><td class="score-cell s1">1</td></tr>
+            <tr class="param-row"><td class="param-name">Supply Chain &amp; Value Chain Leadership</td><td class="score-cell s4">4</td><td class="score-cell s5">5</td><td class="score-cell s4">4</td><td class="score-cell s5">5</td><td class="score-cell s4">4</td><td class="score-cell s4">4</td><td class="score-cell s4">4</td><td class="score-cell s3">3</td><td class="score-cell s3">3</td><td class="score-cell s3">3</td></tr>
+            <tr class="param-row"><td class="param-name">Innovation &amp; Competitive Differentiation</td><td class="score-cell s5">5</td><td class="score-cell s5">5</td><td class="score-cell s5">5</td><td class="score-cell s4">4</td><td class="score-cell s5">5</td><td class="score-cell s3">3</td><td class="score-cell s5">5</td><td class="score-cell s3">3</td><td class="score-cell s5">5</td><td class="score-cell s3">3</td></tr>
+            <tr class="param-row"><td class="param-name">ESG Integration into Business Model</td><td class="score-cell s5">5</td><td class="score-cell s5">5</td><td class="score-cell s5">5</td><td class="score-cell s4">4</td><td class="score-cell s4">4</td><td class="score-cell s3">3</td><td class="score-cell s5">5</td><td class="score-cell s5">5</td><td class="score-cell s4">4</td><td class="score-cell s3">3</td></tr>
+            <tr class="param-row"><td class="param-name">Reporting Transparency &amp; Narrative Integrity</td><td class="score-cell s4">4</td><td class="score-cell s5">5</td><td class="score-cell s4">4</td><td class="score-cell s4">4</td><td class="score-cell s4">4</td><td class="score-cell s4">4</td><td class="score-cell s4">4</td><td class="score-cell s4">4</td><td class="score-cell s5">5</td><td class="score-cell s4">4</td></tr>
+            <tr class="avg-row"><td class="param-name">Strategy Average</td><td class="score-cell s5">4.7</td><td class="score-cell s5">4.7</td><td class="score-cell s4">4.5</td><td class="score-cell s4">4.2</td><td class="score-cell s4">4.0</td><td class="score-cell s4">3.5</td><td class="score-cell s4">4.0</td><td class="score-cell s4">3.7</td><td class="score-cell s4">3.8</td><td class="score-cell s3">2.8</td></tr>
+
+            <tr class="overall-row"><td class="param-name">Overall Composite Score</td><td class="score-cell s5">4.7</td><td class="score-cell s4">4.5</td><td class="score-cell s4">4.2</td><td class="score-cell s4">4.2</td><td class="score-cell s4">4.2</td><td class="score-cell s4">3.6</td><td class="score-cell s4">4.0</td><td class="score-cell s4">4.2</td><td class="score-cell s4">3.7</td><td class="score-cell s3">3.1</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="heatmap-legend">
+        <div class="legend-item"><div class="legend-swatch" style="background:var(--h5)"></div>5 - Sector leader</div>
+        <div class="legend-item"><div class="legend-swatch" style="background:var(--h4)"></div>4 - Strong</div>
+        <div class="legend-item"><div class="legend-swatch" style="background:var(--h3)"></div>3 - Meets standard</div>
+        <div class="legend-item"><div class="legend-swatch" style="background:var(--h2)"></div>2 - Partial</div>
+        <div class="legend-item"><div class="legend-swatch" style="background:var(--h1)"></div>1 - Minimal</div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="rule">
+
+  <!-- SECTION 2: SIGNALS -->
+  <div class="section-block">
+    <div class="section-header">
+      <span class="section-num">Section 2</span>
+      <span class="section-title">What the Scorecard Shows</span>
+    </div>
+    <div class="signal-list">
+      <div class="signal-item">Only 4 of 10 companies - Ørsted, Novo Nordisk, Danfoss, and Danske Bank - conducted scenario analysis with named reference scenarios (IEA, IPCC, NGFS) and quantified financial outcomes. Bang and Olufsen explicitly stated no precise climate scenarios had been defined.</div>
+      <div class="signal-item">Only 4 companies have genuinely integrated ESG into financial decision-making: Ørsted (taxonomy-aligned investment), Maersk (USD 75/t shadow carbon price in all investment decisions), Vestas (SBTi-linked per-MWh intensity targets), and Danfoss (internal carbon price in CapEx, sustainability-linked bond of EUR 500m).</div>
+      <div class="signal-item">Pandora is the peer group's most significant surprise: only company to obtain reasonable assurance (not just limited) on selected metrics; 100% recycled silver and gold achieved 2025; TNFD referenced; strongest responsible sourcing programme in the group.</div>
+      <div class="signal-item">Nature and biodiversity is the most uneven parameter in the scorecard - ranging from 5 (Ørsted: net-positive biodiversity target from 2030) to 1 (Bang and Olufsen: E4 assessed as out of scope). This is the parameter most likely to require remediation as ESRS E4 scrutiny increases.</div>
+      <div class="signal-item">The most credible reports explicitly disclose gaps - Maersk footnotes unassured data points, FLSmidth explains every restatement, Carlsberg discloses its SBTi target deferral to Q1 2026. Big 4 benchmarking consistently finds that transparent disclosure of limitations correlates with higher underlying data quality.</div>
+      <div class="signal-item">Danfoss, a private company, achieved a 3.9 composite score - equivalent to listed-company standard. It reduced its own emissions by 33% in a single year and embedded an internal carbon price into CapEx decisions. Private company status is no longer a reason for lower disclosure quality.</div>
+    </div>
+  </div>
+
+  <hr class="rule">
+
+  <!-- SECTION 3: HORIZON -->
+  <div class="section-block">
+    <div class="section-header">
+      <span class="section-num">Section 3</span>
+      <span class="section-title">What Is Coming Next</span>
+    </div>
+    <table class="horizon-table">
+      <thead><tr><th>Horizon</th><th>What changes and what triggers it</th></tr></thead>
+      <tbody>
+        <tr><td>Now</td><td>Wave 1 CSRD reports are public. Institutional investors, proxy advisors, and lenders are actively benchmarking them. Scenario analysis gaps, missing transition plan detail, and weak financial connectivity are now visible in assured, mandatory documents - not voluntary reports.</td></tr>
+        <tr><td>12 months</td><td>The European Commission's Omnibus simplification proposals will reduce mandatory data points for Wave 2 and 3 reporters. Companies using this as a reason to slow down will discover that investor and lender scrutiny does not simplify in parallel with regulation. The companies that prepared to the higher standard will be comparatively better positioned.</td></tr>
+        <tr><td>3 to 5 years</td><td>ESG disclosure quality becomes a standard input into credit assessment, equity valuation, and M&A due diligence. The 1.6-point spread visible in this peer group today translates into a measurable cost-of-capital differential. Companies that have not closed the integration gap by then will be explaining it to investors and boards under time pressure.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <hr class="rule">
+
+  <!-- SECTION 4: WHAT THIS MEANS -->
+  <div class="section-block">
+    <div class="section-header">
+      <span class="section-num">Section 4</span>
+      <span class="section-title">What This Means for the Business</span>
+    </div>
+    <div class="impl-list">
+      <div class="impl-item"><div class="impl-label">Scenario analysis</div><div class="impl-text">The most common gap in Wave 1 and the hardest to close quickly. Companies that begin scenario development now - using named reference scenarios (IEA NZE, IPCC RCP 2.6/8.5, NGFS) and quantifying financial outcomes - will be materially better positioned for Wave 2 assurance.</div></div>
+      <div class="impl-item"><div class="impl-label">Capital allocation</div><div class="impl-text">The companies at the top of this ranking use an internal carbon price or SBTi-linked metric in investment decisions. The reporting reflects the practice. Companies that price carbon internally before they are required to report it produce measurably stronger disclosures - and make better long-term investment decisions.</div></div>
+      <div class="impl-item"><div class="impl-label">Assurance readiness</div><div class="impl-text">Retrospective data assembly is the primary root cause of assurance control gaps. Companies need named ESG data owners, documented calculation methodologies, and audit-trail capable systems before the assurance process begins - not during it.</div></div>
+      <div class="impl-item"><div class="impl-label">Nature and biodiversity</div><div class="impl-text">ESRS E4 is the parameter with the widest spread in this peer group. Companies that have assessed nature as immaterial need to be confident that assessment will withstand scrutiny as TNFD adoption increases and investor attention to nature-related financial risks grows.</div></div>
+      <div class="impl-item"><div class="impl-label">Transparency as strategy</div><div class="impl-text">Disclosing gaps is less damaging than obscuring them. Maersk, FLSmidth, Carlsberg, and Bang and Olufsen all score higher on transparency than their overall composite would suggest - because they explicitly disclosed what was missing. That approach is correlated with higher underlying data quality in every Big 4 benchmarking framework.</div></div>
+    </div>
+    <div class="coi-box">
+      <div class="coi-label">Cost of inaction</div>
+      Companies that use the Omnibus simplification as a reason to reduce CSRD investment will find themselves explaining the gap to investors and lenders who are already using Wave 1 disclosures as a baseline. The compliance window narrows, but the scrutiny does not.
+    </div>
+  </div>
+
+  <hr class="rule">
+
+  <!-- SECTION 5: BOARD ACTIONS -->
+  <div class="section-block">
+    <div class="section-header">
+      <span class="section-num">Section 5</span>
+      <span class="section-title">Board &amp; Leadership Actions</span>
+    </div>
+    <table class="action-table">
+      <thead><tr><th>Action</th><th>What it requires</th><th>Horizon</th></tr></thead>
+      <tbody>
+        <tr><td>Commission scenario analysis</td><td>Name the reference scenarios (IEA NZE, IPCC RCP 2.6 and 8.5, NGFS Net Zero 2050). Quantify at least one financial outcome per scenario. Assign ownership to CFO and CSO jointly.</td><td style="text-align:center;color:var(--mid)">Now</td></tr>
+        <tr><td>Establish internal carbon price</td><td>Apply a shadow carbon price to all material CapEx decisions. Disclose the price and the methodology. Maersk uses USD 75/t; Danfoss embeds it in CapEx criteria. Both appear in the assured sustainability statement.</td><td style="text-align:center;color:var(--mid)">6 months</td></tr>
+        <tr><td>Review nature and biodiversity assessment</td><td>If E4 was assessed as immaterial, stress-test that conclusion against TNFD recommendations and supply chain exposure. The gap between Ørsted (5) and Bang and Olufsen (1) on this parameter is the largest single-parameter spread in the scorecard.</td><td style="text-align:center;color:var(--mid)">6 months</td></tr>
+        <tr><td>Audit assurance readiness</td><td>Map every material ESG metric to a named data owner, a documented calculation methodology, and an audit trail. Identify which data points were outside assurance scope in 2025 and why. Begin remediation before FY2026 data collection starts.</td><td style="text-align:center;color:var(--mid)">Now</td></tr>
+        <tr><td>Link management incentives to ESG</td><td>Novo Nordisk and Danske Bank score 5 on ESG incentive linkage - sustainability is one of five board-assessed strategic targets. Where incentive linkage is absent or unquantified, the gap is now visible in a public, assured document.</td><td style="text-align:center;color:var(--mid)">12 months</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  </div><!-- end #fullAnalysis -->
+
+  <div class="print-footer">
+    <div class="pf-brand">Aurie's Knowledge Hub</div>
+    <div>CSRD Benchmarking: Danish Global Brands · Wave 1 · FY2025 Reports · 2026</div>
+    <div>© Aurie</div>
+  </div>
+
+</div>
+
+<script>
+function toggleFullAnalysis() {
+  var panel = document.getElementById('fullAnalysis');
+  var arrow = document.getElementById('faArrow');
+  var open  = panel.style.display !== 'none';
+  panel.style.display = open ? 'none' : 'block';
+  arrow.style.transform = open ? 'rotate(0deg)' : 'rotate(180deg)';
+}
+</script>
+</body>
+</html>

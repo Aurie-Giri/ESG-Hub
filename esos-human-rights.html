@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="The Social & Human Rights Operating System - ensuring the sustainability transition creates positive outcomes for people and society.">
+<title>Social &amp; Human Rights Operating System - Aurie's Knowledge Hub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Inter:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--green-deep:#0e2b1a;--green-mid:#1a3d28;--green-light:#234d33;--green-dark:#091f12;
+--gold:#c9a84c;--gold-light:#e0c07a;--gold-dim:rgba(201,168,76,0.15);
+--white:#ffffff;--muted:#8a9e90;--border:rgba(201,168,76,0.18);
+--serif:'Cormorant Garamond',Georgia,serif;--sans:'Inter',system-ui,sans-serif;--mono:'DM Mono',monospace;
+--acc:#f97316;--acc-dim:rgba(249,115,22,0.10);--acc-bdr:rgba(249,115,22,0.28);}
+html{scroll-behavior:smooth}
+body{background:var(--green-deep);color:var(--white);font-family:var(--sans);font-weight:300;font-size:16px;line-height:1.7;min-height:100vh}
+::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:var(--green-deep)}::-webkit-scrollbar-thumb{background:rgba(201,168,76,0.35);border-radius:3px}
+
+.page-header{padding:7rem 2.5rem 3rem;background:radial-gradient(ellipse at 65% 40%,rgba(26,61,40,0.9) 0%,var(--green-deep) 65%);border-bottom:1px solid var(--border)}
+.back-link{font-size:0.7rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);text-decoration:none;display:inline-flex;align-items:center;gap:6px;margin-bottom:1.2rem;transition:color 0.15s}
+.back-link:hover{color:var(--gold)}
+.page-eyebrow{font-size:0.7rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--gold);margin-bottom:1.2rem;display:flex;align-items:center;gap:1rem}
+.page-eyebrow::before{content:'';width:2.5rem;height:1px;background:var(--gold);display:inline-block}
+h1.page-title{font-family:var(--serif);font-size:clamp(2.4rem,4.5vw,4rem);font-weight:300;line-height:1.1;margin-bottom:0.8rem;border:none;padding:0}
+h1.page-title em{font-style:italic;color:var(--gold)}
+.page-desc{font-size:1rem;color:rgba(255,255,255,0.58);max-width:680px;line-height:1.8;margin-bottom:1.8rem}
+.header-meta{display:flex;gap:10px;flex-wrap:wrap}
+.meta-badge{padding:4px 14px;font-size:10px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;font-family:var(--sans)}
+.page-nav{background:var(--green-mid);border-bottom:1px solid var(--border);padding:0 2.5rem;display:flex;overflow-x:auto}
+.page-nav-link{padding:13px 20px;font-size:0.73rem;letter-spacing:0.08em;text-transform:uppercase;color:rgba(255,255,255,0.45);text-decoration:none;border-bottom:2px solid transparent;white-space:nowrap;transition:all 0.15s}
+.page-nav-link:hover{color:var(--gold-light)}
+.page-nav-link.active{color:var(--gold);border-color:var(--gold)}
+main{padding:0 2.5rem 5rem;max-width:860px;margin:0 auto}
+.section-block{margin-top:3.5rem}
+.section-divider{border-top:2px solid var(--gold);position:relative;margin-bottom:1.8rem}
+.section-divider-label{position:absolute;top:-12px;left:0;background:var(--green-deep);padding:0 14px 0 0;font-size:9px;letter-spacing:0.22em;text-transform:uppercase;color:var(--gold);font-family:var(--sans);font-weight:500}
+.logic-chain{display:flex;align-items:center;gap:0;flex-wrap:wrap;margin-bottom:2rem;padding:16px 22px;background:var(--acc-dim);border:1px solid var(--acc-bdr)}
+.logic-step{font-family:var(--serif);font-size:1.1rem;font-weight:400;color:var(--acc);white-space:nowrap}
+.logic-arrow{font-size:0.9rem;color:var(--acc-bdr);margin:0 10px;flex-shrink:0}
+.ceo-question{margin-bottom:1.8rem;padding:18px 22px;border-left:3px solid var(--acc);background:rgba(0,0,0,0.1)}
+.ceo-q-label{font-size:8px;letter-spacing:0.22em;text-transform:uppercase;color:var(--acc);font-family:var(--sans);margin-bottom:6px}
+.ceo-q-text{font-family:var(--serif);font-size:1.05rem;font-style:italic;color:rgba(255,255,255,0.8);line-height:1.6}
+.summary-para{font-size:1rem;color:rgba(255,255,255,0.65);line-height:1.85;margin-bottom:1rem}
+.summary-para:last-child{margin-bottom:0}
+.takeaway-block{background:var(--green-mid);border:1px solid var(--border);border-top:2px solid var(--acc);padding:28px 32px;margin-bottom:1.2rem}
+.takeaway-label{font-size:9px;letter-spacing:0.22em;text-transform:uppercase;color:var(--acc);font-family:var(--sans);margin-bottom:14px}
+.takeaway-contrast{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);border:1px solid var(--border);margin-top:20px}
+.contrast-card{padding:16px 18px;background:var(--green-light)}
+.contrast-card.positive{background:var(--acc-dim)}
+.contrast-label{font-size:8px;letter-spacing:0.2em;text-transform:uppercase;font-family:var(--sans);margin-bottom:6px}
+.contrast-card:not(.positive) .contrast-label{color:var(--muted)}
+.contrast-card.positive .contrast-label{color:var(--acc)}
+.contrast-text{font-size:0.9rem;line-height:1.55}
+.contrast-card:not(.positive) .contrast-text{color:rgba(255,255,255,0.45)}
+.contrast-card.positive .contrast-text{color:rgba(255,255,255,0.82)}
+.enables-block{margin-top:1.2rem;padding:16px 20px;background:rgba(201,168,76,0.04);border:1px solid var(--border)}
+.enables-label{font-size:8px;letter-spacing:0.22em;text-transform:uppercase;color:var(--muted);font-family:var(--sans);margin-bottom:8px}
+.enables-list{display:flex;gap:6px;flex-wrap:wrap}
+.enables-chip{font-size:0.75rem;color:var(--muted);padding:3px 10px;border:1px solid rgba(255,255,255,0.1)}
+.arch-step{border:1px solid var(--acc-bdr);background:var(--acc-dim);border-radius:4px;overflow:hidden;margin-bottom:2px}
+.arch-step-header{padding:14px 20px 10px;display:grid;grid-template-columns:28px 1fr;gap:0 14px;align-items:start}
+.arch-step-num{font-family:var(--serif);font-size:1.6rem;font-weight:300;color:var(--acc);line-height:1;opacity:0.5}
+.arch-step-title{font-family:var(--serif);font-size:1.15rem;font-weight:400;color:var(--white);margin-bottom:2px}
+.arch-step-sub{font-size:0.78rem;color:rgba(255,255,255,0.5)}
+.arch-step-body{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:rgba(0,0,0,0.15);border-top:1px solid rgba(0,0,0,0.15)}
+.arch-col{padding:12px 20px;background:rgba(0,0,0,0.08)}
+.arch-col-label{font-size:8px;letter-spacing:0.18em;text-transform:uppercase;color:var(--acc);font-family:var(--sans);font-weight:500;margin-bottom:8px}
+.arch-items{display:flex;flex-direction:column;gap:4px}
+.arch-item{font-size:0.8rem;color:rgba(255,255,255,0.6);line-height:1.45;padding-left:12px;position:relative}
+.arch-item::before{content:'·';position:absolute;left:0;color:var(--acc)}
+.arch-q{font-size:0.8rem;color:rgba(255,255,255,0.6);line-height:1.5;padding-left:12px;position:relative}
+.arch-q::before{content:'→';position:absolute;left:0;color:var(--acc-bdr);font-size:10px;top:3px}
+.arch-connector{display:flex;justify-content:center;height:28px;align-items:center;color:rgba(201,168,76,0.35);font-size:16px}
+.outcomes-block{border:1px solid var(--acc-bdr);background:var(--acc-dim);border-radius:4px;padding:20px 24px}
+.outcomes-label{font-size:9px;letter-spacing:0.22em;text-transform:uppercase;color:var(--acc);font-family:var(--sans);margin-bottom:12px}
+.outcomes-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px 24px}
+.outcome-item{display:flex;align-items:baseline;gap:8px;font-size:0.88rem;color:rgba(255,255,255,0.75);line-height:1.4}
+.outcome-item::before{content:'✓';color:var(--acc);font-size:11px;flex-shrink:0}
+.fw-group{margin-bottom:1.8rem}
+.fw-group-title{font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);font-family:var(--sans);font-weight:500;margin-bottom:10px;display:flex;align-items:center;gap:10px}
+.fw-group-title::after{content:'';flex:1;height:1px;background:linear-gradient(to right,rgba(201,168,76,0.25),transparent)}
+.fw-cards{display:grid;grid-template-columns:1fr 1fr;gap:2px;background:var(--border);border:1px solid var(--border)}
+.fw-card{background:var(--green-mid);padding:14px 18px;text-decoration:none;transition:background 0.15s;display:block;position:relative}
+.fw-card:hover{background:var(--green-light)}
+.fw-card-code{font-family:var(--mono);font-size:10px;color:var(--gold-light);letter-spacing:0.06em;margin-bottom:4px}
+.fw-card-name{font-size:0.85rem;color:rgba(255,255,255,0.8);line-height:1.4;margin-bottom:4px;padding-right:20px}
+.fw-card-org{font-size:0.72rem;color:var(--muted)}
+.fw-card-arrow{position:absolute;top:14px;right:14px;font-size:12px;color:var(--muted);transition:color 0.15s}
+.fw-card:hover .fw-card-arrow{color:var(--gold)}
+footer{padding:20px 2.5rem;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;color:var(--muted);font-size:0.75rem;flex-wrap:wrap;gap:8px;letter-spacing:0.06em;background:var(--green-dark)}
+.footer-brand{font-family:var(--serif);font-size:0.9rem;color:var(--gold);font-weight:400}
+@media(max-width:800px){
+  .nav-link{min-width:88px;padding:0 0.8rem}.nav-brand{padding:0 1.2rem;font-size:1.05rem}
+  .page-header,main,footer,.page-nav{padding-left:1.5rem;padding-right:1.5rem}
+  .arch-step-body,.takeaway-contrast,.fw-cards,.outcomes-grid{grid-template-columns:1fr}
+  .arch-step-header{grid-template-columns:24px 1fr}}
+@media(max-width:560px){.nav-link-sub{display:none}.nav-link{min-width:70px;padding:0 0.6rem}}
+/* ── NAV (standardised) ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; align-items: stretch;
+  background: rgba(9,31,18,0.97); backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+  height: 64px;
+}
+.nav-brand {
+  display: flex; align-items: center;
+  padding: 0 2.5rem;
+  font-family: var(--serif); font-size: 1.25rem; font-weight: 600;
+  letter-spacing: 0.04em; color: var(--white); text-decoration: none;
+  border-right: 1px solid var(--border);
+  flex-shrink: 0; transition: background 0.2s;
+}
+.nav-brand:hover { background: rgba(201,168,76,0.06); }
+.nav-brand span { color: var(--gold); }
+.nav-sections { display: flex; align-items: stretch; list-style: none; flex: 1; overflow-x: auto; }
+.nav-sections li { display: flex; }
+.nav-link {
+  display: flex; flex-direction: column; justify-content: center;
+  padding: 0 1.6rem; text-decoration: none;
+  border-right: 1px solid var(--border);
+  transition: background 0.18s; min-width: 120px;
+}
+.nav-link:hover { background: rgba(201,168,76,0.06); }
+.nav-link.active { background: var(--gold-dim); border-bottom: 2px solid var(--gold); }
+.nav-link-primary { font-size: 0.78rem; font-weight: 500; letter-spacing: 0.05em; color: rgba(255,255,255,0.88); line-height: 1.2; white-space: nowrap; }
+.nav-link-sub { font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); line-height: 1; margin-top: 3px; white-space: nowrap; }
+.nav-link:hover .nav-link-primary { color: var(--gold-light); }
+.nav-link:hover .nav-link-sub { color: rgba(201,168,76,0.6); }
+.nav-link.active .nav-link-primary { color: var(--gold); }
+.nav-link.active .nav-link-sub { color: rgba(201,168,76,0.7); }
+.nav-about {
+  display: flex; align-items: center; padding: 0 1.8rem;
+  font-size: 0.78rem; font-weight: 500; letter-spacing: 0.05em;
+  color: rgba(255,255,255,0.6); text-decoration: none;
+  margin-left: auto; transition: color 0.18s; white-space: nowrap;
+}
+.nav-about:hover { color: var(--gold); }
+@media (max-width: 768px) {
+  .nav-link { min-width: 100px; padding: 0 1rem; }
+  .nav-brand { padding: 0 1.2rem; font-size: 1.05rem; }
+}
+@media (max-width: 560px) {
+  .nav-link-sub { display: none; }
+  .nav-link { min-width: 80px; padding: 0 0.8rem; }
+}
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Social & Human Rights Operating System",
+  "description": "The Social & Human Rights Operating System - ensuring the sustainability transition creates positive outcomes for people and society.",
+  "author": {
+    "@type": "Person",
+    "name": "Aurie",
+    "url": "https://REPLACE-WITH-YOUR-DOMAIN/about.html"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Aurie's Knowledge Hub",
+    "url": "https://REPLACE-WITH-YOUR-DOMAIN/index.html"
+  },
+  "datePublished": "2026-01-01",
+  "dateModified": "2026-07-06",
+  "url": "https://REPLACE-WITH-YOUR-DOMAIN/esos-human-rights.html"
+}
+</script>
+</head>
+<body>
+<nav>
+  <a class="nav-brand" href="index.html">Aurie's <span>Knowledge Hub</span></a>
+  <ul class="nav-sections">
+    <li>
+      <a class="nav-link" href="ceo-insights.html">
+        <span class="nav-link-primary">CEO Insights</span>
+        <span class="nav-link-sub">For the leadership</span>
+      </a>
+    </li>
+    <li>
+      <a class="nav-link" href="tools.html">
+        <span class="nav-link-primary">Tools &amp; Templates</span>
+        <span class="nav-link-sub">For ESG teams</span>
+      </a>
+    </li>
+    <li>
+      <a class="nav-link active" href="resource-library.html">
+        <span class="nav-link-primary">Resource Library</span>
+        <span class="nav-link-sub">For practitioners</span>
+      </a>
+    </li>
+    <li>
+      <a class="nav-link" href="thought-papers.html">
+        <span class="nav-link-primary">Thought Papers</span>
+        <span class="nav-link-sub">For the curious</span>
+      </a>
+    </li>
+  </ul>
+  <a class="nav-about" href="about.html">About Me</a>
+</nav>
+<div class="page-header">
+  <a class="back-link" href="tools.html">← Enterprise Operating System</a>
+  <p class="page-eyebrow">Toolkits · Q5 People & Society · Operating System 12 of 14</p>
+  <h1 class="page-title">Social &amp; Human Rights <em>Operating System</em></h1>
+  <p class="page-desc">How to ensure the business respects people, protects human rights, creates a safe and inclusive workplace, and builds trust across the value chain.</p>
+  <div class="header-meta"><span class="meta-badge" style="background:rgba(249,115,22,0.12);border:1px solid rgba(249,115,22,0.3);color:#f97316;">9 layers</span><span class="meta-badge" style="background:var(--gold-dim);border:1px solid rgba(201,168,76,0.4);color:var(--gold);">UN GPs · ILO · CSRD ESRS S1/S2 · OECD</span></div>
+</div>
+<div class="page-nav">
+  <a class="page-nav-link active" href="#summary">Summary Logic</a>
+  <a class="page-nav-link" href="#takeaway">CEO Takeaway</a>
+  <a class="page-nav-link" href="#architecture">OS Architecture</a>
+  <a class="page-nav-link" href="#frameworks">Frameworks</a>
+</div>
+<main>
+<div class="section-block" id="summary">
+  <div class="section-divider"><span class="section-divider-label">Section 1 - Summary Logic</span></div>
+  <div class="logic-chain"><span class="logic-step">Identify</span><span class="logic-arrow">→</span><span class="logic-step">Protect</span><span class="logic-arrow">→</span><span class="logic-step">Respect</span><span class="logic-arrow">→</span><span class="logic-step">Remedy</span><span class="logic-arrow">→</span><span class="logic-step">Improve</span><span class="logic-arrow">→</span><span class="logic-step">Create Shared Value</span></div>
+  <div class="ceo-question">
+    <div class="ceo-q-label">The CEO question this OS answers</div>
+    <div class="ceo-q-text">"How do we ensure our business respects people, protects human rights, creates a safe and inclusive workplace, and builds trust across our value chain?"</div>
+  </div>
+  <p class="summary-para">Businesses operate within complex human systems - employees, workers, suppliers, communities, customers, and society. Human rights risks can create operational disruption, legal exposure, reputational damage, and loss of stakeholder trust. This OS provides an enterprise approach to identify social impacts, prevent harm, strengthen workforce practices, manage supply-chain risks, and create positive social outcomes.</p><p class="summary-para">The purpose is to move from social compliance management towards human-centred business transformation, where respect for people is embedded into strategy, operations, procurement, and value creation.</p>
+</div>
+<div class="section-block" id="takeaway">
+  <div class="section-divider"><span class="section-divider-label">Section 2 - CEO Takeaway</span></div>
+  <div class="takeaway-block">
+    <div class="takeaway-label">The transformation</div>
+    <div class="takeaway-contrast">
+      <div class="contrast-card"><div class="contrast-label">From</div><div class="contrast-text">"How do we comply with social expectations?"</div></div>
+      <div class="contrast-card positive"><div class="contrast-label">To</div><div class="contrast-text">"How do we build a business that respects people, strengthens communities, and creates long-term shared value?"</div></div>
+    </div>
+  </div>
+  <div class="enables-block"><div class="enables-label">This OS connects to and enables</div><div class="enables-list"><span class="enables-chip">Governance &amp; Ethics OS</span><span class="enables-chip">Supply Chain Due Diligence OS</span><span class="enables-chip">Just Transition OS</span><span class="enables-chip">Stakeholder Engagement OS</span><span class="enables-chip">ESG Data &amp; Reporting OS</span></div></div>
+</div>
+<div class="section-block" id="architecture">
+  <div class="section-divider"><span class="section-divider-label">Section 3 - Operating System Architecture</span></div>
+  <p style="font-size:0.9rem;color:rgba(255,255,255,0.5);margin-bottom:2rem;font-style:italic;max-width:620px">The 9-layer architecture flows from strategic governance through to continuous improvement.</p>
+  <div class="arch-wrap">
+    <div class="arch-step">
+  <div class="arch-step-header"><div class="arch-step-num">1</div>
+    <div><div class="arch-step-title">Human rights governance &amp; strategic commitment</div><div class="arch-step-sub">Establish leadership responsibility for social performance</div></div>
+  </div>
+  <div class="arch-step-body">
+    <div class="arch-col"><div class="arch-col-label">Building blocks</div><div class="arch-items"><div class="arch-item">Human rights policy</div><div class="arch-item">Executive accountability</div><div class="arch-item">Board oversight</div><div class="arch-item">Human rights governance model</div><div class="arch-item">Responsible business commitments</div><div class="arch-item">Integration into enterprise risk management</div><div class="arch-item">Code of conduct</div></div></div>
+    <div class="arch-col"><div class="arch-col-label">Key questions</div><div class="arch-items"><div class="arch-q">Who owns human rights responsibility?</div><div class="arch-q">Is respect for people embedded into business strategy?</div></div></div>
+  </div>
+</div><div class='arch-connector'>↓</div><div class="arch-step">
+  <div class="arch-step-header"><div class="arch-step-num">2</div>
+    <div><div class="arch-step-title">Social impact &amp; human rights risk assessment</div><div class="arch-step-sub">Identify where people may be impacted</div></div>
+  </div>
+  <div class="arch-step-body">
+    <div class="arch-col"><div class="arch-col-label">Building blocks</div><div class="arch-items"><div class="arch-item">Human rights impact assessments</div><div class="arch-item">Social risk mapping</div><div class="arch-item">Workforce assessment</div><div class="arch-item">Supply-chain risk assessment</div><div class="arch-item">Community impact assessment</div><div class="arch-item">Vulnerable group identification</div><div class="arch-item">Salient human rights issues: forced labour, child labour, health &amp; safety, discrimination, freedom of association, land rights</div></div></div>
+    <div class="arch-col"><div class="arch-col-label">Key questions</div><div class="arch-items"><div class="arch-q">Where could people be harmed?</div><div class="arch-q">Which human rights issues are most material?</div></div></div>
+  </div>
+</div><div class='arch-connector'>↓</div><div class="arch-step">
+  <div class="arch-step-header"><div class="arch-step-num">3</div>
+    <div><div class="arch-step-title">Human rights due diligence</div><div class="arch-step-sub">Prevent, mitigate, and manage human rights impacts</div></div>
+  </div>
+  <div class="arch-step-body">
+    <div class="arch-col"><div class="arch-col-label">Building blocks</div><div class="arch-items"><div class="arch-item">Risk prevention processes</div><div class="arch-item">Supplier due diligence</div><div class="arch-item">Contract requirements</div><div class="arch-item">Worker engagement</div><div class="arch-item">Monitoring systems</div><div class="arch-item">Corrective action plans</div><div class="arch-item">Remediation processes</div></div></div>
+    <div class="arch-col"><div class="arch-col-label">Key questions</div><div class="arch-items"><div class="arch-q">Are we preventing harm before it occurs?</div><div class="arch-q">Do we understand our full value-chain responsibility?</div></div></div>
+  </div>
+</div><div class='arch-connector'>↓</div><div class="arch-step">
+  <div class="arch-step-header"><div class="arch-step-num">4</div>
+    <div><div class="arch-step-title">Responsible workforce &amp; employee experience</div><div class="arch-step-sub">Build a safe, fair, and inclusive workplace</div></div>
+  </div>
+  <div class="arch-step-body">
+    <div class="arch-col"><div class="arch-col-label">Building blocks</div><div class="arch-items"><div class="arch-item">Health and safety management</div><div class="arch-item">Fair wages</div><div class="arch-item">Workforce wellbeing</div><div class="arch-item">Diversity, equity and inclusion</div><div class="arch-item">Employee development</div><div class="arch-item">Skills and capability building</div><div class="arch-item">Future workforce planning</div></div></div>
+    <div class="arch-col"><div class="arch-col-label">Key questions</div><div class="arch-items"><div class="arch-q">Are our people safe, valued, and supported?</div><div class="arch-q">Are we building a workforce ready for the future?</div></div></div>
+  </div>
+</div><div class='arch-connector'>↓</div><div class="arch-step">
+  <div class="arch-step-header"><div class="arch-step-num">5</div>
+    <div><div class="arch-step-title">Supply chain social responsibility</div><div class="arch-step-sub">Extend human rights standards across the value chain</div></div>
+  </div>
+  <div class="arch-step-body">
+    <div class="arch-col"><div class="arch-col-label">Building blocks</div><div class="arch-items"><div class="arch-item">Supplier code of conduct</div><div class="arch-item">Supplier screening</div><div class="arch-item">Social audits</div><div class="arch-item">High-risk supplier management</div><div class="arch-item">Supplier capability building</div><div class="arch-item">Responsible sourcing</div><div class="arch-item">Traceability</div></div></div>
+    <div class="arch-col"><div class="arch-col-label">Key questions</div><div class="arch-items"><div class="arch-q">Are human rights protected beyond our own operations?</div><div class="arch-q">Are suppliers supported to improve?</div></div></div>
+  </div>
+</div><div class='arch-connector'>↓</div><div class="arch-step">
+  <div class="arch-step-header"><div class="arch-step-num">6</div>
+    <div><div class="arch-step-title">Community engagement &amp; social licence</div><div class="arch-step-sub">Build trust with affected communities</div></div>
+  </div>
+  <div class="arch-step-body">
+    <div class="arch-col"><div class="arch-col-label">Building blocks</div><div class="arch-items"><div class="arch-item">Community engagement</div><div class="arch-item">Stakeholder dialogue</div><div class="arch-item">Social impact assessments</div><div class="arch-item">Local economic contribution</div><div class="arch-item">Indigenous engagement</div><div class="arch-item">Community investment</div><div class="arch-item">Grievance mechanisms</div></div></div>
+    <div class="arch-col"><div class="arch-col-label">Key questions</div><div class="arch-items"><div class="arch-q">How do we impact the communities around us?</div><div class="arch-q">Do communities trust our role and actions?</div></div></div>
+  </div>
+</div><div class='arch-connector'>↓</div><div class="arch-step">
+  <div class="arch-step-header"><div class="arch-step-num">7</div>
+    <div><div class="arch-step-title">Remediation, grievance &amp; accountability</div><div class="arch-step-sub">Address harm and strengthen accountability</div></div>
+  </div>
+  <div class="arch-step-body">
+    <div class="arch-col"><div class="arch-col-label">Building blocks</div><div class="arch-items"><div class="arch-item">Accessible grievance channels</div><div class="arch-item">Worker complaints mechanisms</div><div class="arch-item">Investigation processes</div><div class="arch-item">Remedy frameworks</div><div class="arch-item">Corrective actions</div><div class="arch-item">Escalation pathways</div><div class="arch-item">Transparency</div></div></div>
+    <div class="arch-col"><div class="arch-col-label">Key questions</div><div class="arch-items"><div class="arch-q">Can people raise concerns safely?</div><div class="arch-q">Do we respond when harm occurs?</div></div></div>
+  </div>
+</div><div class='arch-connector'>↓</div><div class="arch-step">
+  <div class="arch-step-header"><div class="arch-step-num">8</div>
+    <div><div class="arch-step-title">Social performance measurement &amp; disclosure</div><div class="arch-step-sub">Track progress and demonstrate accountability</div></div>
+  </div>
+  <div class="arch-step-body">
+    <div class="arch-col"><div class="arch-col-label">Building blocks</div><div class="arch-items"><div class="arch-item">Social KPIs</div><div class="arch-item">Human rights indicators</div><div class="arch-item">Workforce metrics</div><div class="arch-item">Safety performance</div><div class="arch-item">Diversity metrics</div><div class="arch-item">Supplier performance data</div><div class="arch-item">Sustainability reporting</div></div></div>
+    <div class="arch-col"><div class="arch-col-label">Key questions</div><div class="arch-items"><div class="arch-q">Are we improving social outcomes?</div><div class="arch-q">Can we demonstrate credible progress?</div></div></div>
+  </div>
+</div><div class='arch-connector'>↓</div><div class="arch-step">
+  <div class="arch-step-header"><div class="arch-step-num">9</div>
+    <div><div class="arch-step-title">Continuous improvement &amp; social value creation</div><div class="arch-step-sub">Strengthen positive impact over time</div></div>
+  </div>
+  <div class="arch-step-body">
+    <div class="arch-col"><div class="arch-col-label">Building blocks</div><div class="arch-items"><div class="arch-item">Lessons learned</div><div class="arch-item">Stakeholder feedback</div><div class="arch-item">Capability building</div><div class="arch-item">Social innovation</div><div class="arch-item">Partnership models</div><div class="arch-item">Strategy refresh</div></div></div>
+    <div class="arch-col"><div class="arch-col-label">Key questions</div><div class="arch-items"><div class="arch-q">Are we moving beyond compliance?</div><div class="arch-q">How do we create shared value?</div></div></div>
+  </div>
+</div>
+    <div class="arch-connector">↓</div>
+    <div class="outcomes-block">
+      <div class="outcomes-label">Outcomes</div>
+      <div class="outcomes-grid"><div class="outcome-item">Respect for human rights</div><div class="outcome-item">Safer and more inclusive workplace</div><div class="outcome-item">Stronger supplier responsibility</div><div class="outcome-item">Improved stakeholder trust</div><div class="outcome-item">Reduced social risk</div><div class="outcome-item">Positive social impact</div></div>
+    </div>
+  </div>
+</div>
+<div class="section-block" id="frameworks">
+  <div class="section-divider"><span class="section-divider-label">Section 4 - Relevant Frameworks</span></div>
+  <p style="font-size:0.9rem;color:rgba(255,255,255,0.5);margin-bottom:2rem;font-style:italic;max-width:620px">All framework references link to the original source document. Scores and assessments in this OS are based on official texts only.</p>
+  <div class="fw-group"><div class="fw-group-title">Human Rights &amp; Responsible Business</div><div class="fw-cards"><a class="fw-card" href="https://www.ohchr.org/en/publications/reference-publications/guiding-principles-business-and-human-rights" target="_blank" rel="noopener">
+  <div class="fw-card-code">UN GPs</div>
+  <div class="fw-card-name">UN Guiding Principles on Business and Human Rights</div>
+  <div class="fw-card-org">UN Office of the High Commissioner for Human Rights</div>
+  <span class="fw-card-arrow">↗</span>
+</a><a class="fw-card" href="https://www.oecd.org/en/topics/responsible-business-conduct.html" target="_blank" rel="noopener">
+  <div class="fw-card-code">OECD MNE</div>
+  <div class="fw-card-name">OECD Guidelines for Multinational Enterprises on Responsible Business Conduct</div>
+  <div class="fw-card-org">Organisation for Economic Co-operation and Development</div>
+  <span class="fw-card-arrow">↗</span>
+</a><a class="fw-card" href="https://www.oecd.org/en/publications/oecd-due-diligence-guidance-for-responsible-business-conduct_9789264301030-en.html" target="_blank" rel="noopener">
+  <div class="fw-card-code">OECD DD</div>
+  <div class="fw-card-name">OECD Due Diligence Guidance for Responsible Business Conduct</div>
+  <div class="fw-card-org">Organisation for Economic Co-operation and Development</div>
+  <span class="fw-card-arrow">↗</span>
+</a></div></div><div class="fw-group"><div class="fw-group-title">Labour &amp; Workforce Standards</div><div class="fw-cards"><a class="fw-card" href="https://www.ilo.org/declaration" target="_blank" rel="noopener">
+  <div class="fw-card-code">ILO Core Conventions</div>
+  <div class="fw-card-name">ILO Fundamental Principles and Rights at Work</div>
+  <div class="fw-card-org">International Labour Organization</div>
+  <span class="fw-card-arrow">↗</span>
+</a><a class="fw-card" href="https://www.ilo.org/empent/areas/mne-declaration" target="_blank" rel="noopener">
+  <div class="fw-card-code">ILO MNE Declaration</div>
+  <div class="fw-card-name">ILO Tripartite Declaration of Principles concerning Multinational Enterprises</div>
+  <div class="fw-card-org">International Labour Organization</div>
+  <span class="fw-card-arrow">↗</span>
+</a><a class="fw-card" href="https://www.iso.org/standard/63787.html" target="_blank" rel="noopener">
+  <div class="fw-card-code">ISO 45001</div>
+  <div class="fw-card-name">Occupational Health and Safety Management Systems</div>
+  <div class="fw-card-org">International Organization for Standardization</div>
+  <span class="fw-card-arrow">↗</span>
+</a></div></div><div class="fw-group"><div class="fw-group-title">Reporting &amp; Disclosure</div><div class="fw-cards"><a class="fw-card" href="https://www.efrag.org/en/projects/esrs-set1-sustainability-reporting-standards" target="_blank" rel="noopener">
+  <div class="fw-card-code">CSRD ESRS S1</div>
+  <div class="fw-card-name">ESRS S1 - Own Workforce</div>
+  <div class="fw-card-org">EFRAG - European Financial Reporting Advisory Group</div>
+  <span class="fw-card-arrow">↗</span>
+</a><a class="fw-card" href="https://www.efrag.org/en/projects/esrs-set1-sustainability-reporting-standards" target="_blank" rel="noopener">
+  <div class="fw-card-code">CSRD ESRS S2</div>
+  <div class="fw-card-name">ESRS S2 - Workers in the Value Chain</div>
+  <div class="fw-card-org">EFRAG - European Financial Reporting Advisory Group</div>
+  <span class="fw-card-arrow">↗</span>
+</a><a class="fw-card" href="https://www.globalreporting.org/standards/" target="_blank" rel="noopener">
+  <div class="fw-card-code">GRI Universal</div>
+  <div class="fw-card-name">GRI Universal Standards</div>
+  <div class="fw-card-org">Global Reporting Initiative</div>
+  <span class="fw-card-arrow">↗</span>
+</a><a class="fw-card" href="https://www.ifc.org/en/what-we-do/sector-expertise/sustainability/performance-standards" target="_blank" rel="noopener">
+  <div class="fw-card-code">IFC PS</div>
+  <div class="fw-card-name">IFC Performance Standards on Environmental and Social Sustainability</div>
+  <div class="fw-card-org">International Finance Corporation</div>
+  <span class="fw-card-arrow">↗</span>
+</a></div></div>
+</div>
+</main>
+<footer>
+  <div class="footer-brand">Aurie's Knowledge Hub</div>
+  <div>Toolkits · June 2026</div>
+  <div style="color:rgba(201,168,76,0.5)"><a href="tools.html" style="color:rgba(201,168,76,0.5);text-decoration:none">← Enterprise Operating System</a></div>
+</footer>
+<script>
+const nl=document.querySelectorAll('.page-nav-link');
+nl.forEach(l=>l.addEventListener('click',function(e){e.preventDefault();nl.forEach(x=>x.classList.remove('active'));this.classList.add('active');const t=document.querySelector(this.getAttribute('href'));if(t)t.scrollIntoView({behavior:'smooth',block:'start'})}) );
+const obs=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting){const id=e.target.id;nl.forEach(l=>l.classList.toggle('active',l.getAttribute('href')==='#'+id))}}),{rootMargin:'-64px 0px -60% 0px'});
+['summary','takeaway','architecture','frameworks'].forEach(id=>{const el=document.getElementById(id);if(el)obs.observe(el)});
+</script>
+</body>
+</html>

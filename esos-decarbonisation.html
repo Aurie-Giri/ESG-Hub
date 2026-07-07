@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="The Decarbonisation Operating System - a five-layer framework for cutting emissions across operations and the value chain.">
+<title>Decarbonisation Operating System - Aurie's Knowledge Hub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Inter:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --green-deep:  #0e2b1a;
+  --green-mid:   #1a3d28;
+  --green-light: #234d33;
+  --green-dark:  #091f12;
+  --gold:        #c9a84c;
+  --gold-light:  #e0c07a;
+  --gold-dim:    rgba(201,168,76,0.15);
+  --white:       #ffffff;
+  --muted:       #8a9e90;
+  --border:      rgba(201,168,76,0.18);
+  --serif:  'Cormorant Garamond', Georgia, serif;
+  --sans:   'Inter', system-ui, sans-serif;
+  --mono:   'DM Mono', monospace;
+  --l1: #1D9E75;  --l1-dim: rgba(29,158,117,0.15);  --l1-bdr: rgba(29,158,117,0.35);
+  --l2: #9b93e8;  --l2-dim: rgba(155,147,232,0.15);  --l2-bdr: rgba(155,147,232,0.35);
+  --l3: #d4943a;  --l3-dim: rgba(212,148,58,0.15);   --l3-bdr: rgba(212,148,58,0.35);
+  --l4: #9ea099;  --l4-dim: rgba(158,160,153,0.15);  --l4-bdr: rgba(158,160,153,0.3);
+  --l5: #7cb842;  --l5-dim: rgba(124,184,66,0.15);   --l5-bdr: rgba(124,184,66,0.35);
+}
+html { scroll-behavior: smooth; }
+body { background: var(--green-deep); color: var(--white); font-family: var(--sans); font-weight: 300; font-size: 16px; line-height: 1.7; min-height: 100vh; }
+::-webkit-scrollbar { width: 5px; } ::-webkit-scrollbar-track { background: var(--green-deep); } ::-webkit-scrollbar-thumb { background: rgba(201,168,76,0.35); border-radius: 3px; }
+
+/* PAGE HEADER */
+.page-header { padding:7rem 2.5rem 3rem; background:radial-gradient(ellipse at 65% 40%,rgba(26,61,40,0.9) 0%,var(--green-deep) 65%); border-bottom:1px solid var(--border); }
+.back-link { font-size:0.7rem; letter-spacing:0.12em; text-transform:uppercase; color:var(--muted); text-decoration:none; display:inline-flex; align-items:center; gap:6px; margin-bottom:1.2rem; transition:color 0.15s; }
+.back-link:hover { color:var(--gold); }
+.page-eyebrow { font-size:0.7rem; letter-spacing:0.22em; text-transform:uppercase; color:var(--gold); margin-bottom:1.2rem; display:flex; align-items:center; gap:1rem; }
+.page-eyebrow::before { content:''; width:2.5rem; height:1px; background:var(--gold); display:inline-block; }
+h1.page-title { font-family:var(--serif); font-size:clamp(2.4rem,4.5vw,4rem); font-weight:300; line-height:1.1; margin-bottom:0.8rem; border:none; padding:0; }
+h1.page-title em { font-style:italic; color:var(--gold); }
+.page-desc { font-size:1rem; color:rgba(255,255,255,0.58); max-width:680px; line-height:1.8; margin-bottom:1.8rem; }
+.header-meta { display:flex; gap:10px; flex-wrap:wrap; }
+.meta-badge { padding:4px 14px; font-size:10px; font-weight:500; letter-spacing:0.1em; text-transform:uppercase; font-family:var(--sans); }
+
+/* PAGE SUB-NAV */
+.page-nav { background:var(--green-mid); border-bottom:1px solid var(--border); padding:0 2.5rem; display:flex; gap:0; overflow-x:auto; }
+.page-nav-link { padding:13px 20px; font-size:0.73rem; letter-spacing:0.08em; text-transform:uppercase; color:rgba(255,255,255,0.45); text-decoration:none; border-bottom:2px solid transparent; white-space:nowrap; transition:all 0.15s; }
+.page-nav-link:hover { color:var(--gold-light); }
+.page-nav-link.active { color:var(--gold); border-color:var(--gold); }
+
+/* MAIN */
+main { padding:0 2.5rem 5rem; }
+
+/* SECTION BLOCKS */
+.section-block { margin-top:3.5rem; }
+.section-divider { border-top:2px solid var(--gold); position:relative; margin-bottom:1.8rem; }
+.section-divider-label { position:absolute; top:-12px; left:0; background:var(--green-deep); padding:0 14px 0 0; font-size:9px; letter-spacing:0.22em; text-transform:uppercase; color:var(--gold); font-family:var(--sans); font-weight:500; }
+.section-subhead { font-size:0.95rem; color:rgba(255,255,255,0.52); max-width:680px; line-height:1.8; margin-bottom:2rem; }
+
+/* SUMMARY TEXT */
+.summary-body { max-width:720px; }
+.summary-body p { font-size:0.97rem; color:rgba(255,255,255,0.65); line-height:1.85; margin-bottom:1.1rem; }
+.summary-body p:last-child { margin-bottom:0; }
+.pathway-strip {
+  margin:1.8rem 0;
+  padding:18px 24px;
+  background:var(--green-mid);
+  border:1px solid var(--border);
+  border-left:3px solid var(--gold);
+  display:flex; align-items:center; gap:0; flex-wrap:wrap;
+}
+.pathway-step {
+  font-family:var(--serif); font-size:1.05rem; font-weight:400; color:rgba(255,255,255,0.85);
+  white-space:nowrap;
+}
+.pathway-arrow {
+  font-size:0.9rem; color:var(--gold); margin:0 12px; flex-shrink:0;
+}
+
+/* FLOW DIAGRAM - pure HTML/CSS */
+.flow-diagram { margin-top:2rem; }
+
+.flow-layer {
+  border-radius:6px;
+  margin-bottom:2px;
+  overflow:hidden;
+}
+.flow-layer-header {
+  padding:14px 20px 10px;
+  display:flex; flex-direction:column; gap:3px;
+}
+.flow-layer-num {
+  font-size:9px; letter-spacing:0.2em; text-transform:uppercase;
+  font-family:var(--mono); font-weight:500; opacity:0.8;
+}
+.flow-layer-title {
+  font-family:var(--serif); font-size:1.25rem; font-weight:400; line-height:1.2;
+}
+.flow-layer-sub {
+  font-size:0.78rem; opacity:0.7; line-height:1.4;
+}
+.flow-chips {
+  display:flex; gap:6px; flex-wrap:wrap;
+  padding:0 20px 16px;
+}
+.flow-chip {
+  padding:5px 12px; border-radius:3px;
+  font-size:0.73rem; font-family:var(--sans);
+  border:1px solid; white-space:nowrap;
+}
+
+/* Layer colour overrides */
+.l1 { background:var(--l1-dim); border:1px solid var(--l1-bdr); }
+.l1 .flow-layer-num  { color:var(--l1); }
+.l1 .flow-layer-title { color:var(--white); }
+.l1 .flow-chip { background:rgba(29,158,117,0.1); border-color:rgba(29,158,117,0.3); color:var(--l1); }
+
+.l2 { background:var(--l2-dim); border:1px solid var(--l2-bdr); }
+.l2 .flow-layer-num  { color:var(--l2); }
+.l2 .flow-layer-title { color:var(--white); }
+.l2 .flow-chip { background:rgba(155,147,232,0.1); border-color:rgba(155,147,232,0.3); color:var(--l2); }
+
+.l3 { background:var(--l3-dim); border:1px solid var(--l3-bdr); }
+.l3 .flow-layer-num  { color:var(--l3); }
+.l3 .flow-layer-title { color:var(--white); }
+.l3 .flow-chip { background:rgba(212,148,58,0.1); border-color:rgba(212,148,58,0.3); color:var(--l3); }
+
+.l4 { background:var(--l4-dim); border:1px solid var(--l4-bdr); }
+.l4 .flow-layer-num  { color:var(--l4); }
+.l4 .flow-layer-title { color:var(--white); }
+.l4 .flow-chip { background:rgba(158,160,153,0.1); border-color:rgba(158,160,153,0.25); color:var(--l4); }
+
+.l5 { background:var(--l5-dim); border:1px solid var(--l5-bdr); }
+.l5 .flow-layer-num  { color:var(--l5); }
+.l5 .flow-layer-title { color:var(--white); }
+.l5 .flow-chip { background:rgba(124,184,66,0.1); border-color:rgba(124,184,66,0.3); color:var(--l5); }
+
+/* Connector arrow between layers */
+.flow-connector {
+  display:flex; justify-content:center; align-items:center;
+  height:28px; color:rgba(201,168,76,0.4); font-size:14px;
+}
+
+/* Scope sub-blocks inside L2 */
+.scope-grid {
+  display:grid; grid-template-columns:repeat(3,1fr); gap:6px;
+  padding:0 20px 16px;
+}
+.scope-block {
+  padding:10px 14px; border-radius:4px;
+  background:rgba(155,147,232,0.08);
+  border:1px solid rgba(155,147,232,0.2);
+}
+.scope-block-title { font-size:0.75rem; font-weight:500; color:var(--l2); margin-bottom:4px; }
+.scope-block-items { font-size:0.73rem; color:rgba(255,255,255,0.55); line-height:1.5; }
+
+/* Core principle */
+.core-principle {
+  margin-top:24px; padding:16px 24px;
+  border:1px solid var(--border); border-top:2px solid var(--gold);
+  background:rgba(201,168,76,0.04);
+}
+.core-principle-label { font-size:8px; letter-spacing:0.22em; text-transform:uppercase; color:var(--gold); font-family:var(--sans); margin-bottom:6px; }
+.core-principle-text { font-family:var(--serif); font-size:1.05rem; font-weight:300; color:rgba(255,255,255,0.8); font-style:italic; line-height:1.5; }
+
+/* OPERATING MODEL */
+.om-table-wrap { overflow-x:auto; margin-top:0.5rem; }
+.om-table { width:100%; border-collapse:collapse; min-width:680px; }
+.om-table thead th { background:var(--green-mid); padding:10px 14px; font-size:9px; letter-spacing:0.16em; text-transform:uppercase; color:var(--gold); font-weight:500; font-family:var(--sans); border-bottom:1px solid var(--border); text-align:left; white-space:nowrap; }
+.om-table .lrow td { padding:9px 14px 5px; font-size:9px; letter-spacing:0.18em; text-transform:uppercase; font-weight:600; font-family:var(--sans); border-top:1px solid rgba(255,255,255,0.06); }
+.om-table .lrow-1 td { color:var(--l1); }
+.om-table .lrow-2 td { color:var(--l2); }
+.om-table .lrow-3 td { color:var(--l3); }
+.om-table .lrow-4 td { color:var(--l4); }
+.om-table .lrow-5 td { color:var(--l5); }
+.om-table .drow td { padding:6px 14px 8px; border-bottom:1px solid rgba(255,255,255,0.04); font-size:0.78rem; color:rgba(255,255,255,0.6); line-height:1.5; vertical-align:top; }
+.om-table .drow td:first-child { color:rgba(255,255,255,0.85); font-weight:400; }
+.om-table .drow:hover td { background:rgba(255,255,255,0.02); }
+
+/* LEVEL 2 ACCORDION */
+.l2-intro { font-size:0.9rem; color:rgba(255,255,255,0.5); max-width:620px; line-height:1.75; margin-bottom:2rem; font-style:italic; }
+.l2-group-hdr {
+  padding:10px 0 6px; font-size:9px; letter-spacing:0.2em; text-transform:uppercase;
+  font-weight:600; font-family:var(--sans); border-top:1px solid rgba(255,255,255,0.07);
+  display:flex; align-items:center; gap:10px; margin-top:8px;
+}
+.l2-group-hdr::after { content:''; flex:1; height:1px; background:rgba(255,255,255,0.06); }
+.gc1 { color:var(--l1); } .gc2 { color:var(--l2); } .gc3 { color:var(--l3); } .gc4 { color:var(--l4); } .gc5 { color:var(--l5); }
+
+.step-item { border-bottom:1px solid rgba(255,255,255,0.05); }
+.step-btn { width:100%; background:none; border:none; cursor:pointer; padding:14px 0; display:flex; align-items:center; gap:16px; text-align:left; transition:background 0.12s; }
+.step-btn:hover { background:rgba(255,255,255,0.02); }
+.step-num { font-family:var(--serif); font-size:1.5rem; font-weight:300; line-height:1; min-width:34px; color:rgba(255,255,255,0.18); flex-shrink:0; }
+.step-info { flex:1; }
+.step-title { font-family:var(--serif); font-size:1.1rem; font-weight:300; color:var(--white); line-height:1.25; }
+.step-purpose { font-size:0.78rem; color:var(--muted); margin-top:2px; }
+.step-chevron { font-size:11px; color:var(--muted); flex-shrink:0; transition:transform 0.2s; }
+.step-item.open .step-chevron { transform:rotate(180deg); color:var(--gold); }
+.step-item.open .step-num { color:rgba(201,168,76,0.4); }
+
+.step-body { display:none; padding:4px 0 20px 50px; }
+.step-item.open .step-body { display:grid; grid-template-columns:1fr 1fr; gap:14px 28px; }
+.field-label { font-size:8.5px; letter-spacing:0.18em; text-transform:uppercase; font-weight:500; font-family:var(--sans); margin-bottom:6px; }
+.field-items { display:flex; flex-direction:column; gap:4px; }
+.field-item { font-size:0.8rem; color:rgba(255,255,255,0.58); line-height:1.5; padding-left:12px; position:relative; }
+.field-item::before { content:'·'; position:absolute; left:0; color:var(--muted); }
+.fw-tags { display:flex; gap:5px; flex-wrap:wrap; margin-top:4px; }
+.fw-tag { font-size:9px; padding:2px 7px; border:1px solid rgba(255,255,255,0.1); color:rgba(255,255,255,0.4); font-family:var(--mono); }
+
+/* FOOTER */
+footer { padding:20px 2.5rem; border-top:1px solid var(--border); display:flex; justify-content:space-between; align-items:center; color:var(--muted); font-size:0.75rem; flex-wrap:wrap; gap:8px; letter-spacing:0.06em; background:var(--green-dark); }
+.footer-brand { font-family:var(--serif); font-size:0.9rem; color:var(--gold); font-weight:400; }
+
+@media(max-width:800px) {
+  .nav-link { min-width:88px; padding:0 0.8rem; }
+  .nav-brand { padding:0 1.2rem; font-size:1.05rem; }
+  .page-header, main, footer, .page-nav { padding-left:1.5rem; padding-right:1.5rem; }
+  .scope-grid { grid-template-columns:1fr; }
+  .step-item.open .step-body { grid-template-columns:1fr; }
+  .step-body { padding-left:20px; }
+}
+@media(max-width:560px) { .nav-link-sub { display:none; } .nav-link { min-width:70px; padding:0 0.6rem; } }
+
+/* ── NAV (standardised) ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; align-items: stretch;
+  background: rgba(9,31,18,0.97); backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+  height: 64px;
+}
+.nav-brand {
+  display: flex; align-items: center;
+  padding: 0 2.5rem;
+  font-family: var(--serif); font-size: 1.25rem; font-weight: 600;
+  letter-spacing: 0.04em; color: var(--white); text-decoration: none;
+  border-right: 1px solid var(--border);
+  flex-shrink: 0; transition: background 0.2s;
+}
+.nav-brand:hover { background: rgba(201,168,76,0.06); }
+.nav-brand span { color: var(--gold); }
+.nav-sections { display: flex; align-items: stretch; list-style: none; flex: 1; overflow-x: auto; }
+.nav-sections li { display: flex; }
+.nav-link {
+  display: flex; flex-direction: column; justify-content: center;
+  padding: 0 1.6rem; text-decoration: none;
+  border-right: 1px solid var(--border);
+  transition: background 0.18s; min-width: 120px;
+}
+.nav-link:hover { background: rgba(201,168,76,0.06); }
+.nav-link.active { background: var(--gold-dim); border-bottom: 2px solid var(--gold); }
+.nav-link-primary { font-size: 0.78rem; font-weight: 500; letter-spacing: 0.05em; color: rgba(255,255,255,0.88); line-height: 1.2; white-space: nowrap; }
+.nav-link-sub { font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); line-height: 1; margin-top: 3px; white-space: nowrap; }
+.nav-link:hover .nav-link-primary { color: var(--gold-light); }
+.nav-link:hover .nav-link-sub { color: rgba(201,168,76,0.6); }
+.nav-link.active .nav-link-primary { color: var(--gold); }
+.nav-link.active .nav-link-sub { color: rgba(201,168,76,0.7); }
+.nav-about {
+  display: flex; align-items: center; padding: 0 1.8rem;
+  font-size: 0.78rem; font-weight: 500; letter-spacing: 0.05em;
+  color: rgba(255,255,255,0.6); text-decoration: none;
+  margin-left: auto; transition: color 0.18s; white-space: nowrap;
+}
+.nav-about:hover { color: var(--gold); }
+@media (max-width: 768px) {
+  .nav-link { min-width: 100px; padding: 0 1rem; }
+  .nav-brand { padding: 0 1.2rem; font-size: 1.05rem; }
+}
+@media (max-width: 560px) {
+  .nav-link-sub { display: none; }
+  .nav-link { min-width: 80px; padding: 0 0.8rem; }
+}
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Decarbonisation Operating System",
+  "description": "The Decarbonisation Operating System - a five-layer framework for cutting emissions across operations and the value chain.",
+  "author": {
+    "@type": "Person",
+    "name": "Aurie",
+    "url": "https://REPLACE-WITH-YOUR-DOMAIN/about.html"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Aurie's Knowledge Hub",
+    "url": "https://REPLACE-WITH-YOUR-DOMAIN/index.html"
+  },
+  "datePublished": "2026-01-01",
+  "dateModified": "2026-07-06",
+  "url": "https://REPLACE-WITH-YOUR-DOMAIN/esos-decarbonisation.html"
+}
+</script>
+</head>
+<body>
+
+<nav>
+  <a class="nav-brand" href="index.html">Aurie's <span>Knowledge Hub</span></a>
+  <ul class="nav-sections">
+    <li>
+      <a class="nav-link" href="ceo-insights.html">
+        <span class="nav-link-primary">CEO Insights</span>
+        <span class="nav-link-sub">For the leadership</span>
+      </a>
+    </li>
+    <li>
+      <a class="nav-link" href="tools.html">
+        <span class="nav-link-primary">Tools &amp; Templates</span>
+        <span class="nav-link-sub">For ESG teams</span>
+      </a>
+    </li>
+    <li>
+      <a class="nav-link active" href="resource-library.html">
+        <span class="nav-link-primary">Resource Library</span>
+        <span class="nav-link-sub">For practitioners</span>
+      </a>
+    </li>
+    <li>
+      <a class="nav-link" href="thought-papers.html">
+        <span class="nav-link-primary">Thought Papers</span>
+        <span class="nav-link-sub">For the curious</span>
+      </a>
+    </li>
+  </ul>
+  <a class="nav-about" href="about.html">About Me</a>
+</nav>
+
+<div class="page-header">
+  <a class="back-link" href="resource-library.html">← Expert Library</a>
+  <p class="page-eyebrow">Operating System Frameworks · Carbon · Enterprise Transformation</p>
+  <h1 class="page-title">Decarbonisation <em>Operating System</em></h1>
+  <p class="page-desc">From climate ambition to enterprise transformation. An integrated, end-to-end framework for credible, measurable, and science-aligned emissions reduction across the full value chain.</p>
+  <div class="header-meta">
+    <span class="meta-badge" style="background:rgba(29,158,117,0.12);border:1px solid rgba(29,158,117,0.3);color:#5DCAA5;">5 layers</span>
+    <span class="meta-badge" style="background:rgba(155,147,232,0.12);border:1px solid rgba(155,147,232,0.3);color:#b8b3f0;">13 steps</span>
+    <span class="meta-badge" style="background:var(--gold-dim);border:1px solid rgba(201,168,76,0.4);color:var(--gold);">GHG Protocol · SBTi · ISO 14064 · CSRD</span>
+  </div>
+</div>
+
+<div class="page-nav">
+  <a class="page-nav-link active" href="#summary">Overview</a>
+  <a class="page-nav-link" href="#framework">Framework</a>
+  <a class="page-nav-link" href="#opmodel">Operating Model</a>
+</div>
+
+<main>
+
+<!-- ═══ SUMMARY ═══ -->
+<div class="section-block" id="summary">
+  <div class="section-divider"><span class="section-divider-label">Overview</span></div>
+  <div class="summary-body">
+    <p>Achieving net zero requires more than setting targets. It requires a coordinated operating model - one that connects governance, emissions accounting, transition planning, technology, supplier engagement, capital allocation, and verified reporting into a single system.</p>
+    <p>This framework is built on one principle: deep emissions reduction must come before addressing residuals. It draws on the GHG Protocol, ISO greenhouse gas standards, and the SBTi Net-Zero Standard to take organisations from measurement into implementation.</p>
+    <p>Most emissions sit outside direct operations - in suppliers, materials, logistics, product use, and end-of-life systems. Decarbonisation therefore demands coordinated action across the full value chain, not just within the fence line.</p>
+
+    <div class="pathway-strip">
+      <span class="pathway-step">Understand</span>
+      <span class="pathway-arrow">→</span>
+      <span class="pathway-step">Prioritise</span>
+      <span class="pathway-arrow">→</span>
+      <span class="pathway-step">Transform</span>
+      <span class="pathway-arrow">→</span>
+      <span class="pathway-step">Embed</span>
+      <span class="pathway-arrow">→</span>
+      <span class="pathway-step">Verify</span>
+      <span class="pathway-arrow">→</span>
+      <span class="pathway-step">Improve</span>
+    </div>
+
+    <p>This model enables organisations to treat decarbonisation not as a standalone sustainability initiative, but as an enterprise transformation agenda.</p>
+  </div>
+</div>
+
+<!-- ═══ FRAMEWORK FLOW ═══ -->
+<div class="section-block" id="framework">
+  <div class="section-divider"><span class="section-divider-label">Framework Architecture</span></div>
+  <p class="section-subhead">The five-layer system. Each layer depends on the one above and feeds into the one below. The performance loop at Layer 5 continuously improves all preceding layers.</p>
+
+  <div class="flow-diagram">
+
+    <div class="flow-layer l1">
+      <div class="flow-layer-header">
+        <span class="flow-layer-num">Layer 1</span>
+        <span class="flow-layer-title">Net-zero governance, ambition &amp; transition architecture</span>
+        <span class="flow-layer-sub">Establish the strategic foundation - who is accountable, what is the ambition, how will it be governed</span>
+      </div>
+      <div class="flow-chips">
+        <span class="flow-chip">Ambition &amp; transition plan</span>
+        <span class="flow-chip">Governance structure</span>
+        <span class="flow-chip">Executive accountability</span>
+        <span class="flow-chip">Climate strategy integration</span>
+        <span class="flow-chip">Target-setting &amp; disclosure</span>
+      </div>
+    </div>
+
+    <div class="flow-connector">↓</div>
+
+    <div class="flow-layer l2">
+      <div class="flow-layer-header">
+        <span class="flow-layer-num">Layer 2</span>
+        <span class="flow-layer-title">Value chain emissions mapping &amp; baseline</span>
+        <span class="flow-layer-sub">Understand where emissions occur and where the organisation has influence</span>
+      </div>
+      <div class="scope-grid">
+        <div class="scope-block">
+          <div class="scope-block-title">Scope 1 - Direct</div>
+          <div class="scope-block-items">Operations · Fuel combustion · Manufacturing · Industrial processes</div>
+        </div>
+        <div class="scope-block">
+          <div class="scope-block-title">Scope 2 - Energy</div>
+          <div class="scope-block-items">Electricity · Heat · Steam · Cooling</div>
+        </div>
+        <div class="scope-block">
+          <div class="scope-block-title">Scope 3 - Value chain</div>
+          <div class="scope-block-items">Suppliers · Materials · Logistics · Product use · End-of-life</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="flow-connector">↓</div>
+
+    <div class="flow-layer l3">
+      <div class="flow-layer-header">
+        <span class="flow-layer-num">Layer 3</span>
+        <span class="flow-layer-title">Decarbonisation pathways &amp; transformation agenda</span>
+        <span class="flow-layer-sub">Reduce first - prioritise deep reductions before addressing residual emissions</span>
+      </div>
+      <div class="flow-chips">
+        <span class="flow-chip">Avoid - prevent creation</span>
+        <span class="flow-chip">Reduce - improve systems</span>
+        <span class="flow-chip">Replace - low-carbon switch</span>
+        <span class="flow-chip">Reconfigure - redesign</span>
+        <span class="flow-chip">Remove - residual only</span>
+      </div>
+      <div class="flow-chips" style="padding-top:0">
+        <span class="flow-chip">Supply chain transformation</span>
+        <span class="flow-chip">Operational transformation</span>
+        <span class="flow-chip">Product &amp; lifecycle</span>
+        <span class="flow-chip">Circularity</span>
+        <span class="flow-chip">Logistics decarbonisation</span>
+      </div>
+    </div>
+
+    <div class="flow-connector">↓</div>
+
+    <div class="flow-layer l4">
+      <div class="flow-layer-header">
+        <span class="flow-layer-num">Layer 4</span>
+        <span class="flow-layer-title">Enablement systems</span>
+        <span class="flow-layer-sub">The infrastructure, finance, and partnerships that make transformation possible</span>
+      </div>
+      <div class="flow-chips">
+        <span class="flow-chip">Technology &amp; infrastructure</span>
+        <span class="flow-chip">Capital allocation &amp; transition finance</span>
+        <span class="flow-chip">Data systems</span>
+        <span class="flow-chip">Supplier financing</span>
+        <span class="flow-chip">Policy &amp; partnerships</span>
+      </div>
+    </div>
+
+    <div class="flow-connector">↓</div>
+
+    <div class="flow-layer l5">
+      <div class="flow-layer-header">
+        <span class="flow-layer-num">Layer 5</span>
+        <span class="flow-layer-title">Verified net-zero progress &amp; continuous improvement</span>
+        <span class="flow-layer-sub">Measure, assure, report, and improve - feeding results back into governance</span>
+      </div>
+      <div class="flow-chips">
+        <span class="flow-chip">Measurement &amp; MRV</span>
+        <span class="flow-chip">Third-party assurance</span>
+        <span class="flow-chip">Claims architecture</span>
+        <span class="flow-chip">Regulatory reporting</span>
+        <span class="flow-chip">Strategy refresh ↻</span>
+      </div>
+    </div>
+
+    <div class="core-principle">
+      <div class="core-principle-label">Core principle</div>
+      <div class="core-principle-text">Decarbonisation is not a carbon reduction project. It is an enterprise transition system - one that must be governed, resourced, and measured like any other strategic transformation.</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══ OPERATING MODEL ═══ -->
+<div class="section-block" id="opmodel">
+  <div class="section-divider"><span class="section-divider-label">Operating Model</span></div>
+  <p class="section-subhead">How the system is run across each layer - who does the work, how decisions are made, what tools are used, and how performance is measured.</p>
+
+  <div class="om-table-wrap">
+    <table class="om-table">
+      <thead>
+        <tr>
+          <th style="min-width:130px">Layer</th>
+          <th style="min-width:130px">Who</th>
+          <th style="min-width:140px">How</th>
+          <th style="min-width:140px">What (tools &amp; data)</th>
+          <th style="min-width:140px">Decisions</th>
+          <th style="min-width:140px">Performance</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="lrow lrow-1"><td colspan="6">1 · Net-zero governance</td></tr>
+        <tr class="drow">
+          <td>Strategic foundation</td>
+          <td>Board, CEO, CFO, CSO</td>
+          <td>Annual strategy review; board climate briefings</td>
+          <td>Climate transition plan; TCFD / CSRD framework</td>
+          <td>Board approves ambition; CEO allocates budget</td>
+          <td>Transition plan milestones; governance quality rating</td>
+        </tr>
+        <tr class="lrow lrow-2"><td colspan="6">2 · Value chain &amp; emissions baseline</td></tr>
+        <tr class="drow">
+          <td>Emissions accounting</td>
+          <td>Sustainability, finance, procurement, external data</td>
+          <td>GHG Protocol methodology; annual inventory cycle</td>
+          <td>Carbon accounting software; ISO 14064 / 14067</td>
+          <td>CFO approves boundaries; auditors validate inventory</td>
+          <td>Scope 1/2/3 totals (tCO₂e); data coverage rate (%)</td>
+        </tr>
+        <tr class="lrow lrow-3"><td colspan="6">3 · Decarbonisation pathways</td></tr>
+        <tr class="drow">
+          <td>Transformation agenda</td>
+          <td>Engineering, operations, product design, procurement</td>
+          <td>Marginal abatement cost analysis; technology roadmapping</td>
+          <td>Abatement roadmap; ISO 50001; LCA tools (ISO 14040/44)</td>
+          <td>Capex committee approves investments; ops approves changes</td>
+          <td>Emissions reduced (tCO₂e/yr); abatement cost (€/tCO₂e)</td>
+        </tr>
+        <tr class="lrow lrow-4"><td colspan="6">4 · Enablement systems</td></tr>
+        <tr class="drow">
+          <td>Infrastructure &amp; finance</td>
+          <td>IT, finance &amp; treasury, legal, policy teams</td>
+          <td>Technology investment planning; green finance structuring</td>
+          <td>ESG data platform; internal carbon price mechanism</td>
+          <td>CFO approves capital; treasury structures instruments</td>
+          <td>Green finance deployed (€); internal carbon price (€/tCO₂e)</td>
+        </tr>
+        <tr class="lrow lrow-5"><td colspan="6">5 · Verified net-zero progress</td></tr>
+        <tr class="drow">
+          <td>Assurance &amp; reporting</td>
+          <td>External assurer, internal audit, investor relations</td>
+          <td>Annual limited assurance; CDP / CSRD reporting cycle</td>
+          <td>MRV system; CSRD ESRS E1; SBTi progress tracking</td>
+          <td>Board reviews assurance opinion; CSO signs disclosures</td>
+          <td>% emissions reduction vs baseline; SBTi on-track status</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+</main>
+
+<footer>
+  <div class="footer-brand">Aurie's Knowledge Hub</div>
+  <div>Decarbonisation Operating System · GHG Protocol · SBTi · ISO 14064 · CSRD ESRS E1 · June 2026</div>
+  <div style="color:rgba(201,168,76,0.5)"><a href="resource-library.html" style="color:rgba(201,168,76,0.5);text-decoration:none">← Expert Library</a></div>
+</footer>
+
+<script>
+function toggleStep(btn) {
+  btn.closest('.step-item').classList.toggle('open');
+}
+const navLinks = document.querySelectorAll('.page-nav-link');
+navLinks.forEach(link => {
+  link.addEventListener('click', function(e) {
+    e.preventDefault();
+    navLinks.forEach(l => l.classList.remove('active'));
+    this.classList.add('active');
+    const t = document.querySelector(this.getAttribute('href'));
+    if (t) t.scrollIntoView({ behavior:'smooth', block:'start' });
+  });
+});
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      const id = e.target.id;
+      navLinks.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#'+id));
+    }
+  });
+}, { rootMargin:'-64px 0px -60% 0px' });
+['summary','framework','opmodel'].forEach(id => {
+  const el = document.getElementById(id); if (el) obs.observe(el);
+});
+</script>
+</body>
+</html>

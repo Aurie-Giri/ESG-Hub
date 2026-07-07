@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="A CEO brief comparing ESG reporting mandates across 20 G20 jurisdictions and the emergence of ISSB as a global reporting baseline.">
+<title>Compliance-Led ESG Reporting: A Global Perspective - CEO Brief - Aurie's Knowledge Hub</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Inter:wght@300;400;500;600;700&display=swap');
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --green:#0e2b1a;--gold:#c9a84c;--ivory:#fafaf8;
+  --mid:#4a5568;--light:#f0ede8;--border:#d4c9b0;
+  --serif:'Cormorant Garamond',Georgia,serif;
+  --sans:'Inter',system-ui,sans-serif;
+  --c-force:#1a6b3a;--c-phased:#e67e22;--c-proposed:#1a3a5c;
+}
+html,body{background:var(--ivory);color:var(--green);font-family:var(--sans);font-size:11pt;line-height:1.65;min-height:100vh}
+
+.screen-nav{background:var(--green);padding:12px 32px;display:flex;justify-content:space-between;align-items:center}
+.screen-nav a{color:rgba(255,255,255,0.6);text-decoration:none;font-size:9.5pt;display:flex;align-items:center;gap:6px;letter-spacing:.04em;transition:color .15s}
+.screen-nav a:hover{color:var(--gold)}
+.print-btn{background:var(--gold);color:var(--green);font-weight:600;font-size:9pt;padding:5px 16px;border:none;cursor:pointer;letter-spacing:.06em;text-transform:uppercase;font-family:var(--sans)}
+
+.doc-wrap{max-width:720px;margin:0 auto;padding:28px 36px 52px}
+.print-topbar{border-top:3px solid var(--gold);padding:12px 0 10px;display:flex;justify-content:space-between;align-items:baseline;margin-bottom:24px}
+.print-brand{font-family:var(--serif);font-size:11pt;font-weight:400;color:var(--green);letter-spacing:.04em}
+.print-brand span{color:var(--gold)}
+.print-series{font-size:8.5pt;color:var(--mid);letter-spacing:.1em;text-transform:uppercase}
+.meta-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:10px}
+.brief-num{font-size:8pt;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--gold)}
+hr.rule{border:none;border-top:1px solid var(--border);margin:20px 0 18px}
+.section-label{font-size:9pt;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--mid);margin-bottom:8px}
+
+h1.doc-title{font-family:var(--serif);font-size:26pt;font-weight:300;line-height:1.15;color:var(--green);margin-bottom:14px;border:none;padding:0}
+h1.doc-title em{font-style:italic;font-weight:300;color:var(--gold)}
+
+.exec-headline{border-left:3px solid var(--gold);padding:10px 16px;margin-bottom:24px;background:#f5f0e4}
+.eh-label{font-size:7.5pt;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin-bottom:4px}
+.eh-text{font-size:13pt;color:var(--green);font-style:italic;line-height:1.55;font-family:var(--serif)}
+
+.stat-strip{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:var(--border);border:1px solid var(--border);margin:18px 0}
+.stat-cell{background:var(--ivory);padding:11px 10px;text-align:center}
+.stat-value{font-family:var(--serif);font-size:14pt;font-weight:600;color:var(--green);line-height:1.1;margin-bottom:3px}
+.stat-label{font-size:7pt;color:var(--mid);letter-spacing:.04em;line-height:1.35}
+
+.body-text{font-size:10.5pt;color:var(--green);line-height:1.65;margin-bottom:8px}
+.body-text strong{font-weight:600}
+
+.impact-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:6px}
+.impact-card{border:1px solid var(--border);padding:10px 12px;background:var(--light)}
+.impact-icon{font-size:13pt;margin-bottom:4px;display:block}
+.impact-title{font-size:8pt;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:4px}
+.impact-text{font-size:9pt;color:var(--green);line-height:1.5}
+
+.exposure-table{width:100%;border-collapse:collapse;font-size:9.5pt;margin-top:6px}
+.exposure-table th{text-align:left;padding:6px 10px;font-size:8pt;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#fff;background:var(--green)}
+.exposure-table td{padding:7px 10px;color:var(--green);border-bottom:1px solid var(--border);vertical-align:top;line-height:1.5}
+.exposure-table tr:nth-child(even) td{background:var(--light)}
+.badge{display:inline-block;font-size:7pt;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:1px 6px;border-radius:2px;margin-right:4px}
+.badge-risk{background:rgba(220,38,38,0.1);color:#b91c1c;border:1px solid rgba(220,38,38,0.25)}
+.badge-opp{background:rgba(22,101,52,0.1);color:#166534;border:1px solid rgba(22,101,52,0.25)}
+
+.lq-list{list-style:none;margin-top:6px}
+.lq-item{display:flex;align-items:flex-start;gap:10px;padding:6px 0;border-bottom:1px solid var(--border);font-size:10pt;color:var(--green);line-height:1.5}
+.lq-item:last-child{border-bottom:none}
+.lq-bullet{color:var(--gold);font-size:10pt;margin-top:1px;flex-shrink:0}
+
+.key-takeaway{margin-top:20px;background:var(--green);padding:12px 16px;display:flex;align-items:flex-start;gap:12px}
+.kt-icon{font-size:14pt;flex-shrink:0;margin-top:1px}
+.kt-label{font-size:9pt;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin-bottom:3px}
+.kt-text{font-size:13pt;color:#fafaf8;font-family:var(--serif);font-style:italic;line-height:1.5}
+
+.full-analysis-toggle{width:100%;display:flex;align-items:center;justify-content:space-between;padding:14px 20px;background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.35);cursor:pointer;gap:12px;transition:background .15s;margin-top:4px}
+.full-analysis-toggle:hover{background:rgba(201,168,76,0.15)}
+.fa-toggle-title{font-size:9.95pt;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--green);flex:1;text-align:center}
+.fa-toggle-arrow{font-size:14pt;color:var(--gold);flex-shrink:0;transition:transform .25s}
+
+/* DEEP DIVE */
+.section-block{margin-bottom:24px}
+.section-header{display:flex;align-items:baseline;gap:10px;margin-bottom:10px}
+.section-num{font-size:8pt;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--gold)}
+.section-title{font-size:10pt;font-weight:600;color:var(--green);letter-spacing:.02em}
+.back-to-top{display:inline-flex;align-items:center;gap:6px;font-size:8.5pt;font-weight:500;color:var(--mid);text-decoration:none;letter-spacing:.04em;transition:color .15s;float:right;margin-top:10px}
+.back-to-top:hover{color:var(--gold)}
+
+/* FRAMEWORK ALIGNMENT CHART */
+.fw-chart{display:grid;grid-template-columns:80px 1fr 36px;gap:6px 10px;align-items:center;margin:12px 0}
+.fw-label{font-size:8.5pt;color:var(--green);font-weight:600;text-align:right}
+.fw-bar-wrap{height:20px;background:#e8e4dc;border-radius:2px;overflow:hidden}
+.fw-bar{height:100%;border-radius:2px}
+.fw-count{font-size:8pt;color:var(--mid);font-weight:600}
+
+/* WORLD MAP SVG status dots */
+.map-wrap{margin:12px 0;position:relative}
+.map-legend{display:flex;gap:14px;flex-wrap:wrap;margin-top:8px}
+.map-leg-item{display:flex;align-items:center;gap:5px;font-size:7.5pt;color:var(--mid)}
+.map-leg-dot{width:10px;height:10px;border-radius:50%}
+
+/* JURISDICTION TABLE */
+.jur-table{width:100%;border-collapse:collapse;font-size:8.5pt;margin:10px 0}
+.jur-table th{text-align:left;padding:6px 8px;font-size:7pt;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#fff;background:var(--green);white-space:nowrap}
+.jur-table td{padding:6px 8px;border-bottom:1px solid var(--border);vertical-align:top;line-height:1.45;color:var(--green)}
+.jur-table tr:nth-child(even) td{background:var(--light)}
+.jur-table tr:hover td{background:rgba(201,168,76,0.06)}
+.status-pill{display:inline-block;font-size:6.5pt;padding:1px 6px;border-radius:2px;font-weight:600;color:#fff;white-space:nowrap}
+.s-force{background:var(--c-force)}
+.s-phased{background:var(--c-phased)}
+
+/* CONVERGENCE SECTION */
+.conv-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0}
+.conv-card{padding:12px 14px;background:#fff;border:1px solid var(--border);border-top:2px solid}
+.conv-card-label{font-size:7.5pt;font-weight:600;letter-spacing:.12em;text-transform:uppercase;margin-bottom:6px}
+.conv-card-text{font-size:9pt;color:var(--green);line-height:1.6}
+
+/* FORESIGHT */
+.foresight-table{width:100%;border-collapse:collapse;margin-bottom:4px}
+.foresight-table td{padding:8px 10px;border-bottom:1px solid var(--border);vertical-align:top;font-size:10pt;color:var(--green);line-height:1.55}
+.foresight-table td:first-child{white-space:nowrap;width:100px}
+.foresight-table tr:last-child td{border-bottom:none}
+.h-pill{display:inline-block;font-size:7pt;font-weight:600;padding:2px 7px;letter-spacing:.06em;text-transform:uppercase;border-radius:2px;color:#fff}
+.h-now{background:#c0392b}.h-12m{background:#e67e22}.h-35y{background:#4a5568}
+
+/* INACTION */
+.inaction-block{border-left:3px solid #c0392b;padding:8px 12px 8px 14px;background:#fdf5f5;margin:6px 0;font-size:10pt;color:var(--green);line-height:1.65}
+
+/* ACTION TABLE */
+.action-table{width:100%;border-collapse:collapse;margin-bottom:4px}
+.action-table th{text-align:left;padding:6px 10px;font-size:7.5pt;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#fff;background:var(--green)}
+.action-table td{padding:7px 10px;border-bottom:1px solid var(--border);vertical-align:top;font-size:9.5pt;color:var(--green);line-height:1.5}
+.action-table td:first-child{white-space:nowrap;width:100px}
+.action-table tr:nth-child(even) td{background:var(--light)}
+.tl-dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:4px}
+.tl-amber{background:#e67e22}.tl-green{background:#1a6b3a}
+
+.sources-block{margin-top:16px;padding-top:12px;border-top:1px solid var(--border)}
+.sources-label{font-size:7.5pt;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--mid);margin-bottom:5px}
+.sources-text{font-size:8.5pt;color:var(--mid);line-height:1.55}
+
+.print-footer{margin-top:28px;padding-top:10px;border-top:1px solid var(--gold);display:flex;justify-content:space-between;font-size:7.5pt;color:var(--mid);flex-wrap:wrap;gap:8px}
+.pf-brand{font-family:var(--serif);font-size:9pt;color:var(--green)}
+
+@media print{
+  .screen-nav{display:none}.doc-wrap{padding:0;max-width:100%}
+  .full-analysis-toggle{display:none}.back-to-top{display:none}
+  #fullAnalysis{display:block !important}
+  .key-takeaway,.impact-card{break-inside:avoid}
+}
+@media(max-width:680px){
+  .doc-wrap{padding:20px 16px 40px}
+  .stat-strip{grid-template-columns:repeat(2,1fr)}
+  .impact-grid,.conv-grid{grid-template-columns:1fr}
+}
+
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Compliance-Led ESG Reporting: A Global Perspective - CEO Brief",
+  "description": "A CEO brief comparing ESG reporting mandates across 20 G20 jurisdictions and the emergence of ISSB as a global reporting baseline.",
+  "author": {
+    "@type": "Person",
+    "name": "Aurie",
+    "url": "https://REPLACE-WITH-YOUR-DOMAIN/about.html"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Aurie's Knowledge Hub",
+    "url": "https://REPLACE-WITH-YOUR-DOMAIN/index.html"
+  },
+  "datePublished": "2026-01-01",
+  "dateModified": "2026-07-06",
+  "url": "https://REPLACE-WITH-YOUR-DOMAIN/ceo-insights-global-esg-reporting.html"
+}
+</script>
+</head>
+<body>
+
+<div class="screen-nav">
+  <a href="index.html">← Aurie's Knowledge Hub</a>
+  <button class="print-btn" onclick="window.print()">⬇ Print / Save PDF</button>
+</div>
+
+<div class="doc-wrap" id="top">
+
+  <div class="print-topbar">
+    <div class="print-brand">Aurie's <span>Knowledge Hub</span></div>
+    <div class="print-series">CEO Briefs · ESG Insights &amp; Foresight</div>
+  </div>
+
+  <div class="meta-row"><span class="brief-num">CEO Brief</span></div>
+
+  <h1 class="doc-title">Compliance-Led ESG Reporting - <em>A Global Perspective.</em></h1>
+
+  <div class="exec-headline">
+    <div class="eh-label">Executive Headline</div>
+    <div class="eh-text">We have analysed 20 jurisdictions covering the G20 and major economic blocs. ESG reporting is now mandatory or in phased implementation across every one of them. ISSB is becoming the de facto global baseline. The question is no longer whether disclosure is required - it is whether your reporting infrastructure can serve multiple jurisdictions at once.</div>
+  </div>
+
+  <div class="stat-strip">
+    <div class="stat-cell"><div class="stat-value">20</div><div class="stat-label">Jurisdictions analysed across G20 and major economic blocs</div></div>
+    <div class="stat-cell"><div class="stat-value">100%</div><div class="stat-label">Have mandatory or phased ESG reporting in force or adopted</div></div>
+    <div class="stat-cell"><div class="stat-value">13</div><div class="stat-label">Reference ISSB standards - the emerging global baseline</div></div>
+    <div class="stat-cell"><div class="stat-value">12</div><div class="stat-cell-sub"></div><div class="stat-label">Reference TCFD - foundation for most climate disclosure</div></div>
+    <div class="stat-cell"><div class="stat-value">2025-26</div><div class="stat-label">Peak activation year - most phased regimes enter force</div></div>
+  </div>
+
+  <hr class="rule">
+
+  <div class="section-label">The Shift - What Is Changing</div>
+  <p class="body-text">ESG disclosure has crossed a threshold. Every jurisdiction in our analysis - from the EU to India to California - now has a mandatory or formally adopted ESG reporting regime. The era of voluntary disclosure is over as a sufficient response. What is emerging in its place is a compliance-led global reporting environment where the underlying frameworks are converging on ISSB, the assurance expectations are rising, and the cost of maintaining separate reporting stacks for each jurisdiction is becoming unsustainable.</p>
+
+  <hr class="rule">
+
+  <div class="section-label">Why It Matters - Business Impact</div>
+  <div class="impact-grid">
+    <div class="impact-card">
+      <span class="impact-icon">🌍</span>
+      <div class="impact-title">No safe harbour remains</div>
+      <div class="impact-text">Every G20 jurisdiction now has ESG reporting obligations. Multinationals operating across the EU, US, UK, Australia, Japan, and India face overlapping requirements that cannot be managed as separate compliance projects without significant duplication.</div>
+    </div>
+    <div class="impact-card">
+      <span class="impact-icon">🔗</span>
+      <div class="impact-title">ISSB is winning</div>
+      <div class="impact-text">13 of 20 jurisdictions reference ISSB standards. Australia, Canada, Japan, South Africa, Singapore, and the UK are all adopting ISSB-aligned frameworks. Companies that build to ISSB S1 and S2 will cover the majority of their global compliance requirements from a single baseline.</div>
+    </div>
+    <div class="impact-card">
+      <span class="impact-icon">⚡</span>
+      <div class="impact-title">2025-2026 is the activation window</div>
+      <div class="impact-text">The majority of phased regimes - Australia, Canada, US, California, Korea, China - move into first reporting cycles in 2025 and 2026. For multinationals, this is not a future planning item. The data collection and assurance infrastructure needs to exist now.</div>
+    </div>
+  </div>
+
+  <hr class="rule">
+
+  <div class="section-label">Business Exposure</div>
+  <table class="exposure-table">
+    <thead><tr><th style="width:18%">Type</th><th>Exposure</th></tr></thead>
+    <tbody>
+      <tr><td><span class="badge badge-risk">Risk</span></td><td>Multinationals with EU, US, UK, and Asia-Pacific operations face 4 to 6 overlapping disclosure regimes simultaneously by 2026. Managing these independently creates duplication of effort, inconsistent data definitions, and gaps that surface under assurance.</td></tr>
+      <tr><td><span class="badge badge-risk">Risk</span></td><td>CSRD sets the most demanding standard globally on scope and assurance. EU-listed or EU-operating companies that build to CSRD will substantially satisfy other jurisdictions. Companies that build to lesser standards and then attempt to layer CSRD on top face a far more complex rebuild.</td></tr>
+      <tr><td><span class="badge badge-opp">Opportunity</span></td><td>Building to ISSB S1 and S2 as the global baseline - with CSRD-compliant ESRS as the EU layer - gives multinationals a single data architecture that serves the majority of their global reporting obligations. This is the most capital-efficient compliance path available.</td></tr>
+      <tr><td><span class="badge badge-opp">Opportunity</span></td><td>Companies with credible, assured global ESG disclosures gain access to sustainability-linked capital markets and preferred supplier status in jurisdictions where procurement increasingly requires Scope 3 data from suppliers.</td></tr>
+    </tbody>
+  </table>
+
+  <hr class="rule">
+
+  <div class="section-label">Leadership Lens</div>
+  <ul class="lq-list">
+    <li class="lq-item"><span class="lq-bullet">›</span>Have we mapped every jurisdiction we operate in against the 20 reporting regimes in this analysis - and identified which apply to our entities?</li>
+    <li class="lq-item"><span class="lq-bullet">›</span>Is our ESG reporting infrastructure built on ISSB as the global baseline, or are we maintaining separate data stacks per jurisdiction?</li>
+    <li class="lq-item"><span class="lq-bullet">›</span>For our US and Asia-Pacific entities, are 2025-2026 first reporting cycles funded and resourced - or still being treated as future planning items?</li>
+    <li class="lq-item"><span class="lq-bullet">›</span>Does our Scope 3 data quality meet the supplier disclosure expectations of our largest customers in EU and UK regulated markets?</li>
+  </ul>
+
+  <div class="key-takeaway">
+    <span class="kt-icon">💡</span>
+    <div>
+      <div class="kt-label">Key Takeaway</div>
+      <div class="kt-text">The global ESG reporting landscape has converged faster than most companies planned for. ISSB is the emerging spine. CSRD is the most demanding layer. Companies that build once to the highest applicable standard - and use that infrastructure globally - will spend less and disclose more than those managing each jurisdiction separately.</div>
+    </div>
+  </div>
+
+  <hr class="rule">
+  <button class="full-analysis-toggle" id="faToggle" onclick="toggleFullAnalysis()">
+    <span class="fa-toggle-title">For Full Analysis - Click Here</span>
+    <span class="fa-toggle-arrow" id="faArrow">↓</span>
+  </button>
+
+  <!-- ══ COLLAPSIBLE DEEP DIVE ══ -->
+  <div id="fullAnalysis" style="display:none">
+    <hr class="rule">
+    <a class="back-to-top" href="#top">↑ Back to summary</a>
+    <div style="clear:both;padding-top:8px"></div>
+
+    <!-- SECTION 1: GLOBAL LANDSCAPE VISUAL -->
+    <div class="section-block">
+      <div class="section-header">
+        <span class="section-num">Section 1</span>
+        <span class="section-title">The Global Landscape - Status by Jurisdiction</span>
+      </div>
+
+      <!-- SVG world-style dot map -->
+      <div class="map-wrap">
+        <svg width="100%" viewBox="0 0 660 300" xmlns="http://www.w3.org/2000/svg" style="display:block;font-family:Inter,sans-serif;background:#f5f3ef;border:1px solid var(--border)">
+          <!-- Simplified continent outlines as background blocks -->
+          <!-- Americas -->
+          <rect x="30" y="60" width="140" height="160" rx="8" fill="#e8e4dc" opacity="0.5"/>
+          <text x="100" y="52" text-anchor="middle" font-size="8" fill="#9ca3af" font-weight="600" letter-spacing="0.08em">AMERICAS</text>
+          <!-- Europe / Africa -->
+          <rect x="210" y="50" width="120" height="170" rx="8" fill="#e8e4dc" opacity="0.5"/>
+          <text x="270" y="42" text-anchor="middle" font-size="8" fill="#9ca3af" font-weight="600" letter-spacing="0.08em">EUROPE / AFRICA</text>
+          <!-- Middle East -->
+          <rect x="350" y="90" width="60" height="80" rx="8" fill="#e8e4dc" opacity="0.5"/>
+          <text x="380" y="84" text-anchor="middle" font-size="8" fill="#9ca3af" font-weight="600" letter-spacing="0.08em">M. EAST</text>
+          <!-- Asia -->
+          <rect x="430" y="50" width="140" height="140" rx="8" fill="#e8e4dc" opacity="0.5"/>
+          <text x="500" y="42" text-anchor="middle" font-size="8" fill="#9ca3af" font-weight="600" letter-spacing="0.08em">ASIA PACIFIC</text>
+          <!-- Oceania -->
+          <rect x="530" y="200" width="100" height="60" rx="8" fill="#e8e4dc" opacity="0.5"/>
+          <text x="580" y="195" text-anchor="middle" font-size="8" fill="#9ca3af" font-weight="600" letter-spacing="0.08em">OCEANIA</text>
+
+          <!-- JURISDICTION DOTS with labels -->
+          <!-- EU -->
+          <circle cx="258" cy="95" r="9" fill="#1a6b3a"/>
+          <text x="258" y="98" text-anchor="middle" font-size="6" fill="#fff" font-weight="700">EU</text>
+          <text x="258" y="114" text-anchor="middle" font-size="6.5" fill="#4a5568">CSRD</text>
+
+          <!-- UK -->
+          <circle cx="235" cy="85" r="8" fill="#1a6b3a"/>
+          <text x="235" y="88" text-anchor="middle" font-size="5.5" fill="#fff" font-weight="700">UK</text>
+          <text x="224" y="99" text-anchor="middle" font-size="6.5" fill="#4a5568">SDR</text>
+
+          <!-- Turkey -->
+          <circle cx="285" cy="108" r="7" fill="#1a6b3a"/>
+          <text x="285" y="111" text-anchor="middle" font-size="5.5" fill="#fff" font-weight="700">TR</text>
+
+          <!-- South Africa -->
+          <circle cx="265" cy="195" r="7" fill="#1a6b3a"/>
+          <text x="265" y="198" text-anchor="middle" font-size="5.5" fill="#fff" font-weight="700">ZA</text>
+          <text x="265" y="212" text-anchor="middle" font-size="6.5" fill="#4a5568">JSE</text>
+
+          <!-- Saudi Arabia -->
+          <circle cx="375" cy="120" r="7" fill="#1a6b3a"/>
+          <text x="375" y="123" text-anchor="middle" font-size="5.5" fill="#fff" font-weight="700">SA</text>
+
+          <!-- Russia -->
+          <circle cx="380" cy="75" r="7" fill="#1a6b3a"/>
+          <text x="380" y="78" text-anchor="middle" font-size="5.5" fill="#fff" font-weight="700">RU</text>
+
+          <!-- India -->
+          <circle cx="480" cy="135" r="8" fill="#1a6b3a"/>
+          <text x="480" y="138" text-anchor="middle" font-size="5.5" fill="#fff" font-weight="700">IN</text>
+          <text x="480" y="153" text-anchor="middle" font-size="6.5" fill="#4a5568">BRSR</text>
+
+          <!-- Indonesia -->
+          <circle cx="530" cy="160" r="7" fill="#1a6b3a"/>
+          <text x="530" y="163" text-anchor="middle" font-size="5.5" fill="#fff" font-weight="700">ID</text>
+
+          <!-- Argentina -->
+          <circle cx="90" cy="200" r="7" fill="#1a6b3a"/>
+          <text x="90" y="203" text-anchor="middle" font-size="5.5" fill="#fff" font-weight="700">AR</text>
+
+          <!-- Brazil -->
+          <circle cx="105" cy="175" r="8" fill="#1a6b3a"/>
+          <text x="105" y="178" text-anchor="middle" font-size="5.5" fill="#fff" font-weight="700">BR</text>
+
+          <!-- Mexico -->
+          <circle cx="55" cy="140" r="7" fill="#1a6b3a"/>
+          <text x="55" y="143" text-anchor="middle" font-size="5.5" fill="#fff" font-weight="700">MX</text>
+
+          <!-- Japan -->
+          <circle cx="564" cy="90" r="8" fill="#e67e22"/>
+          <text x="564" y="93" text-anchor="middle" font-size="5.5" fill="#fff" font-weight="700">JP</text>
+          <text x="564" y="108" text-anchor="middle" font-size="6.5" fill="#4a5568">SSBJ</text>
+
+          <!-- China -->
+          <circle cx="518" cy="100" r="9" fill="#e67e22"/>
+          <text x="518" y="103" text-anchor="middle" font-size="6" fill="#fff" font-weight="700">CN</text>
+          <text x="518" y="118" text-anchor="middle" font-size="6.5" fill="#4a5568">CSDS</text>
+
+          <!-- South Korea -->
+          <circle cx="553" cy="105" r="7" fill="#e67e22"/>
+          <text x="553" y="108" text-anchor="middle" font-size="5.5" fill="#fff" font-weight="700">KR</text>
+
+          <!-- Australia -->
+          <circle cx="568" cy="228" r="9" fill="#e67e22"/>
+          <text x="568" y="231" text-anchor="middle" font-size="5.5" fill="#fff" font-weight="700">AU</text>
+          <text x="568" y="247" text-anchor="middle" font-size="6.5" fill="#4a5568">AASB</text>
+
+          <!-- Canada -->
+          <circle cx="65" cy="85" r="8" fill="#e67e22"/>
+          <text x="65" y="88" text-anchor="middle" font-size="5.5" fill="#fff" font-weight="700">CA</text>
+
+          <!-- USA federal -->
+          <circle cx="68" cy="110" r="9" fill="#e67e22"/>
+          <text x="68" y="113" text-anchor="middle" font-size="5.5" fill="#fff" font-weight="700">US</text>
+          <text x="68" y="129" text-anchor="middle" font-size="6.5" fill="#4a5568">SEC</text>
+
+          <!-- California -->
+          <circle cx="42" cy="118" r="6" fill="#e67e22" stroke="#c9a84c" stroke-width="1.5"/>
+          <text x="42" y="121" text-anchor="middle" font-size="5" fill="#fff" font-weight="700">CA</text>
+
+          <!-- New York -->
+          <circle cx="82" cy="100" r="6" fill="#e67e22" stroke="#c9a84c" stroke-width="1.5"/>
+          <text x="82" y="103" text-anchor="middle" font-size="5" fill="#fff" font-weight="700">NY</text>
+
+          <!-- Texas -->
+          <circle cx="60" cy="125" r="5" fill="#9ca3af"/>
+          <text x="60" y="128" text-anchor="middle" font-size="4.5" fill="#fff" font-weight="700">TX</text>
+
+          <!-- Source note -->
+          <text x="12" y="292" font-size="7" fill="#9ca3af">Source: Aurie's Knowledge Hub analysis · 20 jurisdictions · 2026</text>
+        </svg>
+
+        <div class="map-legend">
+          <div class="map-leg-item"><div class="map-leg-dot" style="background:#1a6b3a"></div>In force now</div>
+          <div class="map-leg-item"><div class="map-leg-dot" style="background:#e67e22"></div>Adopted / phased in</div>
+          <div class="map-leg-item"><div class="map-leg-dot" style="background:#9ca3af"></div>Existing environmental reporting only</div>
+          <div class="map-leg-item" style="margin-left:4px;font-style:italic;font-size:7pt;color:#9ca3af">Gold ring = sub-national</div>
+        </div>
+      </div>
+    </div>
+
+    <hr class="rule">
+
+    <!-- SECTION 2: FRAMEWORK CONVERGENCE -->
+    <div class="section-block">
+      <div class="section-header">
+        <span class="section-num">Section 2</span>
+        <span class="section-title">Framework Convergence - ISSB Is the Emerging Spine</span>
+      </div>
+
+      <div class="fw-chart">
+        <div class="fw-label">ISSB S1 / S2</div>
+        <div class="fw-bar-wrap"><div class="fw-bar" style="width:100%;background:#1a6b3a"></div></div>
+        <div class="fw-count">13 / 20</div>
+        <div class="fw-label">TCFD</div>
+        <div class="fw-bar-wrap"><div class="fw-bar" style="width:92.3%;background:#1a3a5c"></div></div>
+        <div class="fw-count">12 / 20</div>
+        <div class="fw-label">GRI</div>
+        <div class="fw-bar-wrap"><div class="fw-bar" style="width:61.5%;background:#5a2d82"></div></div>
+        <div class="fw-count">8 / 20</div>
+        <div class="fw-label">ESRS</div>
+        <div class="fw-bar-wrap"><div class="fw-bar" style="width:7.7%;background:#8a5500"></div></div>
+        <div class="fw-count">1 / 20</div>
+      </div>
+
+      <div class="conv-grid">
+        <div class="conv-card" style="border-color:#1a6b3a">
+          <div class="conv-card-label" style="color:#1a6b3a">ISSB as global baseline</div>
+          <div class="conv-card-text">Australia, Canada, Japan, South Africa, Singapore, UK, Nigeria, and others are all adopting ISSB-aligned local standards. Building to ISSB S1 and S2 covers the majority of climate disclosure requirements globally from a single data architecture.</div>
+        </div>
+        <div class="conv-card" style="border-color:#1a3a5c">
+          <div class="conv-card-label" style="color:#1a3a5c">TCFD as the foundation</div>
+          <div class="conv-card-text">TCFD underpins most climate-specific disclosure requirements. It is now embedded in ISSB S2, ESRS E1, and numerous national frameworks. TCFD alignment is effectively a prerequisite for any climate disclosure regime, not a voluntary add-on.</div>
+        </div>
+        <div class="conv-card" style="border-color:#5a2d82">
+          <div class="conv-card-label" style="color:#5a2d82">GRI for social and governance</div>
+          <div class="conv-card-text">GRI remains widely referenced for social and governance disclosures, particularly where ISSB S1 broader sustainability topics are in scope. Eight jurisdictions reference GRI alongside ISSB or TCFD.</div>
+        </div>
+        <div class="conv-card" style="border-color:#8a5500">
+          <div class="conv-card-label" style="color:#8a5500">ESRS as EU-specific layer</div>
+          <div class="conv-card-text">ESRS is mandatory for CSRD-in-scope entities only. Outside the EU, it is referenced for interoperability mapping. Companies that build to ESRS will find ISSB coverage largely included - but the reverse is not true.</div>
+        </div>
+      </div>
+    </div>
+
+    <hr class="rule">
+
+    <!-- SECTION 3: JURISDICTION TABLE -->
+    <div class="section-block">
+      <div class="section-header">
+        <span class="section-num">Section 3</span>
+        <span class="section-title">Full Jurisdiction Register</span>
+      </div>
+      <div style="overflow-x:auto">
+        <table class="jur-table">
+          <thead><tr>
+            <th>Jurisdiction</th><th>Regulation</th><th>Status</th>
+            <th>First Year</th><th>Framework</th><th>Notes</th>
+          </tr></thead>
+          <tbody>
+            <tr><td><strong>European Union</strong></td><td>CSRD / ESRS</td><td><span class="status-pill s-force">In force</span></td><td>FY 2024 Wave 1</td><td>ESRS; ISSB mapping</td><td>Most demanding global standard on scope and assurance. Three waves through FY2026.</td></tr>
+            <tr><td><strong>United Kingdom</strong></td><td>SDR / TCFD</td><td><span class="status-pill s-force">In force</span></td><td>FY 2022-23</td><td>ISSB-aligned; TCFD</td><td>FCA Sustainability Disclosure Requirements. ISSB adoption underway via UK SRS.</td></tr>
+            <tr><td><strong>India</strong></td><td>BRSR</td><td><span class="status-pill s-force">In force</span></td><td>FY 2022-23</td><td>GRI; ISSB mapping</td><td>SEBI mandated for listed companies. BRSR Core with assurance for top 150 companies.</td></tr>
+            <tr><td><strong>South Africa</strong></td><td>JSE sustainability reporting</td><td><span class="status-pill s-force">In force</span></td><td>Pre-2024</td><td>ISSB; GRI; TCFD</td><td>King IV governance framework underpins disclosure. ISSB S1 and S2 adoption expected.</td></tr>
+            <tr><td><strong>Indonesia</strong></td><td>OJK sustainability reporting</td><td><span class="status-pill s-force">In force</span></td><td>Pre-2024</td><td>GRI; local standards</td><td>OJK Regulation 51 on sustainable finance reporting.</td></tr>
+            <tr><td><strong>Brazil</strong></td><td>CVM sustainability reporting</td><td><span class="status-pill s-force">In force</span></td><td>Pre-2024</td><td>GRI; TCFD</td><td>B3 exchange ESG reporting and CVM Instrução 480 disclosure requirements.</td></tr>
+            <tr><td><strong>Argentina</strong></td><td>CNV ESG disclosure</td><td><span class="status-pill s-force">In force</span></td><td>Pre-2024</td><td>GRI; TCFD</td><td>Securities regulator disclosure rules for listed entities.</td></tr>
+            <tr><td><strong>Mexico</strong></td><td>CNBV / BMV sustainability</td><td><span class="status-pill s-force">In force</span></td><td>Pre-2024</td><td>GRI; TCFD</td><td>BMV exchange and CNBV regulator requirements. TCFD-referenced disclosures.</td></tr>
+            <tr><td><strong>Saudi Arabia</strong></td><td>CMA / Tadawul ESG</td><td><span class="status-pill s-force">In force</span></td><td>Current</td><td>GRI; ISSB piloting</td><td>Tadawul ESG disclosure guidelines. Vision 2030 sustainability agenda driving adoption.</td></tr>
+            <tr><td><strong>Russia</strong></td><td>ESG disclosure framework</td><td><span class="status-pill s-force">In force</span></td><td>Pre-2024</td><td>Local framework</td><td>Ministry of Economic Development ESG guidelines. Diverging from ISSB post-2022.</td></tr>
+            <tr><td><strong>Turkey</strong></td><td>CMB sustainability reporting</td><td><span class="status-pill s-force">In force</span></td><td>FY 2022-23</td><td>GRI; TCFD</td><td>Capital Markets Board requirements for listed companies. ISSB adoption under review.</td></tr>
+            <tr><td><strong>Australia</strong></td><td>ASRS / AASB climate reporting</td><td><span class="status-pill s-phased">Phased in</span></td><td>FY 2025-26</td><td>ISSB S1 &amp; S2; AASB</td><td>ASRS 1 and 2 are ISSB-aligned. Mandatory for large listed entities from FY2025-26.</td></tr>
+            <tr><td><strong>Japan</strong></td><td>SSBJ sustainability standards</td><td><span class="status-pill s-phased">Phased in</span></td><td>FY 2023-24</td><td>ISSB S1 &amp; S2; TCFD</td><td>SSBJ issued ISSB-aligned standards. Prime Market listed companies reporting from FY2023.</td></tr>
+            <tr><td><strong>China</strong></td><td>CSDS (CSDSD)</td><td><span class="status-pill s-phased">Phased in</span></td><td>FY 2025</td><td>Local framework; ISSB reference</td><td>CSRC and SSE/SZSE sustainability disclosure standards. ISSB-informed but China-specific.</td></tr>
+            <tr><td><strong>South Korea</strong></td><td>K-ESG / sustainability regime</td><td><span class="status-pill s-phased">Phased in</span></td><td>FY 2025-26</td><td>ISSB-aligned; GRI</td><td>FSC mandatory disclosure roadmap. Large caps first from 2025, all KOSPI from 2030.</td></tr>
+            <tr><td><strong>Canada</strong></td><td>CSA climate disclosure</td><td><span class="status-pill s-phased">Phased in</span></td><td>~FY 2025</td><td>ISSB S1 &amp; S2; TCFD</td><td>CSA proposed national instrument. ISSB-based. Provinces implementing independently.</td></tr>
+            <tr><td><strong>United States (federal)</strong></td><td>SEC climate disclosure rules</td><td><span class="status-pill s-phased">Phased in</span></td><td>FY 2025 large filers</td><td>TCFD; ISSB reference</td><td>SEC rules scaled back post-legal challenges. Scope 3 removed. Materiality-based.</td></tr>
+            <tr><td><strong>California</strong></td><td>SB 253 / SB 261</td><td><span class="status-pill s-phased">Phased in</span></td><td>FY 2026</td><td>GHG Protocol; TCFD</td><td>SB 253 requires Scope 1-3 GHG reporting for $1B+ revenue companies doing business in California.</td></tr>
+            <tr><td><strong>New York</strong></td><td>NY GHG Reporting Rule</td><td><span class="status-pill s-phased">Phased in</span></td><td>~FY 2025</td><td>GHG Protocol</td><td>Part 253 facility-level GHG reporting. Expanding scope under Climate Act.</td></tr>
+            <tr><td><strong>Texas</strong></td><td>Environmental reporting</td><td><span class="status-pill s-force">In force</span></td><td>Existing</td><td>EPA / state framework</td><td>No unified ESG mandate. Environmental reporting through EPA and TCEQ. Diverges from ESG trend.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <hr class="rule">
+
+    <!-- SECTION 4: FORESIGHT -->
+    <div class="section-block">
+      <div class="section-header">
+        <span class="section-num">Section 4</span>
+        <span class="section-title">Foresight - What Changes</span>
+      </div>
+      <table class="foresight-table">
+        <tr>
+          <td><span class="h-pill h-now">Now</span></td>
+          <td>EU Wave 1 companies are reporting under CSRD. India, South Africa, Brazil, and several G20 markets already have established reporting regimes. Japan's SSBJ standards are producing first ISSB-aligned reports. The compliance baseline is set - the question is quality, assurance, and integration.</td>
+        </tr>
+        <tr>
+          <td><span class="h-pill h-12m">12 months</span></td>
+          <td>Australia, Canada, South Korea, China, California, and New York all enter first formal reporting cycles in FY2025-26. The SEC climate rules, though scaled back, apply to large accelerated filers. CSRD extends to Wave 2 mid-size companies. The volume of companies in scope globally more than doubles.</td>
+        </tr>
+        <tr>
+          <td><span class="h-pill h-35y">3 to 5 years</span></td>
+          <td>ISSB-aligned frameworks will be operational in the majority of G20 jurisdictions. Cross-border data comparability will improve as ISSB becomes the common language. Assurance expectations will tighten globally following the CSRD limited assurance model. Companies that have not built audit-ready ESG data infrastructure will face simultaneous pressure across multiple jurisdictions.</td>
+        </tr>
+      </table>
+    </div>
+
+    <hr class="rule">
+
+    <!-- SECTION 5: INACTION -->
+    <div class="section-block">
+      <div class="section-header">
+        <span class="section-num">Section 5</span>
+        <span class="section-title">Inaction - Consequences</span>
+      </div>
+      <div class="inaction-block">
+        Companies that continue to treat ESG reporting as a voluntary or jurisdiction-by-jurisdiction exercise will find the cost of remediation growing as the number of active regimes multiplies. The window for building shared infrastructure - one data model serving ISSB, CSRD, and national adaptations simultaneously - is open now. Multinationals that miss this window will rebuild separately for each jurisdiction under time pressure and at significantly higher cost. The assurance expectations embedded in CSRD will increasingly migrate to other jurisdictions. Companies without audit-ready ESG data will face qualified opinions in multiple markets simultaneously.
+      </div>
+    </div>
+
+    <hr class="rule">
+
+    <!-- SECTION 6: BOARD ACTIONS -->
+    <div class="section-block">
+      <div class="section-header">
+        <span class="section-num">Section 6</span>
+        <span class="section-title">Board &amp; Leadership Actions</span>
+      </div>
+      <table class="action-table">
+        <thead><tr><th>Horizon</th><th>Action</th></tr></thead>
+        <tbody>
+          <tr><td><span class="tl-dot tl-amber"></span>Now</td><td>Map every jurisdiction in your operating and listing footprint against the 20 regimes in this analysis. Identify which apply to which entities, which have 2025-2026 first reporting dates, and which share data requirements that can be served from a single source.</td></tr>
+          <tr><td><span class="tl-dot tl-amber"></span>Now</td><td>Confirm that your ESG data architecture is being built to ISSB S1 and S2 as the global baseline. Where CSRD also applies, confirm the ESRS layer is mapped onto the ISSB foundation - not managed as a separate workstream.</td></tr>
+          <tr><td><span class="tl-dot tl-green"></span>6 months</td><td>For US entities: assess SEC climate rule applicability and California SB 253 scope. SB 253 requires Scope 1-3 reporting for all companies with over USD 1 billion in revenue doing business in California - regardless of where they are headquartered or listed.</td></tr>
+          <tr><td><span class="tl-dot tl-green"></span>6 months</td><td>For Asia-Pacific entities: initiate ISSB S1 and S2 gap assessment against current disclosure practices in Japan, Australia, and South Korea. First reporting cycles are live or imminent. Data collection needs to be running now.</td></tr>
+          <tr><td><span class="tl-dot tl-green"></span>12 months</td><td>Commission a global assurance readiness review. CSRD limited assurance is the most developed model globally - but the expectation of third-party verification is spreading. Companies with audit-trail-capable ESG data systems across all jurisdictions will have a structural advantage as assurance becomes the norm rather than the exception.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="sources-block">
+      <div class="sources-label">Sources</div>
+      <div class="sources-text">Aurie's Knowledge Hub ESG Reporting Regulation Global analysis. IFRS Foundation ISSB adoption tracker. EFRAG ESRS technical guidance. SEC climate disclosure rules (2024). ASIC / AASB ASRS 1 and 2 standards. FSA Japan SSBJ standards. SEBI BRSR Core framework. California SB 253 and SB 261 statutory text. CSA proposed national instrument 51-107. FSC South Korea sustainability disclosure roadmap. CSRC / SSE / SZSE CSDS framework. FCA SDR policy statement. All status and framework references current as of mid-2026.</div>
+    </div>
+
+  </div><!-- end #fullAnalysis -->
+
+  <div class="print-footer">
+    <div class="pf-brand">Aurie's Knowledge Hub</div>
+    <div>CEO Brief · Global ESG Reporting Regulation · 2026</div>
+    <div>© Aurie</div>
+  </div>
+
+</div>
+
+<script>
+function toggleFullAnalysis(){
+  var panel=document.getElementById('fullAnalysis');
+  var arrow=document.getElementById('faArrow');
+  var open=panel.style.display!=='none';
+  panel.style.display=open?'none':'block';
+  arrow.style.transform=open?'rotate(0deg)':'rotate(180deg)';
+}
+</script>
+</body>
+</html>

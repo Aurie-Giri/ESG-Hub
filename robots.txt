@@ -1,0 +1,53 @@
+# Aurie's Knowledge Hub — robots.txt
+# This is a public knowledge-sharing site. The intent is maximum discoverability
+# by search engines and AI assistants, so crawling is open by default.
+
+User-agent: *
+Allow: /
+
+# ── Standard search engines ──
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+# ── AI search / citation crawlers (fetch content to answer user questions) ──
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: Claude-SearchBot
+Allow: /
+
+User-agent: Claude-User
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Perplexity-User
+Allow: /
+
+# ── AI training crawlers (also allowed — this site wants to be known, not protected) ──
+User-agent: GPTBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+Sitemap: https://REPLACE-WITH-YOUR-DOMAIN/sitemap.xml

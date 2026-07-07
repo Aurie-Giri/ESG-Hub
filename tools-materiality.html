@@ -1,0 +1,1055 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="A double materiality assessment tool scoring ESRS topics across impact and financial materiality, aligned to post-Omnibus requirements.">
+<title>Materiality Decision Tool - Aurie's Knowledge Hub</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Inter:wght@300;400;500;600;700&display=swap');
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --green:#0e2b1a;--gold:#c9a84c;--ivory:#0e2b1a;
+  --mid:#8a9e90;--light:#1f4a2f;--border:rgba(201,168,76,0.18);
+  --serif:'Cormorant Garamond',Georgia,serif;
+  --sans:'Inter',system-ui,sans-serif;
+  --red:#f87171;--amber:#fb923c;--ok:#4ade80;
+  --ink:#ffffff;--surface:#1a3d28;
+}
+html,body{background:var(--ivory);color:var(--ink);font-family:var(--sans);font-size:10.5pt;line-height:1.65;min-height:100vh}
+
+/* LAYOUT */
+.wrap{max-width:880px;margin:0 auto;padding:28px 32px 60px}
+
+/* TOP BAR */
+/* HERO */
+.legal-note{font-size:8pt;color:var(--mid);font-style:italic;margin-top:6px;padding:6px 10px;border-left:2px solid var(--border)}
+
+/* STAGE NAV */
+.stage-nav{display:flex;gap:0;margin:24px 0 0;border:1px solid var(--border)}
+.stage-btn{flex:1;padding:10px 8px;text-align:center;font-size:8pt;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--mid);background:var(--light);border:none;cursor:pointer;border-right:1px solid var(--border);transition:all .15s;font-family:var(--sans)}
+.stage-btn:last-child{border-right:none}
+.stage-btn.active{background:var(--green);color:var(--gold)}
+.stage-btn.done{background:var(--surface);color:var(--ok)}
+.stage-btn:disabled{opacity:.45;cursor:not-allowed}
+
+hr.rule{border:none;border-top:1px solid var(--border);margin:22px 0 18px}
+
+/* STAGE PANELS */
+.stage{display:none}
+.stage.active{display:block}
+
+/* STAGE 1 - SCOPING */
+.scoping-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:14px 0}
+.field-group{display:flex;flex-direction:column;gap:5px}
+.field-group.full{grid-column:1/-1}
+.field-label{font-size:8pt;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink)}
+.field-hint{font-size:7.5pt;color:var(--mid);font-style:italic;margin-top:1px}
+select,input[type=text],textarea{width:100%;padding:8px 10px;border:1px solid var(--border);background:var(--surface);font-family:var(--sans);font-size:9.5pt;color:var(--ink);outline:none;transition:border-color .15s;border-radius:0}
+select:focus,input:focus,textarea:focus{border-color:var(--gold)}
+textarea{resize:vertical;min-height:60px}
+
+/* WAVE PICKER */
+.wave-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:8px 0}
+.wave-card{border:1px solid var(--border);padding:10px 12px;cursor:pointer;transition:all .15s;background:var(--surface)}
+.wave-card:hover{border-color:var(--gold)}
+.wave-card.selected{border-color:var(--ink);background:rgba(14,43,26,0.04)}
+.wave-card-title{font-size:8.5pt;font-weight:600;color:var(--ink);margin-bottom:3px}
+.wave-card-desc{font-size:7.5pt;color:var(--mid);line-height:1.4}
+
+/* TOPIC FILTER PILLS */
+.filter-result{margin-top:16px;padding:12px 14px;background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--gold)}
+.filter-result-label{font-size:7.5pt;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:8px}
+.topic-pills{display:flex;flex-wrap:wrap;gap:6px}
+.topic-pill{font-size:7.5pt;font-weight:600;padding:3px 8px;border-radius:2px;cursor:pointer;letter-spacing:.04em;transition:all .15s}
+.topic-pill.in{background:rgba(14,43,26,0.08);color:var(--ink);border:1px solid rgba(14,43,26,0.2)}
+.topic-pill.out{background:rgba(248,113,113,0.1);color:#aab5ac;border:1px solid rgba(248,113,113,0.25);text-decoration:line-through}
+.topic-pill:hover{opacity:.8}
+
+/* STAGE 2 - ASSESSMENT */
+.assessment-layout{display:grid;grid-template-columns:1fr 320px;gap:24px;align-items:start}
+.topic-list{display:flex;flex-direction:column;gap:0}
+.topic-card{border:1px solid var(--border);margin-bottom:8px;background:var(--surface);transition:box-shadow .15s}
+.topic-card.active-card{box-shadow:0 0 0 2px var(--gold)}
+.topic-card-header{padding:10px 14px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:10px}
+.topic-card-left{display:flex;align-items:center;gap:10px}
+.topic-code{font-size:7.5pt;font-weight:700;padding:2px 6px;color:#fff;border-radius:2px;white-space:nowrap;letter-spacing:.04em}
+.topic-name{font-size:9.5pt;font-weight:600;color:var(--ink)}
+.topic-sub{font-size:7.5pt;color:var(--mid)}
+.topic-score-badge{font-size:8pt;font-weight:700;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#fff}
+.topic-card-body{display:none;padding:0 14px 14px;border-top:1px solid var(--border)}
+.topic-card-body.open{display:block}
+
+/* SCORING */
+.score-section{margin-top:12px}
+.score-label{font-size:8pt;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink);margin-bottom:4px}
+.score-desc{font-size:8pt;color:var(--mid);margin-bottom:8px;line-height:1.5}
+.score-row{display:grid;grid-template-columns:repeat(5,1fr);gap:4px}
+.score-opt{border:1px solid var(--border);padding:6px 4px;text-align:center;cursor:pointer;transition:all .15s;background:var(--surface)}
+.score-opt:hover{border-color:var(--gold)}
+.score-opt.selected-score{background:var(--green);border-color:var(--ink);color:#fff}
+.score-opt-num{font-size:11pt;font-weight:700;display:block;line-height:1}
+.score-opt-lbl{font-size:6.5pt;color:inherit;opacity:.75;line-height:1.3;margin-top:2px}
+.phase-flag{font-size:7.5pt;color:var(--amber);font-weight:600;margin-top:8px;padding:5px 8px;background:rgba(251,146,60,0.14);border-left:2px solid var(--amber)}
+.top-down-btn{margin-top:10px;width:100%;padding:7px;background:rgba(248,113,113,0.1);border:1px solid rgba(248,113,113,0.3);color:var(--red);font-size:8pt;font-weight:600;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;font-family:var(--sans);transition:all .15s}
+.top-down-btn:hover{background:rgba(248,113,113,0.18)}
+.top-down-btn.concluded-out{background:rgba(248,113,113,0.18);border-color:var(--red)}
+
+/* LIVE MAP - signature element */
+.map-panel{position:sticky;top:24px}
+.map-title{font-size:8pt;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--ink);margin-bottom:10px}
+.matrix-wrap{position:relative;width:100%;padding-bottom:100%;background:var(--surface);border:1px solid var(--border)}
+.matrix-inner{position:absolute;inset:0;padding:28px}
+.matrix-canvas{position:relative;width:100%;height:100%;background:linear-gradient(135deg,rgba(201,168,76,0.04) 0%,rgba(14,43,26,0.06) 100%)}
+/* Quadrant labels */
+.q-label{position:absolute;font-size:6.5pt;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--border);pointer-events:none}
+.q-tl{top:6px;left:6px}
+.q-tr{top:6px;right:6px;text-align:right}
+.q-bl{bottom:6px;left:6px}
+.q-br{bottom:6px;right:6px;text-align:right}
+/* Axis lines */
+.axis-h{position:absolute;left:0;right:0;top:50%;border-top:1px dashed var(--border)}
+.axis-v{position:absolute;top:0;bottom:0;left:50%;border-left:1px dashed var(--border)}
+/* Axis labels */
+.ax-x{position:absolute;bottom:-22px;left:0;right:0;text-align:center;font-size:7pt;color:var(--mid);letter-spacing:.06em;text-transform:uppercase}
+.ax-y{position:absolute;top:0;bottom:0;left:-22px;display:flex;align-items:center;justify-content:center}
+.ax-y span{font-size:7pt;color:var(--mid);letter-spacing:.06em;text-transform:uppercase;writing-mode:vertical-rl;transform:rotate(180deg)}
+/* Dots */
+.map-dot{position:absolute;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:6.5pt;font-weight:700;color:#fff;transform:translate(-50%,-50%);transition:left .4s,bottom .4s,opacity .3s;cursor:default;box-shadow:0 1px 4px rgba(0,0,0,0.18)}
+.map-dot:hover .dot-tip{display:block}
+.dot-tip{display:none;position:absolute;bottom:110%;left:50%;transform:translateX(-50%);background:var(--green);color:#fff;font-size:7pt;padding:4px 7px;white-space:nowrap;border-radius:2px;z-index:10;pointer-events:none}
+
+/* MAP LEGEND */
+.map-legend{margin-top:12px;display:flex;flex-direction:column;gap:3px}
+.map-leg-item{display:flex;align-items:center;gap:6px;font-size:7.5pt;color:var(--mid)}
+.map-leg-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+
+/* PRIORITY RANKING */
+.priority-list{display:flex;flex-direction:column;gap:6px;margin-top:8px}
+.priority-item{display:grid;grid-template-columns:28px 1fr 50px;gap:8px;align-items:center;padding:8px 10px;background:var(--surface);border:1px solid var(--border);border-left:3px solid}
+.pri-rank{font-size:10pt;font-weight:700;color:var(--mid);text-align:center}
+.pri-name{font-size:9pt;font-weight:600;color:var(--ink)}
+.pri-sub{font-size:7.5pt;color:var(--mid)}
+.pri-score{font-size:9pt;font-weight:700;text-align:right}
+
+/* STAGE 3 - OUTPUT */
+.output-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin:14px 0}
+.out-card{padding:14px 16px;border:1px solid var(--border);background:var(--surface)}
+.out-card-label{font-size:7.5pt;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:10px}
+.out-stat{font-family:var(--serif);font-size:22pt;font-weight:600;color:var(--ink);line-height:1}
+.out-stat-sub{font-size:8.5pt;color:var(--mid);margin-top:3px}
+
+/* NARRATIVE */
+.narrative-block{margin:8px 0;padding:12px 14px;border:1px solid var(--border);border-left:3px solid var(--gold);background:var(--surface)}
+.narrative-topic{font-size:8.5pt;font-weight:600;color:var(--ink);margin-bottom:5px}
+.narrative-text{font-size:9pt;color:var(--ink);line-height:1.65}
+.narrative-copy-btn{font-size:7pt;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--mid);background:none;border:1px solid var(--border);padding:2px 8px;cursor:pointer;font-family:var(--sans);margin-top:6px;transition:all .15s}
+.narrative-copy-btn:hover{border-color:var(--gold);color:var(--gold)}
+
+/* SUMMARY TABLE */
+.summary-table{width:100%;border-collapse:collapse;font-size:8.5pt;margin:10px 0}
+.summary-table th{text-align:left;padding:6px 8px;font-size:7pt;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#fff;background:var(--green)}
+.summary-table td{padding:6px 8px;border-bottom:1px solid var(--border);vertical-align:top;line-height:1.45;color:var(--ink)}
+.summary-table tr:nth-child(even) td{background:var(--light)}
+.mat-pill{display:inline-block;font-size:6.5pt;padding:2px 6px;font-weight:600;color:#fff;border-radius:2px}
+.mat-high{background:var(--red)}.mat-med{background:var(--amber)}.mat-low{background:#5aaf6e}.mat-out{background:#9ca3af}
+
+/* ACTION BUTTONS */
+.action-row{display:flex;gap:10px;margin-top:20px;flex-wrap:wrap}
+.btn-primary{background:var(--green);color:var(--gold);font-size:9pt;font-weight:600;padding:10px 22px;border:none;cursor:pointer;letter-spacing:.08em;text-transform:uppercase;font-family:var(--sans);transition:opacity .15s}
+.btn-primary:hover{opacity:.85}
+.btn-secondary{background:var(--surface);color:var(--ink);font-size:9pt;font-weight:600;padding:10px 22px;border:1px solid var(--border);cursor:pointer;letter-spacing:.08em;text-transform:uppercase;font-family:var(--sans);transition:all .15s}
+.btn-secondary:hover{border-color:var(--gold)}
+
+/* MISC */
+.section-hd{font-size:9.5pt;font-weight:600;color:var(--ink);letter-spacing:.02em;margin-bottom:8px}
+.helper-text{font-size:8.5pt;color:var(--mid);line-height:1.6;margin-bottom:12px}
+.phase-table{width:100%;border-collapse:collapse;font-size:8.5pt;margin:10px 0}
+.phase-table th{text-align:left;padding:5px 8px;font-size:7pt;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#fff;background:var(--green)}
+.phase-table td{padding:5px 8px;border-bottom:1px solid var(--border);font-size:8pt;color:var(--ink)}
+
+@media print{
+  nav,.print-bar,.stage-nav,.action-row{display:none}
+  .wrap{padding:0}.assessment-layout{display:block}
+  .map-panel{position:static}
+  #stage1,#stage2{display:none}
+  #stage3{display:block !important}
+}
+@media(max-width:700px){
+  .scoping-grid,.output-grid{grid-template-columns:1fr}
+  .assessment-layout{grid-template-columns:1fr}
+  .map-panel{position:static}
+  .wave-grid{grid-template-columns:1fr}
+}
+
+
+/* ── NAV (standardised) ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; align-items: stretch;
+  background: rgba(9,31,18,0.97); backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(201,168,76,0.18);
+  height: 64px;
+}
+.nav-brand {
+  display: flex; align-items: center;
+  padding: 0 2.5rem;
+  font-family: 'Cormorant Garamond', Georgia, serif; font-size: 1.25rem; font-weight: 600;
+  letter-spacing: 0.04em; color: #ffffff; text-decoration: none;
+  border-right: 1px solid rgba(201,168,76,0.18);
+  flex-shrink: 0; transition: background 0.2s;
+}
+.nav-brand:hover { background: rgba(201,168,76,0.06); }
+.nav-brand span { color: #c9a84c; }
+.nav-sections { display: flex; align-items: stretch; list-style: none; flex: 1; overflow-x: auto; }
+.nav-sections li { display: flex; }
+.nav-link {
+  display: flex; flex-direction: column; justify-content: center;
+  padding: 0 1.6rem; text-decoration: none;
+  border-right: 1px solid rgba(201,168,76,0.18);
+  transition: background 0.18s; min-width: 120px;
+}
+.nav-link:hover { background: rgba(201,168,76,0.06); }
+.nav-link.active { background: rgba(201,168,76,0.15); border-bottom: 2px solid #c9a84c; }
+.nav-link-primary { font-size: 0.78rem; font-weight: 500; letter-spacing: 0.05em; color: rgba(255,255,255,0.88); line-height: 1.2; white-space: nowrap; }
+.nav-link-sub { font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase; color: #8a9e90; line-height: 1; margin-top: 3px; white-space: nowrap; }
+.nav-link:hover .nav-link-primary { color: #e0c07a; }
+.nav-link:hover .nav-link-sub { color: rgba(201,168,76,0.6); }
+.nav-link.active .nav-link-primary { color: #c9a84c; }
+.nav-link.active .nav-link-sub { color: rgba(201,168,76,0.7); }
+.nav-about {
+  display: flex; align-items: center; padding: 0 1.8rem;
+  font-size: 0.78rem; font-weight: 500; letter-spacing: 0.05em;
+  color: rgba(255,255,255,0.6); text-decoration: none;
+  margin-left: auto; transition: color 0.18s; white-space: nowrap;
+}
+.nav-about:hover { color: #c9a84c; }
+.page-header-standard {
+  padding: 7rem 2.5rem 2.5rem;
+}
+.back-link {
+  font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase;
+  color: #8a9e90; text-decoration: none; display: inline-flex; align-items: center;
+  gap: 6px; margin-bottom: 1.1rem; transition: color 0.15s;
+}
+.back-link:hover { color: #c9a84c; }
+.page-eyebrow-standard {
+  font-size: 0.7rem; letter-spacing: 0.22em; text-transform: uppercase;
+  color: #c9a84c; margin-bottom: 1.1rem; display: flex; align-items: center; gap: 1rem;
+}
+.page-eyebrow-standard::before { content: ''; width: 2.5rem; height: 1px; background: #c9a84c; display: inline-block; }
+h1.page-title-standard {
+  font-family: 'Cormorant Garamond', Georgia, serif; font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 300; line-height: 1.15; margin-bottom: 0.8rem;
+}
+h1.page-title-standard em { font-style: italic; color: #c9a84c; }
+.page-desc-standard { font-size: 1rem; color: rgba(255,255,255,0.58); max-width: 680px; line-height: 1.8; }
+@media (max-width: 768px) {
+  .nav-link { min-width: 100px; padding: 0 1rem; }
+  .nav-brand { padding: 0 1.2rem; font-size: 1.05rem; }
+}
+@media (max-width: 560px) {
+  .nav-link-sub { display: none; }
+  .nav-link { min-width: 80px; padding: 0 0.8rem; }
+}
+
+.print-bar { background: var(--surface); padding: 8px 2.5rem; text-align: right; border-bottom: 1px solid var(--border); }
+.print-btn{background:var(--gold);color:var(--green);font-weight:600;font-size:9pt;padding:5px 16px;border:none;cursor:pointer;letter-spacing:.06em;text-transform:uppercase;font-family:var(--sans)}
+
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-brand" href="index.html">Aurie's <span>Knowledge Hub</span></a>
+  <ul class="nav-sections">
+    <li><a class="nav-link" href="ceo-insights.html"><span class="nav-link-primary">CEO Insights</span><span class="nav-link-sub">For the leadership</span></a></li>
+    <li><a class="nav-link active" href="tools.html"><span class="nav-link-primary">Tools &amp; Templates</span><span class="nav-link-sub">For ESG teams</span></a></li>
+    <li><a class="nav-link" href="resource-library.html"><span class="nav-link-primary">Resource Library</span><span class="nav-link-sub">For practitioners</span></a></li>
+    <li><a class="nav-link" href="thought-papers.html"><span class="nav-link-primary">Thought Papers</span><span class="nav-link-sub">For the curious</span></a></li>
+  </ul>
+  <a class="nav-about" href="about.html">About Me</a>
+</nav>
+
+<div class="print-bar">
+  <button class="print-btn" onclick="window.print()">⬇ Print / Save PDF</button>
+</div>
+
+<div class="wrap">
+
+  <div class="page-header-standard">
+    <a class="back-link" href="tools.html">← Tools &amp; Templates</a>
+    <p class="page-eyebrow-standard">Tools &amp; Templates · Materiality Decision Tool</p>
+    <h1 class="page-title-standard">Materiality - <em>What actually matters.</em></h1>
+    <p class="page-desc-standard">A three-stage decision tool aligned to the post-Omnibus ESRS (C(2026) 5010). Identifies material topics, ranks them by impact and financial significance, and generates board-ready narrative - in CFO and CEO language, not sustainability language.</p>
+    <p class="legal-note">Structured around the top-down materiality approach in paragraph 27 of the revised ESRS 1 (July 2026). Not yet in force pending Official Journal publication.</p>
+  </div>
+
+  <!-- STAGE NAV -->
+  <div class="stage-nav">
+    <button class="stage-btn active" id="nav1" onclick="goStage(1)">1 · Scope</button>
+    <button class="stage-btn" id="nav2" onclick="goStage(2)" disabled>2 · Assess</button>
+    <button class="stage-btn" id="nav3" onclick="goStage(3)" disabled>3 · Output</button>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════
+       STAGE 1 - SCOPING
+  ══════════════════════════════════════════════════════ -->
+  <div class="stage active" id="stage1">
+    <hr class="rule">
+    <p class="helper-text">Answer six questions about your business. The tool will apply the top-down materiality logic from ESRS 1 paragraph 27 and pre-filter the eleven ESRS topics - flagging which are likely material before you score a single datapoint.</p>
+
+    <div class="scoping-grid">
+      <div class="field-group">
+        <div class="field-label">Primary sector</div>
+        <div class="field-hint">Choose the sector that best describes your main business activity</div>
+        <select id="sector">
+          <option value="">- Select sector -</option>
+          <option value="energy">Energy (oil, gas, utilities, renewables)</option>
+          <option value="materials">Materials and mining</option>
+          <option value="manufacturing">Manufacturing and industrials</option>
+          <option value="chemicals">Chemicals and pharmaceuticals</option>
+          <option value="food">Food, beverage and agriculture</option>
+          <option value="retail">Retail and consumer goods</option>
+          <option value="transport">Transport and logistics</option>
+          <option value="construction">Construction and real estate</option>
+          <option value="finance">Financial services and insurance</option>
+          <option value="tech">Technology and digital services</option>
+          <option value="health">Healthcare and life sciences</option>
+          <option value="services">Professional and business services</option>
+          <option value="other">Other</option>
+        </select>
+      </div>
+
+      <div class="field-group">
+        <div class="field-label">Primary markets and geographies</div>
+        <div class="field-hint">Where do you primarily operate or sell?</div>
+        <select id="geography">
+          <option value="">- Select -</option>
+          <option value="eu">EU only</option>
+          <option value="eu-global">EU and global</option>
+          <option value="uk">UK</option>
+          <option value="us">United States</option>
+          <option value="apac">Asia-Pacific</option>
+          <option value="em">Emerging markets</option>
+          <option value="global">Global (all regions)</option>
+        </select>
+      </div>
+
+      <div class="field-group">
+        <div class="field-label">Value chain intensity</div>
+        <div class="field-hint">How complex is your upstream supply chain?</div>
+        <select id="supplychain">
+          <option value="">- Select -</option>
+          <option value="simple">Simple - few direct suppliers, short chain</option>
+          <option value="moderate">Moderate - multiple tiers, some global sourcing</option>
+          <option value="complex">Complex - multi-tier global supply chain</option>
+          <option value="high-risk">High risk - sourcing from high-risk countries or commodities</option>
+        </select>
+      </div>
+
+      <div class="field-group">
+        <div class="field-label">Workforce profile</div>
+        <div class="field-hint">What describes your employment footprint?</div>
+        <select id="workforce">
+          <option value="">- Select -</option>
+          <option value="office">Primarily office-based, own employees</option>
+          <option value="mixed">Mixed - own employees and contractors</option>
+          <option value="labour">Labour-intensive operations or manufacturing</option>
+          <option value="global-workforce">Large global workforce, multiple jurisdictions</option>
+          <option value="platform">Platform or gig economy model</option>
+        </select>
+      </div>
+
+      <div class="field-group">
+        <div class="field-label">Primary product or service type</div>
+        <div class="field-hint">What do you mainly produce or deliver?</div>
+        <select id="product">
+          <option value="">- Select -</option>
+          <option value="physical">Physical products (manufactured goods)</option>
+          <option value="food-ag">Food or agricultural products</option>
+          <option value="digital">Digital products or software</option>
+          <option value="financial">Financial products or services</option>
+          <option value="professional">Professional or advisory services</option>
+          <option value="infrastructure">Infrastructure or built environment</option>
+          <option value="energy-product">Energy or fuel</option>
+          <option value="mixed-products">Mixed product and service</option>
+        </select>
+      </div>
+
+      <div class="field-group">
+        <div class="field-label">Reporting wave</div>
+        <div class="field-hint">Which CSRD reporting cohort applies to you?</div>
+        <select id="wave">
+          <option value="">- Select -</option>
+          <option value="w1-large">Wave 1 large (>€450m turnover and >1,000 employees) - FY2025 first reporting</option>
+          <option value="w1-other">Wave 1 other large - FY2026</option>
+          <option value="w2">Wave 2 (FY2027 onwards)</option>
+          <option value="voluntary">Outside mandatory scope - voluntary reporting</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="action-row">
+      <button class="btn-primary" onclick="runScoping()">Run Scope Filter →</button>
+    </div>
+
+    <div id="scopeResult" style="display:none">
+      <hr class="rule">
+      <div class="filter-result">
+        <div class="filter-result-label">Topic pre-filter - based on your answers</div>
+        <p style="font-size:8.5pt;color:var(--mid);margin-bottom:10px">Topics marked out have low probability of materiality given your sector, geography, and business model. You may conclude these immaterial at topic level under ESRS 1 paragraph 27 - record your reasoning. You can override any topic by clicking it.</p>
+        <div class="topic-pills" id="pillContainer"></div>
+      </div>
+
+      <div style="margin-top:14px;padding:10px 14px;background:var(--surface);border:1px solid var(--border)">
+        <div class="field-label" style="margin-bottom:6px">Phasing reliefs applicable to your wave</div>
+        <div id="phaseTable"></div>
+      </div>
+
+      <div class="action-row">
+        <button class="btn-primary" onclick="goStage(2)">Proceed to Assessment →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════
+       STAGE 2 - ASSESSMENT
+  ══════════════════════════════════════════════════════ -->
+  <div class="stage" id="stage2">
+    <hr class="rule">
+    <p class="helper-text">Score each topic on two dimensions. Impact materiality - how significant is your company's effect on this topic? Financial materiality - how significant is this topic's effect on your business value? The live map updates as you score. Topics concluded out in Stage 1 are pre-set to zero - you can still score them if you wish.</p>
+
+    <div class="assessment-layout">
+      <div>
+        <div class="topic-list" id="topicList"></div>
+        <div class="action-row">
+          <button class="btn-primary" onclick="goStage(3)">Generate Output →</button>
+          <button class="btn-secondary" onclick="goStage(1)">← Back to Scope</button>
+        </div>
+      </div>
+
+      <!-- LIVE MAP -->
+      <div class="map-panel">
+        <div class="map-title">Live Materiality Map</div>
+        <div class="matrix-wrap">
+          <div class="matrix-inner">
+            <div class="matrix-canvas" id="matrixCanvas">
+              <div class="axis-h"></div>
+              <div class="axis-v"></div>
+              <div class="q-label q-tl">Monitor</div>
+              <div class="q-label q-tr">Prioritise</div>
+              <div class="q-label q-bl">Low priority</div>
+              <div class="q-label q-br">Manage</div>
+              <div class="ax-x">Financial materiality →</div>
+              <div class="ax-y"><span>Impact materiality →</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="map-legend" id="mapLegend"></div>
+
+        <div style="margin-top:16px">
+          <div class="map-title">Priority Ranking</div>
+          <div class="priority-list" id="priorityList"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════
+       STAGE 3 - OUTPUT
+  ══════════════════════════════════════════════════════ -->
+  <div class="stage" id="stage3">
+    <hr class="rule">
+
+    <!-- Summary stats -->
+    <div class="output-grid">
+      <div class="out-card">
+        <div class="out-card-label">Material topics identified</div>
+        <div class="out-stat" id="statMaterial">-</div>
+        <div class="out-stat-sub" id="statMaterialSub"></div>
+      </div>
+      <div class="out-card">
+        <div class="out-card-label">Priority action items</div>
+        <div class="out-stat" id="statPriority">-</div>
+        <div class="out-stat-sub">Topics scoring above 3 on both dimensions - address first</div>
+      </div>
+      <div class="out-card">
+        <div class="out-card-label">Topics concluded immaterial</div>
+        <div class="out-stat" id="statOut">-</div>
+        <div class="out-stat-sub">Concluded under ESRS 1 para. 27 top-down approach - document reasoning</div>
+      </div>
+      <div class="out-card">
+        <div class="out-card-label">Datapoints requiring deferral</div>
+        <div class="out-stat" id="statDeferred">-</div>
+        <div class="out-stat-sub">Based on your reporting wave and phasing reliefs</div>
+      </div>
+    </div>
+
+    <hr class="rule">
+
+    <!-- Full summary table -->
+    <div class="section-hd">Full materiality register</div>
+    <p class="helper-text">This table is your ESRS 2 IRO-2 output - the required documentation of which topics are material and why. Download or copy for inclusion in your sustainability statement.</p>
+    <div style="overflow-x:auto"><table class="summary-table" id="summaryTable">
+      <thead><tr>
+        <th>ESRS Topic</th><th>Impact score</th><th>Financial score</th><th>Composite</th>
+        <th>Classification</th><th>Phasing relief</th><th>Basis</th>
+      </tr></thead>
+      <tbody id="summaryBody"></tbody>
+    </table></div>
+
+    <hr class="rule">
+
+    <!-- Board narratives -->
+    <div class="section-hd">Board-ready narrative - material topics</div>
+    <p class="helper-text">Plain-language narrative for each material topic, written in the language of financial risk and strategic positioning. Suitable for direct use in the sustainability statement or board reporting. Click Copy on any block to copy the text.</p>
+    <div id="narrativeContainer"></div>
+
+    <div class="action-row">
+      <button class="btn-primary" onclick="window.print()">⬇ Print / Save PDF</button>
+      <button class="btn-secondary" onclick="goStage(2)">← Back to Assessment</button>
+      <button class="btn-secondary" onclick="resetAll()">Start Again</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── DATA ─────────────────────────────────────────────────────────────────────
+var TOPICS = [
+  {
+    code:'E1', std:'ESRS E1', name:'Climate Change',
+    sub:'Mitigation · Adaptation · Energy',
+    color:'#1a6b3a',
+    deferrable:{'w1-large':false,'w1-other':false,'w2':false,'voluntary':false},
+    sectors_high:['energy','materials','manufacturing','transport','construction','food','chemicals'],
+    geo_relevant:['eu','eu-global','global'],
+    narrative_template: function(imp,fin){
+      return 'Climate change is assessed as a material topic. Physical climate risks - including temperature volatility, extreme weather events, and regulatory transition risk - affect our operations and asset base across a '+
+      (fin>3?'significant':'moderate')+' proportion of our cost structure and capital commitments. '+
+      'Our exposure includes energy cost sensitivity to EU ETS allowance prices, '+
+      (imp>3?'direct operational emissions requiring transition investment, ':'managed emissions within our current cost base, ')+
+      'and climate-related capital requirements for facilities over the medium to long term. '+
+      'Material financial effects include potential impairment risk on high-carbon assets, rising compliance costs under the EU ETS and CBAM, and cost-of-capital sensitivity to Taxonomy alignment status. '+
+      'Opportunities include improved access to green financing, reduced energy cost through efficiency investment, and competitive positioning in low-carbon transition markets.';
+    }
+  },
+  {
+    code:'E2', std:'ESRS E2', name:'Pollution',
+    sub:'Air · Water · Soil · Substances of concern',
+    color:'#3a7a1a',
+    deferrable:{'w1-large':false,'w1-other':false,'w2':false,'voluntary':false},
+    sectors_high:['manufacturing','chemicals','energy','materials','food'],
+    geo_relevant:['eu','eu-global','global'],
+    narrative_template: function(imp,fin){
+      return 'Pollution is assessed as a '+(imp>3?'high':'moderate')+' priority topic. '+
+      'Our operations '+(imp>3?'generate material pollutant emissions to air, water, and soil requiring active management and disclosure under ESRS E2 and the revised Industrial Emissions Directive.':
+      'produce limited pollution with managed controls; however, regulated pollutant reporting obligations apply.')+
+      ' Financial materiality is '+(fin>3?'significant - non-compliance with IED emission limits and REACH substance restrictions carries regulatory liability and potential market access consequences.':
+      'moderate - primarily associated with compliance costs and potential liability exposure for substances of concern.')+
+      ' SVHCs (Substances of Very High Concern) present in products or processes require disclosure under REACH and ESRS E2 by FY2028.';
+    }
+  },
+  {
+    code:'E3', std:'ESRS E3', name:'Water',
+    sub:'Use · Withdrawal · Consumption · Discharges',
+    color:'#0a5a6a',
+    deferrable:{'w1-large':false,'w1-other':false,'w2':false,'voluntary':false},
+    sectors_high:['food','manufacturing','chemicals','energy','construction'],
+    geo_relevant:['eu','eu-global','em','global'],
+    narrative_template: function(imp,fin){
+      return 'Water is assessed as a '+(imp>3?'material':'moderately material')+' topic. '+
+      (imp>3?'Our operations rely on water as a significant input and/or generate material discharges, including in water-stressed geographies.':
+      'Our water use is operational rather than process-intensive; however, operations in water-stressed areas and regulatory obligations under the revised Urban Wastewater Treatment Directive apply.')+
+      ' Financial exposure includes '+(fin>3?'supply risk in water-stressed geographies, compliance costs with discharge quality standards, and potential regulatory liability under environmental liability frameworks.':
+      'regulatory compliance costs and limited operational risk in water-stressed locations.')+
+      ' CSRD E3 water datapoints apply; certain sub-metrics remain unconfirmed pending EFRAG Basis for Conclusions publication.';
+    }
+  },
+  {
+    code:'E4', std:'ESRS E4', name:'Biodiversity & Ecosystems',
+    sub:'Species · Ecosystem extent · Drivers of change · Services',
+    color:'#3a7a1a',
+    deferrable:{'w1-large':true,'w1-other':true,'w2':true,'voluntary':false},
+    sectors_high:['food','materials','construction','energy','chemicals'],
+    geo_relevant:['eu','eu-global','em','global'],
+    narrative_template: function(imp,fin){
+      return 'Biodiversity and ecosystems is assessed as a '+(imp>3?'material':'moderately material')+' topic. '+
+      (imp>3?'Our operations and value chain have direct dependencies on and/or impacts on natural ecosystems, including through land use, resource extraction, or operations in or near biodiversity-sensitive areas.':
+      'Our direct biodiversity impact is limited; however, value chain dependencies and proximity of key sites to protected areas create exposure requiring disclosure.')+
+      ' E4 is deferred for Wave 1 companies until FY2027. Financial materiality includes '+
+      (fin>3?'growing investor scrutiny under TNFD recommendations, regulatory risk from the Nature Restoration Law, and supply chain exposure in high-biodiversity-risk sourcing categories.':
+      'emerging investor and regulatory attention through TNFD and the Nature Restoration Law, with moderate supply chain exposure.')+
+      ' TNFD-aligned disclosure is recommended ahead of regulatory requirements given the trajectory of investor expectations.';
+    }
+  },
+  {
+    code:'E5', std:'ESRS E5', name:'Resource Use & Circular Economy',
+    sub:'Resource inflows · Product outflows · Waste',
+    color:'#8a5500',
+    deferrable:{'w1-large':false,'w1-other':false,'w2':false,'voluntary':false},
+    sectors_high:['manufacturing','retail','food','construction','chemicals'],
+    geo_relevant:['eu','eu-global','global'],
+    narrative_template: function(imp,fin){
+      return 'Resource use and circular economy is assessed as '+(imp>3?'material':'moderately material')+'. '+
+      (imp>3?'Our business model is resource-intensive, with significant material inputs and product end-of-life impacts that create financial exposure as circular economy regulation tightens.':
+      'Our resource use is managed within current regulatory requirements; however, the incoming ESPR ecodesign requirements and PPWR packaging obligations will require disclosure and potential product redesign.')+
+      ' Financial materiality arises primarily through '+(fin>3?'the Ecodesign for Sustainable Products Regulation (ESPR) delegated acts taking effect from 2026 onwards, Packaging and Packaging Waste Regulation targets, Extended Producer Responsibility costs, and critical raw materials dependency.':
+      'compliance costs associated with ESPR and PPWR obligations, and modest EPR obligations.')+
+      ' The new Critical Raw Materials Act flag requirement for key materials applies from FY2026 reporting.';
+    }
+  },
+  {
+    code:'S1', std:'ESRS S1', name:'Own Workforce',
+    sub:'Working conditions · Health & safety · Training · Diversity',
+    color:'#5a2d82',
+    deferrable:{'w1-large':false,'w1-other':false,'w2':false,'voluntary':false},
+    sectors_high:['manufacturing','retail','transport','health','construction','food'],
+    geo_relevant:['eu','eu-global','global'],
+    narrative_template: function(imp,fin){
+      return 'Own workforce is assessed as material across all companies. '+
+      'ESRS S1 requires disclosure on working conditions, health and safety, training and skills development, and diversity and equal treatment for our own employees and workers. '+
+      (imp>3?'Our workforce is a primary source of value creation; people-related risks - including safety, retention, pay equity, and skills transition - carry direct financial consequence through productivity, regulatory liability, and reputational exposure.':
+      'Workforce-related disclosures are required under ESRS S1 and connect to financial performance through people cost, productivity, and regulatory compliance.')+
+      ' Financial materiality includes the Pay Transparency Directive (reporting from 2027 for companies with 100+ employees), SBTi-linked workforce skills transition costs, and potential liability under health and safety frameworks. '+
+      'The gender pay gap and collective bargaining coverage metrics are required in the Basic Module of the voluntary standard and will be expected from supply chain reporters from FY2027.';
+    }
+  },
+  {
+    code:'S2', std:'ESRS S2', name:'Workers in the Value Chain',
+    sub:'Working conditions · Safety · Human rights · Voice',
+    color:'#7a1a1a',
+    deferrable:{'w1-large':true,'w1-other':true,'w2':true,'voluntary':false},
+    sectors_high:['food','retail','manufacturing','transport','construction','chemicals'],
+    geo_relevant:['eu','eu-global','em','global'],
+    narrative_template: function(imp,fin){
+      return 'Workers in the value chain is assessed as '+(imp>3?'material':'moderately material')+'. '+
+      (imp>3?'Our supply chain involves workers in jurisdictions with elevated human rights risk. The CSDDD due diligence obligations and ESRS S2 disclosure requirements are directly connected - this is the standard with the highest CSDDD overlap (9 data points), and managing them separately creates duplication and gaps.':
+      'Our value chain has moderate human rights exposure; however, CSDDD due diligence obligations and ESRS S2 disclosure requirements require documentation of policies, risk assessment, and supplier engagement.')+
+      ' S2 is deferred for Wave 1 companies until FY2027. Financial exposure includes CSDDD civil liability, forced labour import ban risk, supplier disruption from non-compliant sources, and reputational risk from supply chain incidents. '+
+      'The supplier code of conduct is now a mandatory non-phaseable datapoint - it must be disclosed regardless of wave or deferral status.';
+    }
+  },
+  {
+    code:'S3', std:'ESRS S3', name:'Affected Communities',
+    sub:'Economic/social/cultural rights · FPIC · Civil rights',
+    color:'#6a3a00',
+    deferrable:{'w1-large':true,'w1-other':true,'w2':true,'voluntary':false},
+    sectors_high:['energy','materials','construction','food','manufacturing'],
+    geo_relevant:['eu-global','em','global'],
+    narrative_template: function(imp,fin){
+      return 'Affected communities is assessed as '+(imp>3?'material':'moderately material')+'. '+
+      (imp>3?'Our operations - including extraction, construction, or large-scale land use - have material impacts on communities, including indigenous peoples where Free Prior and Informed Consent (FPIC) obligations apply.':
+      'Our community impact is moderate; however, operations in or adjacent to communities require disclosure under ESRS S3 of engagement processes, grievance mechanisms, and any FPIC obligations.')+
+      ' S3 is deferred for Wave 1 companies until FY2027. Financial exposure includes regulatory liability under the Environmental Crime Directive and CSDDD, reputational risk from community opposition to operations, and project delay or cancellation risk where social licence to operate is contested. '+
+      'The ESRS S3 architecture mirrors S2 - the same CSDDD-connected approach to identifying, assessing, and managing impacts applies.';
+    }
+  },
+  {
+    code:'S4', std:'ESRS S4', name:'Consumers & End-users',
+    sub:'Personal safety · Privacy · Social inclusion · Information',
+    color:'#1a3a5c',
+    deferrable:{'w1-large':true,'w1-other':true,'w2':true,'voluntary':false},
+    sectors_high:['retail','tech','health','finance','food'],
+    geo_relevant:['eu','eu-global','global'],
+    narrative_template: function(imp,fin){
+      return 'Consumers and end-users is assessed as '+(imp>3?'material':'moderately material')+'. '+
+      (imp>3?'Our products or services have direct material impact on consumer health, safety, privacy, or access - requiring disclosure of policies, incidents, and outcomes under ESRS S4.':
+      'Our consumer impact is managed through existing quality and safety frameworks; ESRS S4 disclosure of applicable policies and any incidents is required.')+
+      ' S4 is deferred for Wave 1 companies until FY2027. Financial exposure includes product liability, GDPR compliance costs, Consumer Green Transition Directive obligations (member state transposition by 2026), and reputational risk from product safety or greenwashing incidents. '+
+      'The Digital Markets Act and Digital Services Act create additional transparency and accountability obligations for digital product and platform businesses.';
+    }
+  },
+  {
+    code:'G1', std:'ESRS G1', name:'Business Conduct',
+    sub:'Anti-corruption · Whistleblowing · Political engagement · Supplier relations',
+    color:'#4a5568',
+    deferrable:{'w1-large':false,'w1-other':false,'w2':false,'voluntary':false},
+    sectors_high:['finance','energy','materials','manufacturing','construction'],
+    geo_relevant:['eu','eu-global','em','global'],
+    narrative_template: function(imp,fin){
+      return 'Business conduct is assessed as material across all companies. '+
+      'IMPORTANT NOTE: The G1-3 disclosure requirement label has changed from "Anti-corruption procedures" in the pre-Omnibus ESRS to "Targets related to business conduct" in the revised standard. This is the same code with different content - a common misclassification trap in post-Omnibus implementation. '+
+      'G1 covers corporate culture, anti-corruption and anti-bribery practices, whistleblower protection, animal welfare where applicable, political influence and lobbying, and supplier payment practices. '+
+      (fin>3?'Financial materiality is significant: regulatory liability under the Anti-Money Laundering package and AML authority (AMLA), Whistleblower Protection Directive obligations for organisations with 50+ workers, and reputational exposure from governance failures carry direct enterprise value consequences.':
+      'Financial materiality is moderate: governance-related compliance costs including Whistleblower Protection Directive obligations, payment practice disclosure, and anti-corruption programme maintenance.')+
+      ' Convictions for corruption or bribery must be disclosed in the voluntary standard (B11) and the mandatory ESRS G1 - this is non-phaseable.';
+    }
+  }
+];
+
+// Phasing relief data
+var PHASE = {
+  'w1-large': [
+    'E4, S2, S3, S4 - defer until FY2027',
+    'Anticipated financial effects (qualitative) - defer until FY2028',
+    'Anticipated financial effects (quantitative) - defer until FY2030',
+    'Substances of concern quantitative data - defer until FY2030',
+    'SVHC data - defer until FY2028',
+    'S1 sub-metrics: S1-6, S1-7 (non-EEA), S1-10, S1-11, S1-12, S1-13 (partial), S1-14 - defer until FY2027'
+  ],
+  'w1-other': [
+    'All topical standards (E1-G1) - can report ESRS 2 general disclosures only for FY2026',
+    'E4, S2, S3, S4 - defer until FY2027',
+    'Anticipated financial effects (qualitative) - defer until FY2028',
+    'Anticipated financial effects (quantitative) - defer until FY2030',
+    'Substances of concern quantitative data - defer until FY2030',
+    'SVHCs - defer until FY2028'
+  ],
+  'w2': [
+    'E4, S2, S3, S4 - defer for first two reporting years',
+    'Anticipated financial effects (qualitative) - defer for first two years',
+    'Anticipated financial effects (quantitative) - defer for first four years',
+    'Substances of concern - defer for first three years',
+    'SVHCs - defer for first year',
+    'S1 sub-metrics (S1-6, S1-7 non-EEA, S1-10 to S1-14) - defer for first year'
+  ],
+  'voluntary': [
+    'No mandatory ESRS requirements apply - reporting is voluntary',
+    'Value chain cap applies: you cannot be asked for more than VSME Basic Module datapoints by mandatory reporters',
+    'No assurance requirement under the voluntary standard'
+  ]
+};
+
+// Sector-based topic pre-filter logic
+var SECTOR_MAP = {
+  energy: ['E1','E2','E3','E4','E5','S1','S2','G1'],
+  materials: ['E1','E2','E3','E4','E5','S1','S2','S3','G1'],
+  manufacturing: ['E1','E2','E3','E5','S1','S2','G1'],
+  chemicals: ['E1','E2','E3','E5','S1','S2','G1'],
+  food: ['E1','E2','E3','E4','E5','S1','S2','S3','G1'],
+  retail: ['E1','E5','S1','S2','S4','G1'],
+  transport: ['E1','E2','S1','S2','G1'],
+  construction: ['E1','E2','E3','E4','E5','S1','S2','S3','G1'],
+  finance: ['E1','S1','S4','G1'],
+  tech: ['E1','E5','S1','S4','G1'],
+  health: ['E1','E2','S1','S4','G1'],
+  services: ['E1','S1','G1'],
+  other: ['E1','E2','E3','E4','E5','S1','S2','S3','S4','G1']
+};
+
+// State
+var state = {
+  sector:'', geography:'', supplychain:'', workforce:'', product:'', wave:'',
+  topicStatus:{}, // 'in','out'
+  scores:{}, // {E1:{imp:0,fin:0}}
+};
+TOPICS.forEach(function(t){ state.scores[t.code]={imp:0,fin:0}; state.topicStatus[t.code]='in'; });
+
+// ── STAGE NAVIGATION ─────────────────────────────────────────────────────────
+function goStage(n){
+  document.querySelectorAll('.stage').forEach(function(s){s.classList.remove('active')});
+  document.getElementById('stage'+n).classList.add('active');
+  ['nav1','nav2','nav3'].forEach(function(id,i){
+    var btn=document.getElementById(id);
+    btn.classList.remove('active','done');
+    btn.disabled=(i+1>n && i+1>1);
+    if(i+1<n) btn.classList.add('done');
+    if(i+1===n) btn.classList.add('active');
+  });
+  if(n===2) buildAssessment();
+  if(n===3) buildOutput();
+}
+
+// ── STAGE 1 ───────────────────────────────────────────────────────────────────
+function runScoping(){
+  state.sector=document.getElementById('sector').value;
+  state.geography=document.getElementById('geography').value;
+  state.supplychain=document.getElementById('supplychain').value;
+  state.workforce=document.getElementById('workforce').value;
+  state.product=document.getElementById('product').value;
+  state.wave=document.getElementById('wave').value;
+  if(!state.sector||!state.wave){alert('Please select at least a sector and reporting wave.');return;}
+
+  var inTopics = SECTOR_MAP[state.sector]||TOPICS.map(function(t){return t.code;});
+
+  // Supply chain: add S2/S3 if complex
+  if(['complex','high-risk'].includes(state.supplychain)){
+    if(!inTopics.includes('S2')) inTopics.push('S2');
+    if(!inTopics.includes('S3')) inTopics.push('S3');
+  }
+  // Consumer products: add S4
+  if(['physical','food-ag','digital'].includes(state.product)){
+    if(!inTopics.includes('S4')) inTopics.push('S4');
+  }
+
+  TOPICS.forEach(function(t){
+    state.topicStatus[t.code] = inTopics.includes(t.code)?'in':'out';
+  });
+
+  buildPills();
+  buildPhaseTable();
+  document.getElementById('scopeResult').style.display='block';
+  document.getElementById('nav2').disabled=false;
+}
+
+function buildPills(){
+  var c=document.getElementById('pillContainer');
+  c.innerHTML='';
+  TOPICS.forEach(function(t){
+    var p=document.createElement('span');
+    p.className='topic-pill '+(state.topicStatus[t.code]==='in'?'in':'out');
+    p.textContent=t.code+' '+t.name;
+    p.title=state.topicStatus[t.code]==='out'?'Click to include in assessment':'Click to exclude from assessment';
+    p.onclick=function(){
+      state.topicStatus[t.code]=state.topicStatus[t.code]==='in'?'out':'in';
+      buildPills();
+    };
+    c.appendChild(p);
+  });
+}
+
+function buildPhaseTable(){
+  var reliefs=PHASE[state.wave]||[];
+  if(!reliefs.length){document.getElementById('phaseTable').innerHTML='<p style="font-size:8.5pt;color:var(--mid)">No specific phasing reliefs identified.</p>';return;}
+  var html='<table class="phase-table"><thead><tr><th>Phasing relief available for your wave</th></tr></thead><tbody>';
+  reliefs.forEach(function(r){ html+='<tr><td>'+r+'</td></tr>'; });
+  html+='</tbody></table>';
+  document.getElementById('phaseTable').innerHTML=html;
+}
+
+// ── STAGE 2 ───────────────────────────────────────────────────────────────────
+function buildAssessment(){
+  var list=document.getElementById('topicList');
+  list.innerHTML='';
+  TOPICS.forEach(function(t,idx){
+    var isOut=state.topicStatus[t.code]==='out';
+    var card=document.createElement('div');
+    card.className='topic-card';
+    card.id='card-'+t.code;
+
+    var score=state.scores[t.code];
+    var comp=score.imp+score.fin;
+    var badgeColor=comp===0?'#ccc':comp<=4?'#5aaf6e':comp<=7?'#e67e22':'#c0392b';
+
+    card.innerHTML=
+      '<div class="topic-card-header" onclick="toggleCard(\''+t.code+'\')">' +
+        '<div class="topic-card-left">' +
+          '<span class="topic-code" style="background:'+t.color+'">'+t.code+'</span>' +
+          '<div>' +
+            '<div class="topic-name">'+t.name+(isOut?' <span style="color:#9ca3af;font-weight:400;font-size:8pt">(pre-filtered out)</span>':'')+'</div>' +
+            '<div class="topic-sub">'+t.sub+'</div>' +
+          '</div>' +
+        '</div>' +
+        '<div class="topic-score-badge" id="badge-'+t.code+'" style="background:'+badgeColor+'">'+comp+'</div>' +
+      '</div>' +
+      '<div class="topic-card-body" id="body-'+t.code+'">' +
+        buildScoreSection(t,'imp','Impact materiality','How significant is your company\'s impact on this topic - positive or negative? Consider scale, scope, and irremediability.',['None detected','Minor and local','Significant but managed','Major, systemic, or widespread','Severe or irreversible']) +
+        buildScoreSection(t,'fin','Financial materiality','How significant is this topic\'s effect on your business value - revenues, costs, liabilities, or strategic position?',['No financial effect','Minor cost or liability','Moderate financial exposure','Significant revenue or cost risk','Critical to enterprise value']) +
+        (t.deferrable[state.wave]?'<div class="phase-flag">⏱ Phasing relief available for your wave - this standard can be deferred. Document decision.</div>':'')+
+        '<button class="top-down-btn'+(isOut?' concluded-out':'')+'" id="td-'+t.code+'" onclick="toggleTopDown(\''+t.code+'\')">'+
+          (isOut?'✓ Concluded immaterial (top-down) - click to include':'Conclude immaterial using top-down approach')+
+        '</button>'+
+      '</div>';
+
+    list.appendChild(card);
+  });
+  updateMap();
+}
+
+function buildScoreSection(t,dim,label,desc,anchors){
+  var current=state.scores[t.code][dim];
+  var html='<div class="score-section"><div class="score-label">'+label+'</div>' +
+    '<div class="score-desc">'+desc+'</div>' +
+    '<div class="score-row">';
+  for(var i=1;i<=5;i++){
+    html+='<div class="score-opt'+(current===i?' selected-score':'')+'" onclick="setScore(\''+t.code+'\',\''+dim+'\','+i+')">' +
+      '<span class="score-opt-num">'+i+'</span>' +
+      '<span class="score-opt-lbl">'+anchors[i-1]+'</span>' +
+      '</div>';
+  }
+  html+='</div></div>';
+  return html;
+}
+
+function toggleCard(code){
+  var body=document.getElementById('body-'+code);
+  body.classList.toggle('open');
+  document.getElementById('card-'+code).classList.toggle('active-card');
+}
+
+function setScore(code,dim,val){
+  state.scores[code][dim]=val;
+  // Rebuild just this card's score sections
+  var card=document.getElementById('card-'+code);
+  var t=TOPICS.find(function(x){return x.code===code;});
+  var isOut=state.topicStatus[code]==='out';
+
+  // Update selected state in score opts
+  var body=document.getElementById('body-'+code);
+  var sections=body.querySelectorAll('.score-section');
+  sections.forEach(function(sec,si){
+    var dim2=si===0?'imp':'fin';
+    sec.querySelectorAll('.score-opt').forEach(function(opt,oi){
+      opt.classList.toggle('selected-score',state.scores[code][dim2]===(oi+1));
+    });
+  });
+
+  // Update badge
+  var comp=state.scores[code].imp+state.scores[code].fin;
+  var badge=document.getElementById('badge-'+code);
+  badge.textContent=comp;
+  badge.style.background=comp===0?'#ccc':comp<=4?'#5aaf6e':comp<=7?'#e67e22':'#c0392b';
+
+  updateMap();
+}
+
+function toggleTopDown(code){
+  if(state.topicStatus[code]==='out'){
+    state.topicStatus[code]='in';
+  } else {
+    state.topicStatus[code]='out';
+    state.scores[code]={imp:0,fin:0};
+    // Reset badge
+    var badge=document.getElementById('badge-'+code);
+    badge.textContent='0';badge.style.background='#ccc';
+  }
+  var btn=document.getElementById('td-'+code);
+  if(state.topicStatus[code]==='out'){
+    btn.textContent='✓ Concluded immaterial (top-down) - click to include';
+    btn.classList.add('concluded-out');
+  } else {
+    btn.textContent='Conclude immaterial using top-down approach';
+    btn.classList.remove('concluded-out');
+  }
+  updateMap();
+}
+
+// ── LIVE MAP ──────────────────────────────────────────────────────────────────
+function updateMap(){
+  var canvas=document.getElementById('matrixCanvas');
+  // Remove existing dots
+  canvas.querySelectorAll('.map-dot').forEach(function(d){d.remove();});
+
+  var legend=document.getElementById('mapLegend');
+  legend.innerHTML='';
+  var priority=document.getElementById('priorityList');
+  priority.innerHTML='';
+
+  var ranked=[];
+
+  TOPICS.forEach(function(t){
+    if(state.topicStatus[t.code]==='out') return;
+    var s=state.scores[t.code];
+    if(s.imp===0&&s.fin===0) return;
+
+    // Position: x=financial (1-5 → 10%-90%), y=impact
+    var xPct=(s.fin-1)/4*80+10;
+    var yPct=(s.imp-1)/4*80+10;
+
+    var dot=document.createElement('div');
+    dot.className='map-dot';
+    dot.style.cssText='left:'+xPct+'%;bottom:'+yPct+'%;background:'+t.color;
+    dot.textContent=t.code;
+    dot.innerHTML='<div class="dot-tip">'+t.name+' ('+s.imp+'/'+s.fin+')</div>'+t.code;
+
+    canvas.appendChild(dot);
+
+    // Legend item
+    var li=document.createElement('div');
+    li.className='map-leg-item';
+    li.innerHTML='<div class="map-leg-dot" style="background:'+t.color+'"></div><span>'+t.code+' '+t.name+'</span>';
+    legend.appendChild(li);
+
+    ranked.push({t:t,comp:s.imp+s.fin,imp:s.imp,fin:s.fin});
+  });
+
+  // Sort by composite score
+  ranked.sort(function(a,b){return b.comp-a.comp;});
+  ranked.forEach(function(r,i){
+    var color=r.comp>=8?'var(--red)':r.comp>=6?'var(--amber)':'var(--ok)';
+    var item=document.createElement('div');
+    item.className='priority-item';
+    item.style.borderColor=color;
+    item.innerHTML=
+      '<div class="pri-rank">'+(i+1)+'</div>'+
+      '<div><div class="pri-name">'+r.t.name+'</div><div class="pri-sub">Impact '+r.imp+' · Financial '+r.fin+'</div></div>'+
+      '<div class="pri-score" style="color:'+color+'">'+r.comp+'/10</div>';
+    priority.appendChild(item);
+  });
+}
+
+// ── STAGE 3 ───────────────────────────────────────────────────────────────────
+function buildOutput(){
+  var material=[],out=[],priority=[],deferred=[];
+  TOPICS.forEach(function(t){
+    var s=state.scores[t.code];
+    var comp=s.imp+s.fin;
+    if(state.topicStatus[t.code]==='out') out.push(t);
+    else if(comp===0) out.push(t);
+    else {
+      material.push({t:t,s:s,comp:comp});
+      if(s.imp>3&&s.fin>3) priority.push(t);
+      if(t.deferrable[state.wave]) deferred.push(t);
+    }
+  });
+  material.sort(function(a,b){return b.comp-a.comp;});
+
+  document.getElementById('statMaterial').textContent=material.length;
+  document.getElementById('statMaterialSub').textContent='of 10 ESRS topics assessed as material';
+  document.getElementById('statPriority').textContent=priority.length;
+  document.getElementById('statOut').textContent=out.length;
+  document.getElementById('statDeferred').textContent=deferred.length;
+
+  // Summary table
+  var tbody=document.getElementById('summaryBody');
+  tbody.innerHTML='';
+  TOPICS.forEach(function(t){
+    var s=state.scores[t.code];
+    var comp=s.imp+s.fin;
+    var isOut=state.topicStatus[t.code]==='out'||comp===0;
+    var cls=isOut?'mat-out':comp>=8?'mat-high':comp>=5?'mat-med':'mat-low';
+    var label=isOut?'Not material':comp>=8?'High priority':comp>=5?'Material':'Low priority';
+    var phase=t.deferrable[state.wave]?'Deferrable':'-';
+    var basis=isOut?'Top-down conclusion - ESRS 1 §27. Document sector/geography/business model rationale.':
+      'Scored: impact '+s.imp+'/5, financial '+s.fin+'/5. Double materiality assessment conducted.';
+    var tr=document.createElement('tr');
+    tr.innerHTML='<td><strong>'+t.code+'</strong> '+t.name+'</td>'+
+      '<td style="text-align:center">'+s.imp+'</td>'+
+      '<td style="text-align:center">'+s.fin+'</td>'+
+      '<td style="text-align:center;font-weight:700">'+comp+'</td>'+
+      '<td><span class="mat-pill '+cls+'">'+label+'</span></td>'+
+      '<td style="color:var(--mid)">'+phase+'</td>'+
+      '<td style="font-size:7.5pt;color:var(--mid)">'+basis+'</td>';
+    tbody.appendChild(tr);
+  });
+
+  // Narratives
+  var nc=document.getElementById('narrativeContainer');
+  nc.innerHTML='';
+  material.forEach(function(m){
+    var text=m.t.narrative_template(m.s.imp,m.s.fin);
+    var block=document.createElement('div');
+    block.className='narrative-block';
+    block.innerHTML='<div class="narrative-topic"><span class="topic-code" style="background:'+m.t.color+';font-size:7pt;padding:1px 5px;color:#fff">'+m.t.code+'</span> '+m.t.name+' - Composite score '+m.comp+'/10</div>'+
+      '<div class="narrative-text" id="nar-'+m.t.code+'">'+text+'</div>'+
+      '<button class="narrative-copy-btn" onclick="copyNarrative(\''+m.t.code+'\')">Copy text</button>';
+    nc.appendChild(block);
+  });
+  if(!material.length){nc.innerHTML='<p style="color:var(--mid);font-style:italic">No topics scored yet. Return to Stage 2 to complete the assessment.</p>';}
+}
+
+function copyNarrative(code){
+  var el=document.getElementById('nar-'+code);
+  navigator.clipboard.writeText(el.textContent).then(function(){
+    var btns=document.querySelectorAll('.narrative-copy-btn');
+    btns.forEach(function(b){if(b.onclick.toString().includes(code)){b.textContent='Copied ✓';setTimeout(function(){b.textContent='Copy text';},1500);}});
+  });
+}
+
+function resetAll(){
+  TOPICS.forEach(function(t){state.scores[t.code]={imp:0,fin:0};state.topicStatus[t.code]='in';});
+  state.sector=state.geography=state.supplychain=state.workforce=state.product=state.wave='';
+  document.getElementById('scopeResult').style.display='none';
+  ['sector','geography','supplychain','workforce','product','wave'].forEach(function(id){
+    document.getElementById(id).value='';
+  });
+  goStage(1);
+  document.getElementById('nav2').disabled=true;
+  document.getElementById('nav3').disabled=true;
+}
+</script>
+</body>
+</html>

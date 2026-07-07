@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Resource Library for ESG practitioners - the ESOS Framework, ESG regulation trackers, and voluntary standards mapped to compliance.">
+<meta name="robots" content="index, follow">
+<meta property="og:title" content="Resource Library - Aurie's Knowledge Hub">
+<meta property="og:description" content="The ESOS Framework, ESG regulation trackers, and voluntary standards for practitioners building ESG capability.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Aurie's Knowledge Hub">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Resource Library - Aurie's Knowledge Hub">
+<meta name="twitter:description" content="The ESOS Framework, ESG regulation trackers, and voluntary standards for practitioners building ESG capability.">
+<title>Resource Library - Aurie's Knowledge Hub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Inter:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --green-deep:  #0e2b1a;
+  --green-mid:   #1a3d28;
+  --green-light: #234d33;
+  --green-dark:  #091f12;
+  --gold:        #c9a84c;
+  --gold-light:  #e0c07a;
+  --gold-dim:    rgba(201,168,76,0.15);
+  --white:       #ffffff;
+  --muted:       #8a9e90;
+  --border:      rgba(201,168,76,0.18);
+  --serif: 'Cormorant Garamond', Georgia, serif;
+  --sans:  'Inter', system-ui, sans-serif;
+  --mono:  'DM Mono', monospace;
+
+  --q1: #93c5fd; --q1-dim: rgba(147,197,253,0.07); --q1-bdr: rgba(147,197,253,0.28);
+  --q2: #f59e0b; --q2-dim: rgba(245,158,11,0.07);  --q2-bdr: rgba(245,158,11,0.28);
+  --q3: #2dd4bf; --q3-dim: rgba(45,212,191,0.07);  --q3-bdr: rgba(45,212,191,0.28);
+}
+
+html { scroll-behavior: smooth; }
+body {
+  background: var(--green-deep); color: var(--white);
+  font-family: var(--sans); font-weight: 300; line-height: 1.6;
+  min-height: 100vh;
+}
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: var(--green-deep); }
+::-webkit-scrollbar-thumb { background: rgba(201,168,76,0.35); border-radius: 3px; }
+
+/* ── PAGE HEADER ── */
+.page-header {
+  padding: 7rem 2.5rem 3rem;
+  background: radial-gradient(ellipse at 65% 40%, rgba(26,61,40,0.9) 0%, var(--green-deep) 65%);
+  border-bottom: 1px solid var(--border);
+}
+.page-eyebrow {
+  font-size: 0.7rem; letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 1.2rem;
+  display: flex; align-items: center; gap: 1rem;
+}
+.page-eyebrow::before { content: ''; width: 2.5rem; height: 1px; background: var(--gold); display: inline-block; }
+h1.page-title {
+  font-family: var(--serif); font-size: clamp(2.4rem, 4.5vw, 4rem);
+  font-weight: 300; line-height: 1.1; margin-bottom: 0.8rem; border: none; padding: 0;
+}
+h1.page-title em { font-style: italic; color: var(--gold); }
+.page-desc { font-size: 1rem; color: rgba(255,255,255,0.58); max-width: 640px; line-height: 1.8; margin-bottom: 0; }
+
+/* ── MAIN ── */
+main { padding: 3.5rem 2.5rem 5rem; max-width: 980px; margin: 0 auto; }
+
+.section-block { margin-bottom: 4.5rem; }
+.section-block:last-child { margin-bottom: 0; }
+
+.section-tab {
+  display: block; text-align: center; padding: 26px 28px;
+  background: rgba(201,168,76,0.05);
+  border: 1px solid var(--border); border-top: 2px solid var(--gold);
+  position: relative;
+}
+.section-tab-eyebrow {
+  font-size: 9px; letter-spacing: 0.28em; text-transform: uppercase;
+  color: var(--muted); font-family: var(--mono); margin-bottom: 8px;
+}
+.section-tab-title {
+  font-family: var(--serif); font-size: clamp(1.5rem, 2.6vw, 2.1rem);
+  font-weight: 300; color: var(--white); line-height: 1.2;
+}
+.section-tab-title em { font-style: italic; color: var(--gold); }
+.section-desc {
+  font-size: 0.88rem; color: rgba(255,255,255,0.5); line-height: 1.75;
+  max-width: 680px; margin: 16px auto 0; text-align: center;
+}
+.section-note {
+  font-size: 0.88rem; color: rgba(255,255,255,0.45); line-height: 1.7;
+  max-width: 680px; margin: 10px auto 0; text-align: center;
+}
+.section-note a { color: var(--gold); text-decoration: underline; text-decoration-color: rgba(201,168,76,0.35); }
+.section-note a:hover { color: var(--gold-light); }
+
+/* Hub CTA (link out to the deep-dive overview page for ESOS) */
+/* ── ESOS FLOWCHART ── */
+.esos-flow { max-width: 720px; margin: 32px auto 0; }
+.esos-block {
+  border: 1px solid; border-radius: 4px; overflow: hidden; margin-bottom: 2px;
+}
+.esos-block-header {
+  display: grid; grid-template-columns: 44px 1fr;
+  gap: 0 16px; padding: 16px 20px 12px; align-items: start;
+}
+.esos-q-num { font-family: var(--serif); font-size: 2rem; font-weight: 300; line-height: 1; opacity: 0.5; }
+.esos-q-question { font-family: var(--serif); font-size: 1.1rem; font-weight: 400; color: var(--white); margin-bottom: 3px; line-height: 1.25; }
+.esos-q-purpose { font-size: 0.78rem; opacity: 0.6; line-height: 1.5; }
+.esos-os-list { display: flex; gap: 6px; flex-wrap: wrap; padding: 8px 20px 16px; justify-content: center; }
+.esos-os-link {
+  font-size: 0.8rem; text-decoration: none; padding: 5px 12px; border: 1px solid;
+  transition: all 0.15s; border-radius: 2px; font-family: var(--sans);
+}
+.esos-os-link--soon { opacity: 0.55; cursor: default; filter: grayscale(0.4); }
+.esos-os-link--soon:hover { background: inherit !important; color: inherit !important; }
+.esos-os-link--soon em { font-style: normal; font-size: 0.72em; opacity: 0.85; }
+.esos-connector { display: flex; justify-content: center; align-items: center; height: 28px; color: rgba(201,168,76,0.35); font-size: 18px; }
+
+.efq1 { border-color: rgba(147,197,253,0.28); background: rgba(147,197,253,0.07); }
+.efq1 .esos-q-num { color: #93c5fd; }
+.efq1 .esos-os-link { border-color: rgba(147,197,253,0.25); color: #93c5fd; background: rgba(147,197,253,0.08); }
+.efq1 .esos-os-link:hover { background: rgba(147,197,253,0.18); border-color: #93c5fd; color: #fff; }
+
+.efq2 { border-color: rgba(245,158,11,0.28); background: rgba(245,158,11,0.07); }
+.efq2 .esos-q-num { color: #f59e0b; }
+.efq2 .esos-os-link { border-color: rgba(245,158,11,0.25); color: #f59e0b; background: rgba(245,158,11,0.08); }
+.efq2 .esos-os-link:hover { background: rgba(245,158,11,0.18); border-color: #f59e0b; color: #fff; }
+
+.efq3 { border-color: rgba(232,121,249,0.28); background: rgba(232,121,249,0.07); }
+.efq3 .esos-q-num { color: #e879f9; }
+.efq3 .esos-os-link { border-color: rgba(232,121,249,0.25); color: #e879f9; background: rgba(232,121,249,0.08); }
+.efq3 .esos-os-link:hover { background: rgba(232,121,249,0.18); border-color: #e879f9; color: #fff; }
+
+.efq4 { border-color: rgba(74,222,128,0.28); background: rgba(74,222,128,0.07); }
+.efq4 .esos-q-num { color: #4ade80; }
+.efq4 .esos-os-link { border-color: rgba(74,222,128,0.25); color: #4ade80; background: rgba(74,222,128,0.08); }
+.efq4 .esos-os-link:hover { background: rgba(74,222,128,0.18); border-color: #4ade80; color: #fff; }
+
+.efq5 { border-color: rgba(249,115,22,0.28); background: rgba(249,115,22,0.07); }
+.efq5 .esos-q-num { color: #f97316; }
+.efq5 .esos-os-link { border-color: rgba(249,115,22,0.25); color: #f97316; background: rgba(249,115,22,0.08); }
+.efq5 .esos-os-link:hover { background: rgba(249,115,22,0.18); border-color: #f97316; color: #fff; }
+
+.efq6 { border-color: rgba(201,168,76,0.28); background: rgba(201,168,76,0.07); }
+.efq6 .esos-q-num { color: var(--gold); }
+.efq6 .esos-os-link { border-color: rgba(201,168,76,0.25); color: var(--gold); background: rgba(201,168,76,0.08); }
+.efq6 .esos-os-link:hover { background: rgba(201,168,76,0.18); border-color: var(--gold); color: #fff; }
+
+.esos-flow-footer {
+  text-align: center; margin-top: 16px;
+  font-size: 0.82rem; color: rgba(255,255,255,0.5);
+}
+.esos-flow-footer a { color: var(--gold); text-decoration: underline; text-decoration-color: rgba(201,168,76,0.35); }
+.esos-flow-footer a:hover { color: var(--gold-light); }
+
+/* ── 6-COLOUR TILE ACCENTS (Regulations / Standards grids) ── */
+.tool-tab.c1::before { background: #60a5fa; opacity: 0.6; } .tool-tab.c1:hover::before { opacity: 1; } .tool-tab.c1 .tool-tab-title { color: #cfe4ff; }
+.tool-tab.c2::before { background: #f59e0b; opacity: 0.6; } .tool-tab.c2:hover::before { opacity: 1; } .tool-tab.c2 .tool-tab-title { color: #ffe4b8; }
+.tool-tab.c3::before { background: #e879f9; opacity: 0.6; } .tool-tab.c3:hover::before { opacity: 1; } .tool-tab.c3 .tool-tab-title { color: #fbd7fd; }
+.tool-tab.c4::before { background: #4ade80; opacity: 0.6; } .tool-tab.c4:hover::before { opacity: 1; } .tool-tab.c4 .tool-tab-title { color: #d3f8df; }
+.tool-tab.c5::before { background: #fb923c; opacity: 0.6; } .tool-tab.c5:hover::before { opacity: 1; } .tool-tab.c5 .tool-tab-title { color: #ffdcbd; }
+.tool-tab.c6::before { background: #2dd4bf; opacity: 0.6; } .tool-tab.c6:hover::before { opacity: 1; } .tool-tab.c6 .tool-tab-title { color: #c6f5ee; }
+.tool-tab.c7::before { background: #a78bfa; opacity: 0.6; } .tool-tab.c7:hover::before { opacity: 1; } .tool-tab.c7 .tool-tab-title { color: #e4d9ff; }
+.tool-tab.c8::before { background: #f87171; opacity: 0.6; } .tool-tab.c8:hover::before { opacity: 1; } .tool-tab.c8 .tool-tab-title { color: #ffd9d9; }
+.tool-tab.c9::before { background: #fbbf24; opacity: 0.6; } .tool-tab.c9:hover::before { opacity: 1; } .tool-tab.c9 .tool-tab-title { color: #fff3c4; }
+
+/* ── TOOL-TAB STYLE GRIDS (reused for OS / regulations / standards lists) ── */
+.tool-tabs-grid {
+  display: grid; grid-template-columns: repeat(2, 1fr);
+  gap: 2px; background: var(--border); border: 1px solid var(--border);
+  margin-top: 28px;
+}
+.tool-tabs-grid--3col { grid-template-columns: repeat(3, 1fr); }
+.tool-tab {
+  background: var(--green-mid); padding: 20px 22px;
+  display: block; text-decoration: none; position: relative;
+  transition: background 0.15s;
+}
+.tool-tab.is-active:hover { background: var(--green-light); }
+.tool-tab.is-active::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  background: transparent; transition: background 0.2s;
+}
+.tool-tab.is-active:hover::before { background: var(--gold); }
+.tool-tab.is-soon { cursor: default; }
+
+.tool-tab-meta { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+.tool-tab-num { font-family: var(--mono); font-size: 0.62rem; color: rgba(255,255,255,0.25); letter-spacing: 0.1em; }
+.tool-tab-status {
+  font-size: 0.62rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase;
+  padding: 2px 7px; border-radius: 2px;
+}
+.status-active { background: rgba(74,222,128,0.12); color: #4ade80; border: 1px solid rgba(74,222,128,0.25); }
+.status-soon   { background: rgba(255,255,255,0.05); color: rgba(255,255,255,0.4); border: 1px solid rgba(255,255,255,0.1); }
+
+.tool-tab-title {
+  font-family: var(--serif); font-size: 1.1rem; font-weight: 400; color: var(--white);
+  line-height: 1.3; margin-bottom: 8px;
+}
+.tool-tab.is-soon .tool-tab-title { color: rgba(255,255,255,0.45); }
+.tool-tab-desc { font-size: 0.8rem; color: rgba(255,255,255,0.45); line-height: 1.6; }
+.tool-tab.is-soon .tool-tab-desc { color: rgba(255,255,255,0.3); }
+.tool-tab-cta {
+  display: inline-block; margin-top: 12px; font-size: 0.68rem; font-weight: 500;
+  letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold);
+}
+.tool-tab.is-active:hover .tool-tab-cta { color: var(--gold-light); }
+
+/* Distinct colour accents per grid, matching the Home page site-map palette */
+/* ── FOOTER ── */
+footer {
+  padding: 20px 2.5rem; border-top: 1px solid var(--border);
+  display: flex; justify-content: space-between; align-items: center;
+  color: var(--muted); font-size: 0.75rem; flex-wrap: wrap; gap: 8px;
+  letter-spacing: 0.06em; background: var(--green-dark);
+}
+.footer-brand { font-family: var(--serif); font-size: 0.9rem; color: var(--gold); font-weight: 400; }
+
+@media(max-width: 800px) {
+  .nav-link { min-width: 88px; padding: 0 0.8rem; }
+  .nav-brand { padding: 0 1.2rem; font-size: 1.05rem; }
+  .page-header, main, footer { padding-left: 1.5rem; padding-right: 1.5rem; }
+  .tool-tabs-grid, .tool-tabs-grid--3col { grid-template-columns: 1fr; }
+}
+@media(max-width: 560px) {
+  .nav-link-sub { display: none; }
+  .nav-link { min-width: 70px; padding: 0 0.6rem; }
+}
+
+/* ── NAV (standardised) ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; align-items: stretch;
+  background: rgba(9,31,18,0.97); backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+  height: 64px;
+}
+.nav-brand {
+  display: flex; align-items: center;
+  padding: 0 2.5rem;
+  font-family: var(--serif); font-size: 1.25rem; font-weight: 600;
+  letter-spacing: 0.04em; color: var(--white); text-decoration: none;
+  border-right: 1px solid var(--border);
+  flex-shrink: 0; transition: background 0.2s;
+}
+.nav-brand:hover { background: rgba(201,168,76,0.06); }
+.nav-brand span { color: var(--gold); }
+.nav-sections { display: flex; align-items: stretch; list-style: none; flex: 1; overflow-x: auto; }
+.nav-sections li { display: flex; }
+.nav-link {
+  display: flex; flex-direction: column; justify-content: center;
+  padding: 0 1.6rem; text-decoration: none;
+  border-right: 1px solid var(--border);
+  transition: background 0.18s; min-width: 120px;
+}
+.nav-link:hover { background: rgba(201,168,76,0.06); }
+.nav-link.active { background: var(--gold-dim); border-bottom: 2px solid var(--gold); }
+.nav-link-primary { font-size: 0.78rem; font-weight: 500; letter-spacing: 0.05em; color: rgba(255,255,255,0.88); line-height: 1.2; white-space: nowrap; }
+.nav-link-sub { font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); line-height: 1; margin-top: 3px; white-space: nowrap; }
+.nav-link:hover .nav-link-primary { color: var(--gold-light); }
+.nav-link:hover .nav-link-sub { color: rgba(201,168,76,0.6); }
+.nav-link.active .nav-link-primary { color: var(--gold); }
+.nav-link.active .nav-link-sub { color: rgba(201,168,76,0.7); }
+.nav-about {
+  display: flex; align-items: center; padding: 0 1.8rem;
+  font-size: 0.78rem; font-weight: 500; letter-spacing: 0.05em;
+  color: rgba(255,255,255,0.6); text-decoration: none;
+  margin-left: auto; transition: color 0.18s; white-space: nowrap;
+}
+.nav-about:hover { color: var(--gold); }
+@media (max-width: 768px) {
+  .nav-link { min-width: 100px; padding: 0 1rem; }
+  .nav-brand { padding: 0 1.2rem; font-size: 1.05rem; }
+}
+@media (max-width: 560px) {
+  .nav-link-sub { display: none; }
+  .nav-link { min-width: 80px; padding: 0 0.8rem; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-brand" href="index.html">Aurie's <span>Knowledge Hub</span></a>
+  <ul class="nav-sections">
+    <li>
+      <a class="nav-link" href="ceo-insights.html">
+        <span class="nav-link-primary">CEO Insights</span>
+        <span class="nav-link-sub">For the leadership</span>
+      </a>
+    </li>
+    <li>
+      <a class="nav-link" href="tools.html">
+        <span class="nav-link-primary">Tools &amp; Templates</span>
+        <span class="nav-link-sub">For ESG teams</span>
+      </a>
+    </li>
+    <li>
+      <a class="nav-link active" href="resource-library.html">
+        <span class="nav-link-primary">Resource Library</span>
+        <span class="nav-link-sub">For practitioners</span>
+      </a>
+    </li>
+    <li>
+      <a class="nav-link" href="thought-papers.html">
+        <span class="nav-link-primary">Thought Papers</span>
+        <span class="nav-link-sub">For the curious</span>
+      </a>
+    </li>
+  </ul>
+  <a class="nav-about" href="about.html">About Me</a>
+</nav>
+
+<!-- ═══ PAGE HEADER ═══ -->
+<div class="page-header">
+  <p class="page-eyebrow">Resource Library · For Practitioners</p>
+  <h1 class="page-title">Resource Library.</h1>
+  <p class="page-desc">Frameworks, regulations, and standards for practitioners building ESG capability into the organisation - the ESOS Framework, ESG regulation trackers, and voluntary standards mapped to compliance.</p>
+</div>
+
+<!-- ═══ MAIN ═══ -->
+<main>
+
+  <!-- ═══ SECTION 1 - ESG REGULATIONS ═══ -->
+  <div class="section-block" id="regulations">
+    <div class="section-tab">
+      <div class="section-tab-eyebrow">Section 1 · Track the Landscape</div>
+      <div class="section-tab-title">ESG <em>Regulations</em></div>
+    </div>
+    <p class="section-desc">Trackers and comparisons across the shifting global regulatory landscape - mandatory ESG regulation, its current status, and how the major reporting frameworks stack up against each other.</p>
+
+    <div class="tool-tabs-grid tool-tabs-grid--3col">
+
+      <a class="tool-tab is-active c1" href="regulations-tracker.html">
+        <div class="tool-tab-meta"><span class="tool-tab-num">01</span><span class="tool-tab-status status-active">Available</span></div>
+        <div class="tool-tab-title">Global ESG Regulations Tracker</div>
+        <div class="tool-tab-desc">An interactive tracker of 94+ ESG and sustainability regulations across 19 jurisdictions, with timelines, deadlines, and obligations.</div>
+        <div class="tool-tab-cta">Open Tracker →</div>
+      </a>
+
+      <a class="tool-tab is-active c2" href="regulations-2026-status.html">
+        <div class="tool-tab-meta"><span class="tool-tab-num">02</span><span class="tool-tab-status status-active">Available</span></div>
+        <div class="tool-tab-title">Sustainability Reporting Regulations - Status 2026</div>
+        <div class="tool-tab-desc">A global tracker of ESG and sustainability reporting regulations, their current status, and official sources.</div>
+        <div class="tool-tab-cta">View Status →</div>
+      </a>
+
+      <a class="tool-tab is-active c3" href="regulations-data-comparison.html">
+        <div class="tool-tab-meta"><span class="tool-tab-num">03</span><span class="tool-tab-status status-active">Available</span></div>
+        <div class="tool-tab-title">Corporate Sustainability Reporting Frameworks</div>
+        <div class="tool-tab-desc">A cross-standard assessment of 182 ESG disclosure requirements across 13 domains and 10 reporting frameworks.</div>
+        <div class="tool-tab-cta">Compare Frameworks →</div>
+      </a>
+
+      <div class="tool-tab is-soon c4">
+        <div class="tool-tab-meta"><span class="tool-tab-num">04</span><span class="tool-tab-status status-soon">Coming Soon</span></div>
+        <div class="tool-tab-title">Coming Soon</div>
+        <div class="tool-tab-desc">Details to be announced.</div>
+      </div>
+
+      <div class="tool-tab is-soon c5">
+        <div class="tool-tab-meta"><span class="tool-tab-num">05</span><span class="tool-tab-status status-soon">Coming Soon</span></div>
+        <div class="tool-tab-title">Coming Soon</div>
+        <div class="tool-tab-desc">Details to be announced.</div>
+      </div>
+
+      <div class="tool-tab is-soon c6">
+        <div class="tool-tab-meta"><span class="tool-tab-num">06</span><span class="tool-tab-status status-soon">Coming Soon</span></div>
+        <div class="tool-tab-title">Coming Soon</div>
+        <div class="tool-tab-desc">Details to be announced.</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ═══ SECTION 2 - VOLUNTARY STANDARDS ═══ -->
+  <div class="section-block" id="standards">
+    <div class="section-tab">
+      <div class="section-tab-eyebrow">Section 2 · Build On What Exists</div>
+      <div class="section-tab-title">Voluntary <em>Standards</em></div>
+    </div>
+    <p class="section-desc">ISO and other voluntary standards relevant to ESG compliance - grouped by issuing body, with a short description of what's in each group and where to find the standard itself.</p>
+
+    <div class="tool-tabs-grid tool-tabs-grid--3col">
+
+      <a class="tool-tab is-active c1" href="standards-iso-compliance.html">
+        <div class="tool-tab-meta"><span class="tool-tab-num">01</span><span class="tool-tab-status status-active">Available</span></div>
+        <div class="tool-tab-title">ISO Standards for ESG Compliance</div>
+        <div class="tool-tab-desc">A structured mapping of ISO management system standards to EU sustainability regulations - data quality, traceability, assurance readiness, and supplier governance.</div>
+        <div class="tool-tab-cta">View Mapping →</div>
+      </a>
+
+      <a class="tool-tab is-active c2" href="standards-un-frameworks.html">
+        <div class="tool-tab-meta"><span class="tool-tab-num">02</span><span class="tool-tab-status status-active">Available</span></div>
+        <div class="tool-tab-title">UN Frameworks</div>
+        <div class="tool-tab-desc">The foundational UN commitments on human rights, labour, environment, and anti-corruption.</div>
+        <div class="tool-tab-cta">View Standards →</div>
+      </a>
+
+      <a class="tool-tab is-active c3" href="standards-ilo-labour.html">
+        <div class="tool-tab-meta"><span class="tool-tab-num">03</span><span class="tool-tab-status status-active">Available</span></div>
+        <div class="tool-tab-title">ILO &amp; Labour Frameworks</div>
+        <div class="tool-tab-desc">International Labour Organization principles, plus workforce-transition guidance for a changing economy.</div>
+        <div class="tool-tab-cta">View Standards →</div>
+      </a>
+
+      <a class="tool-tab is-active c4" href="standards-oecd-guidelines.html">
+        <div class="tool-tab-meta"><span class="tool-tab-num">04</span><span class="tool-tab-status status-active">Available</span></div>
+        <div class="tool-tab-title">OECD Guidelines</div>
+        <div class="tool-tab-desc">OECD guidance on corporate governance, responsible business conduct, and due diligence.</div>
+        <div class="tool-tab-cta">View Standards →</div>
+      </a>
+
+      <a class="tool-tab is-active c5" href="standards-reporting-disclosure.html">
+        <div class="tool-tab-meta"><span class="tool-tab-num">05</span><span class="tool-tab-status status-active">Available</span></div>
+        <div class="tool-tab-title">Sustainability Reporting &amp; Disclosure Standards</div>
+        <div class="tool-tab-desc">The major voluntary disclosure frameworks for sustainability, climate, and nature reporting.</div>
+        <div class="tool-tab-cta">View Standards →</div>
+      </a>
+
+      <a class="tool-tab is-active c6" href="standards-carbon-climate.html">
+        <div class="tool-tab-meta"><span class="tool-tab-num">06</span><span class="tool-tab-status status-active">Available</span></div>
+        <div class="tool-tab-title">Carbon &amp; Climate Target Frameworks</div>
+        <div class="tool-tab-desc">The accounting and target-setting frameworks behind most corporate net-zero and nature commitments.</div>
+        <div class="tool-tab-cta">View Standards →</div>
+      </a>
+
+      <a class="tool-tab is-active c7" href="standards-stakeholder-accountability.html">
+        <div class="tool-tab-meta"><span class="tool-tab-num">07</span><span class="tool-tab-status status-active">Available</span></div>
+        <div class="tool-tab-title">Stakeholder &amp; Social Accountability Standards</div>
+        <div class="tool-tab-desc">Standards for structuring stakeholder engagement and managing social risk in projects and investments.</div>
+        <div class="tool-tab-cta">View Standards →</div>
+      </a>
+
+      <a class="tool-tab is-active c8" href="standards-sustainable-finance.html">
+        <div class="tool-tab-meta"><span class="tool-tab-num">08</span><span class="tool-tab-status status-active">Available</span></div>
+        <div class="tool-tab-title">Sustainable Finance Transition Frameworks</div>
+        <div class="tool-tab-desc">Frameworks financial institutions use for net-zero commitments and transition planning.</div>
+        <div class="tool-tab-cta">View Standards →</div>
+      </a>
+
+      <a class="tool-tab is-active c9" href="standards-assurance-controls.html">
+        <div class="tool-tab-meta"><span class="tool-tab-num">09</span><span class="tool-tab-status status-active">Available</span></div>
+        <div class="tool-tab-title">Assurance &amp; Internal Control Frameworks</div>
+        <div class="tool-tab-desc">Frameworks for assuring sustainability claims, internal controls, and circular-economy design thinking.</div>
+        <div class="tool-tab-cta">View Standards →</div>
+      </a>
+
+    </div>
+  </div>
+
+  <!-- ═══ SECTION 3 - ESOS FRAMEWORK ═══ -->
+  <div class="section-block" id="esos-framework">
+    <div class="section-tab">
+      <div class="section-tab-eyebrow">Section 3 · The Integrated Framework</div>
+      <div class="section-tab-title">ESOS <em>Framework</em></div>
+    </div>
+    <p class="section-desc">The Enterprise Sustainability Operating System - six governing questions and fifteen integrated operating system frameworks for moving from sustainability ambition to enterprise transformation.</p>
+    <p class="section-note">New to the framework? Start with <a href="esos-systems-not-models.html"><strong>Why Talk 'Systems' and Not 'Models'?</strong></a></p>
+
+    <div class="esos-flow">
+
+      <div class="esos-block efq1">
+        <div class="esos-block-header">
+          <div class="esos-q-num">1</div>
+          <div>
+            <div class="esos-q-question">How do we govern?</div>
+            <div class="esos-q-purpose">Create accountability, leadership ownership, decision rights, and ethical foundations.</div>
+          </div>
+        </div>
+        <div class="esos-os-list">
+          <a class="esos-os-link" href="esos-governance-ethics.html">Governance &amp; Ethics OS</a>
+          <a class="esos-os-link" href="esos-sustainability-transformation.html">Sustainability Transformation OS</a>
+        </div>
+      </div>
+
+      <div class="esos-connector">↓</div>
+
+      <div class="esos-block efq2">
+        <div class="esos-block-header">
+          <div class="esos-q-num">2</div>
+          <div>
+            <div class="esos-q-question">How do we understand our risks, dependencies &amp; impacts?</div>
+            <div class="esos-q-purpose">Understand where the business is exposed, dependent, and vulnerable.</div>
+          </div>
+        </div>
+        <div class="esos-os-list">
+          <a class="esos-os-link" href="esos-data-reporting.html">ESG Data &amp; Reporting OS</a>
+          <span class="esos-os-link esos-os-link--soon" aria-disabled="true">Climate Adaptation OS <em>(coming soon)</em></span>
+          <a class="esos-os-link" href="esos-supply-chain.html">Supply Chain Due Diligence OS</a>
+        </div>
+      </div>
+
+      <div class="esos-connector">↓</div>
+
+      <div class="esos-block efq3">
+        <div class="esos-block-header">
+          <div class="esos-q-num">3</div>
+          <div>
+            <div class="esos-q-question">How do we fund and enable the transition?</div>
+            <div class="esos-q-purpose">Turn sustainability ambition into investment, innovation, and execution capability.</div>
+          </div>
+        </div>
+        <div class="esos-os-list">
+          <a class="esos-os-link" href="esos-sustainable-finance.html">Sustainable Finance OS</a>
+          <a class="esos-os-link" href="esos-sustainable-innovation.html">Sustainable Innovation &amp; Product OS</a>
+          <a class="esos-os-link" href="esos-stakeholder-engagement.html">Stakeholder Engagement OS</a>
+        </div>
+      </div>
+
+      <div class="esos-connector">↓</div>
+
+      <div class="esos-block efq4">
+        <div class="esos-block-header">
+          <div class="esos-q-num">4</div>
+          <div>
+            <div class="esos-q-question">How do we transform the business and value chain?</div>
+            <div class="esos-q-purpose">Change the physical systems that create impact.</div>
+          </div>
+        </div>
+        <div class="esos-os-list">
+          <a class="esos-os-link" href="esos-decarbonisation.html">Decarbonisation OS</a>
+          <a class="esos-os-link" href="esos-water.html">Water Stewardship OS</a>
+          <a class="esos-os-link" href="esos-biodiversity.html">Biodiversity OS</a>
+          <a class="esos-os-link" href="esos-waste-circularity.html">Circular Economy &amp; Waste OS</a>
+        </div>
+      </div>
+
+      <div class="esos-connector">↓</div>
+
+      <div class="esos-block efq5">
+        <div class="esos-block-header">
+          <div class="esos-q-num">5</div>
+          <div>
+            <div class="esos-q-question">How do we ensure a fair and responsible transition?</div>
+            <div class="esos-q-purpose">Ensure transformation creates positive outcomes for people and society.</div>
+          </div>
+        </div>
+        <div class="esos-os-list">
+          <a class="esos-os-link" href="esos-human-rights.html">Human Rights OS</a>
+          <a class="esos-os-link" href="esos-just-transition.html">Just Transition OS</a>
+        </div>
+      </div>
+
+      <div class="esos-connector">↓</div>
+
+      <div class="esos-block efq6">
+        <div class="esos-block-header">
+          <div class="esos-q-num">6</div>
+          <div>
+            <div class="esos-q-question">How can we leverage AI to create enterprise-wide value?</div>
+            <div class="esos-q-purpose">Cross-cutting OS - applies to all five questions.</div>
+          </div>
+        </div>
+        <div class="esos-os-list">
+          <span class="esos-os-link esos-os-link--soon" aria-disabled="true">AI &amp; Value Creation OS <em>(coming soon)</em></span>
+        </div>
+      </div>
+
+      <div class="esos-flow-footer">15 operating system frameworks · <a href="esos-overview.html">Explore the full ESOS Framework →</a></div>
+
+    </div>
+  </div>
+
+
+</main>
+
+<footer>
+  <div class="footer-brand">Aurie's Knowledge Hub</div>
+  <div>Resource Library · Framework, Regulations &amp; Standards · Updated 2026</div>
+  <div style="color:rgba(201,168,76,0.5)"><a href="index.html" style="color:rgba(201,168,76,0.5);text-decoration:none">← Home</a></div>
+</footer>
+
+</body>
+</html>

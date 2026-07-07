@@ -1,0 +1,1090 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="An interactive tool for comparing corporate decarbonisation pathways using the mitigation hierarchy, not just cost ranking.">
+<title>Decarbonization Decision Tool</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Inter:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* Knowledge Hub palette */
+  --bg: #0e2b1a;
+  --bg-grid: rgba(201,168,76,0.04);
+  --surface: #1a3d28;
+  --surface-2: #234d33;
+  --surface-3: #2a5c3b;
+  --border: rgba(201,168,76,0.22);
+  --border-soft: rgba(201,168,76,0.12);
+
+  --text: #ffffff;
+  --text-dim: #8a9e90;
+  --text-faint: #5a7060;
+
+  /* Accent colours - remapped to hub equivalents */
+  --amber: #c9a84c;
+  --amber-soft: rgba(201,168,76,0.15);
+  --teal: #1D9E75;
+  --teal-soft: rgba(29,158,117,0.15);
+  --blue: #93c5fd;
+  --blue-soft: rgba(147,197,253,0.15);
+  --coral: #f97316;
+  --coral-soft: rgba(249,115,22,0.15);
+  --grey: #8a9e90;
+  --grey-soft: rgba(138,158,144,0.15);
+  --violet: #c084fc;
+  --violet-soft: rgba(192,132,252,0.15);
+
+  --radius: 4px;
+  --radius-sm: 3px;
+  --font-display: 'Cormorant Garamond', Georgia, serif;
+  --font-body: 'Inter', system-ui, sans-serif;
+  --font-mono: 'DM Mono', monospace;
+}
+*{box-sizing:border-box; margin:0; padding:0;}
+html,body{height:100%;}
+body{
+  background: var(--bg);
+  color:var(--text);
+  font-family:var(--font-body);
+  font-size:14px;
+  line-height:1.5;
+  -webkit-font-smoothing:antialiased;
+}
+::selection{background:var(--amber-soft); color:var(--text);}
+button{font-family:inherit; cursor:pointer;}
+input,select{font-family:inherit; font-size:inherit; color:var(--text);}
+::-webkit-scrollbar{width:10px; height:10px;}
+::-webkit-scrollbar-track{background:transparent;}
+::-webkit-scrollbar-thumb{background:var(--border); border-radius:6px;}
+:focus-visible{outline:2px solid var(--amber); outline-offset:2px;}
+svg text{font-family:var(--font-mono);}
+
+.wrap{max-width:1180px; margin:0 auto; padding:36px 24px 90px;}
+
+/* ---------- Masthead ---------- */
+.standards-row{display:flex; gap:6px; margin-top:14px; flex-wrap:wrap;}
+.std-chip{font-family:var(--font-mono); font-size:10px; letter-spacing:0.03em; color:var(--text-faint); background:var(--surface); border:1px solid var(--border-soft); padding:3px 8px; border-radius:20px;}
+
+/* ---------- Cards ---------- */
+.card{background:var(--surface); border:1px solid var(--border-soft); border-radius:var(--radius); margin-top:20px; overflow:hidden;}
+.card-head{padding:14px 20px; border-bottom:1px solid var(--border-soft); display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;}
+.card-title{font-family:var(--font-display); font-weight:600; font-size:14px;}
+.card-sub{font-size:11.5px; color:var(--text-faint); margin-top:2px;}
+.card-body{padding:20px;}
+
+/* ---------- Assumptions grid ---------- */
+.assump-grid{display:grid; grid-template-columns:repeat(5,1fr); gap:14px;}
+.field label{display:block; font-size:11px; font-weight:600; color:var(--text-dim); margin-bottom:6px;}
+.input-row{display:flex; align-items:center; background:var(--surface-2); border:1px solid var(--border); border-radius:var(--radius-sm); padding:0 10px; transition:border-color .12s;}
+.input-row:focus-within{border-color:var(--amber);}
+.input-row input, .input-row select{flex:1; background:none; border:none; padding:9px 6px 9px 0; font-size:13px; min-width:0;}
+.input-row input:focus, .input-row select:focus{outline:none;}
+.input-row select{padding:9px 0;}
+.unit{font-family:var(--font-mono); font-size:10.5px; color:var(--text-faint); white-space:nowrap;}
+.boundary-note{font-size:11px; color:var(--text-faint); margin-top:10px; line-height:1.5;}
+
+/* ---------- Tabs ---------- */
+.tabbar{display:flex; gap:6px; margin-top:26px; border-bottom:1px solid var(--border-soft); padding-bottom:0;}
+.tab-btn{background:none; border:none; color:var(--text-faint); font-size:13.5px; font-weight:600; font-family:var(--font-display); padding:10px 4px; margin-right:22px; border-bottom:2px solid transparent; transition:color .12s, border-color .12s;}
+.tab-btn:hover{color:var(--text-dim);}
+.tab-btn.active{color:var(--text); border-color:var(--amber);}
+.tab-panel{display:none;}
+.tab-panel.active{display:block; animation:fadein .18s ease;}
+@keyframes fadein{from{opacity:0; transform:translateY(4px);} to{opacity:1; transform:none;}}
+
+/* ---------- Scenario pills ---------- */
+.scenario-pills{display:flex; gap:8px; flex-wrap:wrap;}
+.pill-btn{display:flex; align-items:center; gap:7px; background:var(--surface-2); border:1px solid var(--border); color:var(--text-dim); font-size:12.5px; font-weight:600; padding:7px 13px; border-radius:20px; transition:background .12s,border-color .12s,color .12s;}
+.pill-btn .sw{width:8px; height:8px; border-radius:50%; flex-shrink:0;}
+.pill-btn.active{border-color:var(--amber); color:var(--text); background:var(--amber-soft);}
+
+/* ---------- Charts ---------- */
+.chart-shell{padding:6px 8px 4px;}
+.chart-legend{display:flex; flex-wrap:wrap; gap:12px 18px; padding:4px 20px 16px; font-size:11.5px; color:var(--text-dim);}
+.chart-legend .li{display:flex; align-items:center; gap:6px;}
+.chart-legend .sw{width:10px; height:10px; border-radius:3px; flex-shrink:0;}
+.chart-legend .sw.dash{border-radius:0; width:14px; height:0; border-top:2px dashed var(--text-faint);}
+
+.callout-row{display:grid; grid-template-columns:repeat(4,1fr); gap:12px; padding:0 20px 20px;}
+.kpi{background:var(--surface-2); border:1px solid var(--border-soft); border-radius:var(--radius-sm); padding:12px 14px;}
+.kpi .kl{font-family:var(--font-mono); font-size:10px; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-faint);}
+.kpi .kv{font-family:var(--font-display); font-size:19px; font-weight:600; margin-top:5px;}
+.kpi .ks{font-size:11px; color:var(--text-dim); margin-top:3px;}
+.kpi.flag-ok .kv{color:var(--teal);}
+.kpi.flag-warn .kv{color:var(--coral);}
+
+/* ---------- MACC controls ---------- */
+.macc-controls{display:flex; align-items:center; gap:10px; flex-wrap:wrap;}
+.toggle-group{display:flex; background:var(--surface-2); border:1px solid var(--border); border-radius:var(--radius-sm); overflow:hidden;}
+.toggle-btn{padding:7px 13px; font-size:12px; font-weight:600; color:var(--text-faint); background:none; border:none; border-right:1px solid var(--border);}
+.toggle-btn:last-child{border-right:none;}
+.toggle-btn.active{background:var(--surface-3); color:var(--text);}
+.macc-ref{display:flex; align-items:center; gap:7px; font-size:11.5px; color:var(--text-faint);}
+.macc-ref input{width:56px; background:var(--surface-2); border:1px solid var(--border); border-radius:4px; color:var(--text); padding:4px 6px; font-size:12px;}
+
+.macc-list{padding:0 20px 20px;}
+.macc-row{display:grid; grid-template-columns:22px 1fr 90px 90px 70px; gap:10px; align-items:center; padding:7px 0; border-bottom:1px solid var(--border-soft); font-size:12px;}
+.macc-row:last-child{border-bottom:none;}
+.macc-row .num{font-family:var(--font-mono); color:var(--text-faint); font-size:11px;}
+.macc-row .lname{display:flex; align-items:center; gap:8px; min-width:0;}
+.macc-row .lname .sw{width:8px; height:8px; border-radius:2px; flex-shrink:0;}
+.macc-row .lname span{overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+.macc-row .num-col{font-family:var(--font-mono); color:var(--text-dim); text-align:right;}
+
+/* ---------- Lever library table ---------- */
+.tier-group{margin-bottom:2px;}
+.tier-head{display:flex; align-items:center; gap:10px; padding:12px 20px; background:var(--surface-2); border-top:1px solid var(--border-soft); border-bottom:1px solid var(--border-soft);}
+.tier-dot{width:10px; height:10px; border-radius:3px; flex-shrink:0;}
+.tier-name{font-family:var(--font-display); font-weight:600; font-size:13px;}
+.tier-desc{font-size:11.5px; color:var(--text-faint);}
+.tier-gate{margin-left:auto; font-family:var(--font-mono); font-size:10px; color:var(--coral); background:var(--coral-soft); padding:2px 8px; border-radius:20px;}
+
+.lever-table{width:100%; border-collapse:collapse;}
+.lever-table th{text-align:left; font-size:10px; text-transform:uppercase; letter-spacing:0.04em; color:var(--text-faint); font-weight:600; padding:8px 20px; border-bottom:1px solid var(--border-soft);}
+.lever-table td{padding:8px 20px; border-bottom:1px solid var(--border-soft); font-size:12.5px; vertical-align:middle;}
+.lever-table tr:last-child td{border-bottom:none;}
+.lever-name{font-weight:500;}
+.scope-tag{font-family:var(--font-mono); font-size:10px; color:var(--text-faint); background:var(--surface-3); padding:1px 6px; border-radius:4px; margin-left:6px;}
+.mini-input{width:64px; background:var(--surface-2); border:1px solid var(--border); border-radius:4px; color:var(--text); padding:4px 6px; font-size:12px;}
+.mini-input:focus{outline:none; border-color:var(--amber);}
+.chk-cell{text-align:center;}
+.chk-cell input{width:15px; height:15px; accent-color:var(--amber); cursor:pointer;}
+
+/* ---------- BVCM panel ---------- */
+.bvcm-note{font-size:11.5px; color:var(--text-faint); padding:0 20px 14px; line-height:1.6;}
+.bvcm-item{display:flex; justify-content:space-between; align-items:center; gap:12px; padding:10px 20px; border-top:1px solid var(--border-soft); font-size:12.5px;}
+.bvcm-item .l{color:var(--text-dim);}
+.bvcm-item .r{font-family:var(--font-mono); color:var(--text-faint); white-space:nowrap;}
+
+/* ---------- Comparator ---------- */
+.comp-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:14px; padding:20px;}
+.comp-card{background:var(--surface-2); border:1px solid var(--border-soft); border-radius:var(--radius); overflow:hidden;}
+.comp-card-head{padding:14px 16px; border-bottom:1px solid var(--border-soft); display:flex; align-items:center; gap:9px;}
+.comp-card-head .sw{width:10px; height:10px; border-radius:50%; flex-shrink:0;}
+.comp-card-head b{font-family:var(--font-display); font-size:14px;}
+.comp-card-body{padding:14px 16px;}
+.comp-card-body .desc{font-size:11.5px; color:var(--text-faint); margin-bottom:12px; line-height:1.5;}
+.comp-row{display:flex; justify-content:space-between; align-items:center; padding:7px 0; border-top:1px solid var(--border-soft); font-size:12px;}
+.comp-row:first-of-type{border-top:none;}
+.comp-row .l{color:var(--text-dim);}
+.comp-row .v{font-family:var(--font-mono); font-weight:600;}
+.comp-row .v.ok{color:var(--teal);}
+.comp-row .v.warn{color:var(--coral);}
+
+.footnote{margin-top:26px; font-size:11.5px; color:var(--text-faint); line-height:1.6;}
+.footnote code{font-family:var(--font-mono); background:var(--surface-2); padding:1px 5px; border-radius:4px; font-size:10.5px;}
+
+@media (max-width:900px){
+  .assump-grid{grid-template-columns:repeat(2,1fr);}
+  .callout-row{grid-template-columns:repeat(2,1fr);}
+  .comp-grid{grid-template-columns:1fr;}
+  .macc-row{grid-template-columns:18px 1fr 70px 70px;}
+  .macc-row .num-col:last-child{display:none;}
+}
+
+/* Knowledge Hub overrides */
+::selection{background:var(--amber-soft); color:var(--text);}
+.std-chip{border-color:rgba(201,168,76,0.18); color:var(--text-dim); background:rgba(201,168,76,0.05);}
+.card{border-color:var(--border-soft);}
+.card-head{border-bottom-color:var(--border-soft);}
+.card-title{font-family:var(--font-display); font-weight:400; font-size:1.1rem;}
+.tab-btn.active{border-color:var(--amber); color:var(--text);}
+.pill-btn.active{border-color:var(--amber); background:var(--amber-soft); color:var(--text);}
+.tier-head{background:rgba(201,168,76,0.06); border-top-color:var(--border-soft); border-bottom-color:var(--border-soft);}
+.tier-name{font-family:var(--font-display); font-weight:400;}
+.output-number{color:var(--amber);}
+.scenario.now{border-color:rgba(201,168,76,0.3);}
+
+
+/* ── NAV (standardised) ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; align-items: stretch;
+  background: rgba(9,31,18,0.97); backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(201,168,76,0.18);
+  height: 64px;
+}
+.nav-brand {
+  display: flex; align-items: center;
+  padding: 0 2.5rem;
+  font-family: 'Cormorant Garamond', Georgia, serif; font-size: 1.25rem; font-weight: 600;
+  letter-spacing: 0.04em; color: #ffffff; text-decoration: none;
+  border-right: 1px solid rgba(201,168,76,0.18);
+  flex-shrink: 0; transition: background 0.2s;
+}
+.nav-brand:hover { background: rgba(201,168,76,0.06); }
+.nav-brand span { color: #c9a84c; }
+.nav-sections { display: flex; align-items: stretch; list-style: none; flex: 1; overflow-x: auto; }
+.nav-sections li { display: flex; }
+.nav-link {
+  display: flex; flex-direction: column; justify-content: center;
+  padding: 0 1.6rem; text-decoration: none;
+  border-right: 1px solid rgba(201,168,76,0.18);
+  transition: background 0.18s; min-width: 120px;
+}
+.nav-link:hover { background: rgba(201,168,76,0.06); }
+.nav-link.active { background: rgba(201,168,76,0.15); border-bottom: 2px solid #c9a84c; }
+.nav-link-primary { font-size: 0.78rem; font-weight: 500; letter-spacing: 0.05em; color: rgba(255,255,255,0.88); line-height: 1.2; white-space: nowrap; }
+.nav-link-sub { font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase; color: #8a9e90; line-height: 1; margin-top: 3px; white-space: nowrap; }
+.nav-link:hover .nav-link-primary { color: #e0c07a; }
+.nav-link:hover .nav-link-sub { color: rgba(201,168,76,0.6); }
+.nav-link.active .nav-link-primary { color: #c9a84c; }
+.nav-link.active .nav-link-sub { color: rgba(201,168,76,0.7); }
+.nav-about {
+  display: flex; align-items: center; padding: 0 1.8rem;
+  font-size: 0.78rem; font-weight: 500; letter-spacing: 0.05em;
+  color: rgba(255,255,255,0.6); text-decoration: none;
+  margin-left: auto; transition: color 0.18s; white-space: nowrap;
+}
+.nav-about:hover { color: #c9a84c; }
+.page-header-standard {
+  padding: 7rem 2.5rem 2.5rem;
+}
+.back-link {
+  font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase;
+  color: #8a9e90; text-decoration: none; display: inline-flex; align-items: center;
+  gap: 6px; margin-bottom: 1.1rem; transition: color 0.15s;
+}
+.back-link:hover { color: #c9a84c; }
+.page-eyebrow-standard {
+  font-size: 0.7rem; letter-spacing: 0.22em; text-transform: uppercase;
+  color: #c9a84c; margin-bottom: 1.1rem; display: flex; align-items: center; gap: 1rem;
+}
+.page-eyebrow-standard::before { content: ''; width: 2.5rem; height: 1px; background: #c9a84c; display: inline-block; }
+h1.page-title-standard {
+  font-family: 'Cormorant Garamond', Georgia, serif; font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 300; line-height: 1.15; margin-bottom: 0.8rem;
+}
+h1.page-title-standard em { font-style: italic; color: #c9a84c; }
+.page-desc-standard { font-size: 1rem; color: rgba(255,255,255,0.58); max-width: 680px; line-height: 1.8; }
+@media (max-width: 768px) {
+  .nav-link { min-width: 100px; padding: 0 1rem; }
+  .nav-brand { padding: 0 1.2rem; font-size: 1.05rem; }
+}
+@media (max-width: 560px) {
+  .nav-link-sub { display: none; }
+  .nav-link { min-width: 80px; padding: 0 0.8rem; }
+}
+
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-brand" href="index.html">Aurie's <span>Knowledge Hub</span></a>
+  <ul class="nav-sections">
+    <li><a class="nav-link" href="ceo-insights.html"><span class="nav-link-primary">CEO Insights</span><span class="nav-link-sub">For the leadership</span></a></li>
+    <li><a class="nav-link active" href="tools.html"><span class="nav-link-primary">Tools &amp; Templates</span><span class="nav-link-sub">For ESG teams</span></a></li>
+    <li><a class="nav-link" href="resource-library.html"><span class="nav-link-primary">Resource Library</span><span class="nav-link-sub">For practitioners</span></a></li>
+    <li><a class="nav-link" href="thought-papers.html"><span class="nav-link-primary">Thought Papers</span><span class="nav-link-sub">For the curious</span></a></li>
+  </ul>
+  <a class="nav-about" href="about.html">About Me</a>
+</nav>
+
+<div class="wrap">
+
+  <div class="page-header-standard">
+    <a class="back-link" href="tools.html">← Tools &amp; Templates</a>
+    <p class="page-eyebrow-standard">Tools &amp; Templates · Decarbonisation Decision Tool</p>
+    <h1 class="page-title-standard">Compare pathways, <em>not just costs</em></h1>
+    <p class="page-desc-standard">
+      A cost-ranked curve alone can send the wrong signal - it will happily rank a cheap credit above an expensive
+      process redesign. This tool keeps the mitigation hierarchy in view: what's measured, what's avoided, reduced
+      and substituted first, where sector and market instruments fit, and where removals are gated to genuine
+      unavoidable residual only.
+    </p>
+  </div>
+
+  <div class="standards-row">
+    <span class="std-chip">GHG Protocol</span>
+    <span class="std-chip">SBTi Corporate Net-Zero Standard v2</span>
+    <span class="std-chip">ISO Net Zero Guidelines</span>
+    <span class="std-chip">ISO 14068-1</span>
+  </div>
+
+  <!-- INVENTORY & BOUNDARY / TARGETS -->
+  <div class="card">
+    <div class="card-head">
+      <div>
+        <div class="card-title">1 · Inventory, boundary &amp; targets</div>
+        <div class="card-sub">Base-year emissions and the SBTi-aligned target line every pathway is measured against</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="assump-grid">
+        <div class="field">
+          <label for="baseYear">Base year</label>
+          <div class="input-row"><input type="number" id="baseYear" value="2025" step="1"></div>
+        </div>
+        <div class="field">
+          <label for="scope1">Scope 1 (base yr)</label>
+          <div class="input-row"><input type="number" id="scope1" value="40000" step="500"><span class="unit">tCO2e</span></div>
+        </div>
+        <div class="field">
+          <label for="scope2">Scope 2 (base yr)</label>
+          <div class="input-row"><input type="number" id="scope2" value="25000" step="500"><span class="unit">tCO2e</span></div>
+        </div>
+        <div class="field">
+          <label for="scope3">Scope 3 (base yr)</label>
+          <div class="input-row"><input type="number" id="scope3" value="135000" step="500"><span class="unit">tCO2e</span></div>
+        </div>
+        <div class="field">
+          <label for="boundary">Org. boundary</label>
+          <div class="input-row">
+            <select id="boundary">
+              <option>Operational control</option>
+              <option>Financial control</option>
+              <option>Equity share</option>
+            </select>
+          </div>
+        </div>
+        <div class="field">
+          <label for="nearYear">Near-term target year</label>
+          <div class="input-row"><input type="number" id="nearYear" value="2030" step="1"></div>
+        </div>
+        <div class="field">
+          <label for="nearPct">Near-term reduction</label>
+          <div class="input-row"><input type="number" id="nearPct" value="42" step="1"><span class="unit">%</span></div>
+        </div>
+        <div class="field">
+          <label for="netYear">Net-zero target year</label>
+          <div class="input-row"><input type="number" id="netYear" value="2050" step="1"></div>
+        </div>
+        <div class="field">
+          <label for="netPct">Net-zero reduction</label>
+          <div class="input-row"><input type="number" id="netPct" value="90" step="1"><span class="unit">%</span></div>
+        </div>
+        <div class="field">
+          <label for="euaRef">Reference carbon price</label>
+          <div class="input-row"><span class="unit" style="margin-right:4px;">€</span><input type="number" id="euaRef" value="72" step="1"><span class="unit">/t</span></div>
+        </div>
+      </div>
+      <div class="boundary-note">Base-year total: <b id="baseTotalLabel" style="color:var(--text); font-family:var(--font-mono);">200,000 tCO2e</b>. Target line is linear from base year to the near-term target, then linear from near-term to net-zero - a standard approximation of an SBTi 1.5°C-aligned trajectory, not a substitute for validated target-setting.</div>
+    </div>
+  </div>
+
+  <!-- TABS -->
+  <div class="tabbar">
+    <button class="tab-btn active" data-tab="pathway">Pathway</button>
+    <button class="tab-btn" data-tab="priority">Priority (MACC)</button>
+    <button class="tab-btn" data-tab="compare">Compare scenarios</button>
+  </div>
+
+  <!-- PATHWAY TAB -->
+  <div class="tab-panel active" id="tab-pathway">
+    <div class="card">
+      <div class="card-head">
+        <div>
+          <div class="card-title">Emissions pathway</div>
+          <div class="card-sub">Baseline sliced by mitigation-hierarchy wedges down to genuine residual</div>
+        </div>
+        <div class="scenario-pills" id="pillsPathway"></div>
+      </div>
+      <div class="chart-shell"><div id="chartPathway"></div></div>
+      <div class="chart-legend" id="legendPathway"></div>
+      <div class="callout-row" id="kpiPathway"></div>
+    </div>
+  </div>
+
+  <!-- PRIORITY / MACC TAB -->
+  <div class="tab-panel" id="tab-priority">
+    <div class="card">
+      <div class="card-head">
+        <div>
+          <div class="card-title">Marginal abatement cost - hierarchy-gated</div>
+          <div class="card-sub">Bars are the active levers in the selected scenario, sized by effective abatement</div>
+        </div>
+        <div class="scenario-pills" id="pillsPriority"></div>
+      </div>
+      <div class="card-body" style="padding-top:14px; padding-bottom:0;">
+        <div class="macc-controls">
+          <div class="toggle-group">
+            <button class="toggle-btn active" id="sortHierarchy">Sort by hierarchy</button>
+            <button class="toggle-btn" id="sortCost">Sort by cost</button>
+          </div>
+          <div class="macc-ref">Reference price €<input type="number" id="euaRefEcho" value="72" step="1"> /t - bars above this line cost more than the compliance carbon price</div>
+        </div>
+      </div>
+      <div class="chart-shell"><div id="chartMacc"></div></div>
+      <div class="chart-legend" id="legendMacc"></div>
+      <div class="macc-list" id="maccList"></div>
+    </div>
+  </div>
+
+  <!-- COMPARE TAB -->
+  <div class="tab-panel" id="tab-compare">
+    <div class="card">
+      <div class="card-head">
+        <div>
+          <div class="card-title">Trajectories, overlaid</div>
+          <div class="card-sub">All three scenarios against the same target line</div>
+        </div>
+      </div>
+      <div class="chart-shell"><div id="chartCompare"></div></div>
+      <div class="chart-legend" id="legendCompare"></div>
+    </div>
+    <div class="comp-grid" id="compGrid"></div>
+  </div>
+
+  <!-- LEVER LIBRARY -->
+  <div class="card">
+    <div class="card-head">
+      <div>
+        <div class="card-title">2–5 · Lever library</div>
+        <div class="card-sub">Illustrative starting data - edit costs, potential and timing, and check which scenario each lever belongs to</div>
+      </div>
+    </div>
+    <div id="tierGroups"></div>
+  </div>
+
+  <!-- BVCM -->
+  <div class="card">
+    <div class="card-head">
+      <div>
+        <div class="card-title">Beyond value chain mitigation (BVCM)</div>
+        <div class="card-sub">Contribution-based, non-netting - kept outside the target boundary by design</div>
+      </div>
+    </div>
+    <div class="bvcm-note">Per SBTi and ISO 14068 guidance, BVCM finance does not count toward the reduction or removal target above. It's tracked here separately so it never gets silently netted into the pathway.</div>
+    <div id="bvcmList"></div>
+  </div>
+
+  <p class="footnote">
+    Illustrative planning tool, not a compliance model. Target-line shape is a simplified two-segment linear
+    approximation of an SBTi 1.5°C trajectory; real target validation requires the SBTi tools and sector-specific
+    guidance. Removal levers are capped programmatically each year to the residual remaining after all other tiers -
+    they cannot be used to substitute for available reduction, and excess removal capacity beyond the residual is
+    never double-counted. Lever costs, potentials and timings live in the <code>LEVERS</code> array in the script and
+    should be replaced with your own data before this is used for real decisions.
+  </p>
+
+</div>
+
+<script>
+/* ============================================================
+   MODEL
+   ============================================================ */
+const TIERS = [
+  { id:'avoid',     label:'Avoid',              color:'var(--teal)',   hex:'#4FB89B', order:1, desc:"Eliminate the need for the emitting activity entirely" },
+  { id:'reduce',     label:'Reduce',             color:'var(--blue)',   hex:'#6C93E8', order:2, desc:"Efficiency measures on what remains" },
+  { id:'substitute', label:'Substitute',         color:'var(--amber)',  hex:'#E0A24B', order:3, desc:"Lower-carbon inputs, energy, materials, incl. renewables" },
+  { id:'sector',     label:'Sector-level',       color:'var(--violet)', hex:'#9C87E0', order:4, desc:"Activity-pool / sector actions (SBTi v2)" },
+  { id:'market',     label:'Market instruments', color:'var(--grey)',   hex:'#7C8FA3', order:5, desc:"RECs / EACs, capped flexibility credits" },
+  { id:'removal',    label:'Residual removal',   color:'var(--coral)',  hex:'#E2705C', order:6, desc:"Permanent removals, matched 1:1 to genuine residual", gated:true },
+];
+const TIER_BY_ID = Object.fromEntries(TIERS.map(t => [t.id, t]));
+
+const LEVERS = [
+  { id:'av1', name:'Redesign product to eliminate high-carbon component', tier:'avoid', scope:'Scope 3', cost:-10, potential:10000, start:2026, ramp:3 },
+  { id:'av2', name:'Right-size demand, avoid new fossil-fired asset',      tier:'avoid', scope:'Scope 1', cost:-5,  potential:5000,  start:2027, ramp:4 },
+
+  { id:'rd1', name:'Efficiency retrofit - boilers & insulation',           tier:'reduce', scope:'Scope 1', cost:15, potential:8000, start:2025, ramp:2 },
+  { id:'rd2', name:'Process optimisation / heat recovery',              tier:'reduce', scope:'Scope 1', cost:20, potential:7000, start:2026, ramp:3 },
+  { id:'rd3', name:'Fleet efficiency & route optimisation',              tier:'reduce', scope:'Scope 1', cost:10, potential:4000, start:2025, ramp:2 },
+
+  { id:'sb1', name:'On-site solar PV + battery storage',                tier:'substitute', scope:'Scope 2', cost:25, potential:14000, start:2026, ramp:2 },
+  { id:'sb2', name:'Green power purchase agreement (PPA)',              tier:'substitute', scope:'Scope 2', cost:30, potential:22000, start:2025, ramp:1 },
+  { id:'sb3', name:'Fleet electrification',                             tier:'substitute', scope:'Scope 1', cost:45, potential:10000, start:2027, ramp:4 },
+  { id:'sb4', name:'Low-carbon feedstock substitution',                 tier:'substitute', scope:'Scope 3', cost:55, potential:14000, start:2028, ramp:5 },
+
+  { id:'se1', name:'Supplier engagement on science-based targets',      tier:'sector', scope:'Scope 3', cost:12, potential:32000, start:2027, ramp:4 },
+  { id:'se2', name:'Sector modal-shift collaboration (rail/shared logistics)', tier:'sector', scope:'Scope 3', cost:18, potential:9000, start:2028, ramp:3 },
+
+  { id:'mk1', name:'Unbundled renewable energy certificates',          tier:'market', scope:'Scope 2', cost:5,  potential:14000, start:2025, ramp:1 },
+  { id:'mk2', name:'High-quality credits - capped interim flexibility', tier:'market', scope:'Scope 3', cost:40, potential:7000,  start:2026, ramp:2 },
+
+  { id:'rm1', name:'Direct air capture, permanent storage',            tier:'removal', scope:'-', cost:350, potential:14000, start:2035, ramp:6 },
+  { id:'rm2', name:'Enhanced weathering / biochar (durable removal)',  tier:'removal', scope:'-', cost:150, potential:9000, start:2032, ramp:5 },
+];
+const LEVER_BY_ID = Object.fromEntries(LEVERS.map(l => [l.id, l]));
+
+const SCENARIOS = [
+  {
+    id:'committed', name:'Committed', hex:'#7C8FA3',
+    desc:'Locked-in efficiency and the cheapest switches only. No sector engagement or removals.',
+    levers: new Set(['av2','rd1','rd3','sb2','mk1'])
+  },
+  {
+    id:'ambitious', name:'Ambitious', hex:'#6C93E8',
+    desc:'Full Avoid / Reduce / Substitute portfolio plus supplier engagement. No removals.',
+    levers: new Set(['av1','av2','rd1','rd2','rd3','sb1','sb2','sb3','se1','mk1'])
+  },
+  {
+    id:'stretch', name:'Stretch', hex:'#E0A24B',
+    desc:'Complete portfolio incl. sector action, capped market flexibility and residual removals.',
+    levers: new Set(['av1','av2','rd1','rd2','rd3','sb1','sb2','sb3','sb4','se1','se2','mk1','mk2','rm1','rm2'])
+  },
+];
+const SCENARIO_BY_ID = Object.fromEntries(SCENARIOS.map(s => [s.id, s]));
+
+const BVCM = [
+  { name:'Jurisdictional REDD+ forest protection contribution', volume:30000, note:'Contribution finance, 2027–2035' },
+  { name:'Smallholder cookstove programme co-finance',          volume:8000,  note:'Contribution finance, 2026–2030' },
+];
+
+let state = {
+  pathwayScenario: 'ambitious',
+  priorityScenario: 'ambitious',
+  maccSort: 'hierarchy',
+};
+
+/* ============================================================
+   ASSUMPTIONS
+   ============================================================ */
+function getAssumptions(){
+  return {
+    baseYear: intval('baseYear', 2025),
+    scope1: intval('scope1', 0),
+    scope2: intval('scope2', 0),
+    scope3: intval('scope3', 0),
+    nearYear: intval('nearYear', 2030),
+    nearPct: intval('nearPct', 42),
+    netYear: intval('netYear', 2050),
+    netPct: intval('netPct', 90),
+    euaRef: intval('euaRef', 72),
+  };
+}
+function intval(id, fallback){
+  const v = parseFloat(document.getElementById(id).value);
+  return isNaN(v) ? fallback : v;
+}
+function baseline(){
+  const a = getAssumptions();
+  return a.scope1 + a.scope2 + a.scope3;
+}
+function targetFrac(year, a){
+  // fraction of baseline REMAINING (1 = no reduction, 0 = fully net zero)
+  if(year <= a.baseYear) return 1;
+  if(year <= a.nearYear){
+    const t = (year - a.baseYear) / (a.nearYear - a.baseYear || 1);
+    return 1 - (a.nearPct/100) * t;
+  }
+  if(year <= a.netYear){
+    const t = (year - a.nearYear) / (a.netYear - a.nearYear || 1);
+    return (1 - a.nearPct/100) - ((a.netPct - a.nearPct)/100) * t;
+  }
+  return 1 - a.netPct/100;
+}
+
+/* ============================================================
+   TRAJECTORY CALCULATION
+   ============================================================ */
+function rampedAbatement(lever, year){
+  if(year < lever.start) return 0;
+  if(year >= lever.start + lever.ramp) return lever.potential;
+  return lever.potential * (year - lever.start) / lever.ramp;
+}
+
+function buildTrajectory(scenario, a){
+  const years = [];
+  for(let y = a.baseYear; y <= a.netYear; y++) years.push(y);
+  const base = a.scope1 + a.scope2 + a.scope3;
+
+  const nonRemovalTiers = TIERS.filter(t => t.id !== 'removal');
+  const points = years.map(year => {
+    let cum = 0;
+    const tierCum = {};
+    nonRemovalTiers.forEach(t => {
+      let sum = 0;
+      LEVERS.filter(l => l.tier === t.id && scenario.levers.has(l.id))
+        .forEach(l => { sum += rampedAbatement(l, year); });
+      tierCum[t.id] = sum;
+      cum += sum;
+    });
+    const preRemoval = Math.max(0, base - cum);
+
+    let removalCapacity = 0;
+    LEVERS.filter(l => l.tier === 'removal' && scenario.levers.has(l.id))
+      .forEach(l => { removalCapacity += rampedAbatement(l, year); });
+    const appliedRemoval = Math.min(removalCapacity, preRemoval);
+    const actual = preRemoval - appliedRemoval;
+
+    return { year, base, tierCum, preRemoval, removalCapacity, appliedRemoval, actual, target: base * targetFrac(year, a) };
+  });
+  return points;
+}
+
+/* ============================================================
+   SVG HELPERS
+   ============================================================ */
+const SVG_NS = "http://www.w3.org/2000/svg";
+function svgEl(tag, attrs){
+  const el = document.createElementNS(SVG_NS, tag);
+  for(const k in attrs) el.setAttribute(k, attrs[k]);
+  return el;
+}
+function fmt(n){ return Math.round(n).toLocaleString('en-IE'); }
+function fmtK(n){
+  if(Math.abs(n) >= 1000) return (n/1000).toFixed(0) + 'k';
+  return Math.round(n).toString();
+}
+
+/* ============================================================
+   PATHWAY CHART
+   ============================================================ */
+function renderPathwayChart(){
+  const a = getAssumptions();
+  const scenario = SCENARIO_BY_ID[state.pathwayScenario];
+  const points = buildTrajectory(scenario, a);
+
+  const W = 1080, H = 400, padL = 64, padR = 24, padT = 20, padB = 40;
+  const chartW = W - padL - padR, chartH = H - padT - padB;
+  const maxY = a.scope1 + a.scope2 + a.scope3;
+  const x = year => padL + (year - a.baseYear) / ((a.netYear - a.baseYear) || 1) * chartW;
+  const y = val => padT + chartH - (Math.max(0,val) / (maxY || 1)) * chartH;
+
+  const svg = svgEl('svg', { viewBox:`0 0 ${W} ${H}`, width:'100%', height:'auto', preserveAspectRatio:'xMidYMid meet' });
+
+  // defs: hatch pattern for removal band + off-track gap
+  const defs = svgEl('defs', {});
+  const hatch = svgEl('pattern', { id:'hatchRemoval', width:6, height:6, patternTransform:'rotate(45)', patternUnits:'userSpaceOnUse' });
+  hatch.appendChild(svgEl('rect', { width:6, height:6, fill:'#E2705C', 'fill-opacity':'0.22' }));
+  hatch.appendChild(svgEl('line', { x1:0, y1:0, x2:0, y2:6, stroke:'#E2705C', 'stroke-width':1.4, 'stroke-opacity':'0.55' }));
+  defs.appendChild(hatch);
+  svg.appendChild(defs);
+
+  // gridlines (y)
+  const ticks = 5;
+  for(let i=0;i<=ticks;i++){
+    const val = maxY * i/ticks;
+    const yy = y(val);
+    svg.appendChild(svgEl('line', { x1:padL, x2:W-padR, y1:yy, y2:yy, stroke:'var(--border-soft)', 'stroke-width':1 }));
+    const t = svgEl('text', { x:padL-8, y:yy+4, 'text-anchor':'end', 'font-size':10, fill:'#5D7690' });
+    t.textContent = fmtK(val);
+    svg.appendChild(t);
+  }
+  // x ticks every 5 years
+  for(let yr=a.baseYear; yr<=a.netYear; yr+=5){
+    const xx = x(yr);
+    const t = svgEl('text', { x:xx, y:H-padB+18, 'text-anchor':'middle', 'font-size':10, fill:'#5D7690' });
+    t.textContent = yr;
+    svg.appendChild(t);
+  }
+
+  // stacked wedge bands, top tier first (closest to baseline)
+  const stackTiers = TIERS.filter(t => t.id !== 'removal');
+  let cumBefore = points.map(() => 0);
+  stackTiers.forEach(t => {
+    const topVals = points.map((p,i) => p.base - cumBefore[i]);
+    const cumAfter = points.map((p,i) => cumBefore[i] + p.tierCum[t.id]);
+    const bottomVals = points.map((p,i) => p.base - cumAfter[i]);
+
+    let d = 'M ' + points.map((p,i) => `${x(p.year)},${y(topVals[i])}`).join(' L ');
+    d += ' L ' + points.slice().reverse().map((p,i) => `${x(p.year)},${y(bottomVals[points.length-1-i])}`).join(' L ');
+    d += ' Z';
+    svg.appendChild(svgEl('path', { d, fill:t.hex, 'fill-opacity':'0.5', stroke:t.hex, 'stroke-width':0.5 }));
+    cumBefore = cumAfter;
+  });
+
+  // removal band (hatched), between preRemoval and actual
+  {
+    let d = 'M ' + points.map(p => `${x(p.year)},${y(p.preRemoval)}`).join(' L ');
+    d += ' L ' + points.slice().reverse().map(p => `${x(p.year)},${y(p.actual)}`).join(' L ');
+    d += ' Z';
+    svg.appendChild(svgEl('path', { d, fill:'url(#hatchRemoval)' }));
+  }
+
+  // off-track gap shading: actual above target
+  points.forEach((p,i) => {
+    if(p.actual > p.target + 1){
+      const w = chartW / (points.length-1) * 0.92;
+      const xx = x(p.year) - w/2;
+      const yTop = y(p.actual), yBot = y(p.target);
+      svg.appendChild(svgEl('rect', { x:xx, y:yTop, width:w, height:Math.max(0,yBot-yTop), fill:'var(--coral)', 'fill-opacity':'0.12' }));
+    }
+  });
+
+  // baseline flat line
+  svg.appendChild(svgEl('line', { x1:padL, x2:W-padR, y1:y(maxY), y2:y(maxY), stroke:'#5D7690', 'stroke-width':1.4, 'stroke-dasharray':'2 3' }));
+
+  // target line
+  {
+    const d = 'M ' + points.map(p => `${x(p.year)},${y(p.target)}`).join(' L ');
+    svg.appendChild(svgEl('path', { d, fill:'none', stroke:'#4FB89B', 'stroke-width':2, 'stroke-dasharray':'6 4' }));
+  }
+  // actual trajectory line
+  {
+    const d = 'M ' + points.map(p => `${x(p.year)},${y(p.actual)}`).join(' L ');
+    svg.appendChild(svgEl('path', { d, fill:'none', stroke:'#EAF0F5', 'stroke-width':2.4 }));
+  }
+
+  document.getElementById('chartPathway').innerHTML = '';
+  document.getElementById('chartPathway').appendChild(svg);
+
+  // legend
+  const legend = document.getElementById('legendPathway');
+  legend.innerHTML = '';
+  stackTiers.forEach(t => legend.appendChild(legendItem(t.hex, t.label)));
+  legend.appendChild(legendItem('#E2705C', 'Residual removal (gated)', true));
+  legend.appendChild(legendDash('#4FB89B', 'Target line'));
+  legend.appendChild(legendDash('#5D7690', 'Baseline (flat)'));
+  const swatchSolid = document.createElement('div');
+  swatchSolid.className = 'li';
+  swatchSolid.innerHTML = `<span class="sw" style="background:#EAF0F5; border-radius:20px; height:3px; width:14px;"></span>Actual trajectory`;
+  legend.appendChild(swatchSolid);
+
+  // KPIs
+  const last = points[points.length-1];
+  const nearPt = points.find(p => p.year === a.nearYear) || points[0];
+  const kpiRoot = document.getElementById('kpiPathway');
+  const nearAchievedPct = ((1 - nearPt.actual/last.base) * 100).toFixed(0);
+  const netAchievedPct = ((1 - last.actual/last.base) * 100).toFixed(0);
+  const gap = Math.max(0, last.actual);
+  kpiRoot.innerHTML = '';
+  kpiRoot.appendChild(kpiCard('Near-term achieved', nearAchievedPct+'%', `vs ${a.nearPct}% target by ${a.nearYear}`, nearAchievedPct >= a.nearPct ? 'ok':'warn'));
+  kpiRoot.appendChild(kpiCard('Net-zero achieved', netAchievedPct+'%', `vs ${a.netPct}% target by ${a.netYear}`, netAchievedPct >= a.netPct ? 'ok':'warn'));
+  kpiRoot.appendChild(kpiCard('Removals applied', fmt(last.appliedRemoval)+' t', `capacity ${fmt(last.removalCapacity)} t, capped to residual`, 'plain'));
+  kpiRoot.appendChild(kpiCard('Uncovered gap', fmt(gap)+' t', gap > 0 ? 'residual exceeds available removal' : 'fully covered by ' + a.netYear, gap>0?'warn':'ok'));
+}
+
+function legendItem(hex, label, hatched){
+  const el = document.createElement('div');
+  el.className = 'li';
+  el.innerHTML = `<span class="sw" style="background:${hex}; opacity:${hatched?0.6:0.85}"></span>${label}`;
+  return el;
+}
+function legendDash(hex, label){
+  const el = document.createElement('div');
+  el.className = 'li';
+  el.innerHTML = `<span class="sw dash" style="border-top-color:${hex}"></span>${label}`;
+  return el;
+}
+function kpiCard(label, value, sub, flag){
+  const el = document.createElement('div');
+  el.className = 'kpi' + (flag==='ok' ? ' flag-ok' : flag==='warn' ? ' flag-warn' : '');
+  el.innerHTML = `<div class="kl">${label}</div><div class="kv">${value}</div><div class="ks">${sub}</div>`;
+  return el;
+}
+
+/* ============================================================
+   MACC CHART
+   ============================================================ */
+function renderMaccChart(){
+  const a = getAssumptions();
+  const scenario = SCENARIO_BY_ID[state.priorityScenario];
+  let active = LEVERS.filter(l => scenario.levers.has(l.id)).map(l => ({...l}));
+
+  if(state.maccSort === 'hierarchy'){
+    active.sort((x,y2) => TIER_BY_ID[x.tier].order - TIER_BY_ID[y2.tier].order || x.cost - y2.cost);
+  } else {
+    active.sort((x,y2) => x.cost - y2.cost);
+  }
+
+  const totalPotential = active.reduce((s,l) => s + l.potential, 0) || 1;
+  const costs = active.map(l => l.cost).concat([0, a.euaRef]);
+  const costMin = Math.min(...costs) - 10;
+  const costMax = Math.max(...costs) * 1.15 + 10;
+  const range = (costMax - costMin) || 1;
+
+  const W = 1080, H = 380, padL = 60, padR = 24, padT = 20, padB = 30;
+  const chartW = W - padL - padR, chartH = H - padT - padB;
+  const xAt = cum => padL + (cum/totalPotential) * chartW;
+  const yAt = cost => padT + chartH - ((cost - costMin)/range) * chartH;
+  const yZero = yAt(0);
+
+  const svg = svgEl('svg', { viewBox:`0 0 ${W} ${H}`, width:'100%', height:'auto', preserveAspectRatio:'xMidYMid meet' });
+
+  // gridlines
+  const ticks = 5;
+  for(let i=0;i<=ticks;i++){
+    const val = costMin + range*i/ticks;
+    const yy = yAt(val);
+    svg.appendChild(svgEl('line', { x1:padL, x2:W-padR, y1:yy, y2:yy, stroke:'var(--border-soft)', 'stroke-width':1 }));
+    const t = svgEl('text', { x:padL-8, y:yy+4, 'text-anchor':'end', 'font-size':10, fill:'#5D7690' });
+    t.textContent = '€'+Math.round(val);
+    svg.appendChild(t);
+  }
+  // zero line
+  svg.appendChild(svgEl('line', { x1:padL, x2:W-padR, y1:yZero, y2:yZero, stroke:'#9AB0C4', 'stroke-width':1.2 }));
+  // reference carbon price line
+  const yRef = yAt(a.euaRef);
+  svg.appendChild(svgEl('line', { x1:padL, x2:W-padR, y1:yRef, y2:yRef, stroke:'#E0A24B', 'stroke-width':1.4, 'stroke-dasharray':'5 4' }));
+  const refLabel = svgEl('text', { x:W-padR, y:yRef-6, 'text-anchor':'end', 'font-size':10, fill:'#E0A24B' });
+  refLabel.textContent = `Reference €${a.euaRef}/t`;
+  svg.appendChild(refLabel);
+
+  // bars
+  let cum = 0;
+  active.forEach((l,i) => {
+    const x0 = xAt(cum);
+    const x1 = xAt(cum + l.potential);
+    const w = Math.max(1, x1 - x0 - 2);
+    const yTop = Math.min(yAt(l.cost), yZero);
+    const h = Math.max(1, Math.abs(yAt(l.cost) - yZero));
+    const tier = TIER_BY_ID[l.tier];
+    const rect = svgEl('rect', { x:x0, y:yTop, width:w, height:h, fill:tier.hex, 'fill-opacity':'0.82', rx:2 });
+    const title = svgEl('title', {});
+    title.textContent = `${i+1}. ${l.name} - €${l.cost}/t, ${fmt(l.potential)} t (${tier.label})`;
+    rect.appendChild(title);
+    svg.appendChild(rect);
+
+    if(w > 14){
+      const numT = svgEl('text', { x:x0+w/2, y: (l.cost>=0 ? yTop-5 : yTop+h+13), 'text-anchor':'middle', 'font-size':10, fill:'#9AB0C4' });
+      numT.textContent = (i+1);
+      svg.appendChild(numT);
+    }
+    cum += l.potential;
+  });
+
+  document.getElementById('chartMacc').innerHTML = '';
+  document.getElementById('chartMacc').appendChild(svg);
+
+  // legend
+  const legend = document.getElementById('legendMacc');
+  legend.innerHTML = '';
+  TIERS.forEach(t => legend.appendChild(legendItem(t.hex, t.label)));
+  legend.appendChild(legendDash('#E0A24B', 'Reference carbon price'));
+
+  // list
+  const list = document.getElementById('maccList');
+  list.innerHTML = '';
+  active.forEach((l,i) => {
+    const tier = TIER_BY_ID[l.tier];
+    const row = document.createElement('div');
+    row.className = 'macc-row';
+    row.innerHTML = `
+      <span class="num">${i+1}</span>
+      <span class="lname"><span class="sw" style="background:${tier.hex}"></span><span>${l.name}</span></span>
+      <span class="num-col">€${l.cost}/t</span>
+      <span class="num-col">${fmt(l.potential)} t</span>
+      <span class="num-col">${l.scope}</span>`;
+    list.appendChild(row);
+  });
+}
+
+/* ============================================================
+   COMPARE TAB
+   ============================================================ */
+function renderCompare(){
+  const a = getAssumptions();
+  const W = 1080, H = 320, padL = 64, padR = 24, padT = 20, padB = 34;
+  const chartW = W - padL - padR, chartH = H - padT - padB;
+  const maxY = a.scope1 + a.scope2 + a.scope3;
+  const x = year => padL + (year - a.baseYear) / ((a.netYear - a.baseYear) || 1) * chartW;
+  const y = val => padT + chartH - (Math.max(0,val) / (maxY || 1)) * chartH;
+
+  const svg = svgEl('svg', { viewBox:`0 0 ${W} ${H}`, width:'100%', height:'auto', preserveAspectRatio:'xMidYMid meet' });
+
+  const ticks = 5;
+  for(let i=0;i<=ticks;i++){
+    const val = maxY * i/ticks;
+    const yy = y(val);
+    svg.appendChild(svgEl('line', { x1:padL, x2:W-padR, y1:yy, y2:yy, stroke:'var(--border-soft)', 'stroke-width':1 }));
+    const t = svgEl('text', { x:padL-8, y:yy+4, 'text-anchor':'end', 'font-size':10, fill:'#5D7690' });
+    t.textContent = fmtK(val);
+    svg.appendChild(t);
+  }
+  for(let yr=a.baseYear; yr<=a.netYear; yr+=5){
+    const xx = x(yr);
+    const t = svgEl('text', { x:xx, y:H-padB+18, 'text-anchor':'middle', 'font-size':10, fill:'#5D7690' });
+    t.textContent = yr;
+    svg.appendChild(t);
+  }
+
+  const allPoints = {};
+  SCENARIOS.forEach(sc => { allPoints[sc.id] = buildTrajectory(sc, a); });
+
+  // target line
+  {
+    const pts = allPoints[SCENARIOS[0].id];
+    const d = 'M ' + pts.map(p => `${x(p.year)},${y(p.target)}`).join(' L ');
+    svg.appendChild(svgEl('path', { d, fill:'none', stroke:'#4FB89B', 'stroke-width':2, 'stroke-dasharray':'6 4' }));
+  }
+  SCENARIOS.forEach(sc => {
+    const pts = allPoints[sc.id];
+    const d = 'M ' + pts.map(p => `${x(p.year)},${y(p.actual)}`).join(' L ');
+    svg.appendChild(svgEl('path', { d, fill:'none', stroke:sc.hex, 'stroke-width':2.4 }));
+  });
+
+  document.getElementById('chartCompare').innerHTML = '';
+  document.getElementById('chartCompare').appendChild(svg);
+
+  const legend = document.getElementById('legendCompare');
+  legend.innerHTML = '';
+  SCENARIOS.forEach(sc => legend.appendChild(legendItem(sc.hex, sc.name)));
+  legend.appendChild(legendDash('#4FB89B', 'Target line'));
+
+  // comparison cards
+  const grid = document.getElementById('compGrid');
+  grid.innerHTML = '';
+  SCENARIOS.forEach(sc => {
+    const pts = allPoints[sc.id];
+    const last = pts[pts.length-1];
+    const nearPt = pts.find(p => p.year === a.nearYear) || pts[0];
+    const nearAch = ((1 - nearPt.actual/last.base) * 100).toFixed(0);
+    const netAch = ((1 - last.actual/last.base) * 100).toFixed(0);
+    const gap = Math.max(0, last.actual);
+    const tierCounts = {};
+    TIERS.forEach(t => { tierCounts[t.id] = LEVERS.filter(l => l.tier===t.id && sc.levers.has(l.id)).length; });
+    const annualCost = LEVERS.filter(l => sc.levers.has(l.id) && l.tier !== 'removal')
+      .reduce((s,l) => s + l.cost * l.potential, 0);
+
+    const card = document.createElement('div');
+    card.className = 'comp-card';
+    card.innerHTML = `
+      <div class="comp-card-head"><span class="sw" style="background:${sc.hex}"></span><b>${sc.name}</b></div>
+      <div class="comp-card-body">
+        <div class="desc">${sc.desc}</div>
+        <div class="comp-row"><span class="l">Near-term (${a.nearYear})</span><span class="v ${nearAch>=a.nearPct?'ok':'warn'}">${nearAch}%</span></div>
+        <div class="comp-row"><span class="l">Net-zero (${a.netYear})</span><span class="v ${netAch>=a.netPct?'ok':'warn'}">${netAch}%</span></div>
+        <div class="comp-row"><span class="l">Residual gap</span><span class="v ${gap>0?'warn':'ok'}">${fmt(gap)} t</span></div>
+        <div class="comp-row"><span class="l">Removals applied</span><span class="v">${fmt(last.appliedRemoval)} t</span></div>
+        <div class="comp-row"><span class="l">Levers active</span><span class="v">${sc.levers.size}</span></div>
+        <div class="comp-row"><span class="l">Approx. annual cost</span><span class="v">€${fmt(annualCost)}</span></div>
+      </div>`;
+    grid.appendChild(card);
+  });
+}
+
+/* ============================================================
+   LEVER LIBRARY UI
+   ============================================================ */
+function renderLeverLibrary(){
+  const root = document.getElementById('tierGroups');
+  root.innerHTML = '';
+  TIERS.forEach(tier => {
+    const group = document.createElement('div');
+    group.className = 'tier-group';
+    const head = document.createElement('div');
+    head.className = 'tier-head';
+    head.innerHTML = `<span class="tier-dot" style="background:${tier.hex}"></span>
+      <span class="tier-name">${tier.label}</span>
+      <span class="tier-desc">${tier.desc}</span>
+      ${tier.gated ? '<span class="tier-gate">Gated to residual</span>' : ''}`;
+    group.appendChild(head);
+
+    const table = document.createElement('table');
+    table.className = 'lever-table';
+    table.innerHTML = `<thead><tr>
+        <th style="width:34%">Lever</th>
+        <th>€/tCO2e</th><th>Potential (t/yr)</th><th>Start</th><th>Ramp (yrs)</th>
+        ${SCENARIOS.map(sc => `<th style="text-align:center">${sc.name}</th>`).join('')}
+      </tr></thead><tbody></tbody>`;
+    const tbody = table.querySelector('tbody');
+
+    LEVERS.filter(l => l.tier === tier.id).forEach(l => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td><span class="lever-name">${l.name}</span><span class="scope-tag">${l.scope}</span></td>
+        <td><input class="mini-input" data-field="cost" data-id="${l.id}" type="number" value="${l.cost}" step="1"></td>
+        <td><input class="mini-input" data-field="potential" data-id="${l.id}" type="number" value="${l.potential}" step="100"></td>
+        <td><input class="mini-input" data-field="start" data-id="${l.id}" type="number" value="${l.start}" step="1"></td>
+        <td><input class="mini-input" data-field="ramp" data-id="${l.id}" type="number" value="${l.ramp}" step="1"></td>
+        ${SCENARIOS.map(sc => `<td class="chk-cell"><input type="checkbox" data-scn="${sc.id}" data-lever="${l.id}" ${sc.levers.has(l.id)?'checked':''}></td>`).join('')}
+      `;
+      tbody.appendChild(tr);
+    });
+
+    group.appendChild(table);
+    root.appendChild(group);
+  });
+
+  root.querySelectorAll('input.mini-input').forEach(inp => {
+    inp.addEventListener('input', () => {
+      const lever = LEVER_BY_ID[inp.dataset.id];
+      const val = parseFloat(inp.value);
+      if(!isNaN(val)) lever[inp.dataset.field] = val;
+      renderAll();
+    });
+  });
+  root.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+    cb.addEventListener('change', () => {
+      const sc = SCENARIO_BY_ID[cb.dataset.scn];
+      if(cb.checked) sc.levers.add(cb.dataset.lever);
+      else sc.levers.delete(cb.dataset.lever);
+      renderAll();
+    });
+  });
+}
+
+function renderBvcm(){
+  const root = document.getElementById('bvcmList');
+  root.innerHTML = '';
+  BVCM.forEach(b => {
+    const el = document.createElement('div');
+    el.className = 'bvcm-item';
+    el.innerHTML = `<span class="l">${b.name} <span style="color:var(--text-faint)">- ${b.note}</span></span><span class="r">${fmt(b.volume)} t (contribution)</span>`;
+    root.appendChild(el);
+  });
+}
+
+/* ============================================================
+   SCENARIO PILLS + TABS
+   ============================================================ */
+function renderPills(containerId, currentKey, onPick){
+  const root = document.getElementById(containerId);
+  root.innerHTML = '';
+  SCENARIOS.forEach(sc => {
+    const btn = document.createElement('button');
+    btn.className = 'pill-btn' + (state[currentKey] === sc.id ? ' active' : '');
+    btn.innerHTML = `<span class="sw" style="background:${sc.hex}"></span>${sc.name}`;
+    btn.addEventListener('click', () => { state[currentKey] = sc.id; onPick(); });
+    root.appendChild(btn);
+  });
+}
+
+function setupTabs(){
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+      renderAll();
+    });
+  });
+}
+
+function setupMaccControls(){
+  document.getElementById('sortHierarchy').addEventListener('click', () => {
+    state.maccSort = 'hierarchy';
+    document.getElementById('sortHierarchy').classList.add('active');
+    document.getElementById('sortCost').classList.remove('active');
+    renderMaccChart();
+  });
+  document.getElementById('sortCost').addEventListener('click', () => {
+    state.maccSort = 'cost';
+    document.getElementById('sortCost').classList.add('active');
+    document.getElementById('sortHierarchy').classList.remove('active');
+    renderMaccChart();
+  });
+  document.getElementById('euaRefEcho').addEventListener('input', (e) => {
+    document.getElementById('euaRef').value = e.target.value;
+    renderAll();
+  });
+  document.getElementById('euaRef').addEventListener('input', (e) => {
+    document.getElementById('euaRefEcho').value = e.target.value;
+  });
+}
+
+/* ============================================================
+   MAIN RENDER
+   ============================================================ */
+function renderAll(){
+  const total = baseline();
+  document.getElementById('baseTotalLabel').textContent = fmt(total) + ' tCO2e';
+
+  renderPills('pillsPathway', 'pathwayScenario', () => renderAll());
+  renderPills('pillsPriority', 'priorityScenario', () => renderAll());
+
+  renderPathwayChart();
+  renderMaccChart();
+  renderCompare();
+}
+
+document.querySelectorAll('.assump-grid input, .assump-grid select').forEach(inp => {
+  inp.addEventListener('input', renderAll);
+  inp.addEventListener('change', renderAll);
+});
+
+setupTabs();
+setupMaccControls();
+renderLeverLibrary();
+renderBvcm();
+renderAll();
+</script>
+</body>
+</html>

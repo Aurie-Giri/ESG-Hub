@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="A CEO brief on the EU Omnibus proposal to simplify CSRD - what changes, what doesn't, and why the underlying compliance burden remains.">
+<title>EU CSRD Omnibus Simplification - CEO Brief - Aurie's Knowledge Hub</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Inter:wght@300;400;500;600;700&display=swap');
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --green:#0e2b1a;--gold:#c9a84c;--ivory:#fafaf8;
+  --mid:#4a5568;--light:#f0ede8;--border:#d4c9b0;
+  --serif:'Cormorant Garamond',Georgia,serif;
+  --sans:'Inter',system-ui,sans-serif;
+}
+html,body{background:var(--ivory);color:var(--green);font-family:var(--sans);font-size:11pt;line-height:1.65;min-height:100vh}
+
+.screen-nav{background:var(--green);padding:12px 32px;display:flex;justify-content:space-between;align-items:center}
+.screen-nav a{color:rgba(255,255,255,0.6);text-decoration:none;font-size:9.5pt;display:flex;align-items:center;gap:6px;letter-spacing:.04em;transition:color .15s}
+.screen-nav a:hover{color:var(--gold)}
+.print-btn{background:var(--gold);color:var(--green);font-weight:600;font-size:9pt;padding:5px 16px;border:none;cursor:pointer;letter-spacing:.06em;text-transform:uppercase;font-family:var(--sans)}
+.print-btn:hover{background:#d4b05a}
+
+/* DOC */
+.doc-wrap{max-width:720px;margin:0 auto;padding:28px 36px 52px}
+.print-topbar{border-top:3px solid var(--gold);padding:12px 0 10px;display:flex;justify-content:space-between;align-items:baseline;margin-bottom:24px}
+.print-brand{font-family:var(--serif);font-size:11pt;font-weight:400;color:var(--green);letter-spacing:.04em}
+.print-brand span{color:var(--gold)}
+.print-series{font-size:8.5pt;color:var(--mid);letter-spacing:.1em;text-transform:uppercase}
+.meta-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:10px}
+.brief-num{font-size:8pt;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--gold)}
+hr.rule{border:none;border-top:1px solid var(--border);margin:20px 0 18px}
+.section-label{font-size:9pt;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--mid);margin-bottom:8px}
+
+/* TITLE */
+h1.doc-title{font-family:var(--serif);font-size:26pt;font-weight:300;line-height:1.15;color:var(--green);margin-bottom:14px;border:none;padding:0}
+h1.doc-title em{font-style:italic;font-weight:300;color:var(--gold)}
+
+/* EXEC HEADLINE */
+.exec-headline{border-left:3px solid var(--gold);padding:10px 16px;margin-bottom:24px;background:#f5f0e4}
+.eh-label{font-size:7.5pt;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin-bottom:4px}
+.eh-text{font-size:13pt;color:var(--green);font-style:italic;line-height:1.55;font-family:var(--serif)}
+
+/* STAT STRIP */
+.stat-strip{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:var(--border);border:1px solid var(--border);margin:18px 0}
+.stat-cell{background:var(--ivory);padding:11px 10px;text-align:center}
+.stat-value{font-family:var(--serif);font-size:12pt;font-weight:600;color:var(--green);line-height:1.1;margin-bottom:3px}
+.stat-label{font-size:7pt;color:var(--mid);letter-spacing:.04em;line-height:1.35}
+
+.body-text{font-size:10.5pt;color:var(--green);line-height:1.65;margin-bottom:4px}
+
+/* IMPACT CARDS */
+.impact-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:6px}
+.impact-card{border:1px solid var(--border);padding:10px 12px;background:var(--light)}
+.impact-icon{font-size:13pt;margin-bottom:4px;display:block}
+.impact-title{font-size:8pt;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:4px}
+.impact-text{font-size:9pt;color:var(--green);line-height:1.5}
+
+/* EXPOSURE TABLE */
+.exposure-table{width:100%;border-collapse:collapse;font-size:9.5pt;margin-top:6px}
+.exposure-table th{text-align:left;padding:6px 10px;font-size:8pt;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#fff;background:var(--green)}
+.exposure-table td{padding:7px 10px;color:var(--green);border-bottom:1px solid var(--border);vertical-align:top;line-height:1.5}
+.exposure-table tr:nth-child(even) td{background:var(--light)}
+.badge{display:inline-block;font-size:7pt;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:1px 6px;border-radius:2px;margin-right:4px}
+.badge-risk{background:rgba(220,38,38,0.1);color:#b91c1c;border:1px solid rgba(220,38,38,0.25)}
+.badge-opp{background:rgba(22,101,52,0.1);color:#166534;border:1px solid rgba(22,101,52,0.25)}
+
+/* LQ */
+.lq-list{list-style:none;margin-top:6px}
+.lq-item{display:flex;align-items:flex-start;gap:10px;padding:6px 0;border-bottom:1px solid var(--border);font-size:10pt;color:var(--green);line-height:1.5}
+.lq-item:last-child{border-bottom:none}
+.lq-bullet{color:var(--gold);font-size:10pt;margin-top:1px;flex-shrink:0}
+
+/* KEY TAKEAWAY */
+.key-takeaway{margin-top:20px;background:var(--green);padding:12px 16px;display:flex;align-items:flex-start;gap:12px}
+.kt-icon{font-size:14pt;flex-shrink:0;margin-top:1px}
+.kt-label{font-size:9pt;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin-bottom:3px}
+.kt-text{font-size:13pt;color:#fafaf8;font-family:var(--serif);font-style:italic;line-height:1.5}
+
+/* DEEP DIVE LINK */
+.deep-dive-link{display:flex;align-items:center;justify-content:space-between;margin-top:24px;padding:12px 16px;background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.35);text-decoration:none;transition:background .15s}
+.deep-dive-link:hover{background:rgba(201,168,76,0.15)}
+.ddl-label{font-size:7.5pt;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin-bottom:2px}
+.ddl-text{font-size:10pt;color:var(--green)}
+.ddl-arrow{font-size:16pt;color:var(--gold);flex-shrink:0}
+
+/* DEEP DIVE DIVIDER */
+.deep-dive-divider{margin:40px 0 32px;position:relative;text-align:center}
+.deep-dive-divider::before{content:'';display:block;height:3px;background:linear-gradient(to right,transparent,var(--gold),transparent)}
+.deep-dive-divider-inner{display:inline-flex;align-items:center;gap:14px;background:var(--green);color:#fff;padding:10px 28px;position:relative;top:-1px}
+.deep-dive-divider-label{font-size:8.5pt;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);font-family:var(--sans)}
+.back-to-top{display:inline-flex;align-items:center;gap:6px;font-size:8.5pt;font-weight:500;color:var(--mid);text-decoration:none;letter-spacing:.04em;transition:color .15s;float:right;margin-top:10px}
+.back-to-top:hover{color:var(--gold)}
+
+/* DEEP DIVE CONTENT */
+.section-block{margin-bottom:24px}
+.section-header{display:flex;align-items:baseline;gap:10px;margin-bottom:10px}
+.section-num{font-size:8pt;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--gold)}
+.section-title{font-size:10pt;font-weight:600;color:var(--green);letter-spacing:.02em}
+.content-block{font-size:10pt;color:var(--green);line-height:1.7;margin-bottom:10px}
+
+/* IMPL BULLETS */
+.impl-list-dd{list-style:none}
+.impl-item-dd{display:grid;grid-template-columns:22px 1fr;gap:0 10px;margin-bottom:10px;align-items:start}
+.impl-icon{font-size:12pt;line-height:1.4}
+.impl-label{font-size:8pt;font-weight:600;letter-spacing:.08em;color:var(--green);margin-bottom:2px}
+.impl-text{font-size:10pt;color:var(--green);line-height:1.6}
+
+/* INSIGHT LIST */
+.insight-list{list-style:none}
+.insight-item{display:grid;grid-template-columns:22px 1fr;gap:0 10px;margin-bottom:8px;font-size:10pt;color:var(--green);line-height:1.6}
+
+/* VISUAL PLACEHOLDER */
+.visual-ph{border:2px dashed var(--border);background:#fff;padding:16px 18px;margin:12px 0;text-align:center}
+.visual-ph-type{font-size:7pt;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:5px}
+.visual-ph-title{font-size:10.5pt;font-family:var(--serif);color:var(--green);font-weight:600;margin-bottom:4px}
+.visual-ph-desc{font-size:8.5pt;color:var(--mid);font-style:italic;line-height:1.5}
+
+/* FORESIGHT TABLE */
+.foresight-table{width:100%;border-collapse:collapse;margin-bottom:4px}
+.foresight-table td{padding:8px 10px;border-bottom:1px solid var(--border);vertical-align:top;font-size:10pt;color:var(--green);line-height:1.55}
+.foresight-table td:first-child{white-space:nowrap;width:100px}
+.foresight-table tr:last-child td{border-bottom:none}
+.h-pill{display:inline-block;font-size:7pt;font-weight:600;padding:2px 7px;letter-spacing:.06em;text-transform:uppercase;border-radius:2px;color:#fff}
+.h-now{background:#c0392b}.h-12m{background:#e67e22}.h-35y{background:#4a5568}
+
+/* INACTION */
+.inaction-block{border-left:3px solid #c0392b;padding:8px 12px 8px 14px;background:#fdf5f5;margin:6px 0}
+.inaction-text{font-size:10pt;color:var(--green);line-height:1.65}
+
+/* ACTION TABLE */
+.action-table{width:100%;border-collapse:collapse;margin-bottom:4px}
+.action-table th{text-align:left;padding:6px 10px;font-size:7.5pt;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#fff;background:var(--green)}
+.action-table td{padding:7px 10px;border-bottom:1px solid var(--border);vertical-align:top;font-size:10pt;color:var(--green);line-height:1.5}
+.action-table td:first-child{white-space:nowrap;width:110px}
+.action-table tr:nth-child(even) td{background:var(--light)}
+.tl-dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:4px}
+.tl-amber{background:#e67e22}.tl-green{background:#1a6b3a}
+
+/* STEPS TABLE */
+.steps-table{width:100%;border-collapse:collapse;margin-bottom:4px}
+.steps-table th{text-align:left;padding:6px 10px;font-size:7.5pt;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#fff;background:var(--green)}
+.steps-table td{padding:7px 10px;border-bottom:1px solid var(--border);vertical-align:top;font-size:10pt;color:var(--green);line-height:1.5}
+.steps-table td.col-horizon{white-space:nowrap;width:100px}
+.steps-table td.col-owner{color:var(--mid);white-space:nowrap;width:160px}
+.steps-table tr:last-child td{border-bottom:none}
+
+/* FURTHER READING */
+.further-reading{margin-top:20px;padding:16px 18px;background:#fff;border:1px solid var(--border);border-top:2px solid var(--green)}
+.further-reading-label{font-size:7.5pt;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--green);margin-bottom:10px}
+.fr-item{display:grid;grid-template-columns:18px 1fr;gap:0 10px;margin-bottom:8px;align-items:start}
+.fr-icon{font-size:10pt;line-height:1.5;color:var(--gold)}
+.fr-link{font-size:9.5pt;color:var(--green);text-decoration:none;border-bottom:1px solid var(--border);padding-bottom:1px;line-height:1.5;transition:border-color .15s,color .15s}
+.fr-link:hover{color:var(--gold);border-color:var(--gold)}
+.fr-desc{font-size:8pt;color:var(--mid);margin-top:1px}
+
+/* CONVERSATION */
+.conversation-box{margin-top:24px;padding:20px 22px;background:var(--green);color:#fff}
+.conv-eyebrow{font-size:7pt;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:6px}
+.conv-title{font-family:var(--serif);font-size:14pt;font-weight:300;color:#fff;margin-bottom:8px;line-height:1.3}
+.conv-title em{font-style:italic;color:var(--gold)}
+.conv-text{font-size:9pt;color:rgba(255,255,255,0.7);line-height:1.65;margin-bottom:14px}
+.conv-email{display:inline-block;font-size:8.5pt;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);text-decoration:none;border:1px solid rgba(201,168,76,0.45);padding:7px 18px;transition:all .15s}
+.conv-email:hover{background:var(--gold);color:var(--green)}
+
+/* SOURCES */
+.sources-block{margin-top:16px;padding-top:12px;border-top:1px solid var(--border)}
+.sources-label{font-size:7.5pt;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--mid);margin-bottom:5px}
+.sources-text{font-size:8.5pt;color:var(--mid);line-height:1.55}
+
+/* FOOTER */
+.print-footer{margin-top:28px;padding-top:10px;border-top:1px solid var(--gold);display:flex;justify-content:space-between;font-size:7.5pt;color:var(--mid);flex-wrap:wrap;gap:8px}
+.pf-brand{font-family:var(--serif);font-size:9pt;color:var(--green)}
+
+/* HEATMAP */
+.hm-grid{display:flex;flex-direction:column;gap:3px;margin:10px 0}
+.hm-row{display:grid;grid-template-columns:56px 1fr 32px;gap:0 8px;align-items:center;cursor:pointer;padding:2px 0}
+.hm-row:hover .hm-bar-wrap{opacity:.85}
+.big-three .hm-std-label{font-weight:600}
+.hm-std-label{font-size:8pt;color:var(--green);letter-spacing:.04em;text-align:right}
+.hm-bar-wrap{height:18px;display:flex;border-radius:2px;overflow:hidden;background:#e8e4dc}
+.hm-bar-seg{height:100%;transition:opacity .15s}
+.hm-total{font-size:7.5pt;color:var(--mid);text-align:right}
+.hm-legend{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px}
+.hm-legend-item{display:flex;align-items:center;gap:4px;font-size:7.5pt;color:var(--mid)}
+.hm-legend-swatch{width:10px;height:10px;border-radius:1px;flex-shrink:0}
+.hm-source{font-size:7pt;color:#9ea8a0;margin-top:8px;letter-spacing:.04em}
+.hm-detail{display:none;margin-top:10px;padding:12px 14px;background:#fff;border:1px solid var(--border);border-left:2px solid var(--gold);font-size:9pt}
+.hm-detail-close{font-size:7.5pt;color:var(--mid);cursor:pointer;float:right;letter-spacing:.06em;text-transform:uppercase}
+.hm-detail-name{font-family:var(--serif);font-size:12pt;font-weight:600;color:var(--green);margin-bottom:2px}
+.hm-detail-fullname{font-size:8pt;color:var(--mid);margin-bottom:10px;font-style:italic}
+.hm-detail-body{display:grid;grid-template-columns:1fr 1fr;gap:6px 16px;margin-bottom:8px}
+.hm-detail-stat{font-size:8.5pt;color:var(--green);line-height:1.4}
+.hm-detail-stat strong{color:var(--green)}
+.hm-detail-note{font-size:8pt;color:var(--mid);font-style:italic;border-top:1px solid var(--border);padding-top:7px;line-height:1.55;clear:both}
+
+/* FULL ANALYSIS TOGGLE BUTTON */
+.full-analysis-toggle {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 20px;
+  background: rgba(201,168,76,0.08);
+  border: 1px solid rgba(201,168,76,0.35);
+  cursor: pointer;
+  text-align: left;
+  gap: 12px;
+  transition: background 0.15s;
+  margin-top: 4px;
+}
+.full-analysis-toggle:hover { background: rgba(201,168,76,0.15); }
+.fa-toggle-title {
+  font-size: 9.95pt;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--green);
+  flex: 1;
+  text-align: center;
+}
+.fa-toggle-arrow {
+  font-size: 14pt;
+  color: var(--gold);
+  flex-shrink: 0;
+  transition: transform 0.25s;
+}
+
+@media print{
+  .screen-nav{display:none}
+  .doc-wrap{padding:0;max-width:100%}
+  .full-analysis-toggle{display:none}
+  .back-to-top{display:none}
+  #fullAnalysis{display:block !important}
+  .key-takeaway,.impact-card,.lq-item{break-inside:avoid}
+  .conversation-box{display:none}
+}
+@media(max-width:680px){
+  .doc-wrap{padding:20px 16px 40px}
+  .stat-strip{grid-template-columns:repeat(2,1fr)}
+  .stat-cell:last-child{grid-column:1/-1}
+  .impact-grid{grid-template-columns:1fr}
+  .hm-detail-body{grid-template-columns:1fr}
+}
+
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "EU CSRD Omnibus Simplification - CEO Brief",
+  "description": "A CEO brief on the EU Omnibus proposal to simplify CSRD - what changes, what doesn't, and why the underlying compliance burden remains.",
+  "author": {
+    "@type": "Person",
+    "name": "Aurie",
+    "url": "https://REPLACE-WITH-YOUR-DOMAIN/about.html"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Aurie's Knowledge Hub",
+    "url": "https://REPLACE-WITH-YOUR-DOMAIN/index.html"
+  },
+  "datePublished": "2026-01-01",
+  "dateModified": "2026-07-06",
+  "url": "https://REPLACE-WITH-YOUR-DOMAIN/ceo-insights-omnibus-assessment.html"
+}
+</script>
+</head>
+<body>
+
+<div class="screen-nav">
+  <a href="index.html">← Aurie's Knowledge Hub</a>
+  <button class="print-btn" onclick="window.print()">⬇ Print / Save PDF</button>
+</div>
+
+<div class="doc-wrap" id="top">
+
+  <div class="print-topbar">
+    <div class="print-brand">Aurie's <span>Knowledge Hub</span></div>
+    <div class="print-series">CEO Briefs · ESG Insights &amp; Foresight</div>
+  </div>
+
+  <!-- ══ CEO BRIEF SECTION ══ -->
+  <div class="meta-row">
+    <span class="brief-num">CEO Brief</span>
+  </div>
+
+  <h1 class="doc-title">EU CSRD Omnibus Simplification - <em>It's Complicated.</em></h1>
+
+  <div class="exec-headline">
+    <div class="eh-label">Executive Headline</div>
+    <div class="eh-text">The Omnibus proposal cuts the mandatory CSRD datapoint count by 61%. It does not cut the obligation to disclose, the assurance requirement, or the CSDDD due diligence framework that sits underneath it. Companies that read this as permission to pause will find the rebuild expensive.</div>
+  </div>
+
+  <div class="stat-strip">
+    <div class="stat-cell">
+      <div class="stat-value">~1,100 - ~430</div>
+      <div class="stat-label">Mandatory datapoints (EFRAG, -61%)</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-value">325</div>
+      <div class="stat-label">Datapoint clusters mapped in this analysis</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-value">76%</div>
+      <div class="stat-label">Continue with unchanged substance</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-value">41</div>
+      <div class="stat-label">Non-phaseable datapoints (SFDR / CSDDD-adjacent EU law)</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-value">19</div>
+      <div class="stat-label">'No successor found' items pending EFRAG confirmation</div>
+    </div>
+  </div>
+
+  <hr class="rule">
+
+  <div class="section-label">The Shift - What Is Changing</div>
+  <p class="body-text">The Omnibus restructures how CSRD datapoints are counted and presented - it does not dismantle the underlying reporting framework. The core architecture of ESRS 2, E1, and S1 remains intact for in-scope companies, and the CSDDD due diligence obligations sit alongside CSRD regardless of how the datapoint count moves. Managing these two directives as separate programmes is now the single most common source of duplication and compliance gap.</p>
+
+  <hr class="rule">
+
+  <div class="section-label">Why It Matters - Business Impact</div>
+  <div class="impact-grid">
+    <div class="impact-card">
+      <span class="impact-icon">⚖️</span>
+      <div class="impact-title">Simplification is not relaxation</div>
+      <div class="impact-text">76% of datapoints continue with unchanged substance. The headline cut is a raw field count. The obligation to disclose, assure, and integrate CSDDD due diligence remains.</div>
+    </div>
+    <div class="impact-card">
+      <span class="impact-icon">🔗</span>
+      <div class="impact-title">CSRD and CSDDD are inseparable</div>
+      <div class="impact-text">CSRD cannot be treated as a stand-alone reporting exercise. The two directives share data, processes, and governance. Managing them separately creates duplication and gaps that are costly to fix under assurance pressure.</div>
+    </div>
+    <div class="impact-card">
+      <span class="impact-icon">📖</span>
+      <div class="impact-title">Storyline before datapoints</div>
+      <div class="impact-text">The most effective path through post-Omnibus CSRD is to start with a coherent ESG narrative, then align data collection toward it - not to shortlist datapoints and try to build a story around them.</div>
+    </div>
+  </div>
+
+  <hr class="rule">
+
+  <div class="section-label">Business Exposure</div>
+  <table class="exposure-table">
+    <thead><tr><th style="width:18%">Type</th><th>Exposure</th></tr></thead>
+    <tbody>
+      <tr><td><span class="badge badge-risk">Risk</span></td><td>Companies that dismantle CSRD data collection programmes in response to the Omnibus will face a costly rebuild when the Delegated Act is adopted and investor expectations do not simplify in parallel.</td></tr>
+      <tr><td><span class="badge badge-risk">Risk</span></td><td>The 41 non-phaseable datapoints anchored to SFDR, the Benchmark Regulation, and CSDDD-adjacent EU law are non-negotiable regardless of further Omnibus changes. Companies that miss these carry regulatory exposure.</td></tr>
+      <tr><td><span class="badge badge-opp">Opportunity</span></td><td>Companies that use the simplification window to sharpen - not stop - their ESG data and reporting programmes will have a structural advantage when reporting and assurance requirements stabilise.</td></tr>
+      <tr><td><span class="badge badge-opp">Opportunity</span></td><td>Integrating CSRD and CSDDD programmes now eliminates the most common source of duplication and positions the company for the CSDDD-CSRD alignment that will become the dominant practitioner question by mid-2026.</td></tr>
+    </tbody>
+  </table>
+
+  <hr class="rule">
+
+  <div class="section-label">Leadership Lens</div>
+  <ul class="lq-list">
+    <li class="lq-item"><span class="lq-bullet">›</span>Have we re-run our scoping exercise using the 325 post-Omnibus clusters rather than the pre-Omnibus 1,100 longlist?</li>
+    <li class="lq-item"><span class="lq-bullet">›</span>Do we know which of the 41 non-phaseable datapoints apply to our company - and have we assigned ownership?</li>
+    <li class="lq-item"><span class="lq-bullet">›</span>Are our CSRD and CSDDD programmes sharing data, governance, and stakeholder engagement - or still running as two separate workstreams?</li>
+    <li class="lq-item"><span class="lq-bullet">›</span>Are we building our ESG narrative first and aligning data collection toward it, or assembling a datapoint checklist and hoping a story emerges?</li>
+  </ul>
+
+  <div class="key-takeaway">
+    <span class="kt-icon">💡</span>
+    <div>
+      <div class="kt-label">Key Takeaway</div>
+      <div class="kt-text">The companies that come out of the Omnibus period strongest are those that used the simplification window to sharpen their sustainability data practice - not those that read the 61% headline as permission to stop.</div>
+    </div>
+  </div>
+
+  <!-- FULL ANALYSIS TOGGLE -->
+  <hr class="rule">
+  <button class="full-analysis-toggle" id="faToggle" onclick="toggleFullAnalysis()">
+    <span class="fa-toggle-title">For Full Analysis - Click Here</span>
+    <span class="fa-toggle-arrow" id="faArrow">↓</span>
+  </button>
+
+  <!-- ══ COLLAPSIBLE DEEP DIVE ══ -->
+  <div id="fullAnalysis" style="display:none">
+    <hr class="rule">
+    <a class="back-to-top" href="#top" style="float:right;margin-bottom:8px">↑ Back to summary</a>
+    <div style="clear:both"></div>
+
+    <!-- SECTION 1 -->
+    <div class="section-block">
+    <div class="section-header">
+      <span class="section-num">Section 1</span>
+      <span class="section-title">Implication</span>
+    </div>
+    <ul class="impl-list-dd">
+      <li class="impl-item-dd">
+        <span class="impl-icon">⚖️</span>
+        <div><div class="impl-label">Simplification is not relaxation</div>
+        <div class="impl-text">The headline 61% cut in mandatory datapoints is a raw field count, not a measure of how much existing data and reporting efforts need to change. The core architecture of CSRD and CSDDD remains intact for in-scope companies.</div></div>
+      </li>
+      <li class="impl-item-dd">
+        <span class="impl-icon">🔗</span>
+        <div><div class="impl-label">CSRD and CSDDD are now inseparable</div>
+        <div class="impl-text">CSRD can no longer be treated as a stand-alone reporting exercise. It must be anchored to CSDDD due diligence efforts. The two directives share underlying data, processes, and governance obligations - managing them separately creates duplication and gaps.</div></div>
+      </li>
+      <li class="impl-item-dd">
+        <span class="impl-icon">📖</span>
+        <div><div class="impl-label">Storyline first, datapoints second</div>
+        <div class="impl-text">The most effective path through post-Omnibus CSRD is to start with a coherent ESG storyline for the sustainability report, then align data collection efforts towards it - not to shortlist datapoints in isolation and try to build a narrative around them.</div></div>
+      </li>
+    </ul>
+    </div>
+
+  <hr class="rule">
+
+  <!-- SECTION 2: INSIGHT -->
+  <div class="section-block">
+    <div class="section-header">
+      <span class="section-num">Section 2</span>
+      <span class="section-title">Insight - Why It Matters Now</span>
+    </div>
+    <ul class="insight-list">
+      <li class="insight-item"><span>📊</span><span>Three standards - ESRS 2, E1, and S1 - account for 52% of all post-Omnibus datapoint clusters. Prioritising these three gives companies a board-defensible logic for where to focus data collection effort.</span></li>
+      <li class="insight-item"><span>⚠️</span><span>The G1-3 label change from "Anti-corruption procedures" to "Targets related to business conduct" is the highest-risk misclassification trap in post-Omnibus CSRD. Same code, completely different content class.</span></li>
+      <li class="insight-item"><span>🔍</span><span>The 19 "no successor found" datapoints carry genuine regulatory uncertainty. These items are not confirmed removed - they are unresolved, pending EFRAG's Basis for Conclusions publication. Companies should log them as a monitoring watchlist, not treat them as deleted.</span></li>
+      <li class="insight-item"><span>🔗</span><span>S2 (Workers in the Value Chain) has the highest CSDDD overlap of any standard - 9 rows - making it the clearest integration point between CSRD disclosure obligations and CSDDD due diligence processes.</span></li>
+    </ul>
+  </div>
+
+  <hr class="rule">
+
+  <!-- SECTION 3: DATAPOINT BREAKDOWN VISUAL -->
+  <div class="section-block">
+    <div class="section-header">
+      <span class="section-num">Section 3</span>
+      <span class="section-title">Datapoint Breakdown by Standard</span>
+    </div>
+    <p style="font-size:9pt;color:var(--mid);margin-bottom:8px;font-style:italic">Click any row to see detailed breakdown. ESRS 2, E1, and S1 highlighted as the three dominant standards.</p>
+    <div class="hm-grid" id="hmGrid"></div>
+    <div class="hm-legend">
+      <div class="hm-legend-item"><div class="hm-legend-swatch" style="background:#1a6b3a"></div>Retained (exact)</div>
+      <div class="hm-legend-item"><div class="hm-legend-swatch" style="background:#4a9e6b"></div>Retained (simplified)</div>
+      <div class="hm-legend-item"><div class="hm-legend-swatch" style="background:#e67e22"></div>Modified</div>
+      <div class="hm-legend-item"><div class="hm-legend-swatch" style="background:#3a8fc4"></div>Moved / Merged</div>
+      <div class="hm-legend-item"><div class="hm-legend-swatch" style="background:#8e44ad"></div>New</div>
+      <div class="hm-legend-item"><div class="hm-legend-swatch" style="background:#c0392b"></div>Removed</div>
+      <div class="hm-legend-item"><div class="hm-legend-swatch" style="background:#7f8c8d"></div>No successor</div>
+    </div>
+    <div class="hm-detail" id="hmDetail">
+      <span class="hm-detail-close" onclick="document.getElementById('hmDetail').style.display='none'">Close ×</span>
+      <div class="hm-detail-name" id="hmDetailName"></div>
+      <div class="hm-detail-fullname" id="hmDetailFull"></div>
+      <div class="hm-detail-body" id="hmDetailBody"></div>
+      <div class="hm-detail-note" id="hmDetailNote"></div>
+    </div>
+    <div class="hm-source">Source: EFRAG Technical Advice on Draft Simplified ESRS, November 2025. All counts verified against primary EFRAG source material.</div>
+  </div>
+
+  <hr class="rule">
+
+  <!-- SECTION 4: FORESIGHT -->
+  <div class="section-block">
+    <div class="section-header">
+      <span class="section-num">Section 4</span>
+      <span class="section-title">Foresight - What Changes</span>
+    </div>
+    <table class="foresight-table">
+      <tr>
+        <td><span class="h-pill h-now">Now</span></td>
+        <td>Companies are re-scoping entities, thresholds, and filing obligations. The Omnibus draft is not yet a Delegated Act - planning decisions made today carry regulatory uncertainty by design.</td>
+      </tr>
+      <tr>
+        <td><span class="h-pill h-12m">12 months</span></td>
+        <td>The Commission's Delegated Act on Simplified ESRS is expected mid-2026. Wave 1 companies will have a clearer compliance picture, but implementation pressure will intensify immediately on adoption. The CSDDD-CSRD integration point will become the dominant practitioner question.</td>
+      </tr>
+      <tr>
+        <td><span class="h-pill h-35y">3 to 5 years</span></td>
+        <td>Companies that maintained ESG data discipline through the Omnibus uncertainty will have a structural advantage when reporting and assurance requirements stabilise. Those that paused will face a costly rebuild cycle. The 41 non-phaseable datapoints anchored to SFDR, the Benchmark Regulation, and CSDDD-adjacent EU law will remain regardless of further simplification.</td>
+      </tr>
+    </table>
+  </div>
+
+  <hr class="rule">
+
+  <!-- SECTION 5: INACTION -->
+  <div class="section-block">
+    <div class="section-header">
+      <span class="section-num">Section 5</span>
+      <span class="section-title">Inaction - Consequences</span>
+    </div>
+    <div class="inaction-block">
+      <div class="inaction-text">Companies that treat the 61% datapoint reduction as permission to pause their CSRD programmes risk dismantling data collection systems, internal ownership, and governance processes that are expensive to rebuild. Investors, lenders, and customers will continue to ask ESG questions regardless of regulatory scope. The companies that come out of this period strongest are those that used the simplification window to sharpen - not stop - their sustainability data and reporting practice.</div>
+    </div>
+  </div>
+
+  <hr class="rule">
+
+  <!-- SECTION 6: ACTION -->
+  <div class="section-block">
+    <div class="section-header">
+      <span class="section-num">Section 6</span>
+      <span class="section-title">Action - What Good Looks Like</span>
+    </div>
+    <table class="action-table">
+      <thead><tr><th>Level</th><th>Observable behaviour</th></tr></thead>
+      <tbody>
+        <tr><td><span class="tl-dot tl-amber"></span>Basic</td><td>Scope re-check has been done once using the post-Omnibus thresholds. Datapoint list has been updated from pre-Omnibus longlist to the 325 post-Omnibus clusters. CSRD and CSDDD are still managed as separate programmes.</td></tr>
+        <tr><td><span class="tl-dot tl-green"></span>Intermediate</td><td>CSRD and CSDDD due diligence programmes share data collection, governance, and stakeholder engagement processes. The GDR-P/A/M/T consolidation in ESRS 2 is reflected in a unified policies and actions register. A coherent ESG storyline is driving data prioritisation, not a datapoint checklist.</td></tr>
+        <tr><td><span class="tl-dot tl-green"></span>Advanced</td><td>Post-Omnibus CSRD compliance is embedded in the company's enterprise risk and reporting governance cycle. Non-phaseable datapoints are tracked as a distinct priority category. The 19 'no successor found' items are logged as a regulatory monitoring watchlist with an owner and a review trigger tied to EFRAG's Basis for Conclusions publication.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <hr class="rule">
+
+  <!-- SECTION 7: NEXT STEPS -->
+  <div class="section-block">
+    <div class="section-header">
+      <span class="section-num">Section 7</span>
+      <span class="section-title">Next Steps</span>
+    </div>
+    <table class="steps-table">
+      <thead><tr><th>Horizon</th><th>Action</th><th>Owner</th></tr></thead>
+      <tbody>
+        <tr><td class="col-horizon">Now</td><td>Re-run your datapoint scoping exercise using the 325 post-Omnibus clusters, not the pre-Omnibus 1,100 longlist. Identify which of the 41 non-phaseable datapoints apply to your company - these are non-negotiable regardless of further Omnibus changes.</td><td class="col-owner">Sustainability and Finance</td></tr>
+        <tr><td class="col-horizon">Now</td><td>Map your existing CSDDD due diligence programme against CSRD disclosure obligations. Identify where the same data, processes, or governance structures can serve both - eliminating the most common source of duplication and effort in post-Omnibus compliance.</td><td class="col-owner">Sustainability and Legal</td></tr>
+        <tr><td class="col-horizon">Within 1 year</td><td>Build your ESG sustainability report narrative first, then align data collection towards it. A coherent storyline anchored to ESRS 2, E1, and S1 - the three standards that account for 52% of all post-Omnibus clusters - gives data collection programmes a clear, board-defensible logic.</td><td class="col-owner">CSO and CFO</td></tr>
+        <tr><td class="col-horizon">Within 1 year</td><td>Track the Commission's Delegated Act timeline and EFRAG's Basis for Conclusions publication. Both will resolve remaining ambiguities, particularly the 19 'no successor found' datapoints that currently carry regulatory uncertainty.</td><td class="col-owner">Legal and Sustainability</td></tr>
+        <tr><td class="col-horizon">Post 1 year</td><td>Embed post-Omnibus CSRD compliance into your standard governance and reporting cycle - not as a one-time project but as a running programme with clear owners, data pipelines, and assurance readiness milestones tied to your Wave reporting year.</td><td class="col-owner">CFO and CSO</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <hr class="rule">
+
+  <!-- FURTHER READING -->
+  <div class="further-reading">
+    <div class="further-reading-label">Further Reading</div>
+    <div class="fr-item"><span class="fr-icon">📄</span><div><a class="fr-link" href="regulations-tracker.html">Global ESG Regulations Tracker - Expert Library</a><div class="fr-desc">Filterable tracker of 94 mandatory ESG regulations across 19 jurisdictions, including CSRD status, CSDDD, and all related EU sustainability instruments - with timelines, applicability thresholds, and official sources.</div></div></div>
+    <div class="fr-item"><span class="fr-icon">🛠️</span><div><a class="fr-link" href="tools-csddd.html">CSDDD Readiness Tool - Toolkits</a><div class="fr-desc">A scope checker, risk register, supplier tracker, action log, and Article 22 transition plan navigator for the Corporate Sustainability Due Diligence Directive - built for practitioners, with local save/load so your work persists across sessions.</div></div></div>
+    <div class="fr-item"><span class="fr-icon">📊</span><div><a class="fr-link" href="tools-csrd-reporting.html">CSRD Reporting Tool - Post-Omnibus Datapoint Tracker</a><div class="fr-desc">Pre-Omnibus versus post-Omnibus datapoint mapping across all 12 ESRS standards - tracking Retained, Modified, Moved, Merged, Removed, and New status for every datapoint cluster, with unit of measurement, CSDDD overlap flags, and audit-readiness notes.</div></div></div>
+  </div>
+
+  <!-- CONVERSATION -->
+  <div class="conversation-box">
+    <div class="conv-eyebrow">Independent · Curated · Free</div>
+    <div class="conv-title">Start a <em>Conversation.</em></div>
+    <div class="conv-text">If you are working through the post-Omnibus CSRD landscape - whether that is scoping, data collection, CSDDD integration, or building the case internally - I would like to hear about it. These insights are written from experience, not theory, and the conversation goes both ways.</div>
+    <a class="conv-email" href="mailto:aurie.b@outlook.com">aurie.b@outlook.com →</a>
+  </div>
+
+  <!-- SOURCES -->
+  <div class="sources-block">
+    <div class="sources-label">Sources</div>
+    <div class="sources-text">EFRAG Technical Advice on Draft Simplified ESRS, 30 November 2025 (EFRAG Knowledge Hub). EFRAG IG 3 Table - pre-Omnibus datapoint baseline. Delegated Regulation (EU) 2023/2772 (adopted 2023 ESRS). CSDDD, Directive (EU) 2024/1760. EFRAG conference summaries and progress reports 2025-2026. PwC Viewpoint, EY Global EU Sustainability Developments, Grant Thornton Global Insights, Deloitte, KPMG, Gibson Dunn client notes (2025-2026). All datapoint counts verified against primary EFRAG source material. Assumption: the Commission Delegated Act on Simplified ESRS will be adopted mid-2026 in broadly the form of the November 2025 Technical Advice.</div>
+  </div>
+
+  </div><!-- end #fullAnalysis -->
+
+  <div class="print-footer">
+    <div class="pf-brand">Aurie's Knowledge Hub</div>
+    <div>CEO Brief · Regulation &amp; Standards · 2026</div>
+    <div>© Aurie</div>
+  </div>
+
+</div>
+
+<script>
+(function(){
+  var DATA=[
+    {std:'ESRS 2',full:'General Disclosures',rows:61,ret:47,mod:2,mov:7,nw:4,rem:1,nsf:0,csddd:7,note:'Foundation standard. MDR-P/A/M/T renamed to GDR-P/A/M/T and centralised here, removing near-identical blocks from all 11 topical standards. 7 DR codes renumbered. GOV-2 dissolved into GOV-1.'},
+    {std:'E1',full:'Climate Change',rows:49,ret:44,mod:2,mov:1,nw:2,rem:0,nsf:0,csddd:3,note:'Largest environment standard. Retains its own transition plan, risk identification, resilience, and financial effects DRs. Highest compound-field density. 15 non-phaseable datapoints anchored to EU Climate Law and SFDR.'},
+    {std:'E2',full:'Pollution',rows:18,ret:16,mod:0,mov:0,nw:2,rem:0,nsf:0,csddd:1,note:'Shortest environmental standard. No incremental governance content. New NACE-sector scoping rule (AR5) adds routing logic splitting chemical-sector vs all-other-sectors pathways.'},
+    {std:'E3',full:'Water',rows:19,ret:15,mod:0,mov:0,nw:1,rem:0,nsf:3,csddd:1,note:'Title simplified from "Water and Marine Resources" to "Water". 3 sub-metrics unconfirmed. Marine-resources scope unresolved pending Basis for Conclusions.'},
+    {std:'E4',full:'Biodiversity & Ecosystems',rows:24,ret:19,mod:0,mov:1,nw:4,rem:0,nsf:0,csddd:1,note:'Key architecture change - E4-5 prescribed quantitative metrics replaced by a flexible entity-specific framework with 4-category taxonomy. Critical for tools with hard-coded E4-5 fields.'},
+    {std:'E5',full:'Resource Use & Circular Economy',rows:22,ret:15,mod:1,mov:3,nw:2,rem:0,nsf:1,csddd:1,note:'E5-6 dissolved into ESRS 2 SBM-3. E5-4 scope narrowed from all materials to "key materials". New Critical Raw Materials Act flag per material.'},
+    {std:'S1',full:'Own Workforce',rows:58,ret:44,mod:5,mov:3,nw:1,rem:2,nsf:3,csddd:8,note:'Longest standard (16 DRs, was 17). Every DR from S1-2 onward renumbered by -1. Age distribution confirmed removed. H&S fatality scope narrowed to employees only. 8 non-phaseable datapoints.'},
+    {std:'S2',full:'Workers in the Value Chain',rows:17,ret:10,mod:0,mov:3,nw:2,rem:0,nsf:2,csddd:9,note:'4 DRs (was 5). Supplier code of conduct elevated from guidance to mandatory non-phaseable DR. New HR incidents count (non-phaseable, SFDR-linked). Entire standard overlaps with CSDDD due diligence obligations.'},
+    {std:'S3',full:'Affected Communities',rows:15,ret:9,mod:1,mov:3,nw:0,rem:0,nsf:2,csddd:9,note:'4 DRs (was 5). FPIC engagement fully retained. AR8 explicitly adds land-rights/FPIC disputes as qualifying HR incidents.'},
+    {std:'S4',full:'Consumers & End-Users',rows:14,ret:8,mod:1,mov:3,nw:0,rem:0,nsf:2,csddd:7,note:'4 DRs (was 5). Most templated social standard - approximately 90% identical to S2/S3. Product recall/withdrawal action disclosure status unconfirmed.'},
+    {std:'G1',full:'Business Conduct',rows:28,ret:20,mod:0,mov:2,nw:0,rem:0,nsf:6,csddd:5,note:'CRITICAL: G1-3 label changed from "Anti-corruption procedures" to "Targets related to business conduct" - same code, completely different content class. 6 NSF rows (highest count). Animal welfare policy status unconfirmed.'}
+  ];
+  var COLOURS={ret:'#1a6b3a',retS:'#4a9e6b',mod:'#e67e22',mov:'#3a8fc4',nw:'#8e44ad',rem:'#c0392b',nsf:'#7f8c8d'};
+  var bigThree=['ESRS 2','E1','S1'];
+  var grid=document.getElementById('hmGrid');
+  DATA.forEach(function(d){
+    var total=d.rows;
+    var exactRatio=71/247;
+    var retExact=Math.round(d.ret*exactRatio);
+    var retSimp=d.ret-retExact;
+    function pct(v){return(v/total*100).toFixed(1)+'%';}
+    var segs=[
+      {v:retExact,c:COLOURS.ret},{v:retSimp,c:COLOURS.retS},
+      {v:d.mod,c:COLOURS.mod},{v:d.mov,c:COLOURS.mov},
+      {v:d.nw,c:COLOURS.nw},{v:d.rem,c:COLOURS.rem},{v:d.nsf,c:COLOURS.nsf}
+    ];
+    var row=document.createElement('div');
+    row.className='hm-row'+(bigThree.indexOf(d.std)>-1?' big-three':'');
+    var label=document.createElement('div');
+    label.className='hm-std-label';
+    label.textContent=d.std;
+    var barWrap=document.createElement('div');
+    barWrap.className='hm-bar-wrap';
+    segs.forEach(function(s){
+      if(s.v<=0)return;
+      var seg=document.createElement('div');
+      seg.className='hm-bar-seg';
+      seg.style.width=pct(s.v);
+      seg.style.background=s.c;
+      barWrap.appendChild(seg);
+    });
+    var tot=document.createElement('div');
+    tot.className='hm-total';
+    tot.textContent=total;
+    row.appendChild(label);row.appendChild(barWrap);row.appendChild(tot);
+    row.addEventListener('click',function(){
+      var panel=document.getElementById('hmDetail');
+      document.getElementById('hmDetailName').textContent=d.std+' - '+d.full;
+      document.getElementById('hmDetailFull').textContent=d.rows+' datapoint clusters · '+d.csddd+' CSDDD overlap rows';
+      document.getElementById('hmDetailBody').innerHTML=
+        '<div class="hm-detail-stat"><strong>Retained / simplified:</strong> '+d.ret+' ('+Math.round(d.ret/d.rows*100)+'%)</div>'+
+        '<div class="hm-detail-stat"><strong>Modified:</strong> '+d.mod+'</div>'+
+        '<div class="hm-detail-stat"><strong>Moved / Merged:</strong> '+d.mov+'</div>'+
+        '<div class="hm-detail-stat"><strong>New:</strong> '+d.nw+'</div>'+
+        '<div class="hm-detail-stat"><strong>Removed (confirmed):</strong> '+d.rem+'</div>'+
+        '<div class="hm-detail-stat"><strong>No successor found:</strong> '+d.nsf+(d.nsf>0?' ⚠':'')+'</div>';
+      document.getElementById('hmDetailNote').textContent=d.note;
+      panel.style.display='block';
+    });
+    grid.appendChild(row);
+  });
+})();
+</script>
+
+</div><!-- end Section 3 section-block -->
+
+<script>
+function toggleFullAnalysis() {
+  var panel = document.getElementById('fullAnalysis');
+  var arrow = document.getElementById('faArrow');
+  var open  = panel.style.display !== 'none';
+  panel.style.display = open ? 'none' : 'block';
+  arrow.style.transform = open ? 'rotate(0deg)' : 'rotate(180deg)';
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="A CEO brief quantifying the hidden cost of carbon already embedded in corporate cost structures, and what rising EUA prices mean through 2035.">
+<title>Corporate Decarbonisation and the Cost of Carbon - CEO Brief - Aurie's Knowledge Hub</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Inter:wght@300;400;500;600;700&display=swap');
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --green:#0e2b1a;--gold:#c9a84c;--ivory:#fafaf8;
+  --mid:#4a5568;--light:#f0ede8;--border:#d4c9b0;
+  --serif:'Cormorant Garamond',Georgia,serif;
+  --sans:'Inter',system-ui,sans-serif;
+}
+html,body{background:var(--ivory);color:var(--green);font-family:var(--sans);font-size:11pt;line-height:1.65;min-height:100vh}
+
+.screen-nav{background:var(--green);padding:12px 32px;display:flex;justify-content:space-between;align-items:center}
+.screen-nav a{color:rgba(255,255,255,0.6);text-decoration:none;font-size:9.5pt;display:flex;align-items:center;gap:6px;letter-spacing:.04em;transition:color .15s}
+.screen-nav a:hover{color:var(--gold)}
+.print-btn{background:var(--gold);color:var(--green);font-weight:600;font-size:9pt;padding:5px 16px;border:none;cursor:pointer;letter-spacing:.06em;text-transform:uppercase;font-family:var(--sans)}
+.print-btn:hover{background:#d4b05a}
+
+/* DOC */
+.doc-wrap{max-width:720px;margin:0 auto;padding:28px 36px 52px}
+.print-topbar{border-top:3px solid var(--gold);padding:12px 0 10px;display:flex;justify-content:space-between;align-items:baseline;margin-bottom:24px}
+.print-brand{font-family:var(--serif);font-size:11pt;font-weight:400;color:var(--green);letter-spacing:.04em}
+.print-brand span{color:var(--gold)}
+.print-series{font-size:8.5pt;color:var(--mid);letter-spacing:.1em;text-transform:uppercase}
+.meta-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:10px}
+.brief-num{font-size:8pt;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--gold)}
+hr.rule{border:none;border-top:1px solid var(--border);margin:20px 0 18px}
+.section-label{font-size:9pt;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--mid);margin-bottom:8px}
+
+/* TITLE */
+h1.doc-title{font-family:var(--serif);font-size:26pt;font-weight:300;line-height:1.15;color:var(--green);margin-bottom:14px;border:none;padding:0}
+h1.doc-title em{font-style:italic;font-weight:300;color:var(--gold)}
+
+/* EXEC HEADLINE */
+.exec-headline{border-left:3px solid var(--gold);padding:10px 16px;margin-bottom:24px;background:#f5f0e4}
+.eh-label{font-size:7.5pt;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin-bottom:4px}
+.eh-text{font-size:13pt;color:var(--green);font-style:italic;line-height:1.55;font-family:var(--serif)}
+
+/* STAT STRIP */
+.stat-strip{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:var(--border);border:1px solid var(--border);margin:18px 0}
+.stat-cell{background:var(--ivory);padding:11px 10px;text-align:center}
+.stat-value{font-family:var(--serif);font-size:12pt;font-weight:600;color:var(--green);line-height:1.1;margin-bottom:3px}
+.stat-label{font-size:7pt;color:var(--mid);letter-spacing:.04em;line-height:1.35}
+
+.body-text{font-size:10.5pt;color:var(--green);line-height:1.65;margin-bottom:4px}
+
+/* IMPACT CARDS */
+.impact-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:6px}
+.impact-card{border:1px solid var(--border);padding:10px 12px;background:var(--light)}
+.impact-icon{font-size:13pt;margin-bottom:4px;display:block}
+.impact-title{font-size:8pt;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:4px}
+.impact-text{font-size:9pt;color:var(--green);line-height:1.5}
+
+/* EXPOSURE TABLE */
+.exposure-table{width:100%;border-collapse:collapse;font-size:9.5pt;margin-top:6px}
+.exposure-table th{text-align:left;padding:6px 10px;font-size:8pt;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#fff;background:var(--green)}
+.exposure-table td{padding:7px 10px;color:var(--green);border-bottom:1px solid var(--border);vertical-align:top;line-height:1.5}
+.exposure-table tr:nth-child(even) td{background:var(--light)}
+.badge{display:inline-block;font-size:7pt;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:1px 6px;border-radius:2px;margin-right:4px}
+.badge-risk{background:rgba(220,38,38,0.1);color:#b91c1c;border:1px solid rgba(220,38,38,0.25)}
+.badge-opp{background:rgba(22,101,52,0.1);color:#166534;border:1px solid rgba(22,101,52,0.25)}
+
+/* LQ */
+.lq-list{list-style:none;margin-top:6px}
+.lq-item{display:flex;align-items:flex-start;gap:10px;padding:6px 0;border-bottom:1px solid var(--border);font-size:10pt;color:var(--green);line-height:1.5}
+.lq-item:last-child{border-bottom:none}
+.lq-bullet{color:var(--gold);font-size:10pt;margin-top:1px;flex-shrink:0}
+
+/* KEY TAKEAWAY */
+.key-takeaway{margin-top:20px;background:var(--green);padding:12px 16px;display:flex;align-items:flex-start;gap:12px}
+.kt-icon{font-size:14pt;flex-shrink:0;margin-top:1px}
+.kt-label{font-size:9pt;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin-bottom:3px}
+.kt-text{font-size:13pt;color:#fafaf8;font-family:var(--serif);font-style:italic;line-height:1.5}
+
+/* FULL ANALYSIS TOGGLE */
+.full-analysis-toggle{width:100%;display:flex;align-items:center;justify-content:space-between;padding:14px 20px;background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.35);cursor:pointer;gap:12px;transition:background .15s;margin-top:4px}
+.full-analysis-toggle:hover{background:rgba(201,168,76,0.15)}
+.fa-toggle-title{font-size:9.95pt;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--green);flex:1;text-align:center}
+.fa-toggle-arrow{font-size:14pt;color:var(--gold);flex-shrink:0;transition:transform .25s}
+
+/* DEEP DIVE CONTENT */
+.section-block{margin-bottom:24px}
+.section-header{display:flex;align-items:baseline;gap:10px;margin-bottom:10px}
+.section-num{font-size:8pt;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--gold)}
+.section-title{font-size:10pt;font-weight:600;color:var(--green);letter-spacing:.02em}
+.content-block{font-size:10pt;color:var(--green);line-height:1.7;margin-bottom:10px}
+.subhead{font-family:var(--serif);font-size:12pt;font-weight:600;color:var(--green);margin:14px 0 6px}
+
+/* IMPL BULLETS */
+.impl-list-dd{list-style:none}
+.impl-item-dd{display:grid;grid-template-columns:22px 1fr;gap:0 10px;margin-bottom:10px;align-items:start}
+.impl-icon{font-size:12pt;line-height:1.4}
+.impl-label{font-size:8pt;font-weight:600;letter-spacing:.08em;color:var(--green);margin-bottom:2px}
+.impl-text{font-size:10pt;color:var(--green);line-height:1.6}
+
+/* VISUAL PLACEHOLDER */
+.visual-ph{border:2px dashed var(--border);background:#fff;padding:16px 18px;margin:12px 0;text-align:center}
+.visual-ph-type{font-size:7pt;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:5px}
+.visual-ph-title{font-size:10.5pt;font-family:var(--serif);color:var(--green);font-weight:600;margin-bottom:4px}
+.visual-ph-desc{font-size:8.5pt;color:var(--mid);font-style:italic;line-height:1.5}
+
+/* FORESIGHT */
+.foresight-table{width:100%;border-collapse:collapse;margin-bottom:4px}
+.foresight-table td{padding:8px 10px;border-bottom:1px solid var(--border);vertical-align:top;font-size:10pt;color:var(--green);line-height:1.55}
+.foresight-table td:first-child{white-space:nowrap;width:100px}
+.foresight-table tr:last-child td{border-bottom:none}
+.h-pill{display:inline-block;font-size:7pt;font-weight:600;padding:2px 7px;letter-spacing:.06em;text-transform:uppercase;border-radius:2px;color:#fff}
+.h-now{background:#c0392b}.h-12m{background:#e67e22}.h-35y{background:#4a5568}
+
+/* INACTION */
+.inaction-block{border-left:3px solid #c0392b;padding:8px 12px 8px 14px;background:#fdf5f5;margin:6px 0}
+.inaction-text{font-size:10pt;color:var(--green);line-height:1.65}
+
+/* ACTION TABLE */
+.action-table{width:100%;border-collapse:collapse;margin-bottom:4px}
+.action-table th{text-align:left;padding:6px 10px;font-size:7.5pt;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#fff;background:var(--green)}
+.action-table td{padding:7px 10px;border-bottom:1px solid var(--border);vertical-align:top;font-size:10pt;color:var(--green);line-height:1.5}
+.action-table td:first-child{white-space:nowrap;width:110px}
+.action-table tr:nth-child(even) td{background:var(--light)}
+.tl-dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:4px}
+.tl-amber{background:#e67e22}.tl-green{background:#1a6b3a}
+
+/* STEPS TABLE */
+.steps-table{width:100%;border-collapse:collapse;margin-bottom:4px}
+.steps-table th{text-align:left;padding:6px 10px;font-size:7.5pt;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#fff;background:var(--green)}
+.steps-table td{padding:7px 10px;border-bottom:1px solid var(--border);vertical-align:top;font-size:10pt;color:var(--green);line-height:1.5}
+.steps-table td.col-horizon{white-space:nowrap;width:100px}
+.steps-table td.col-owner{color:var(--mid);white-space:nowrap;width:160px}
+.steps-table tr:last-child td{border-bottom:none}
+
+/* FURTHER READING */
+.further-reading{margin-top:20px;padding:16px 18px;background:#fff;border:1px solid var(--border);border-top:2px solid var(--green)}
+.further-reading-label{font-size:7.5pt;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--green);margin-bottom:10px}
+.fr-item{display:grid;grid-template-columns:18px 1fr;gap:0 10px;margin-bottom:8px;align-items:start}
+.fr-icon{font-size:10pt;line-height:1.5;color:var(--gold)}
+.fr-link{font-size:9.5pt;color:var(--green);text-decoration:none;border-bottom:1px solid var(--border);padding-bottom:1px;transition:border-color .15s,color .15s}
+.fr-link:hover{color:var(--gold);border-color:var(--gold)}
+.fr-desc{font-size:8pt;color:var(--mid);margin-top:1px}
+
+/* CONVERSATION */
+.conversation-box{margin-top:24px;padding:20px 22px;background:var(--green);color:#fff}
+.conv-eyebrow{font-size:7pt;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:6px}
+.conv-title{font-family:var(--serif);font-size:14pt;font-weight:300;color:#fff;margin-bottom:8px;line-height:1.3}
+.conv-title em{font-style:italic;color:var(--gold)}
+.conv-text{font-size:9pt;color:rgba(255,255,255,0.7);line-height:1.65;margin-bottom:14px}
+.conv-email{display:inline-block;font-size:8.5pt;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);text-decoration:none;border:1px solid rgba(201,168,76,0.45);padding:7px 18px;transition:all .15s}
+.conv-email:hover{background:var(--gold);color:var(--green)}
+
+/* SOURCES */
+.sources-block{margin-top:16px;padding-top:12px;border-top:1px solid var(--border)}
+.sources-label{font-size:7.5pt;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--mid);margin-bottom:5px}
+.sources-text{font-size:8.5pt;color:var(--mid);line-height:1.55}
+
+/* BACK TO TOP */
+.back-to-top{display:inline-flex;align-items:center;gap:6px;font-size:8.5pt;font-weight:500;color:var(--mid);text-decoration:none;letter-spacing:.04em;transition:color .15s;float:right;margin-top:10px}
+.back-to-top:hover{color:var(--gold)}
+
+/* FOOTER */
+.print-footer{margin-top:28px;padding-top:10px;border-top:1px solid var(--gold);display:flex;justify-content:space-between;font-size:7.5pt;color:var(--mid);flex-wrap:wrap;gap:8px}
+.pf-brand{font-family:var(--serif);font-size:9pt;color:var(--green)}
+
+@media print{
+  .screen-nav{display:none}
+  .doc-wrap{padding:0;max-width:100%}
+  .full-analysis-toggle{display:none}
+  #fullAnalysis{display:block !important}
+  .back-to-top{display:none}
+  .key-takeaway,.impact-card,.lq-item{break-inside:avoid}
+  .conversation-box{display:none}
+}
+@media(max-width:680px){
+  .doc-wrap{padding:20px 16px 40px}
+  .stat-strip{grid-template-columns:repeat(2,1fr)}
+  .stat-cell:last-child{grid-column:1/-1}
+  .impact-grid{grid-template-columns:1fr}
+}
+
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Corporate Decarbonisation and the Cost of Carbon - CEO Brief",
+  "description": "A CEO brief quantifying the hidden cost of carbon already embedded in corporate cost structures, and what rising EUA prices mean through 2035.",
+  "author": {
+    "@type": "Person",
+    "name": "Aurie",
+    "url": "https://REPLACE-WITH-YOUR-DOMAIN/about.html"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Aurie's Knowledge Hub",
+    "url": "https://REPLACE-WITH-YOUR-DOMAIN/index.html"
+  },
+  "datePublished": "2026-01-01",
+  "dateModified": "2026-07-06",
+  "url": "https://REPLACE-WITH-YOUR-DOMAIN/ceo-insights-cost-of-carbon.html"
+}
+</script>
+</head>
+<body>
+
+<div class="screen-nav">
+  <a href="index.html">← Aurie's Knowledge Hub</a>
+  <button class="print-btn" onclick="window.print()">⬇ Print / Save PDF</button>
+</div>
+
+<div class="doc-wrap" id="top">
+
+  <div class="print-topbar">
+    <div class="print-brand">Aurie's <span>Knowledge Hub</span></div>
+    <div class="print-series">CEO Briefs · ESG Insights &amp; Foresight</div>
+  </div>
+
+  <!-- ══ CEO BRIEF SECTION ══ -->
+  <div class="meta-row">
+    <span class="brief-num">CEO Brief</span>
+  </div>
+
+  <h1 class="doc-title">Corporate Decarbonisation and the Cost of Carbon - <em>A Missing Link.</em></h1>
+
+  <div class="exec-headline">
+    <div class="eh-label">Executive Headline</div>
+    <div class="eh-text">Carbon costs are already in your cost base - embedded in electricity tariffs, supply chain pricing, and compliance obligations. Most companies have not quantified this exposure. As EUA prices move from €80 today toward projected levels of €145 by 2030 and €200 by 2035, that gap between visibility and reality will become a strategy problem.</div>
+  </div>
+
+  <div class="stat-strip">
+    <div class="stat-cell">
+      <div class="stat-value">€5 - €80</div>
+      <div class="stat-label">EUA price per tCO2, July 2016 to June 2026</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-value">~€145</div>
+      <div class="stat-label">ABN AMRO baseline EUA projection, 2030 (per tCO2)</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-value">~€200</div>
+      <div class="stat-label">ABN AMRO baseline EUA projection, 2035 (per tCO2)</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-value">3</div>
+      <div class="stat-label">Layers of carbon-cost exposure covered in this analysis</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-value">2024</div>
+      <div class="stat-label">Denmark's Green Tripartite Agreement extends pricing to agriculture</div>
+    </div>
+  </div>
+
+  <hr class="rule">
+
+  <div class="section-label">The Shift - What Is Changing</div>
+  <p class="body-text">The price of carbon is not a future policy question. It is a present cost that most companies carry without knowing exactly how much. EU ETS allowances are embedded in electricity tariffs. National carbon taxes flow through supply chains under polluter pays. Countries with weaker climate ambition are not lower-pressure environments - they are deferred-pressure environments. The direction of travel is consistent: delayed action means a sharper adjustment later, not a smaller one.</p>
+
+  <hr class="rule">
+
+  <div class="section-label">Why It Matters - Business Impact</div>
+  <div class="impact-grid">
+    <div class="impact-card">
+      <span class="impact-icon">🔌</span>
+      <div class="impact-title">Already in your electricity bill</div>
+      <div class="impact-text">Power generators fold EU ETS allowance costs into electricity tariffs. Companies buying electricity are exposed to carbon pricing whether or not they are formally in scope - and the exposure grows as EUA prices rise toward the 2030 and 2035 projections.</div>
+    </div>
+    <div class="impact-card">
+      <span class="impact-icon">🧾</span>
+      <div class="impact-title">Flows through supply chains</div>
+      <div class="impact-text">National carbon taxes - covering transport, heating, small industry, and in Denmark now agriculture - reach sectors beyond the EU ETS. Under polluter pays, direct emitters pass costs downstream. Customers absorb carbon costs they cannot see and have not modelled.</div>
+    </div>
+    <div class="impact-card">
+      <span class="impact-icon">📉</span>
+      <div class="impact-title">Weak ambition is deferred pressure</div>
+      <div class="impact-text">Countries with weaker Climate Action Tracker ratings look like lower-pressure environments. In practice, Paris commitments, investor expectations, CBAM, and supply chain requirements mean catch-up pressure tends to arrive later but harder - not to be avoided.</div>
+    </div>
+  </div>
+
+  <hr class="rule">
+
+  <div class="section-label">Business Exposure</div>
+  <table class="exposure-table">
+    <thead><tr><th style="width:18%">Type</th><th>Exposure</th></tr></thead>
+    <tbody>
+      <tr><td><span class="badge badge-risk">Risk</span></td><td>Companies that have not quantified their indirect EU ETS exposure through electricity and supply chain pricing cannot model the true cost trajectory of their current operations - or the capex required to reduce it.</td></tr>
+      <tr><td><span class="badge badge-risk">Risk</span></td><td>Firms sourcing from or operating in markets with weaker current climate ambition carry deferred catch-up risk. CBAM, investor screening, and supply chain requirements are already beginning to close that gap regardless of local policy pace.</td></tr>
+      <tr><td><span class="badge badge-opp">Opportunity</span></td><td>Companies that embed forward carbon price scenarios into capital allocation decisions now - as Maersk has done with its USD 75/t shadow carbon price - will make structurally better investment decisions over the next decade than those treating carbon as a compliance line item.</td></tr>
+      <tr><td><span class="badge badge-opp">Opportunity</span></td><td>Quantifying carbon cost exposure creates the internal business case for decarbonisation investments that purely environmental arguments often cannot - connecting sustainability to CFO language and investment committee criteria.</td></tr>
+    </tbody>
+  </table>
+
+  <hr class="rule">
+
+  <div class="section-label">Leadership Lens</div>
+  <ul class="lq-list">
+    <li class="lq-item"><span class="lq-bullet">›</span>What share of our current electricity and supply chain costs is attributable to carbon pricing - and do we have that number?</li>
+    <li class="lq-item"><span class="lq-bullet">›</span>Have we mapped national carbon tax exposure across every jurisdiction in our operating footprint and supply chain?</li>
+    <li class="lq-item"><span class="lq-bullet">›</span>Are forward EUA price scenarios - anchored to independent projections - embedded in our capital allocation and pricing models?</li>
+    <li class="lq-item"><span class="lq-bullet">›</span>Which of our key sourcing and operating markets carry the highest CBAM and catch-up risk under weaker current ambition?</li>
+  </ul>
+
+  <div class="key-takeaway">
+    <span class="kt-icon">💡</span>
+    <div>
+      <div class="kt-label">Key Takeaway</div>
+      <div class="kt-text">The future cost of carbon belongs in strategy and capital allocation - not just in the sustainability report. Companies that price it in now will make better investment decisions than those that wait for the number to become unavoidable.</div>
+    </div>
+  </div>
+
+  <hr class="rule">
+  <button class="full-analysis-toggle" id="faToggle" onclick="toggleFullAnalysis()">
+    <span class="fa-toggle-title">For Full Analysis - Click Here</span>
+    <span class="fa-toggle-arrow" id="faArrow">↓</span>
+  </button>
+
+  <!-- ══ COLLAPSIBLE DEEP DIVE ══ -->
+  <div id="fullAnalysis" style="display:none">
+    <hr class="rule">
+    <a class="back-to-top" href="#top">↑ Back to summary</a>
+    <div style="clear:both;padding-top:8px"></div>
+
+    <!-- SECTION 1: IMPLICATION -->
+    <div class="section-block">
+      <div class="section-header">
+        <span class="section-num">Section 1</span>
+        <span class="section-title">Implication</span>
+      </div>
+      <ul class="impl-list-dd">
+        <li class="impl-item-dd">
+          <span class="impl-icon">🔌</span>
+          <div><div class="impl-label">Carbon cost is already in your electricity bill</div>
+          <div class="impl-text">Companies that buy electricity are indirectly exposed to EU ETS allowance prices, because power generators fold carbon costs into their tariffs. That exposure is rarely broken out as a separate line item, which keeps it largely invisible on corporate balance sheets even as it drives the total cost.</div></div>
+        </li>
+        <li class="impl-item-dd">
+          <span class="impl-icon">🧾</span>
+          <div><div class="impl-label">Polluter pays flows downstream</div>
+          <div class="impl-text">National carbon taxes reach further than the EU ETS - into transport, heating, small industry, households, and in some countries agriculture. Under polluter pays, direct emitters pass these costs through supply chains, so customers and downstream users absorb them too, whether or not they are formally in scope.</div></div>
+        </li>
+        <li class="impl-item-dd">
+          <span class="impl-icon">📉</span>
+          <div><div class="impl-label">Weak national ambition is not low pressure, it is deferred pressure</div>
+          <div class="impl-text">Countries with weaker Climate Action Tracker ratings can look like they create less pressure on business. In an interconnected economy shaped by Paris commitments, investor expectations, and border measures such as CBAM, that gap tends to close through a sharper, later adjustment rather than no adjustment at all.</div></div>
+        </li>
+      </ul>
+    </div>
+
+    <hr class="rule">
+
+    <!-- SECTION 2: THREE LAYERS -->
+    <div class="section-block">
+      <div class="section-header">
+        <span class="section-num">Section 2</span>
+        <span class="section-title">Insight - Three Layers of Exposure</span>
+      </div>
+      <p class="content-block">The Kyoto Protocol took a primarily government-led approach to climate policy. The Paris Agreement recognised that corporations needed to be part of the climate conversation. Today, climate and carbon regulation increasingly target corporations directly. Yet one major blind spot remains: <strong>the price of carbon</strong>, and what it means for businesses over the medium and long term.</p>
+
+      <div class="subhead">1. EU ETS allowances and electricity costs</div>
+      <p class="content-block">Companies buying electricity are indirectly exposed to the cost of EU Emissions Trading System allowances, because power generators factor carbon costs into electricity prices. That exposure is often embedded in the tariff rather than shown as a separate line item, which makes it less visible on corporate balance sheets.</p>
+      <p class="content-block">As the EU reduces the supply of allowances over time, carbon costs are expected to remain under upward pressure. In July 2016, EUA prices were around <strong>€5 per tonne of CO2</strong>; by June 2026, they were around <strong>€80</strong>. Independent ABN AMRO analysis projects prices of about <strong>€145/tCO2 by 2030</strong> and <strong>€200/tCO2 by 2035</strong> in its baseline scenario, driven mainly by lower allowance supply. By 2040, the cap will need to keep tightening in line with the EU's net-zero 2050 trajectory.</p>
+
+      <div style="margin:14px 0;border:1px solid var(--border);background:#fafaf8;padding:12px 14px 6px">
+        <div style="font-size:7.5pt;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin-bottom:8px">EU ETS Carbon Price - Historical &amp; Projected</div>
+        <svg width="100%" viewBox="0 0 660 280" xmlns="http://www.w3.org/2000/svg" style="display:block;font-family:Inter,sans-serif">
+  <defs>
+    <style>
+      .ax { font-size:9px; fill:#4a5568; }
+      .lbl { font-size:9px; fill:#4a5568; }
+      .ann { font-size:9px; font-weight:600; fill:#c9a84c; }
+      .legend { font-size:9px; fill:#4a5568; }
+    </style>
+  </defs>
+
+  <!-- background -->
+  <rect x="52" y="24" width="588" height="210" fill="#fafaf8" stroke="#d4c9b0" stroke-width="0.5"/>
+
+  <!-- Y grid lines and labels -->
+  <line x1="52" y1="234.0" x2="640" y2="234.0" stroke="#e2ddd5" stroke-width="0.8"/>
+  <text x="47" y="237.0" text-anchor="end" class="ax">€0</text>
+  <line x1="52" y1="186.3" x2="640" y2="186.3" stroke="#e2ddd5" stroke-width="0.8"/>
+  <text x="47" y="189.3" text-anchor="end" class="ax">€50</text>
+  <line x1="52" y1="138.5" x2="640" y2="138.5" stroke="#e2ddd5" stroke-width="0.8"/>
+  <text x="47" y="141.5" text-anchor="end" class="ax">€100</text>
+  <line x1="52" y1="90.8" x2="640" y2="90.8" stroke="#e2ddd5" stroke-width="0.8"/>
+  <text x="47" y="93.8" text-anchor="end" class="ax">€150</text>
+  <line x1="52" y1="43.1" x2="640" y2="43.1" stroke="#e2ddd5" stroke-width="0.8"/>
+  <text x="47" y="46.1" text-anchor="end" class="ax">€200</text>
+  <rect x="336.7" y="24" width="303.3" height="210" fill="rgba(201,168,76,0.06)"/>
+  <text x="488.3" y="34" text-anchor="middle" font-size="8" fill="rgba(201,168,76,0.6)" font-style="italic">ABN AMRO baseline projection</text>
+  <line x1="336.7" y1="24" x2="336.7" y2="234" stroke="#c9a84c" stroke-width="0.8" stroke-dasharray="3 2"/>
+  <polyline points="52.0,228.5 54.7,227.8 57.3,226.8 60.0,226.5 62.6,226.4 65.3,225.8 68.0,224.6 70.6,223.8 73.3,220.6 75.9,220.1 78.6,218.6 81.3,218.2 83.9,215.5 86.6,211.9 89.2,210.5 91.9,216.4 94.6,212.3 97.2,208.2 99.9,211.2 102.6,211.9 105.2,212.2 107.9,207.8 110.5,209.7 113.2,207.8 115.9,206.0 118.5,207.9 121.2,209.4 123.8,208.8 126.5,209.2 129.2,210.0 131.8,210.8 134.5,211.1 137.1,216.4 139.8,214.5 142.5,212.8 145.1,207.6 147.8,208.0 150.4,205.8 153.1,207.8 155.8,210.9 158.4,205.7 161.1,202.6 163.7,202.3 166.4,198.1 169.1,193.1 171.7,186.9 174.4,184.1 177.0,179.8 179.7,182.8 182.4,175.7 185.0,174.7 187.7,177.6 190.4,161.7 193.0,157.0 195.7,148.8 198.3,155.5 201.0,161.0 203.7,153.4 206.3,153.8 209.0,147.9 211.6,159.0 214.3,157.6 217.0,170.3 219.6,157.7 222.3,153.0 224.9,158.2 227.6,148.0 230.3,142.5 232.9,146.4 235.6,150.3 238.2,156.9 240.9,148.5 243.6,151.1 246.2,151.9 248.9,156.3 251.5,158.2 254.2,166.7 256.9,159.6 259.5,172.5 262.2,180.1 264.9,174.9 267.5,167.9 270.2,163.3 272.8,169.7 275.5,167.9 278.2,166.9 280.8,170.8 283.5,171.7 286.1,168.0 288.8,165.2 291.5,155.0 294.1,167.1 296.8,169.1 299.4,170.5 302.1,166.8 304.8,168.2 307.4,164.6 310.1,164.3 312.7,161.2 315.4,158.5 318.1,153.4 320.7,151.6 323.4,157.3 326.0,167.7 328.7,164.8 331.4,163.6 334.0,157.0 336.7,157.5" fill="none" stroke="#0e2b1a" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"/>
+  <polyline points="336.7,157.5 480.4,95.6 640.0,43.1" fill="none" stroke="#c9a84c" stroke-width="1.8" stroke-dasharray="5 3" stroke-linejoin="round"/>
+  <circle cx="480.4" cy="95.6" r="4" fill="#c9a84c" stroke="#fafaf8" stroke-width="1.5"/>
+  <text x="480.4" y="85.6" text-anchor="middle" class="ann">€145</text>
+  <circle cx="640.0" cy="43.1" r="4" fill="#c9a84c" stroke="#fafaf8" stroke-width="1.5"/>
+  <text x="640.0" y="59.1" text-anchor="middle" class="ann">€200</text>
+  <circle cx="336.7" cy="157.5" r="3.5" fill="#0e2b1a" stroke="#fafaf8" stroke-width="1.5"/>
+  <text x="332.7" y="148.5" text-anchor="middle" font-size="9" fill="#0e2b1a" font-weight="600">€80</text>
+  <text x="68.0" y="248" text-anchor="middle" class="ax">2018</text>
+  <line x1="68.0" y1="234" x2="68.0" y2="238" stroke="#d4c9b0" stroke-width="0.8"/>
+  <text x="99.9" y="248" text-anchor="middle" class="ax">2019</text>
+  <line x1="99.9" y1="234" x2="99.9" y2="238" stroke="#d4c9b0" stroke-width="0.8"/>
+  <text x="131.8" y="248" text-anchor="middle" class="ax">2020</text>
+  <line x1="131.8" y1="234" x2="131.8" y2="238" stroke="#d4c9b0" stroke-width="0.8"/>
+  <text x="163.7" y="248" text-anchor="middle" class="ax">2021</text>
+  <line x1="163.7" y1="234" x2="163.7" y2="238" stroke="#d4c9b0" stroke-width="0.8"/>
+  <text x="195.7" y="248" text-anchor="middle" class="ax">2022</text>
+  <line x1="195.7" y1="234" x2="195.7" y2="238" stroke="#d4c9b0" stroke-width="0.8"/>
+  <text x="227.6" y="248" text-anchor="middle" class="ax">2023</text>
+  <line x1="227.6" y1="234" x2="227.6" y2="238" stroke="#d4c9b0" stroke-width="0.8"/>
+  <text x="259.5" y="248" text-anchor="middle" class="ax">2024</text>
+  <line x1="259.5" y1="234" x2="259.5" y2="238" stroke="#d4c9b0" stroke-width="0.8"/>
+  <text x="291.5" y="248" text-anchor="middle" class="ax">2025</text>
+  <line x1="291.5" y1="234" x2="291.5" y2="238" stroke="#d4c9b0" stroke-width="0.8"/>
+  <text x="323.4" y="248" text-anchor="middle" class="ax">2026</text>
+  <line x1="323.4" y1="234" x2="323.4" y2="238" stroke="#d4c9b0" stroke-width="0.8"/>
+  <text x="480.4" y="248" text-anchor="middle" class="ax">2030</text>
+  <line x1="480.4" y1="234" x2="480.4" y2="238" stroke="#d4c9b0" stroke-width="0.8"/>
+  <text x="640.0" y="248" text-anchor="middle" class="ax">2035</text>
+  <line x1="640.0" y1="234" x2="640.0" y2="238" stroke="#d4c9b0" stroke-width="0.8"/>
+  <line x1="60" y1="38" x2="78" y2="38" stroke="#0e2b1a" stroke-width="1.8"/>
+  <text x="82" y="41.5" class="legend">EU ETS monthly closing price</text>
+  <line x1="230" y1="38" x2="248" y2="38" stroke="#c9a84c" stroke-width="1.8" stroke-dasharray="5 3"/>
+  <text x="252" y="41.5" class="legend">ABN AMRO baseline (2030 / 2035)</text>
+  <text x="52" y="276" class="lbl" font-size="7.5" fill="#9ca3af">Source: ICE ECX monthly closing prices · ABN AMRO carbon price outlook</text>
+</svg>
+      </div>
+
+      <div class="subhead">2. Carbon taxes and national carbon pricing</div>
+      <p class="content-block">The EU ETS applies to large emitters in power and heat generation, energy-intensive industry, aviation, and maritime transport. Outside the EU ETS, national governments increasingly use carbon taxes or other carbon pricing instruments for sectors such as transport, heating, small industry, households, and in some countries agriculture.</p>
+      <p class="content-block">In Sweden, carbon pricing has long been among the highest globally, combining carbon taxes with the EU ETS. Denmark's 2024 Green Tripartite Agreement expanded carbon pricing to agriculture, including livestock emissions. Under polluter pays, carbon costs often flow through supply chains - a transport company serving business customers is likely to reflect carbon costs in its pricing.</p>
+
+      <div class="subhead">3. Climate ambition and transition pressure</div>
+      <p class="content-block">Climate Action Tracker provides a useful view of the gap between current policy and long-term decarbonisation targets. Countries with weaker ratings may appear to create less pressure on business - but every country is still constrained by Paris Agreement commitments, investor expectations, supply chain requirements, CBAM, and global competitiveness pressures.</p>
+      <p class="content-block">Countries with weaker ambition are likely to face stronger catch-up pressure over time. <strong>Delayed action does not reduce the need for decarbonisation - it usually makes the adjustment sharper later.</strong></p>
+
+    </div>
+
+    <hr class="rule">
+
+    <!-- SECTION 3: FORESIGHT -->
+    <div class="section-block">
+      <div class="section-header">
+        <span class="section-num">Section 3</span>
+        <span class="section-title">Foresight - What Changes</span>
+      </div>
+      <table class="foresight-table">
+        <tr><td><span class="h-pill h-now">Now</span></td><td>Carbon costs are already embedded in electricity tariffs, compliance obligations, and national tax systems. Most of this exposure sits inside cost lines companies already pay, rather than as a separate, visible charge.</td></tr>
+        <tr><td><span class="h-pill h-12m">12 months</span></td><td>EUA prices continue on an upward trajectory as allowance supply tightens. National carbon pricing regimes, such as Denmark's extension into agriculture, keep widening sector coverage. CBAM implementation adds further pressure on companies with carbon-intensive imports.</td></tr>
+        <tr><td><span class="h-pill h-35y">3 to 5 years</span></td><td>ABN AMRO's baseline scenario points to roughly €145/tCO2 by 2030, with the EU cap continuing to tighten toward the 2050 net-zero trajectory through 2040. Companies with weaker current exposure, including those in countries with lower climate ambition, face a steeper catch-up curve as border measures and investor expectations converge.</td></tr>
+      </table>
+    </div>
+
+    <hr class="rule">
+
+    <!-- SECTION 4: INACTION -->
+    <div class="section-block">
+      <div class="section-header">
+        <span class="section-num">Section 4</span>
+        <span class="section-title">Inaction - Consequences</span>
+      </div>
+      <div class="inaction-block">
+        <div class="inaction-text">Companies that treat carbon pricing as a compliance line item rather than a strategic cost risk mispricing capital allocation decisions that will play out over years, not quarters. Because EUA and carbon-tax costs are largely embedded in energy tariffs and supply chain pricing rather than itemised separately, they are easy to overlook until they compound. Firms operating in markets with weaker current climate ambition are particularly exposed, since catch-up pressure - through tightening policy, rising carbon prices, and border adjustments - tends to arrive later but harder.</div>
+      </div>
+    </div>
+
+    <hr class="rule">
+
+    <!-- SECTION 5: ACTION -->
+    <div class="section-block">
+      <div class="section-header">
+        <span class="section-num">Section 5</span>
+        <span class="section-title">Action - What Good Looks Like</span>
+      </div>
+      <table class="action-table">
+        <thead><tr><th>Level</th><th>Observable behaviour</th></tr></thead>
+        <tbody>
+          <tr><td><span class="tl-dot tl-amber"></span>Basic</td><td>Company is aware of EU ETS pricing trends and tracks the headline EUA price, but has not quantified how much of its electricity cost or supply chain pricing is attributable to carbon. Carbon cost is treated as a macro backdrop, not a line item.</td></tr>
+          <tr><td><span class="tl-dot tl-green"></span>Intermediate</td><td>Company has estimated its indirect EU ETS exposure through electricity tariffs and mapped which national carbon taxes apply across its operating footprint and supply chain. Medium-term EUA price scenarios, such as the ABN AMRO 2030/2035 baseline, are referenced in planning discussions.</td></tr>
+          <tr><td><span class="tl-dot tl-green"></span>Advanced</td><td>Forward carbon price scenarios are embedded in capital allocation, procurement, and pricing decisions. The company tracks Climate Action Tracker ratings and CBAM exposure across the markets it operates and sources in, and treats weaker-ambition jurisdictions as future catch-up risk rather than lower priority.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <hr class="rule">
+
+    <!-- SECTION 6: NEXT STEPS -->
+    <div class="section-block">
+      <div class="section-header">
+        <span class="section-num">Section 6</span>
+        <span class="section-title">Next Steps</span>
+      </div>
+      <table class="steps-table">
+        <thead><tr><th>Horizon</th><th>Action</th><th>Owner</th></tr></thead>
+        <tbody>
+          <tr><td class="col-horizon">Now</td><td>Quantify the share of current electricity and supply chain costs attributable to EU ETS allowance pricing and applicable national carbon taxes, even where these are not broken out as a separate line item today.</td><td class="col-owner">Finance and Sustainability</td></tr>
+          <tr><td class="col-horizon">Now</td><td>Map carbon tax exposure across every jurisdiction in your operating footprint and supply chain, including sectors outside the EU ETS such as transport, heating, and agriculture.</td><td class="col-owner">Sustainability and Procurement</td></tr>
+          <tr><td class="col-horizon">Within 1 year</td><td>Build forward EUA price scenarios, anchored to independent projections such as ABN AMRO's 2030 and 2035 baselines, into medium-term capital allocation and pricing models.</td><td class="col-owner">CFO and Strategy</td></tr>
+          <tr><td class="col-horizon">Within 1 year</td><td>Cross-reference Climate Action Tracker ratings and CBAM exposure for key sourcing and operating markets, and flag weaker-ambition jurisdictions as catch-up risk rather than lower priority.</td><td class="col-owner">Sustainability and Risk</td></tr>
+          <tr><td class="col-horizon">Post 1 year</td><td>Embed the future cost of carbon into standard strategic planning and capital allocation cycles, alongside energy price and FX assumptions - not as a one-off exercise but as a running input reviewed as policy and pricing evolve.</td><td class="col-owner">CFO and CSO</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <hr class="rule">
+
+    <!-- FURTHER READING -->
+    <div class="further-reading">
+      <div class="further-reading-label">Further Reading</div>
+      <div class="fr-item"><span class="fr-icon">📄</span><div><a class="fr-link" href="regulations-tracker.html">Global ESG Regulations Tracker - Expert Library</a><div class="fr-desc">Filterable tracker of mandatory ESG and carbon regulations across jurisdictions, including EU ETS, CBAM, and national carbon tax regimes, with timelines, applicability thresholds, and official sources.</div></div></div>
+      <div class="fr-item"><span class="fr-icon">🛠️</span><div><a class="fr-link" href="tools-hidden-cost-of-carbon.html">Carbon Cost Exposure Tool - Toolkits</a><div class="fr-desc">A three-layer exposure calculator covering indirect EU ETS costs, national carbon tax mapping, and Climate Action Tracker / CBAM cross-referencing - built for finance and sustainability teams working together.</div></div></div>
+      <div class="fr-item"><span class="fr-icon">📊</span><div><a class="fr-link" href="carbon-price-scenarios.html">CEO Brief - Carbon Price Scenarios to 2040</a><div class="fr-desc">A boardroom-ready summary of EUA price trajectories, national carbon pricing trends, and what they mean for capital allocation over the next decade.</div></div></div>
+    </div>
+
+    <!-- CONVERSATION -->
+    <div class="conversation-box">
+      <div class="conv-eyebrow">Independent · Curated · Free</div>
+      <div class="conv-title">Start a <em>Conversation.</em></div>
+      <div class="conv-text">If you are working through how the future cost of carbon should feed into strategy, capital allocation, or operating decisions, I would like to hear about it. These insights are written from experience, not theory, and the conversation goes both ways.</div>
+      <a class="conv-email" href="mailto:aurie.b@outlook.com">aurie.b@outlook.com →</a>
+    </div>
+
+    <!-- SOURCES -->
+    <div class="sources-block">
+      <div class="sources-label">Sources</div>
+      <div class="sources-text">ABN AMRO carbon price outlook, EUA baseline scenarios to 2030 and 2035. European Commission, EU Emissions Trading System - scope, sectors, and allowance mechanics. OECD, Effective Carbon Rates and national carbon pricing coverage. Swedish and Danish national carbon tax frameworks; Denmark's Green Tripartite Agreement, 2024. Climate Action Tracker, country ratings and policy-versus-target gap analysis. EU Carbon Border Adjustment Mechanism (CBAM) implementing framework. Nature and OECD Ecoscope commentary on polluter-pays cost pass-through.</div>
+    </div>
+
+  </div><!-- end #fullAnalysis -->
+
+  <div class="print-footer">
+    <div class="pf-brand">Aurie's Knowledge Hub</div>
+    <div>CEO Brief · Markets &amp; Carbon Pricing · 2026</div>
+    <div>© Aurie</div>
+  </div>
+
+</div>
+
+<script>
+function toggleFullAnalysis() {
+  var panel = document.getElementById('fullAnalysis');
+  var arrow = document.getElementById('faArrow');
+  var open  = panel.style.display !== 'none';
+  panel.style.display = open ? 'none' : 'block';
+  arrow.style.transform = open ? 'rotate(0deg)' : 'rotate(180deg)';
+}
+</script>
+</body>
+</html>

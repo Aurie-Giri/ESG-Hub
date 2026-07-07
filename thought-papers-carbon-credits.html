@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="What if Carbon Credits had Credit Ratings? A thought paper on bringing credit-rating-style rigor to carbon credit markets.">
+<title>What if Carbon Credits had Credit Ratings?  -  Notes from a Restless Mind  -  Aurie's Knowledge Hub</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Inter:wght@300;400;500;600&display=swap');
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+  --green:   #0e2b1a;
+  --gold:    #c9a84c;
+  --ivory:   #fafaf8;
+  --mid:     #4a5568;
+  --light:   #f0ede8;
+  --border:  #d4c9b0;
+  --serif:   'Cormorant Garamond', Georgia, serif;
+  --sans:    'Inter', system-ui, sans-serif;
+}
+
+html, body {
+  background: var(--ivory);
+  color: var(--green);
+  font-family: var(--sans);
+  font-size: 10.5pt;
+  line-height: 1.65;
+}
+
+/* ── Screen nav ── */
+.screen-nav {
+  background: var(--green);
+  padding: 10px 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.screen-nav a {
+  color: rgba(255,255,255,0.65);
+  text-decoration: none;
+  font-size: 9.5pt;
+  font-family: var(--sans);
+}
+.screen-nav a:hover { color: var(--gold); }
+.print-btn {
+  background: var(--gold);
+  color: var(--green);
+  font-weight: 600;
+  font-size: 9pt;
+  padding: 5px 16px;
+  border: none;
+  cursor: pointer;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  font-family: var(--sans);
+}
+
+/* ── Document wrapper ── */
+.doc-wrap {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 32px 36px 72px;
+}
+
+/* ── Top bar ── */
+.print-topbar {
+  border-top: 3px solid var(--gold);
+  padding: 12px 0 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 28px;
+}
+.print-brand {
+  font-family: var(--serif);
+  font-size: 11pt;
+  font-weight: 400;
+  color: var(--green);
+  letter-spacing: .04em;
+}
+.print-brand span { color: var(--gold); }
+.print-series {
+  font-size: 8pt;
+  color: var(--mid);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+
+/* ── Series label ── */
+.doc-label {
+  font-size: 8pt;
+  font-weight: 600;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 10px;
+}
+
+/* ── Title block  -  matches ESG Insights heading style ── */
+h1.doc-title {
+  font-family: var(--serif);
+  font-size: 24pt;
+  font-weight: 300;
+  line-height: 1.15;
+  color: var(--green);
+  margin-bottom: 6px;
+  border: none;
+  padding: 0;
+}
+h1.doc-title em {
+  font-style: italic;
+  color: var(--gold);
+}
+
+/* Series + date line */
+.doc-meta {
+  font-size: 9pt;
+  color: var(--mid);
+  margin-bottom: 24px;
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+.doc-meta span::before {
+  content: '·';
+  margin-right: 8px;
+  color: var(--border);
+}
+.doc-meta span:first-child::before { display: none; }
+
+hr.rule {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 22px 0 24px;
+}
+
+/* ── Body prose  -  Inter sans-serif, black ── */
+.article-body p {
+  font-family: var(--sans);
+  font-size: 11.5pt;
+  font-weight: 400;
+  line-height: 1.85;
+  color: #111111;
+  margin-bottom: 1.2em;
+}
+.article-body p:last-child { margin-bottom: 0; }
+
+/* Opening pull  -  same size as body */
+.article-body p.opening {
+  font-size: 11.5pt;
+  font-weight: 400;
+  line-height: 1.85;
+  color: #111111;
+}
+
+/* ── Footer ── */
+.print-footer {
+  margin-top: 36px;
+  padding-top: 10px;
+  border-top: 1px solid var(--gold);
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-size: 7.5pt;
+  color: var(--mid);
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.pf-brand {
+  font-family: var(--serif);
+  font-size: 9pt;
+  color: var(--green);
+}
+.pf-brand span { color: var(--gold); }
+
+@media print {
+  .screen-nav { display: none; }
+  .doc-wrap { padding: 0; }
+}
+
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "What if Carbon Credits had Credit Ratings?  -  Notes from a Restless Mind",
+  "description": "What if Carbon Credits had Credit Ratings? A thought paper on bringing credit-rating-style rigor to carbon credit markets.",
+  "author": {
+    "@type": "Person",
+    "name": "Aurie",
+    "url": "https://REPLACE-WITH-YOUR-DOMAIN/about.html"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Aurie's Knowledge Hub",
+    "url": "https://REPLACE-WITH-YOUR-DOMAIN/index.html"
+  },
+  "datePublished": "2026-01-01",
+  "dateModified": "2026-07-06",
+  "url": "https://REPLACE-WITH-YOUR-DOMAIN/thought-papers-carbon-credits.html"
+}
+</script>
+</head>
+<body>
+
+<div class="screen-nav">
+  <a href="index.html">← Aurie's Knowledge Hub</a>
+  <button class="print-btn" onclick="window.print()">⬇ Print / Save PDF</button>
+</div>
+
+<div class="doc-wrap">
+
+  <div class="print-topbar">
+    <div class="print-brand">Aurie's <span>Knowledge Hub</span></div>
+    <div class="print-series">Notes from a Restless Mind · No. 01</div>
+  </div>
+
+  <div class="doc-label">Thought Papers: Notes from a Restless Mind</div>
+
+  <h1 class="doc-title">What if Carbon Credits had <em>Credit Ratings?</em></h1>
+
+  <hr class="rule">
+
+  <div class="article-body">
+
+    <p class="opening">I started my career in Denmark back in 2008, when the Clean Development Mechanism was in full force. The projects I looked into ranged from waste heat recovery boilers and wind energy to the more complex smokestacks in refineries that tracked NOx abatement every two seconds. I have always found it curious that we spend enormous effort evaluating the creditworthiness of companies. Yet we treat all carbon credits as equal. A tonne is a tonne, we tell ourselves.</p>
+
+    <p>I am no longer convinced that is a useful assumption.</p>
+
+    <p>Voluntary carbon markets have matured rapidly, but confidence has not always kept pace. Questions about additionality, permanence, leakage, and verification continue to surface. None of that means carbon markets do not work. It simply means that, like every other financial market, quality varies. The problem is that we still tend to price carbon credits as commodities rather than as assets with different levels of risk.</p>
+
+    <p>The development that interests me most is satellite-based monitoring. For the first time, we can independently compare what a project claims with what is actually happening on the ground. Forest cover, fire scars, land-use change, and degradation can increasingly be observed rather than inferred. That does not eliminate uncertainty, but it does reduce our dependence on self-reported information. Independent evidence has a way of changing markets.</p>
+
+    <p>The second implication is that integrity should become something we can price. If satellite observations consistently support a project's claims, confidence increases. If they reveal meaningful discrepancies, confidence should decrease. Investors already understand this principle. We do not value every bond the same because issuers do not present the same level of risk. Carbon credits should be no different. Higher uncertainty should translate into a larger discount, while stronger evidence should command greater confidence.</p>
+
+    <p>Finally, I think this changes how companies should think about offsets. Too often the conversation ends once a credit has been purchased and retired. But what if the underlying project's integrity changes over time? Should that not affect how much confidence we place in the emissions reduction it represents? More importantly, should investors not distinguish between organisations relying on high-integrity offsets and those relying on credits whose environmental performance is increasingly uncertain?</p>
+
+    <p>I am not arguing that satellite technology will solve every problem in voluntary carbon markets. There will always be judgement, interpretation, and uncertainty. But markets generally become stronger when independent information becomes available.</p>
+
+    <p>Perhaps the next evolution of carbon markets is not another standard or another debate about methodology. Perhaps it is something much more familiar: recognising that trust has value, uncertainty has a cost, and not every carbon credit deserves to be treated as though it carries the same level of confidence.</p>
+
+  </div>
+
+  <div class="print-footer">
+    <div class="pf-brand">Aurie's <span>Knowledge Hub</span></div>
+    <div>Notes from a Restless Mind · No. 01 · 2026</div>
+    <div>© Aurie</div>
+  </div>
+
+</div>
+</body>
+</html>

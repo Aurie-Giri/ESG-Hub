@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="A carbon cost exposure calculator covering EU ETS, national carbon tax, and CBAM exposure hidden inside your P&L.">
+<title>Carbon Cost Exposure Tool</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Inter:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   DESIGN TOKENS - matched to Aurie's Knowledge Hub system
+   ============================================================ */
+:root{
+  /* Knowledge Hub palette */
+  --bg: #0e2b1a;
+  --bg-grid: rgba(201,168,76,0.04);
+  --surface: #1a3d28;
+  --surface-2: #234d33;
+  --surface-3: #2a5c3b;
+  --border: rgba(201,168,76,0.22);
+  --border-soft: rgba(201,168,76,0.12);
+
+  --text: #ffffff;
+  --text-dim: #8a9e90;
+  --text-faint: #5a7060;
+
+  /* Accent colours - remapped to hub equivalents */
+  --amber: #c9a84c;
+  --amber-soft: rgba(201,168,76,0.15);
+  --teal: #1D9E75;
+  --teal-soft: rgba(29,158,117,0.15);
+  --blue: #93c5fd;
+  --blue-soft: rgba(147,197,253,0.15);
+  --coral: #f97316;
+  --coral-soft: rgba(249,115,22,0.15);
+  --grey: #8a9e90;
+  --grey-soft: rgba(138,158,144,0.15);
+  --violet: #c084fc;
+  --violet-soft: rgba(192,132,252,0.15);
+
+  --radius: 4px;
+  --radius-sm: 3px;
+  --font-display: 'Cormorant Garamond', Georgia, serif;
+  --font-body: 'Inter', system-ui, sans-serif;
+  --font-mono: 'DM Mono', monospace;
+}
+
+*{box-sizing:border-box; margin:0; padding:0;}
+html,body{height:100%;}
+body{
+  background: var(--bg);
+  color:var(--text);
+  font-family:var(--font-body);
+  font-size:14px;
+  line-height:1.5;
+  -webkit-font-smoothing:antialiased;
+  min-height:100vh;
+}
+::selection{background:var(--amber-soft); color:var(--text);}
+button{font-family:inherit; cursor:pointer;}
+input{font-family:inherit; font-size:inherit; color:var(--text);}
+::-webkit-scrollbar{width:10px; height:10px;}
+::-webkit-scrollbar-track{background:transparent;}
+::-webkit-scrollbar-thumb{background:var(--border); border-radius:6px;}
+:focus-visible{outline:2px solid var(--amber); outline-offset:2px;}
+
+/* ---------- Shell ---------- */
+.wrap{
+  max-width:840px;
+  margin:0 auto;
+  padding:44px 24px 80px;
+}
+
+/* ---------- Card ---------- */
+.card{
+  background:var(--surface);
+  border:1px solid var(--border-soft);
+  border-radius:var(--radius);
+  margin-top:28px;
+  overflow:hidden;
+}
+.card-head{
+  padding:16px 22px;
+  border-bottom:1px solid var(--border-soft);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+}
+.card-title{
+  font-family:var(--font-display);
+  font-weight:600;
+  font-size:14.5px;
+}
+.card-sub{
+  font-family:var(--font-mono);
+  font-size:10.5px;
+  letter-spacing:0.05em;
+  text-transform:uppercase;
+  color:var(--text-faint);
+}
+.card-body{padding:22px;}
+
+/* ---------- Inputs ---------- */
+.grid-2{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:16px;
+}
+.field{margin-bottom:16px;}
+.field label{
+  display:block;
+  font-size:12px;
+  font-weight:600;
+  color:var(--text-dim);
+  margin-bottom:6px;
+}
+.field .hint{
+  font-size:11px;
+  color:var(--text-faint);
+  margin-top:5px;
+  line-height:1.4;
+}
+.input-row{
+  display:flex;
+  align-items:center;
+  background:var(--surface-2);
+  border:1px solid var(--border);
+  border-radius:var(--radius-sm);
+  padding:0 12px;
+  transition:border-color .12s;
+}
+.input-row:focus-within{border-color:var(--amber);}
+.input-row input{
+  flex:1;
+  background:none;
+  border:none;
+  padding:10px 8px 10px 0;
+  font-size:14px;
+  color:var(--text);
+  min-width:0;
+}
+.input-row input:focus{outline:none;}
+.unit{
+  font-family:var(--font-mono);
+  font-size:11px;
+  color:var(--text-faint);
+  white-space:nowrap;
+}
+
+/* ---------- Output ---------- */
+.output-card{
+  background:linear-gradient(180deg, var(--surface-2) 0%, var(--surface) 100%);
+  border:1px solid var(--border);
+}
+.output-body{
+  padding:30px 22px 26px;
+  text-align:center;
+}
+.output-label{
+  font-family:var(--font-mono);
+  font-size:11px;
+  letter-spacing:0.06em;
+  text-transform:uppercase;
+  color:var(--text-faint);
+  margin-bottom:10px;
+}
+.output-number{
+  font-family:var(--font-display);
+  font-weight:700;
+  font-size:52px;
+  letter-spacing:-0.02em;
+  color:var(--amber);
+  line-height:1;
+}
+.output-number .cur{
+  font-size:26px;
+  font-weight:600;
+  color:var(--text-dim);
+  vertical-align:top;
+  margin-right:2px;
+}
+.output-split{
+  display:flex;
+  justify-content:center;
+  gap:22px;
+  margin-top:16px;
+  font-size:12px;
+  color:var(--text-dim);
+  flex-wrap:wrap;
+}
+.output-split span b{
+  color:var(--text);
+  font-family:var(--font-mono);
+  font-weight:600;
+}
+.dot{
+  display:inline-block;
+  width:7px; height:7px;
+  border-radius:50%;
+  margin-right:6px;
+}
+
+.projection{
+  border-top:1px solid var(--border-soft);
+  padding:16px 22px 20px;
+  display:flex;
+  gap:10px;
+  align-items:flex-start;
+}
+.projection svg{flex-shrink:0; margin-top:2px; opacity:0.85;}
+.projection p{
+  font-size:13px;
+  color:var(--text-dim);
+  line-height:1.55;
+}
+.projection b{color:var(--teal); font-family:var(--font-mono); font-weight:600;}
+.projection b.amber-b{color:var(--amber);}
+
+/* ---------- Scenario strip ---------- */
+.scenarios{
+  display:grid;
+  grid-template-columns:repeat(3, 1fr);
+  gap:10px;
+  padding:0 22px 22px;
+}
+.scenario{
+  background:var(--surface-2);
+  border:1px solid var(--border-soft);
+  border-radius:var(--radius-sm);
+  padding:12px 14px;
+}
+.scenario .yr{
+  font-family:var(--font-mono);
+  font-size:10.5px;
+  color:var(--text-faint);
+  text-transform:uppercase;
+  letter-spacing:0.05em;
+}
+.scenario .price{
+  font-family:var(--font-display);
+  font-size:15px;
+  font-weight:600;
+  margin-top:4px;
+}
+.scenario .total{
+  font-size:12px;
+  color:var(--text-dim);
+  margin-top:2px;
+}
+.scenario.now{border-color:var(--border);}
+.scenario.future .total{color:var(--coral);}
+
+/* ---------- Status / refresh ---------- */
+.statusbar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  margin-top:18px;
+  padding:10px 16px;
+  background:var(--surface);
+  border:1px solid var(--border-soft);
+  border-radius:var(--radius-sm);
+  flex-wrap:wrap;
+}
+.status-text{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  font-family:var(--font-mono);
+  font-size:11px;
+  color:var(--text-faint);
+}
+.status-text .dot{background:var(--grey);}
+.status-text.live .dot{background:var(--teal); box-shadow:0 0 0 3px var(--teal-soft);}
+.refresh-btn{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  background:var(--surface-2);
+  border:1px solid var(--border);
+  color:var(--text-dim);
+  font-size:12px;
+  font-weight:500;
+  padding:7px 13px;
+  border-radius:var(--radius-sm);
+  transition:background .12s, color .12s;
+}
+.refresh-btn:hover{background:var(--surface-3); color:var(--text);}
+.refresh-btn:disabled{opacity:0.55; cursor:default;}
+.refresh-btn svg{transition:transform .5s;}
+.refresh-btn.spinning svg{animation:spin 0.8s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+
+/* ---------- Footnote ---------- */
+.footnote{
+  margin-top:26px;
+  font-size:11.5px;
+  color:var(--text-faint);
+  line-height:1.6;
+}
+.footnote code{
+  font-family:var(--font-mono);
+  background:var(--surface-2);
+  padding:1px 5px;
+  border-radius:4px;
+  font-size:10.5px;
+}
+
+@media (max-width:600px){
+  .grid-2{grid-template-columns:1fr;}
+  .scenarios{grid-template-columns:1fr;}
+  .output-number{font-size:38px;}
+  .wrap{padding:28px 16px 60px;}
+}
+
+/* Knowledge Hub overrides */
+::selection{background:var(--amber-soft); color:var(--text);}
+.std-chip{border-color:rgba(201,168,76,0.18); color:var(--text-dim); background:rgba(201,168,76,0.05);}
+.card{border-color:var(--border-soft);}
+.card-head{border-bottom-color:var(--border-soft);}
+.card-title{font-family:var(--font-display); font-weight:400; font-size:1.1rem;}
+.tab-btn.active{border-color:var(--amber); color:var(--text);}
+.pill-btn.active{border-color:var(--amber); background:var(--amber-soft); color:var(--text);}
+.tier-head{background:rgba(201,168,76,0.06); border-top-color:var(--border-soft); border-bottom-color:var(--border-soft);}
+.tier-name{font-family:var(--font-display); font-weight:400;}
+.output-number{color:var(--amber);}
+.scenario.now{border-color:rgba(201,168,76,0.3);}
+
+
+/* ── NAV (standardised) ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; align-items: stretch;
+  background: rgba(9,31,18,0.97); backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(201,168,76,0.18);
+  height: 64px;
+}
+.nav-brand {
+  display: flex; align-items: center;
+  padding: 0 2.5rem;
+  font-family: 'Cormorant Garamond', Georgia, serif; font-size: 1.25rem; font-weight: 600;
+  letter-spacing: 0.04em; color: #ffffff; text-decoration: none;
+  border-right: 1px solid rgba(201,168,76,0.18);
+  flex-shrink: 0; transition: background 0.2s;
+}
+.nav-brand:hover { background: rgba(201,168,76,0.06); }
+.nav-brand span { color: #c9a84c; }
+.nav-sections { display: flex; align-items: stretch; list-style: none; flex: 1; overflow-x: auto; }
+.nav-sections li { display: flex; }
+.nav-link {
+  display: flex; flex-direction: column; justify-content: center;
+  padding: 0 1.6rem; text-decoration: none;
+  border-right: 1px solid rgba(201,168,76,0.18);
+  transition: background 0.18s; min-width: 120px;
+}
+.nav-link:hover { background: rgba(201,168,76,0.06); }
+.nav-link.active { background: rgba(201,168,76,0.15); border-bottom: 2px solid #c9a84c; }
+.nav-link-primary { font-size: 0.78rem; font-weight: 500; letter-spacing: 0.05em; color: rgba(255,255,255,0.88); line-height: 1.2; white-space: nowrap; }
+.nav-link-sub { font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase; color: #8a9e90; line-height: 1; margin-top: 3px; white-space: nowrap; }
+.nav-link:hover .nav-link-primary { color: #e0c07a; }
+.nav-link:hover .nav-link-sub { color: rgba(201,168,76,0.6); }
+.nav-link.active .nav-link-primary { color: #c9a84c; }
+.nav-link.active .nav-link-sub { color: rgba(201,168,76,0.7); }
+.nav-about {
+  display: flex; align-items: center; padding: 0 1.8rem;
+  font-size: 0.78rem; font-weight: 500; letter-spacing: 0.05em;
+  color: rgba(255,255,255,0.6); text-decoration: none;
+  margin-left: auto; transition: color 0.18s; white-space: nowrap;
+}
+.nav-about:hover { color: #c9a84c; }
+.page-header-standard {
+  padding: 7rem 2.5rem 2.5rem;
+}
+.back-link {
+  font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase;
+  color: #8a9e90; text-decoration: none; display: inline-flex; align-items: center;
+  gap: 6px; margin-bottom: 1.1rem; transition: color 0.15s;
+}
+.back-link:hover { color: #c9a84c; }
+.page-eyebrow-standard {
+  font-size: 0.7rem; letter-spacing: 0.22em; text-transform: uppercase;
+  color: #c9a84c; margin-bottom: 1.1rem; display: flex; align-items: center; gap: 1rem;
+}
+.page-eyebrow-standard::before { content: ''; width: 2.5rem; height: 1px; background: #c9a84c; display: inline-block; }
+h1.page-title-standard {
+  font-family: 'Cormorant Garamond', Georgia, serif; font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 300; line-height: 1.15; margin-bottom: 0.8rem;
+}
+h1.page-title-standard em { font-style: italic; color: #c9a84c; }
+.page-desc-standard { font-size: 1rem; color: rgba(255,255,255,0.58); max-width: 680px; line-height: 1.8; }
+@media (max-width: 768px) {
+  .nav-link { min-width: 100px; padding: 0 1rem; }
+  .nav-brand { padding: 0 1.2rem; font-size: 1.05rem; }
+}
+@media (max-width: 560px) {
+  .nav-link-sub { display: none; }
+  .nav-link { min-width: 80px; padding: 0 0.8rem; }
+}
+
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-brand" href="index.html">Aurie's <span>Knowledge Hub</span></a>
+  <ul class="nav-sections">
+    <li><a class="nav-link" href="ceo-insights.html"><span class="nav-link-primary">CEO Insights</span><span class="nav-link-sub">For the leadership</span></a></li>
+    <li><a class="nav-link active" href="tools.html"><span class="nav-link-primary">Tools &amp; Templates</span><span class="nav-link-sub">For ESG teams</span></a></li>
+    <li><a class="nav-link" href="resource-library.html"><span class="nav-link-primary">Resource Library</span><span class="nav-link-sub">For practitioners</span></a></li>
+    <li><a class="nav-link" href="thought-papers.html"><span class="nav-link-primary">Thought Papers</span><span class="nav-link-sub">For the curious</span></a></li>
+  </ul>
+  <a class="nav-about" href="about.html">About Me</a>
+</nav>
+
+<div class="wrap">
+
+  <div class="page-header-standard">
+    <a class="back-link" href="tools.html">← Tools &amp; Templates</a>
+    <p class="page-eyebrow-standard">Tools &amp; Templates · Carbon Cost Exposure Tool</p>
+    <h1 class="page-title-standard">The hidden carbon cost is <em>already in your P&amp;L</em></h1>
+    <p class="page-desc-standard">
+      Carbon isn't a separate line item - it's baked into what you already pay for electricity and fuel.
+      Enter your usage below to see the euro figure sitting quietly inside your energy bill today, and where
+      it's headed under current EU ETS trajectories.
+    </p>
+  </div>
+
+  <!-- INPUT CARD -->
+  <div class="card">
+    <div class="card-head">
+      <div class="card-title">Your inputs</div>
+      <div class="card-sub">Editable defaults</div>
+    </div>
+    <div class="card-body">
+      <div class="grid-2">
+        <div class="field">
+          <label for="elecKwh">Annual electricity consumption</label>
+          <div class="input-row">
+            <input type="number" id="elecKwh" value="2500000" min="0" step="1000">
+            <span class="unit">kWh / yr</span>
+          </div>
+        </div>
+        <div class="field">
+          <label for="elecFactor">Grid emissions factor</label>
+          <div class="input-row">
+            <input type="number" id="elecFactor" value="0.23" min="0" step="0.01">
+            <span class="unit">kg CO2/kWh</span>
+          </div>
+          <div class="hint">Default is an approximate EU grid average - replace with your local grid factor if known.</div>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="field">
+          <label for="fuelLitres">Annual fuel consumption</label>
+          <div class="input-row">
+            <input type="number" id="fuelLitres" value="120000" min="0" step="100">
+            <span class="unit">litres / yr</span>
+          </div>
+        </div>
+        <div class="field">
+          <label for="fuelFactor">Fuel emissions factor</label>
+          <div class="input-row">
+            <input type="number" id="fuelFactor" value="2.68" min="0" step="0.01">
+            <span class="unit">kg CO2/litre</span>
+          </div>
+          <div class="hint">Default approximates diesel. Adjust for your actual fuel mix.</div>
+        </div>
+      </div>
+
+      <div class="field" style="margin-bottom:0;">
+        <label for="carbonPrice">Carbon price (EUA)</label>
+        <div class="input-row" style="max-width:260px;">
+          <span class="unit" style="margin-right:6px;">€</span>
+          <input type="number" id="carbonPrice" value="72" min="0" step="0.5">
+          <span class="unit">/ tCO2</span>
+        </div>
+        <div class="hint">Pre-filled with a recent EU ETS reference price - click "Refresh data" to pull the latest, or edit directly.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- OUTPUT CARD -->
+  <div class="card output-card">
+    <div class="output-body">
+      <div class="output-label">Hidden carbon cost, today</div>
+      <div class="output-number"><span class="cur">€</span><span id="totalCost">0</span></div>
+      <div class="output-split">
+        <span><span class="dot" style="background:var(--amber)"></span>Electricity: <b id="elecCost">€0</b></span>
+        <span><span class="dot" style="background:var(--blue)"></span>Fuel: <b id="fuelCost">€0</b></span>
+      </div>
+    </div>
+
+    <div class="scenarios">
+      <div class="scenario now">
+        <div class="yr">Today</div>
+        <div class="price" id="scYr0Price">€72 / t</div>
+        <div class="total" id="scYr0Total">€0</div>
+      </div>
+      <div class="scenario future">
+        <div class="yr">2030</div>
+        <div class="price" id="scYr1Price">€100 / t</div>
+        <div class="total" id="scYr1Total">€0</div>
+      </div>
+      <div class="scenario future">
+        <div class="yr">2035</div>
+        <div class="price" id="scYr2Price">€130 / t</div>
+        <div class="total" id="scYr2Total">€0</div>
+      </div>
+    </div>
+
+    <div class="projection">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M3 17l6-6 4 4 8-8M21 7v6h-6" stroke="#4FB89B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <p>At today's usage and the EU ETS trajectory implied by current benchmark scenarios, this same activity
+      could cost <b class="amber-b" id="projSentence2030">€0</b> by 2030 and <b id="projSentence2035">€0</b> by 2035 - without consuming a single extra kWh or litre.
+      That's the cost of standing still.</p>
+    </div>
+  </div>
+
+  <!-- STATUS BAR -->
+  <div class="statusbar">
+    <div class="status-text" id="statusText">
+      <span class="dot"></span>
+      <span id="statusLabel">Using offline reference data (last updated -)</span>
+    </div>
+    <button class="refresh-btn" id="refreshBtn">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M21 12a9 9 0 11-2.64-6.36M21 4v6h-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span>Refresh data</span>
+    </button>
+  </div>
+
+  <p class="footnote">
+    This is a conversation-starter, not a compliance-grade model. It combines a single grid factor, a single
+    fuel factor, and one carbon price into one number - it doesn't account for sector benchmarks, CBAM,
+    country-level tax regimes, or exemptions. Default figures live in <code>FALLBACK_DATA</code> near the top
+    of the script and should be reviewed every few months. To try live pricing, use "Refresh data" - if it
+    can't reach a source (offline, blocked, source down), it silently falls back to the numbers above.
+  </p>
+
+</div>
+
+<script>
+/* ============================================================
+   FALLBACK_DATA - hard-coded reference numbers.
+   Update these by hand every few months. Nothing else in this
+   file needs to change when you do.
+   ============================================================ */
+const FALLBACK_DATA = {
+  carbonPriceEUR: 72,          // €/tCO2, approx EU ETS reference
+  lastUpdated: "manually set - edit this string when you update the numbers above",
+  scenarios: [
+    { year: "Today", price: 72 },
+    { year: 2030, price: 100 },
+    { year: 2035, price: 130 }
+  ]
+};
+
+/* ============================================================
+   OPTIONAL LIVE REFRESH
+   Swap FETCH_URL for a reachable, CORS-friendly endpoint at
+   build time (e.g. a proxy in front of Trading Economics / Ember
+   / EEX, or the World Bank Carbon Pricing Dashboard API).
+   Most public sources block direct browser fetches - that's
+   expected, not an edge case, which is why every failure here
+   falls back to FALLBACK_DATA silently.
+   ============================================================ */
+const FETCH_URL = null; // e.g. "https://your-proxy.example.com/eua-price"
+const FETCH_TIMEOUT_MS = 4000;
+
+let liveData = null;
+
+function withTimeout(promise, ms){
+  return Promise.race([
+    promise,
+    new Promise((_, reject) => setTimeout(() => reject(new Error("timeout")), ms))
+  ]);
+}
+
+async function tryRefresh(){
+  const btn = document.getElementById("refreshBtn");
+  btn.disabled = true;
+  btn.classList.add("spinning");
+
+  try{
+    if(!FETCH_URL) throw new Error("no endpoint configured");
+    const res = await withTimeout(fetch(FETCH_URL, { mode: "cors" }), FETCH_TIMEOUT_MS);
+    if(!res.ok) throw new Error("bad response");
+    const data = await res.json();
+    // Expecting something like { price: 74.2 } - adjust parsing to match your real endpoint.
+    if(typeof data.price === "number" && data.price > 0){
+      liveData = { carbonPriceEUR: data.price, fetchedAt: new Date() };
+      try{ localStorage.setItem("carbonToolLiveData", JSON.stringify(liveData)); }catch(e){}
+      applyLiveData();
+      setStatus(true, "Live EUA price loaded (" + liveData.fetchedAt.toLocaleDateString() + ")");
+    } else {
+      throw new Error("unexpected payload shape");
+    }
+  }catch(err){
+    // Any failure - offline, CORS, source down, timeout, bad shape - falls back silently.
+    setStatus(false, "Using offline reference data (last updated: see FALLBACK_DATA in script)");
+  }finally{
+    btn.disabled = false;
+    btn.classList.remove("spinning");
+  }
+}
+
+function applyLiveData(){
+  if(liveData && liveData.carbonPriceEUR){
+    document.getElementById("carbonPrice").value = liveData.carbonPriceEUR;
+    calculate();
+  }
+}
+
+function setStatus(isLive, label){
+  const el = document.getElementById("statusText");
+  el.classList.toggle("live", isLive);
+  document.getElementById("statusLabel").textContent = label;
+}
+
+// On load: try cached live data from a previous session before falling back.
+(function initFromCache(){
+  try{
+    const cached = localStorage.getItem("carbonToolLiveData");
+    if(cached){
+      const parsed = JSON.parse(cached);
+      if(parsed && parsed.carbonPriceEUR){
+        liveData = parsed;
+        document.getElementById("carbonPrice").value = parsed.carbonPriceEUR;
+        setStatus(true, "Live EUA price (cached " + new Date(parsed.fetchedAt).toLocaleDateString() + ")");
+        return;
+      }
+    }
+  }catch(e){}
+  setStatus(false, "Using offline reference data (edit FALLBACK_DATA to update)");
+})();
+
+document.getElementById("refreshBtn").addEventListener("click", tryRefresh);
+
+/* ============================================================
+   CALCULATION - deliberately just two layers summed to one number
+   ============================================================ */
+function fmt(n){
+  return Math.round(n).toLocaleString("en-IE");
+}
+
+function calculate(){
+  const elecKwh = parseFloat(document.getElementById("elecKwh").value) || 0;
+  const elecFactor = parseFloat(document.getElementById("elecFactor").value) || 0;
+  const fuelLitres = parseFloat(document.getElementById("fuelLitres").value) || 0;
+  const fuelFactor = parseFloat(document.getElementById("fuelFactor").value) || 0;
+  const carbonPrice = parseFloat(document.getElementById("carbonPrice").value) || 0;
+
+  const elecTonnes = (elecKwh * elecFactor) / 1000;
+  const fuelTonnes = (fuelLitres * fuelFactor) / 1000;
+
+  const elecCost = elecTonnes * carbonPrice;
+  const fuelCost = fuelTonnes * carbonPrice;
+  const total = elecCost + fuelCost;
+  const totalTonnes = elecTonnes + fuelTonnes;
+
+  document.getElementById("totalCost").textContent = fmt(total);
+  document.getElementById("elecCost").textContent = "€" + fmt(elecCost);
+  document.getElementById("fuelCost").textContent = "€" + fmt(fuelCost);
+
+  // Scenarios
+  const scenarios = FALLBACK_DATA.scenarios.map((s, i) => {
+    const price = i === 0 ? carbonPrice : s.price;
+    return { year: s.year, price, total: totalTonnes * price };
+  });
+
+  document.getElementById("scYr0Price").textContent = "€" + fmt(scenarios[0].price) + " / t";
+  document.getElementById("scYr0Total").textContent = "€" + fmt(scenarios[0].total);
+  document.getElementById("scYr1Price").textContent = "€" + fmt(scenarios[1].price) + " / t";
+  document.getElementById("scYr1Total").textContent = "€" + fmt(scenarios[1].total);
+  document.getElementById("scYr2Price").textContent = "€" + fmt(scenarios[2].price) + " / t";
+  document.getElementById("scYr2Total").textContent = "€" + fmt(scenarios[2].total);
+
+  document.getElementById("projSentence2030").textContent = "€" + fmt(scenarios[1].total);
+  document.getElementById("projSentence2035").textContent = "€" + fmt(scenarios[2].total);
+}
+
+// Recalculate on any input change
+document.querySelectorAll("input").forEach(inp => inp.addEventListener("input", calculate));
+
+// Initial calculation on load
+calculate();
+</script>
+
+</body>
+</html>
