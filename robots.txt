@@ -50,4 +50,4 @@ Allow: /
 User-agent: CCBot
 Allow: /
 
-Sitemap: https://REPLACE-WITH-YOUR-DOMAIN/sitemap.xml
+Sitemap: https://esg-hub.dk/sitemap.xml
