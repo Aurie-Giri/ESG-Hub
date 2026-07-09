@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Climate Risk Assessment Tool - PESTLE risk identification, scenario analysis against IPCC/IEA/NGFS pathways, a likelihood x impact prioritisation matrix, response planning, and a TCFD/IFRS S2 disclosure readiness map.">
+<meta name="robots" content="index, follow">
+<meta property="og:title" content="Climate Risk Assessment Tool — Aurie's Knowledge Hub">
+<meta property="og:description" content="A five-stage climate risk assessment tool, from PESTLE identification through to a board-ready disclosure readiness map.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Aurie's Knowledge Hub">
+<title>Climate Risk Assessment Tool — Aurie's Knowledge Hub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Inter:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --green:  #0e2b1a;
+  --green-mid: #1a3d28;
+  --green-light: #234d33;
+  --gold:   #c9a84c;
+  --gold-light: #e0c07a;
+  --gold-dim: rgba(201,168,76,0.15);
+  --white:  #ffffff;
+  --muted:  #8a9e90;
+  --border: rgba(201,168,76,0.18);
+  --surface: #1a3d28;
+  --ivory:  #fafaf8;
+  --serif: 'Cormorant Garamond', Georgia, serif;
+  --sans:  'Inter', system-ui, sans-serif;
+  --mono:  'DM Mono', monospace;
+  --red:   #f87171;
+  --amber: #fb923c;
+  --ok:    #4ade80;
+  --blue:  #60a5fa;
+}
+
+html { scroll-behavior: smooth; }
+body {
+  background: var(--green); color: var(--white);
+  font-family: var(--sans); font-weight: 300; line-height: 1.6;
+  min-height: 100vh;
+}
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: var(--green); }
+::-webkit-scrollbar-thumb { background: rgba(201,168,76,0.35); border-radius: 3px; }
+
+/* ── NAV ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; align-items: stretch;
+  background: rgba(9,31,18,0.97); backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+  height: 64px;
+}
+.nav-brand {
+  display: flex; align-items: center; padding: 0 2.5rem;
+  font-family: var(--serif); font-size: 1.25rem; font-weight: 600;
+  letter-spacing: 0.04em; color: var(--white); text-decoration: none;
+  border-right: 1px solid var(--border); flex-shrink: 0; transition: background 0.2s;
+}
+.nav-brand:hover { background: rgba(201,168,76,0.06); }
+.nav-brand span { color: var(--gold); }
+.nav-sections { display: flex; align-items: stretch; list-style: none; flex: 1; overflow-x: auto; }
+.nav-sections li { display: flex; }
+.nav-link {
+  display: flex; flex-direction: column; justify-content: center; padding: 0 1.6rem;
+  text-decoration: none; border-right: 1px solid var(--border);
+  transition: background 0.18s; min-width: 120px;
+}
+.nav-link:hover { background: rgba(201,168,76,0.06); }
+.nav-link.active { background: var(--gold-dim); border-bottom: 2px solid var(--gold); }
+.nav-link-primary { font-size: 0.78rem; font-weight: 500; letter-spacing: 0.05em; color: rgba(255,255,255,0.88); line-height: 1.2; white-space: nowrap; }
+.nav-link-sub { font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); line-height: 1; margin-top: 3px; white-space: nowrap; }
+.nav-link:hover .nav-link-primary { color: var(--gold-light); }
+.nav-link.active .nav-link-primary { color: var(--gold); }
+.nav-about {
+  display: flex; align-items: center; padding: 0 1.8rem;
+  font-size: 0.78rem; font-weight: 500; letter-spacing: 0.05em;
+  color: rgba(255,255,255,0.6); text-decoration: none; margin-left: auto;
+  transition: color 0.18s; white-space: nowrap;
+}
+.nav-about:hover { color: var(--gold); }
+@media (max-width: 768px) {
+  .nav-link { min-width: 100px; padding: 0 1rem; }
+  .nav-brand { padding: 0 1.2rem; font-size: 1.05rem; }
+}
+@media (max-width: 560px) {
+  .nav-link-sub { display: none; }
+  .nav-link { min-width: 80px; padding: 0 0.8rem; }
+}
+
+/* ── PRINT BAR ── */
+.print-bar { margin-top: 64px; background: var(--surface); padding: 8px 2.5rem; text-align: right; border-bottom: 1px solid var(--border); }
+.print-btn { background: var(--gold); color: var(--green); font-weight: 600; font-size: 9pt; padding: 6px 16px; border: none; cursor: pointer; letter-spacing: .06em; text-transform: uppercase; font-family: var(--sans); }
+
+/* ── PAGE HEADER ── */
+.page-header { padding: 2.5rem 2.5rem 1.5rem; background: radial-gradient(ellipse at 65% 30%, rgba(26,61,40,0.9) 0%, var(--green) 65%); border-bottom: 1px solid var(--border); }
+.back-link { font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); text-decoration: none; display: inline-flex; align-items: center; gap: 6px; margin-bottom: 1rem; transition: color 0.15s; }
+.back-link:hover { color: var(--gold); }
+.page-eyebrow { font-size: 0.7rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold); margin-bottom: 1rem; display: flex; align-items: center; gap: 1rem; }
+.page-eyebrow::before { content: ''; width: 2.5rem; height: 1px; background: var(--gold); display: inline-block; }
+h1.page-title { font-family: var(--serif); font-size: clamp(1.8rem, 3.6vw, 2.8rem); font-weight: 300; line-height: 1.15; margin-bottom: 0.6rem; }
+h1.page-title em { font-style: italic; color: var(--gold); }
+.page-desc { font-size: 0.95rem; color: rgba(255,255,255,0.58); max-width: 720px; line-height: 1.8; }
+
+/* ── STAGE NAV ── */
+.stage-nav { display: flex; gap: 0; margin: 0 2.5rem; border: 1px solid var(--border); flex-wrap: wrap; }
+.stage-btn { flex: 1; min-width: 140px; padding: 12px 8px; text-align: center; font-size: 0.68rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); background: var(--green-mid); border: none; cursor: pointer; border-right: 1px solid var(--border); transition: all .15s; font-family: var(--sans); }
+.stage-btn:last-child { border-right: none; }
+.stage-btn.active { background: var(--gold-dim); color: var(--gold); }
+.stage-btn.done { background: rgba(74,222,128,0.1); color: var(--ok); }
+.stage-btn:disabled { opacity: .4; cursor: not-allowed; }
+
+main { max-width: 1000px; margin: 0 auto; padding: 2.5rem; }
+.stage { display: none; }
+.stage.visible { display: block; }
+
+.stage-title { font-family: var(--serif); font-size: 1.6rem; font-weight: 400; margin-bottom: 6px; }
+.stage-title em { font-style: italic; color: var(--gold); }
+.stage-sub { font-size: 0.85rem; color: rgba(255,255,255,0.5); margin-bottom: 28px; line-height: 1.7; max-width: 680px; }
+
+/* ── FORM ELEMENTS ── */
+.field-label { font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gold); margin-bottom: 8px; display: block; }
+.field-group { margin-bottom: 24px; }
+input[type=text], textarea, select {
+  width: 100%; background: var(--surface); border: 1px solid var(--border); color: var(--white);
+  padding: 10px 14px; font-family: var(--sans); font-size: 0.85rem; border-radius: 2px;
+}
+textarea { min-height: 70px; resize: vertical; }
+input[type=text]::placeholder, textarea::placeholder { color: rgba(255,255,255,0.3); }
+.chip-row { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip {
+  padding: 7px 14px; border: 1px solid var(--border); border-radius: 20px;
+  font-size: 0.78rem; cursor: pointer; background: var(--surface); color: rgba(255,255,255,0.75);
+  transition: all .15s; user-select: none;
+}
+.chip:hover { border-color: var(--gold); }
+.chip.selected { background: var(--gold-dim); border-color: var(--gold); color: var(--gold); }
+
+.import-btn {
+  display: inline-flex; align-items: center; gap: 8px; margin-top: 6px;
+  padding: 9px 16px; background: rgba(96,165,250,0.1); border: 1px solid rgba(96,165,250,0.35);
+  color: var(--blue); font-size: 0.72rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase;
+  cursor: pointer; font-family: var(--sans); border-radius: 2px; transition: all .15s;
+}
+.import-btn:hover { background: rgba(96,165,250,0.18); }
+.import-note { font-size: 0.68rem; color: var(--muted); margin-top: 6px; font-style: italic; }
+
+.scope-banner {
+  display: none; background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--gold);
+  padding: 14px 18px; margin-bottom: 24px; font-size: 0.78rem; color: rgba(255,255,255,0.7);
+}
+.scope-banner.visible { display: block; }
+.scope-banner b { color: var(--gold); }
+
+/* ── PESTLE ── */
+.pestle-cat { margin-bottom: 26px; border: 1px solid var(--border); padding: 18px 20px; }
+.pestle-cat-head { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+.pestle-letter { width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: var(--serif); font-weight: 600; font-size: 1rem; flex-shrink: 0; }
+.pestle-cat-name { font-size: 0.95rem; font-weight: 500; }
+.pestle-tag { font-size: 0.6rem; letter-spacing: 0.08em; text-transform: uppercase; padding: 2px 8px; border-radius: 10px; margin-left: auto; }
+.tag-physical { background: rgba(96,165,250,0.15); color: var(--blue); }
+.tag-transition { background: rgba(251,146,60,0.15); color: var(--amber); }
+.add-risk-row { display: flex; gap: 8px; margin-top: 10px; }
+.add-risk-row input { flex: 1; }
+.add-risk-row button { background: var(--gold-dim); border: 1px solid var(--gold); color: var(--gold); padding: 0 16px; cursor: pointer; font-size: 0.75rem; font-family: var(--sans); }
+
+/* ── SCENARIOS ── */
+.scenario-family { margin-bottom: 26px; }
+.scenario-family-label { font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); margin-bottom: 10px; }
+.scenario-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2px; background: var(--border); border: 1px solid var(--border); }
+.scenario-card { background: var(--surface); padding: 14px 16px; cursor: pointer; transition: background .15s; }
+.scenario-card:hover { background: var(--green-light); }
+.scenario-card.selected { background: var(--gold-dim); }
+.scenario-name { font-family: var(--serif); font-size: 1.05rem; color: var(--white); margin-bottom: 4px; }
+.scenario-card.selected .scenario-name { color: var(--gold); }
+.scenario-desc { font-size: 0.72rem; color: rgba(255,255,255,0.5); line-height: 1.5; }
+
+.horizon-table { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 0.78rem; }
+.horizon-table th, .horizon-table td { border: 1px solid var(--border); padding: 8px 10px; text-align: left; }
+.horizon-table th { background: var(--surface); color: var(--gold); font-size: 0.68rem; letter-spacing: 0.05em; text-transform: uppercase; }
+.horizon-table input { padding: 6px 8px; font-size: 0.75rem; }
+
+/* ── MATRIX ── */
+.risk-row { display: grid; grid-template-columns: 1fr 90px 90px 70px; gap: 10px; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--border); font-size: 0.8rem; }
+.risk-row-head { font-size: 0.65rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
+.risk-score { text-align: center; font-family: var(--mono); font-weight: 500; padding: 4px; border-radius: 3px; }
+.score-low { background: rgba(74,222,128,0.15); color: var(--ok); }
+.score-med { background: rgba(251,146,60,0.15); color: var(--amber); }
+.score-high { background: rgba(248,113,113,0.15); color: var(--red); }
+
+/* ── RESPONSE ── */
+.response-card { border: 1px solid var(--border); padding: 16px 18px; margin-bottom: 14px; }
+.response-card-title { font-size: 0.9rem; font-weight: 500; margin-bottom: 10px; }
+.response-options { display: flex; gap: 8px; margin-bottom: 10px; flex-wrap: wrap; }
+.response-opt { padding: 6px 14px; border: 1px solid var(--border); border-radius: 16px; font-size: 0.72rem; cursor: pointer; background: var(--surface); }
+.response-opt.selected { background: var(--gold-dim); border-color: var(--gold); color: var(--gold); }
+
+/* ── BUTTONS ── */
+.stage-actions { display: flex; justify-content: space-between; margin-top: 30px; }
+.btn { padding: 11px 22px; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; cursor: pointer; font-family: var(--sans); border: 1px solid var(--border); background: transparent; color: rgba(255,255,255,0.7); }
+.btn-primary { background: var(--gold); color: var(--green); border-color: var(--gold); }
+.btn:hover { border-color: var(--gold); }
+
+/* ── DISCLOSURE MAP ── */
+.pillar-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 2px; background: var(--border); border: 1px solid var(--border); margin: 20px 0; }
+.pillar-card { background: var(--surface); padding: 18px 20px; }
+.pillar-name { font-family: var(--serif); font-size: 1.05rem; margin-bottom: 8px; }
+.pillar-status { font-size: 0.65rem; letter-spacing: 0.08em; text-transform: uppercase; padding: 3px 10px; border-radius: 10px; display: inline-block; margin-bottom: 8px; }
+.status-covered { background: rgba(74,222,128,0.15); color: var(--ok); }
+.status-partial { background: rgba(251,146,60,0.15); color: var(--amber); }
+.pillar-note { font-size: 0.72rem; color: rgba(255,255,255,0.5); line-height: 1.6; }
+.brief-section { margin-bottom: 26px; }
+.brief-section-title { font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); margin-bottom: 10px; border-bottom: 1px solid var(--border); padding-bottom: 6px; }
+
+footer { padding: 20px 2.5rem; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; color: var(--muted); font-size: 0.75rem; flex-wrap: wrap; gap: 8px; background: #091f12; }
+.footer-brand { font-family: var(--serif); font-size: 0.9rem; color: var(--gold); }
+
+@media print {
+  nav, .print-bar, .stage-nav, .stage-actions, .btn { display: none; }
+  .stage { display: block !important; }
+}
+@media (max-width: 700px) {
+  .stage-btn { min-width: 100px; }
+  .risk-row { grid-template-columns: 1fr; gap: 4px; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-brand" href="index.html">Aurie's <span>Knowledge Hub</span></a>
+  <ul class="nav-sections">
+    <li><a class="nav-link" href="ceo-insights.html"><span class="nav-link-primary">CEO Insights</span><span class="nav-link-sub">For the leadership</span></a></li>
+    <li><a class="nav-link active" href="tools.html"><span class="nav-link-primary">Tools &amp; Templates</span><span class="nav-link-sub">For ESG teams</span></a></li>
+    <li><a class="nav-link" href="resource-library.html"><span class="nav-link-primary">Resource Library</span><span class="nav-link-sub">For practitioners</span></a></li>
+    <li><a class="nav-link" href="thought-papers.html"><span class="nav-link-primary">Thought Papers</span><span class="nav-link-sub">For the curious</span></a></li>
+  </ul>
+  <a class="nav-about" href="about.html">About Me</a>
+</nav>
+
+<div class="print-bar"><button class="print-btn" onclick="window.print()">⬇ Print / Save PDF</button></div>
+
+<div class="page-header">
+  <a class="back-link" href="tools.html">← Tools &amp; Templates</a>
+  <p class="page-eyebrow">Tools &amp; Templates · Climate Risk Assessment Tool</p>
+  <h1 class="page-title">Climate Risk <em>Assessment Tool</em></h1>
+  <p class="page-desc">A five-stage process from PESTLE risk identification through scenario analysis, prioritisation, and response planning — ending in a board-ready brief with a TCFD / IFRS S2 disclosure readiness map.</p>
+</div>
+
+<div class="stage-nav">
+  <button class="stage-btn active" id="navBtn1" onclick="goStage(1)">1 · Scope</button>
+  <button class="stage-btn" id="navBtn2" onclick="goStage(2)" disabled>2 · PESTLE</button>
+  <button class="stage-btn" id="navBtn3" onclick="goStage(3)" disabled>3 · Scenarios</button>
+  <button class="stage-btn" id="navBtn4" onclick="goStage(4)" disabled>4 · Prioritise</button>
+  <button class="stage-btn" id="navBtn5" onclick="goStage(5)" disabled>5 · Response</button>
+  <button class="stage-btn" id="navBtn6" onclick="goStage(6)" disabled>6 · Brief</button>
+</div>
+
+<main>
+
+  <div class="scope-banner" id="scopeBanner"></div>
+
+  <!-- ═══ STAGE 1: SCOPE & CONTEXT ═══ -->
+  <div class="stage visible" id="stage1">
+    <div class="stage-title">Scope <em>&amp; Context</em></div>
+    <p class="stage-sub">Define what this assessment covers. This locks in and carries forward through every later stage.</p>
+
+    <div class="field-group">
+      <label class="field-label">Objectives — select all that apply</label>
+      <div class="chip-row" id="objectiveChips">
+        <div class="chip" data-val="Understand physical risk exposure across operations">Understand physical risk exposure</div>
+        <div class="chip" data-val="Understand transition risk exposure (regulatory, market, technology)">Understand transition risk exposure</div>
+        <div class="chip" data-val="Meet TCFD / IFRS S2 disclosure requirements">Meet TCFD / IFRS S2 disclosure requirements</div>
+        <div class="chip" data-val="Inform capital allocation / investment decisions">Inform capital allocation decisions</div>
+        <div class="chip" data-val="Assess supply chain resilience">Assess supply chain resilience</div>
+        <div class="chip" data-val="Support scenario-based strategic planning">Support scenario-based strategic planning</div>
+        <div class="chip" data-val="Respond to investor / lender due diligence request">Respond to investor / lender due diligence</div>
+        <div class="chip" data-val="Meet a specific regulatory deadline (CSRD, SEC, etc.)">Meet a specific regulatory deadline</div>
+      </div>
+      <div class="add-risk-row">
+        <input type="text" placeholder="Other objective (optional)..." id="objectiveOther">
+        <button onclick="addObjectiveOther()">+ Add</button>
+      </div>
+    </div>
+
+    <div class="field-group">
+      <label class="field-label">Operational Boundary</label>
+      <div class="chip-row" id="boundaryChips">
+        <div class="chip" data-val="Own Operations">Own Operations</div>
+        <div class="chip" data-val="Upstream">Upstream</div>
+        <div class="chip" data-val="Downstream">Downstream</div>
+        <div class="chip" data-val="Full Value Chain">Full Value Chain</div>
+      </div>
+    </div>
+
+    <div class="field-group">
+      <label class="field-label">Geography</label>
+      <input type="text" id="geography" placeholder="e.g. EU, Southeast Asia, Global">
+    </div>
+
+    <div class="field-group">
+      <label class="field-label">Time Horizons (fixed, used throughout the assessment)</label>
+      <div style="font-size:0.8rem;color:rgba(255,255,255,0.6);">Short-term (0–3 yrs) · Medium-term (3–10 yrs) · Long-term (10–30 yrs)</div>
+    </div>
+
+    <div class="field-group">
+      <label class="field-label">Baseline Emissions Data</label>
+      <div class="response-options" id="emissionsToggle">
+        <div class="response-opt" data-opt="import">⇄ Import from GHG Emissions Calculator</div>
+        <div class="response-opt" data-opt="manual">✎ Enter Manually</div>
+      </div>
+      <div id="emissionsImportBlock" style="display:none;">
+        <button class="import-btn" onclick="alert('This will connect to the GHG Emissions Calculator once linked. For now, use Enter Manually instead.')">⇄ Import from GHG Emissions Calculator</button>
+        <div class="import-note">Not yet linked — this will pull baseline Scope 1/2/3 data automatically once connected.</div>
+      </div>
+      <div id="emissionsManualBlock" style="display:none;">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-top:10px;">
+          <div><label class="field-label" style="font-size:0.62rem;">Base Year</label><input type="text" id="baseYear" placeholder="e.g. 2025"></div>
+          <div><label class="field-label" style="font-size:0.62rem;">Scope 1 (tCO2e)</label><input type="text" id="scope1" placeholder="0"></div>
+          <div><label class="field-label" style="font-size:0.62rem;">Scope 2 (tCO2e)</label><input type="text" id="scope2" placeholder="0"></div>
+          <div><label class="field-label" style="font-size:0.62rem;">Scope 3 (tCO2e)</label><input type="text" id="scope3" placeholder="0"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="stage-actions">
+      <span></span>
+      <button class="btn btn-primary" onclick="completeStage(1)">Continue to PESTLE →</button>
+    </div>
+  </div>
+
+  <!-- ═══ STAGE 2: PESTLE ═══ -->
+  <div class="stage" id="stage2">
+    <div class="stage-title">PESTLE Risk <em>Identification</em></div>
+    <p class="stage-sub">Select the risks relevant to your organisation under each category, or add your own. Each is auto-tagged Physical or Transition — override if needed.</p>
+
+    <div id="pestleContainer"></div>
+
+    <div class="stage-actions">
+      <button class="btn" onclick="goStage(1)">← Back</button>
+      <button class="btn btn-primary" onclick="completeStage(2)">Continue to Scenarios →</button>
+    </div>
+  </div>
+
+  <!-- ═══ STAGE 3: SCENARIOS ═══ -->
+  <div class="stage" id="stage3">
+    <div class="stage-title">Scenario <em>Analysis</em></div>
+    <p class="stage-sub">Pick one scenario per family to test resilience against. Each question below includes guidance and, where useful, a link to source data — fill in what you can; leaving a cell blank is fine.</p>
+
+    <div id="scenarioContainer"></div>
+
+    <div id="horizonContainer"></div>
+
+    <div class="stage-actions">
+      <button class="btn" onclick="goStage(2)">← Back</button>
+      <button class="btn btn-primary" onclick="completeStage(3)">Continue to Prioritisation →</button>
+    </div>
+  </div>
+
+  <!-- ═══ STAGE 4: EVALUATE & PRIORITISE ═══ -->
+  <div class="stage" id="stage4">
+    <div class="stage-title">Evaluate &amp; <em>Prioritise</em></div>
+    <p class="stage-sub">Every risk you selected or added in Stage 2 (PESTLE) appears below — if the list looks short, go back to Stage 2 and select more risks; nothing is added automatically here.</p>
+
+    <div style="border:1px solid var(--border);padding:16px 18px;margin-bottom:20px;background:var(--surface);">
+      <div style="font-size:0.7rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--gold);margin-bottom:10px;">Scoring guide</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;font-size:0.75rem;color:rgba(255,255,255,0.65);line-height:1.9;">
+        <div>
+          <b style="color:var(--white);">Likelihood</b><br>
+          1 — Rare (unlikely within horizon)<br>
+          2 — Unlikely<br>
+          3 — Possible<br>
+          4 — Likely<br>
+          5 — Almost certain
+        </div>
+        <div>
+          <b style="color:var(--white);">Impact</b><br>
+          1 — Negligible (minimal effect)<br>
+          2 — Minor<br>
+          3 — Moderate<br>
+          4 — Major<br>
+          5 — Severe (threatens continuity)
+        </div>
+      </div>
+      <div style="margin-top:12px;font-size:0.72rem;color:rgba(255,255,255,0.5);">Score = Likelihood × Impact. <span style="color:var(--ok);">1–6 Low</span> &middot; <span style="color:var(--amber);">7–14 Medium</span> &middot; <span style="color:var(--red);">15–25 High (material — carried into Response Planning)</span></div>
+    </div>
+
+    <div class="risk-row risk-row-head">
+      <div>Risk</div><div>Likelihood</div><div>Impact</div><div>Score</div>
+    </div>
+    <div id="matrixContainer"></div>
+
+    <div class="stage-actions">
+      <button class="btn" onclick="goStage(3)">← Back</button>
+      <button class="btn btn-primary" onclick="completeStage(4)">Continue to Response →</button>
+    </div>
+  </div>
+
+  <!-- ═══ STAGE 5: RESPONSE ═══ -->
+  <div class="stage" id="stage5">
+    <div class="stage-title">Response <em>Planning</em></div>
+    <p class="stage-sub">For each material (High-scored) risk: choose a response and note the mitigation action.</p>
+
+    <div id="responseContainer"></div>
+
+    <div class="stage-actions">
+      <button class="btn" onclick="goStage(4)">← Back</button>
+      <button class="btn btn-primary" onclick="completeStage(5)">Generate Brief →</button>
+    </div>
+  </div>
+
+  <!-- ═══ STAGE 6: BRIEF ═══ -->
+  <div class="stage" id="stage6">
+    <div class="stage-title">Climate Risk <em>Brief</em></div>
+    <p class="stage-sub">Board-ready summary, including your TCFD / IFRS S2 disclosure readiness map.</p>
+
+    <div id="briefContainer"></div>
+
+    <div class="stage-actions">
+      <button class="btn" onclick="goStage(5)">← Back</button>
+      <button class="btn btn-primary" onclick="window.print()">⬇ Print / Save Brief</button>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  <div class="footer-brand">Aurie's Knowledge Hub</div>
+  <div>Tools &amp; Templates · Climate Risk Assessment · Updated 2026</div>
+  <div style="color:rgba(201,168,76,0.5)"><a href="index.html" style="color:rgba(201,168,76,0.5);text-decoration:none">← Home</a></div>
+</footer>
+
+<script>
+// ── DATA ──
+const PESTLE = {
+  "Political": { tag: "Transition", risks: [
+    "Carbon pricing / ETS expansion", "Sanctions & trade policy shifts",
+    "Change in government climate ambition", "Geopolitical instability affecting supply routes"
+  ]},
+  "Economic": { tag: "Transition", risks: [
+    "Interest rate sensitivity of green capex", "Market volatility from energy price shocks",
+    "Insurance cost / availability changes", "Access to sustainable finance"
+  ]},
+  "Social": { tag: "Transition", risks: [
+    "Shifting consumer expectations (net-zero brands)", "Community opposition to new projects",
+    "Workforce health & safety under heat stress", "Just Transition / community livelihood risk"
+  ]},
+  "Technological": { tag: "Transition", risks: [
+    "Stranded assets from clean-tech disruption", "Cost / pace of decarbonisation tech adoption",
+    "Data & digital infrastructure exposure (cooling-dependent data centres)"
+  ]},
+  "Legal": { tag: "Transition", risks: [
+    "New mandatory disclosure law (IFRS S2, CSRD, SB 261, etc.)", "Climate litigation exposure",
+    "Environmental permitting risk"
+  ]},
+  "Environmental": { tag: "Physical", risks: [
+    "Acute: floods, wildfires, cyclones, heatwaves", "Chronic: sea-level rise, water scarcity, changing precipitation",
+    "Biodiversity / ecosystem service loss affecting operations or supply chain"
+  ]},
+};
+const PESTLE_LETTERS = { Political:"P", Economic:"E", Social:"S", Technological:"T", Legal:"L", Environmental:"E" };
+const PESTLE_COLORS = { Political:"#60a5fa", Economic:"#f59e0b", Social:"#e879f9", Technological:"#4ade80", Legal:"#fb923c", Environmental:"#2dd4bf" };
+
+const SCENARIOS = {
+  "IPCC (physical pathways)": [
+    { name: "SSP1-2.6", desc: "Low-emissions, Paris-aligned pathway." },
+    { name: "SSP2-4.5", desc: "\u201cMiddle of the road,\u201d moderate policy pathway." },
+    { name: "SSP5-8.5", desc: "High-emissions, limited-mitigation pathway." },
+  ],
+  "IEA (energy transition, WEO 2025)": [
+    { name: "NZE", desc: "Net Zero Emissions by 2050. ~1.65\u00b0C peak warming." },
+    { name: "STEPS", desc: "Stated Policies \u2014 adopted + announced policies. ~2.5\u00b0C." },
+    { name: "CPS", desc: "Current Policies only, no further ambition. ~2.9\u00b0C." },
+  ],
+  "NGFS (financial system risk)": [
+    { name: "Net Zero 2050", desc: "Orderly. Ambitious, coordinated transition." },
+    { name: "Delayed Transition", desc: "Disorderly. Late action, higher transition risk." },
+    { name: "Current Policies", desc: "Hot house world. High physical risk." },
+  ],
+};
+
+// ── STATE ──
+let state = {
+  scope: {}, risks: [], selectedScenarios: {}, horizonAnswers: {},
+  scores: {}, responses: {}, completed: [1],
+};
+let riskIdCounter = 0;
+
+// ── STAGE NAV ──
+function goStage(n) {
+  document.querySelectorAll('.stage').forEach(s => s.classList.remove('visible'));
+  document.getElementById('stage' + n).classList.add('visible');
+  document.querySelectorAll('.stage-btn').forEach((b, i) => {
+    b.classList.toggle('active', i + 1 === n);
+    b.classList.toggle('done', state.completed.includes(i + 1) && i + 1 !== n);
+  });
+  window.scrollTo(0, 0);
+}
+function completeStage(n) {
+  if (!state.completed.includes(n)) state.completed.push(n);
+  document.getElementById('navBtn' + (n + 1)).disabled = false;
+  if (n === 1) { saveScope(); renderScopeBanner(); renderPestle(); }
+  if (n === 2) { collectRisks(); renderScenarios(); }
+  if (n === 3) { renderMatrix(); }
+  if (n === 4) { renderResponses(); }
+  if (n === 5) { renderBrief(); }
+  goStage(n + 1);
+}
+
+// ── STAGE 1 ──
+document.getElementById('boundaryChips').addEventListener('click', e => {
+  if (e.target.classList.contains('chip')) e.target.classList.toggle('selected');
+});
+document.getElementById('objectiveChips').addEventListener('click', e => {
+  if (e.target.classList.contains('chip')) e.target.classList.toggle('selected');
+});
+function addObjectiveOther() {
+  const input = document.getElementById('objectiveOther');
+  const val = input.value.trim();
+  if (!val) return;
+  const row = document.getElementById('objectiveChips');
+  const chip = document.createElement('div');
+  chip.className = 'chip selected';
+  chip.dataset.val = val;
+  chip.textContent = val;
+  row.appendChild(chip);
+  input.value = '';
+}
+document.getElementById('emissionsToggle').addEventListener('click', e => {
+  const opt = e.target.closest('.response-opt');
+  if (!opt) return;
+  document.querySelectorAll('#emissionsToggle .response-opt').forEach(o => o.classList.remove('selected'));
+  opt.classList.add('selected');
+  document.getElementById('emissionsImportBlock').style.display = opt.dataset.opt === 'import' ? 'block' : 'none';
+  document.getElementById('emissionsManualBlock').style.display = opt.dataset.opt === 'manual' ? 'block' : 'none';
+});
+function saveScope() {
+  state.scope.objectives = [...document.querySelectorAll('#objectiveChips .chip.selected')].map(c => c.dataset.val).join('; ') || '(not specified)';
+  state.scope.geography = document.getElementById('geography').value || '(not specified)';
+  state.scope.boundaries = [...document.querySelectorAll('#boundaryChips .chip.selected')].map(c => c.dataset.val);
+  state.scope.emissions = {
+    mode: document.querySelector('#emissionsToggle .response-opt.selected')?.dataset.opt || 'not set',
+    baseYear: document.getElementById('baseYear')?.value || '',
+    scope1: document.getElementById('scope1')?.value || '',
+    scope2: document.getElementById('scope2')?.value || '',
+    scope3: document.getElementById('scope3')?.value || '',
+  };
+}
+function renderScopeBanner() {
+  const b = document.getElementById('scopeBanner');
+  b.innerHTML = `<b>Scope:</b> ${state.scope.objectives} &nbsp;|&nbsp; <b>Geography:</b> ${state.scope.geography} &nbsp;|&nbsp; <b>Boundary:</b> ${state.scope.boundaries.join(', ') || '(not specified)'} &nbsp;|&nbsp; <b>Horizons:</b> Short (0\u20133y) / Medium (3\u201310y) / Long (10\u201330y)`;
+  b.classList.add('visible');
+}
+
+// ── STAGE 2: PESTLE ──
+function renderPestle() {
+  const container = document.getElementById('pestleContainer');
+  container.innerHTML = '';
+  Object.keys(PESTLE).forEach(cat => {
+    const data = PESTLE[cat];
+    const div = document.createElement('div');
+    div.className = 'pestle-cat';
+    const tagClass = data.tag === 'Physical' ? 'tag-physical' : 'tag-transition';
+    div.innerHTML = `
+      <div class="pestle-cat-head">
+        <div class="pestle-letter" style="background:${PESTLE_COLORS[cat]}22;color:${PESTLE_COLORS[cat]};">${PESTLE_LETTERS[cat]}</div>
+        <div class="pestle-cat-name">${cat}</div>
+        <div class="pestle-tag ${tagClass}">${data.tag}</div>
+      </div>
+      <div class="chip-row" data-cat="${cat}">
+        ${data.risks.map(r => `<div class="chip" data-risk="${r}">${r}</div>`).join('')}
+      </div>
+      <div class="add-risk-row">
+        <input type="text" placeholder="Add your own ${cat.toLowerCase()} risk..." id="add-${cat}">
+        <button onclick="addCustomRisk('${cat}')">+ Add</button>
+      </div>`;
+    container.appendChild(div);
+    div.querySelector('.chip-row').addEventListener('click', e => {
+      if (e.target.classList.contains('chip')) e.target.classList.toggle('selected');
+    });
+  });
+}
+function addCustomRisk(cat) {
+  const input = document.getElementById('add-' + cat);
+  const val = input.value.trim();
+  if (!val) return;
+  const row = document.querySelector(`.chip-row[data-cat="${cat}"]`);
+  const chip = document.createElement('div');
+  chip.className = 'chip selected';
+  chip.dataset.risk = val;
+  chip.textContent = val;
+  row.appendChild(chip);
+  input.value = '';
+}
+function collectRisks() {
+  state.risks = [];
+  Object.keys(PESTLE).forEach(cat => {
+    document.querySelectorAll(`.chip-row[data-cat="${cat}"] .chip.selected`).forEach(chip => {
+      state.risks.push({ id: 'r' + (riskIdCounter++), category: cat, tag: PESTLE[cat].tag, text: chip.dataset.risk });
+    });
+  });
+}
+
+// ── STAGE 3: SCENARIOS ──
+function renderScenarios() {
+  const container = document.getElementById('scenarioContainer');
+  container.innerHTML = '';
+  Object.keys(SCENARIOS).forEach(family => {
+    const div = document.createElement('div');
+    div.className = 'scenario-family';
+    div.innerHTML = `<div class="scenario-family-label">${family}</div>
+      <div class="scenario-grid" data-family="${family}">
+        ${SCENARIOS[family].map(s => `<div class="scenario-card" data-name="${s.name}"><div class="scenario-name">${s.name}</div><div class="scenario-desc">${s.desc}</div></div>`).join('')}
+      </div>`;
+    container.appendChild(div);
+    div.querySelector('.scenario-grid').addEventListener('click', e => {
+      const card = e.target.closest('.scenario-card');
+      if (!card) return;
+      const grid = card.closest('.scenario-grid');
+      grid.querySelectorAll('.scenario-card').forEach(c => c.classList.remove('selected'));
+      card.classList.add('selected');
+      state.selectedScenarios[family] = card.dataset.name;
+      renderHorizonTable();
+    });
+  });
+}
+function renderHorizonTable() {
+  const selected = Object.values(state.selectedScenarios);
+  if (selected.length === 0) return;
+  const horizons = ['Short-term (0\u20133y)', 'Medium-term (3\u201310y)', 'Long-term (10\u201330y)'];
+  const questions = [
+    {
+      label: 'Warming-level exposure',
+      guidance: 'What temperature outcome does this scenario imply for your operating regions at this horizon?',
+      linkText: 'IPCC Interactive Atlas', link: 'https://interactive-atlas.ipcc.ch/'
+    },
+    {
+      label: 'Carbon price impact (\u20ac)',
+      guidance: 'Scenario shadow carbon price × your emissions volume at this horizon. Use imported/manual baseline emissions from Stage 1.',
+      linkText: 'NGFS Scenarios Portal (carbon price by scenario/year)', link: 'https://www.ngfs.net/ngfs-scenarios-portal/'
+    },
+    {
+      label: 'Regulatory cost exposure',
+      guidance: 'Anticipated compliance cost (new reporting systems, retrofits, permitting) under this scenario\u2019s policy trajectory.',
+      linkText: null, link: null
+    },
+    {
+      label: 'Supply chain resilience',
+      guidance: 'Score 1\u20135: 1 = severely disrupted / single points of failure, 3 = moderate exposure with some redundancy, 5 = fully resilient / diversified. Consider concentration risk and geographic exposure to physical hazards.',
+      linkText: null, link: null
+    },
+    {
+      label: 'Investment needed (\u20ac)',
+      guidance: 'Capital required to adapt or transition at this horizon under this scenario (technology upgrades, relocation, insurance premiums).',
+      linkText: 'IEA World Energy Outlook 2025 (investment trajectories)', link: 'https://www.iea.org/reports/world-energy-outlook-2025'
+    },
+  ];
+  let html = '';
+  selected.forEach(scenarioName => {
+    html += `<h3 style="font-family:var(--serif);font-size:1.1rem;color:var(--gold);margin:26px 0 4px;">${scenarioName}</h3>`;
+    questions.forEach(q => {
+      html += `<div style="border:1px solid var(--border);padding:14px 16px;margin-bottom:2px;">
+        <div style="font-size:0.82rem;font-weight:500;margin-bottom:4px;">${q.label}</div>
+        <div style="font-size:0.7rem;color:rgba(255,255,255,0.5);line-height:1.6;margin-bottom:10px;">${q.guidance}${q.link ? ` &middot; <a href="${q.link}" target="_blank" rel="noopener" style="color:var(--blue);">${q.linkText} \u2197</a>` : ''}</div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;">
+          ${horizons.map(h => `<div><div style="font-size:0.62rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:4px;">${h}</div><input type="text" data-key="${scenarioName}|${q.label}|${h}" placeholder="\u2013"></div>`).join('')}
+        </div>
+      </div>`;
+    });
+  });
+  document.getElementById('horizonContainer').innerHTML = html;
+}
+
+// ── STAGE 4: MATRIX ──
+function renderMatrix() {
+  const container = document.getElementById('matrixContainer');
+  container.innerHTML = '';
+  if (state.risks.length === 0) {
+    container.innerHTML = '<p style="color:var(--muted);font-size:0.85rem;">No risks were selected in Stage 2 \u2014 go back and select at least one.</p>';
+    return;
+  }
+  state.risks.forEach(risk => {
+    const row = document.createElement('div');
+    row.className = 'risk-row';
+    row.innerHTML = `
+      <div>${risk.text}</div>
+      <select data-risk="${risk.id}" data-axis="likelihood" onchange="updateScore('${risk.id}')">
+        ${[1,2,3,4,5].map(n => `<option value="${n}">${n}</option>`).join('')}
+      </select>
+      <select data-risk="${risk.id}" data-axis="impact" onchange="updateScore('${risk.id}')">
+        ${[1,2,3,4,5].map(n => `<option value="${n}">${n}</option>`).join('')}
+      </select>
+      <div class="risk-score score-low" id="score-${risk.id}">1</div>`;
+    container.appendChild(row);
+    state.scores[risk.id] = { likelihood: 1, impact: 1, score: 1 };
+  });
+}
+function updateScore(riskId) {
+  const likelihood = parseInt(document.querySelector(`select[data-risk="${riskId}"][data-axis="likelihood"]`).value);
+  const impact = parseInt(document.querySelector(`select[data-risk="${riskId}"][data-axis="impact"]`).value);
+  const score = likelihood * impact;
+  state.scores[riskId] = { likelihood, impact, score };
+  const el = document.getElementById('score-' + riskId);
+  el.textContent = score;
+  el.className = 'risk-score ' + (score >= 15 ? 'score-high' : score >= 7 ? 'score-med' : 'score-low');
+}
+
+// ── STAGE 5: RESPONSE ──
+function renderResponses() {
+  const container = document.getElementById('responseContainer');
+  container.innerHTML = '';
+  const material = state.risks.filter(r => state.scores[r.id] && state.scores[r.id].score >= 15);
+  if (material.length === 0) {
+    container.innerHTML = '<p style="color:var(--muted);font-size:0.85rem;">No risks scored 15+ (material) in Stage 4 \u2014 nothing requires a response plan yet.</p>';
+    return;
+  }
+  material.forEach(risk => {
+    const div = document.createElement('div');
+    div.className = 'response-card';
+    div.innerHTML = `
+      <div class="response-card-title">${risk.text} <span style="color:var(--red);font-family:var(--mono);font-size:0.75rem;">(score ${state.scores[risk.id].score})</span></div>
+      <div class="response-options" data-risk="${risk.id}">
+        ${['Avoid','Reduce','Transfer','Accept'].map(o => `<div class="response-opt" data-opt="${o}">${o}</div>`).join('')}
+      </div>
+      <textarea placeholder="Mitigation action..." data-risk-note="${risk.id}"></textarea>`;
+    container.appendChild(div);
+    div.querySelector('.response-options').addEventListener('click', e => {
+      if (!e.target.classList.contains('response-opt')) return;
+      const group = e.target.closest('.response-options');
+      group.querySelectorAll('.response-opt').forEach(o => o.classList.remove('selected'));
+      e.target.classList.add('selected');
+      state.responses[risk.id] = state.responses[risk.id] || {};
+      state.responses[risk.id].option = e.target.dataset.opt;
+    });
+  });
+}
+
+// ── STAGE 6: BRIEF ──
+function renderBrief() {
+  document.querySelectorAll('.response-card').forEach(card => {
+    const riskId = card.querySelector('.response-options').dataset.risk;
+    const note = card.querySelector('textarea').value;
+    state.responses[riskId] = state.responses[riskId] || {};
+    state.responses[riskId].note = note;
+  });
+
+  const materialRisks = state.risks.filter(r => state.scores[r.id] && state.scores[r.id].score >= 15);
+  const hasScenarios = Object.keys(state.selectedScenarios).length > 0;
+  const hasResponses = materialRisks.length > 0 && materialRisks.every(r => state.responses[r.id] && state.responses[r.id].option);
+
+  let html = `
+    <div class="brief-section">
+      <div class="brief-section-title">Scope</div>
+      <p style="font-size:0.85rem;color:rgba(255,255,255,0.7);">${state.scope.objectives}<br>Geography: ${state.scope.geography} &middot; Boundary: ${state.scope.boundaries.join(', ') || '\u2013'}<br>Baseline Emissions: ${state.scope.emissions.mode === 'manual' ? `Base year ${state.scope.emissions.baseYear || '\u2013'} &middot; Scope 1: ${state.scope.emissions.scope1 || '\u2013'} tCO2e &middot; Scope 2: ${state.scope.emissions.scope2 || '\u2013'} tCO2e &middot; Scope 3: ${state.scope.emissions.scope3 || '\u2013'} tCO2e` : state.scope.emissions.mode === 'import' ? 'Marked for import from GHG Emissions Calculator (not yet linked)' : 'Not specified'}</p>
+    </div>
+    <div class="brief-section">
+      <div class="brief-section-title">PESTLE Risk Register (${state.risks.length} risks)</div>
+      <p style="font-size:0.82rem;color:rgba(255,255,255,0.6);">${state.risks.map(r => `${r.text} <span style="color:var(--muted);">[${r.category} \u00b7 ${r.tag}]</span>`).join('<br>') || 'None selected.'}</p>
+    </div>
+    <div class="brief-section">
+      <div class="brief-section-title">Scenario Exposure</div>
+      <p style="font-size:0.82rem;color:rgba(255,255,255,0.6);">${Object.entries(state.selectedScenarios).map(([f,s]) => `${f}: <b style="color:var(--gold);">${s}</b>`).join('<br>') || 'None selected.'}</p>
+    </div>
+    <div class="brief-section">
+      <div class="brief-section-title">Prioritisation \u2014 ${materialRisks.length} Material Risk(s)</div>
+      <p style="font-size:0.82rem;color:rgba(255,255,255,0.6);">${materialRisks.map(r => `${r.text} \u2014 score ${state.scores[r.id].score}`).join('<br>') || 'None scored 15+.'}</p>
+    </div>
+    <div class="brief-section">
+      <div class="brief-section-title">Response Plan</div>
+      <p style="font-size:0.82rem;color:rgba(255,255,255,0.6);">${materialRisks.map(r => `${r.text}: <b style="color:var(--gold);">${(state.responses[r.id]||{}).option || 'Not set'}</b> \u2014 ${(state.responses[r.id]||{}).note || 'No note'}`).join('<br>') || 'No material risks to respond to.'}</p>
+    </div>
+    <div class="brief-section">
+      <div class="brief-section-title">TCFD / IFRS S2 Disclosure Readiness Map</div>
+      <div class="pillar-grid">
+        <div class="pillar-card">
+          <div class="pillar-name">Governance</div>
+          <div class="pillar-status status-covered">Covered</div>
+          <div class="pillar-note">Scope &amp; ownership defined in Stage 1.</div>
+        </div>
+        <div class="pillar-card">
+          <div class="pillar-name">Strategy</div>
+          <div class="pillar-status ${hasScenarios ? 'status-covered' : 'status-partial'}">${hasScenarios ? 'Covered' : 'Partial'}</div>
+          <div class="pillar-note">Risk identification (Stage 2) + scenario resilience testing (Stage 3).</div>
+        </div>
+        <div class="pillar-card">
+          <div class="pillar-name">Risk Management</div>
+          <div class="pillar-status ${state.risks.length > 0 ? 'status-covered' : 'status-partial'}">${state.risks.length > 0 ? 'Covered' : 'Partial'}</div>
+          <div class="pillar-note">Assessment &amp; prioritisation in Stage 4.</div>
+        </div>
+        <div class="pillar-card">
+          <div class="pillar-name">Metrics &amp; Targets</div>
+          <div class="pillar-status status-partial">Partial</div>
+          <div class="pillar-note">Requires Scope 1/2/3 GHG data and quantified targets \u2014 import from the GHG Emissions Calculator to complete this pillar.</div>
+        </div>
+      </div>
+    </div>`;
+  document.getElementById('briefContainer').innerHTML = html;
+}
+</script>
+
+</body>
+</html>
