@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Multi-Framework Datapoint Matrix - how the same ESG datapoint is treated across CSRD/ESRS, ISSB, CDP, and SBTi, with a Version 1 (current) and Version 2 (adopted, pending EU scrutiny) toggle.">
+<meta name="robots" content="index, follow">
+<meta property="og:title" content="Multi-Framework Datapoint Matrix - Aurie's Knowledge Hub">
+<meta property="og:description" content="How the same ESG datapoint is treated across CSRD/ESRS, ISSB, CDP, and SBTi - verified against primary sources, with current and pending versions shown side by side.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Aurie's Knowledge Hub">
+<title>Multi-Framework Datapoint Matrix - Aurie's Knowledge Hub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Inter:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --green: #0e2b1a; --green-mid: #1a3d28; --green-light: #234d33;
+  --gold: #c9a84c; --gold-light: #e0c07a; --gold-dim: rgba(201,168,76,0.15);
+  --white: #ffffff; --muted: #8a9e90; --border: rgba(201,168,76,0.18);
+  --surface: #1a3d28;
+  --serif: 'Cormorant Garamond', Georgia, serif;
+  --sans: 'Inter', system-ui, sans-serif;
+  --mono: 'DM Mono', monospace;
+}
+html { scroll-behavior: smooth; }
+body { background: var(--green); color: var(--white); font-family: var(--sans); font-weight: 300; line-height: 1.6; min-height: 100vh; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: var(--green); }
+::-webkit-scrollbar-thumb { background: rgba(201,168,76,0.35); border-radius: 3px; }
+
+/* NAV */
+nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: stretch; background: rgba(9,31,18,0.97); backdrop-filter: blur(16px); border-bottom: 1px solid var(--border); height: 64px; }
+.nav-brand { display: flex; align-items: center; padding: 0 2.5rem; font-family: var(--serif); font-size: 1.25rem; font-weight: 600; letter-spacing: 0.04em; color: var(--white); text-decoration: none; border-right: 1px solid var(--border); flex-shrink: 0; transition: background 0.2s; }
+.nav-brand:hover { background: rgba(201,168,76,0.06); }
+.nav-brand span { color: var(--gold); }
+.nav-sections { display: flex; align-items: stretch; list-style: none; flex: 1; overflow-x: auto; }
+.nav-sections li { display: flex; }
+.nav-link { display: flex; flex-direction: column; justify-content: center; padding: 0 1.6rem; text-decoration: none; border-right: 1px solid var(--border); transition: background 0.18s; min-width: 120px; }
+.nav-link:hover { background: rgba(201,168,76,0.06); }
+.nav-link.active { background: var(--gold-dim); border-bottom: 2px solid var(--gold); }
+.nav-link-primary { font-size: 0.78rem; font-weight: 500; letter-spacing: 0.05em; color: rgba(255,255,255,0.88); line-height: 1.2; white-space: nowrap; }
+.nav-link-sub { font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); line-height: 1; margin-top: 3px; white-space: nowrap; }
+.nav-link:hover .nav-link-primary { color: var(--gold-light); }
+.nav-link.active .nav-link-primary { color: var(--gold); }
+.nav-about { display: flex; align-items: center; padding: 0 1.8rem; font-size: 0.78rem; font-weight: 500; letter-spacing: 0.05em; color: rgba(255,255,255,0.6); text-decoration: none; margin-left: auto; transition: color 0.18s; white-space: nowrap; }
+.nav-about:hover { color: var(--gold); }
+@media (max-width: 768px) { .nav-link { min-width: 100px; padding: 0 1rem; } .nav-brand { padding: 0 1.2rem; font-size: 1.05rem; } }
+@media (max-width: 560px) { .nav-link-sub { display: none; } .nav-link { min-width: 80px; padding: 0 0.8rem; } }
+
+/* PAGE HEADER */
+.page-header { padding: 7rem 2.5rem 2rem; background: radial-gradient(ellipse at 65% 30%, rgba(26,61,40,0.9) 0%, var(--green) 65%); border-bottom: 1px solid var(--border); }
+.back-link { font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); text-decoration: none; display: inline-flex; align-items: center; gap: 6px; margin-bottom: 1rem; transition: color 0.15s; }
+.back-link:hover { color: var(--gold); }
+.page-eyebrow { font-size: 0.7rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold); margin-bottom: 1rem; display: flex; align-items: center; gap: 1rem; }
+.page-eyebrow::before { content: ''; width: 2.5rem; height: 1px; background: var(--gold); display: inline-block; }
+h1.page-title { font-family: var(--serif); font-size: clamp(1.9rem, 3.8vw, 2.9rem); font-weight: 300; line-height: 1.15; margin-bottom: 0.6rem; }
+h1.page-title em { font-style: italic; color: var(--gold); }
+.page-desc { font-size: 0.95rem; color: rgba(255,255,255,0.58); max-width: 760px; line-height: 1.8; }
+
+main { max-width: 1080px; margin: 0 auto; padding: 2.5rem; }
+
+/* CONTROLS */
+.controls-bar { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 14px; }
+.toggle-group { display: flex; gap: 6px; }
+.toggle-btn { padding: 9px 18px; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.05em; border-radius: 2px; border: 1px solid var(--border); background: var(--surface); color: rgba(255,255,255,0.6); cursor: pointer; font-family: var(--sans); transition: all 0.15s; }
+.toggle-btn.active { background: var(--gold-dim); border-color: var(--gold); color: var(--gold); }
+select.filter-select { font-size: 0.75rem; padding: 9px 14px; background: var(--surface); border: 1px solid var(--border); color: var(--white); border-radius: 2px; font-family: var(--sans); }
+.legend { display: flex; gap: 14px; font-size: 0.68rem; color: var(--muted); flex-wrap: wrap; }
+.legend span { display: inline-flex; align-items: center; gap: 5px; }
+.legend-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+
+.verify-banner { background: var(--surface); border-left: 3px solid var(--gold); padding: 14px 18px; margin-bottom: 24px; font-size: 0.78rem; color: rgba(255,255,255,0.65); line-height: 1.7; }
+.verify-banner b { color: var(--gold); }
+
+.family-block { margin-bottom: 40px; }
+.family-header { display: flex; align-items: baseline; gap: 12px; margin-bottom: 4px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+.family-title { font-family: var(--serif); font-size: 1.5rem; font-weight: 400; }
+.family-title em { font-style: italic; color: var(--gold); }
+.family-count { font-family: var(--mono); font-size: 0.65rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; }
+
+table.matrix-table { width: 100%; border-collapse: collapse; table-layout: fixed; font-size: 0.78rem; margin-top: 14px; }
+.matrix-table colgroup col.c-dp { width: 20%; }
+.matrix-table colgroup col.c-fw { width: 14%; }
+.matrix-table colgroup col.c-notes { width: 24%; }
+.matrix-table th { text-align: left; padding: 8px 8px; font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); border-bottom: 1px solid var(--border); font-weight: 500; }
+.matrix-table td { padding: 8px 8px; border-bottom: 1px solid var(--border); vertical-align: top; }
+.dp-name { font-weight: 500; color: var(--white); font-size: 0.8rem; line-height: 1.4; }
+.cell-tag { border-radius: 5px; padding: 5px 7px; }
+.cell-title { font-size: 0.76rem; font-weight: 500; line-height: 1.35; }
+.cell-sub { font-size: 0.65rem; margin-top: 2px; line-height: 1.4; opacity: 0.85; }
+.notes-text { font-size: 0.72rem; color: rgba(255,255,255,0.55); line-height: 1.6; }
+
+@media (max-width: 900px) {
+  main { overflow-x: auto; }
+  table.matrix-table { min-width: 980px; }
+}
+
+footer { padding: 20px 2.5rem; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; color: var(--muted); font-size: 0.75rem; flex-wrap: wrap; gap: 8px; background: #091f12; }
+.footer-brand { font-family: var(--serif); font-size: 0.9rem; color: var(--gold); }
+
+/* ── MOBILE NAV ── */
+.nav-mobile-toggle {
+  display: none; align-items: center; justify-content: center;
+  background: none; border: none; border-right: 1px solid var(--border);
+  color: var(--white); font-size: 1.3rem; cursor: pointer;
+  padding: 0 1.1rem; height: 100%; flex-shrink: 0;
+}
+.nav-mobile-toggle:hover { background: rgba(201,168,76,0.06); }
+.nav-mobile-menu {
+  display: none; flex-direction: column;
+  position: fixed; top: 64px; left: 0; right: 0; bottom: 0;
+  background: rgba(9,31,18,0.98); backdrop-filter: blur(16px);
+  z-index: 99; overflow-y: auto;
+}
+.nav-mobile-menu.open { display: flex; }
+.nav-mobile-menu a {
+  padding: 18px 2rem; text-decoration: none; color: rgba(255,255,255,0.85);
+  border-bottom: 1px solid var(--border); display: flex; flex-direction: column; gap: 3px;
+  transition: background 0.15s;
+}
+.nav-mobile-menu a:hover { background: rgba(201,168,76,0.06); }
+.nav-mobile-menu a.active { background: var(--gold-dim); }
+.nav-mobile-menu a.active .nav-mobile-primary { color: var(--gold); }
+.nav-mobile-primary { font-size: 1rem; font-weight: 500; }
+.nav-mobile-sub { font-size: 0.68rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; }
+@media (max-width: 768px) {
+  .nav-sections { display: none; }
+  .nav-brand { border-right: none; }
+  .nav-mobile-toggle { display: flex; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <button class="nav-mobile-toggle" id="navMobileToggle" onclick="toggleMobileNav()" aria-label="Open menu" aria-expanded="false">☰</button>
+  <a class="nav-brand" href="index.html">Aurie's <span>Knowledge Hub</span></a>
+  <ul class="nav-sections">
+    <li><a class="nav-link" href="ceo-insights.html"><span class="nav-link-primary">CEO Insights</span><span class="nav-link-sub">For the leadership</span></a></li>
+    <li><a class="nav-link" href="tools.html"><span class="nav-link-primary">Tools &amp; Templates</span><span class="nav-link-sub">For ESG teams</span></a></li>
+    <li><a class="nav-link active" href="resource-library.html"><span class="nav-link-primary">Resource Library</span><span class="nav-link-sub">For practitioners</span></a></li>
+    <li><a class="nav-link" href="thought-papers.html"><span class="nav-link-primary">Thought Papers</span><span class="nav-link-sub">For the curious</span></a></li>
+  </ul>
+  <a class="nav-about" href="about.html">About Me</a>
+</nav>
+
+<div class="nav-mobile-menu" id="navMobileMenu">
+  <a class="" href="ceo-insights.html"><span class="nav-mobile-primary">CEO Insights</span><span class="nav-mobile-sub">For the leadership</span></a>
+  <a class="" href="tools.html"><span class="nav-mobile-primary">Tools &amp; Templates</span><span class="nav-mobile-sub">For ESG teams</span></a>
+  <a class="active" href="resource-library.html"><span class="nav-mobile-primary">Resource Library</span><span class="nav-mobile-sub">For practitioners</span></a>
+  <a class="" href="thought-papers.html"><span class="nav-mobile-primary">Thought Papers</span><span class="nav-mobile-sub">For the curious</span></a>
+  <a href="about.html"><span class="nav-mobile-primary">About Me</span></a>
+</div>
+
+<div class="page-header">
+  <a class="back-link" href="resource-library.html">← Resource Library</a>
+  <p class="page-eyebrow">Resource Library · Multi-Framework Datapoint Matrix</p>
+  <h1 class="page-title">The Same Datapoint, <em>Five Frameworks</em></h1>
+  <p class="page-desc">How CSRD/ESRS, ISSB, CDP, and SBTi each treat the same underlying datapoint across five data families - GHG inventory, energy, water &amp; waste, workforce, and governance. Every citation below was checked against the primary source, not carried over from a secondary summary.</p>
+</div>
+
+<main>
+
+  <div class="controls-bar">
+    <div class="toggle-group">
+      <button class="toggle-btn active" id="btnV1" onclick="setVersion('v1')">Version 1 · Current</button>
+      <button class="toggle-btn" id="btnV2" onclick="setVersion('v2')">Version 2 · Adopted, Pending EU Scrutiny</button>
+    </div>
+    <select class="filter-select" id="filterSelect" onchange="setFilter(this.value)">
+      <option value="all">Show all statuses</option>
+      <option value="confirmed">Confirmed &amp; in force only</option>
+      <option value="adopted">Adopted, pending scrutiny only</option>
+      <option value="partial">Draft / partial only</option>
+      <option value="na">Not applicable only</option>
+    </select>
+  </div>
+
+  <div class="legend">
+    <span><span class="legend-dot" style="background:#4ade80;"></span>Confirmed &amp; in force</span>
+    <span><span class="legend-dot" style="background:#c9a84c;"></span>Adopted 3 Jul 2026, pending EU scrutiny</span>
+    <span><span class="legend-dot" style="background:#fb923c;"></span>Draft / partial / sector-conditional</span>
+    <span><span class="legend-dot" style="background:#8a9e90;"></span>Not applicable</span>
+  </div>
+
+  <div class="verify-banner" id="verifyBanner"></div>
+
+  <div id="matrixRoot"></div>
+
+</main>
+
+<footer>
+  <div class="footer-brand">Aurie's Knowledge Hub</div>
+  <div>Resource Library · Multi-Framework Datapoint Matrix · Updated 2026</div>
+  <div style="color:rgba(201,168,76,0.5)"><a href="index.html" style="color:rgba(201,168,76,0.5);text-decoration:none">← Home</a></div>
+</footer>
+
+<script>
+// ── STATUS DEFINITIONS ──
+var STATUS = {
+  confirmed: { color: '#4ade80', bg: 'rgba(74,222,128,0.12)', label: 'Confirmed & in force' },
+  adopted:   { color: '#c9a84c', bg: 'rgba(201,168,76,0.14)', label: 'Adopted, pending EU scrutiny' },
+  partial:   { color: '#fb923c', bg: 'rgba(251,146,60,0.12)', label: 'Draft / partial' },
+  na:        { color: '#8a9e90', bg: 'rgba(255,255,255,0.04)', label: 'Not applicable' }
+};
+
+var BANNERS = {
+  v1: '<b>Version 1 · Current, in force now.</b> ESRS (2023) under Delegated Regulation (EU) 2023/2772, applicable to Wave 1 reporters for FY2024-2026. Verified 10 July 2026 against EFRAG, IFRS Foundation, CDP, and SBTi primary sources.',
+  v2: '<b>Version 2 · Adopted 3 July 2026, not yet legally in force.</b> ESRS (2026) delegated act, based on EFRAG\u2019s December 2025 technical advice with Commission modifications (C(2026) 5010 final). Now in mandatory EU Parliament/Council scrutiny (2 months, extendable to 4) before Official Journal publication. Applies to financial years beginning on/after 1 January 2027; early adoption optional for FY2026. Verified 10 July 2026 - check EFRAG.org for current scrutiny status before relying on this as final.'
+};
+
+// ── DATA: 5 families, verified rows ──
+var FAMILIES = [
+  {
+    name: 'GHG Inventory',
+    rows: [
+      { dp: 'Scope 1 GHG emissions', notes: 'Universal across every framework checked. Lowest-risk datapoint in the whole matrix to build reporting infrastructure around now.',
+        v1: { csrd: ['confirmed','ESRS E1-6','\u00a744-55'], issb: ['confirmed','IFRS S2 \u00a729(a)(i)','GHG Protocol basis'], cdp: ['confirmed','C6.1',''], sbti: ['confirmed','Required','Baseline, CNZS v1.3.1'] },
+        v2: { csrd: ['adopted','ESRS E1-8','Renumbered from E1-6'], issb: ['confirmed','IFRS S2 \u00a729(a)(i)','Unchanged'], cdp: ['confirmed','C6.1 (likely)','Module stable 2019-2026'], sbti: ['confirmed','Required','CNZS v1.3.1 valid to end-2027'] } },
+      { dp: 'Scope 2 (location- & market-based)', notes: 'CSRD requires both methods disclosed side by side; ISSB requires only location-based plus contractual-instrument context.',
+        v1: { csrd: ['confirmed','ESRS E1-6','Both methods required'], issb: ['partial','IFRS S2 \u00a729(a)(ii)','Location-based only'], cdp: ['confirmed','C6.3',''], sbti: ['confirmed','Required',''] },
+        v2: { csrd: ['adopted','ESRS E1-8','Renumbered from E1-6'], issb: ['partial','IFRS S2 \u00a729(a)(ii)','Unchanged'], cdp: ['confirmed','C6.3 (likely)',''], sbti: ['confirmed','Required',''] } },
+      { dp: 'Scope 3 Cat. 1 & 11 (if material)', notes: 'SBTi V2.0 (11 Jun 2026) replaces the old blanket 67% coverage rule with a 5%-of-Scope-3 significance threshold per category - can mean deeper coverage than before for material categories.',
+        v1: { csrd: ['confirmed','ESRS E1-6','If material'], issb: ['confirmed','IFRS S2 \u00a729(a)(iii)','If material'], cdp: ['confirmed','C6.5',''], sbti: ['confirmed','67%+ coverage','Criterion 5.1, v1.3.1'] },
+        v2: { csrd: ['adopted','ESRS E1-8','Renumbered from E1-6'], issb: ['confirmed','IFRS S2 \u00a729(a)(iii)','Unchanged'], cdp: ['confirmed','C6.5 (likely)',''], sbti: ['partial','5% threshold rule','CNZS v2.0, validation from Feb 2027'] } },
+      { dp: 'GHG organisational boundary method', notes: 'Genuine flexibility gain in Version 2, not a new constraint - corrects an earlier finding of ours. Deliberately aligns ESRS with IFRS S2 and the GHG Protocol.',
+        v1: { csrd: ['partial','ESRS E1','Financial control only'], issb: ['confirmed','GHG Protocol basis','Entity\u2019s choice'], cdp: ['confirmed','Entity\u2019s choice',''], sbti: ['confirmed','Financial/operational','Entity\u2019s choice'] },
+        v2: { csrd: ['adopted','ESRS E1 (amended)','Financial OR operational control - new choice'], issb: ['confirmed','GHG Protocol basis','Unchanged'], cdp: ['confirmed','Entity\u2019s choice',''], sbti: ['confirmed','Financial/operational','Unchanged'] } }
+    ]
+  },
+  {
+    name: 'Energy',
+    rows: [
+      { dp: 'Total energy consumption & mix', notes: 'ISSB has no dedicated universal energy metric - only shows up via sector-specific SASB-derived guidance for certain industries (e.g. Building Products). A real scope gap versus ESRS, not just a citation difference.',
+        v1: { csrd: ['confirmed','ESRS E1-5','\u00a735-39, fossil/nuclear/renewable split'], issb: ['partial','Qualitative only','\u00a722, opportunities factor; SASB for some sectors'], cdp: ['confirmed','C8.2',''], sbti: ['na','Not applicable',''] },
+        v2: { csrd: ['adopted','ESRS E1-7','Renumbered; renewable share must state market- or location-based method'], issb: ['partial','Qualitative only','Unchanged'], cdp: ['confirmed','C8.2 (likely)',''], sbti: ['na','Not applicable',''] } },
+      { dp: 'Renewable share methodology', notes: 'Version 2 tightens this: renewable can only count under market-based method where evidenced by a PPA or Guarantee of Origin.',
+        v1: { csrd: ['confirmed','ESRS E1-5','\u00a740'], issb: ['na','Not specified',''], cdp: ['confirmed','C8.2e',''], sbti: ['na','Not applicable',''] },
+        v2: { csrd: ['adopted','ESRS E1-7','PPA/GO evidence required for market-based claim'], issb: ['na','Not specified',''], cdp: ['confirmed','C8.2e (likely)',''], sbti: ['na','Not applicable',''] } }
+    ]
+  },
+  {
+    name: 'Water & Waste',
+    rows: [
+      { dp: 'Water withdrawal, consumption, discharge', notes: 'The single largest reduction of any ESRS standard in Version 2: 70.4% cut in datapoints, 82% cut in word count. Marine resource use moved out to E5; marine biodiversity moved out to E4. GRI 303 (2018) remains current and unaffected by any of this.',
+        v1: { csrd: ['confirmed','ESRS E3-4','Water + marine resources in scope'], issb: ['partial','Sector-specific only','SASB-derived, e.g. CG-EC-130a.2'], cdp: ['confirmed','W1.2',''], sbti: ['na','Not applicable',''] },
+        v2: { csrd: ['adopted','ESRS E3-4 (renamed "Water")','Marine use moved to E5; only freshwater/seawater remain'], issb: ['partial','Sector-specific only','Unchanged'], cdp: ['confirmed','W1.2 (likely)',''], sbti: ['na','Not applicable',''] } },
+      { dp: 'Resource inflows & circularity', notes: 'Gains marine resource use from E3 in Version 2. GRI 306 (2020 version) is the current standard - note the 2016 "Effluents and Waste" version was superseded and shifted water-discharge content into GRI 303.',
+        v1: { csrd: ['confirmed','ESRS E5-4','Materials, critical raw materials'], issb: ['na','Not applicable',''], cdp: ['na','Not applicable',''], sbti: ['na','Not applicable',''] },
+        v2: { csrd: ['adopted','ESRS E5-4 (expanded)','Now includes marine resources from former E3'], issb: ['na','Not applicable',''], cdp: ['na','Not applicable',''], sbti: ['na','Not applicable',''] } },
+      { dp: 'Waste generated & diverted from disposal', notes: 'DR numbering stable across both versions (E5-5). GRI 306-3/306-4 map closely to this datapoint.',
+        v1: { csrd: ['confirmed','ESRS E5-5','Resource outflows'], issb: ['partial','Sector-specific only','SASB-derived'], cdp: ['na','Not applicable',''], sbti: ['na','Not applicable',''] },
+        v2: { csrd: ['adopted','ESRS E5-5','Unchanged DR number'], issb: ['partial','Sector-specific only','Unchanged'], cdp: ['na','Not applicable',''], sbti: ['na','Not applicable',''] } }
+    ]
+  },
+  {
+    name: 'Workforce',
+    rows: [
+      { dp: 'Employee characteristics (headcount, gender, country)', notes: 'Nearly universal materiality - workforce topics "almost certainly" pass double materiality for any CSRD-scoped company. GRI 401 (2016) remains current for comparison.',
+        v1: { csrd: ['confirmed','ESRS S1-6','\u00a750'], issb: ['na','Not applicable',''], cdp: ['na','Not applicable','No dedicated CDP workforce programme'], sbti: ['na','Not applicable',''] },
+        v2: { csrd: ['adopted','ESRS S1-5','Renumbered; mandatory the moment workforce is material - explicit carve-out from general opt-out rule'], issb: ['na','Not applicable',''], cdp: ['na','Not applicable',''], sbti: ['na','Not applicable',''] } },
+      { dp: 'Gender pay gap', notes: 'Version 2 narrows scope specifically to the unadjusted gap plus the highest-paid-to-median ratio - a tightening of what counts, not just a renumbering. GRI 405-2 covers the same territory.',
+        v1: { csrd: ['confirmed','ESRS S1-16','\u00a797'], issb: ['na','Not applicable',''], cdp: ['na','Not applicable',''], sbti: ['na','Not applicable',''] },
+        v2: { csrd: ['adopted','Renumbered','Unadjusted gap + pay ratio only'], issb: ['na','Not applicable',''], cdp: ['na','Not applicable',''], sbti: ['na','Not applicable',''] } },
+      { dp: 'Health & safety incidents', notes: 'Version 2 makes this "more structured" per EFRAG - occupational safety system coverage, accident rate per million hours, days lost. GRI 403 (2018) is the comparable current standard.',
+        v1: { csrd: ['confirmed','ESRS S1-14','\u00a788'], issb: ['na','Not applicable',''], cdp: ['na','Not applicable',''], sbti: ['na','Not applicable',''] },
+        v2: { csrd: ['adopted','Renumbered','More structured metric set'], issb: ['na','Not applicable',''], cdp: ['na','Not applicable',''], sbti: ['na','Not applicable',''] } }
+    ]
+  },
+  {
+    name: 'Governance',
+    rows: [
+      { dp: 'Board oversight of sustainability', notes: 'The strongest interoperability story in the whole matrix. EFRAG has explicitly restructured the amended ESRS around the same 4-pillar TCFD architecture ISSB already uses - a deliberate convergence, confirmed directly from EFRAG\u2019s own Basis for Conclusions.',
+        v1: { csrd: ['confirmed','ESRS 2 GOV-1',''], issb: ['confirmed','IFRS S1 \u00a727-31',''], cdp: ['confirmed','C1.1',''], sbti: ['na','Not applicable',''] },
+        v2: { csrd: ['adopted','ESRS 2 GOV-1','DR name/number stable; architecture now explicitly TCFD-aligned'], issb: ['confirmed','IFRS S1 \u00a727-31','Unchanged'], cdp: ['confirmed','C1.1 (likely)',''], sbti: ['na','Not applicable',''] } },
+      { dp: 'Anti-corruption & bribery policies, incidents', notes: 'Restructured into a "Policies-Actions-Targets" architecture in Version 2 - the same PAT pattern applied across every topical standard, not unique to governance.',
+        v1: { csrd: ['confirmed','ESRS G1-1, G1-3',''], issb: ['na','Not applicable',''], cdp: ['na','Not applicable',''], sbti: ['na','Not applicable',''] },
+        v2: { csrd: ['adopted','PAT-restructured','Some content migrates into GOV-1'], issb: ['na','Not applicable',''], cdp: ['na','Not applicable',''], sbti: ['na','Not applicable',''] } },
+      { dp: 'Political influence & lobbying', notes: 'Oversight-responsibility content is explicitly moving from G1 into the general ESRS 2 GOV-1 disclosure in Version 2 - a genuine structural shift, confirmed in EFRAG\u2019s Log of Amendments ("Partially covered in Amended ESRS 2 GOV-1").',
+        v1: { csrd: ['confirmed','ESRS G1-5',''], issb: ['na','Not applicable',''], cdp: ['na','Not applicable',''], sbti: ['na','Not applicable',''] },
+        v2: { csrd: ['adopted','Partially moved to GOV-1','Oversight content migrates out of G1'], issb: ['na','Not applicable',''], cdp: ['na','Not applicable',''], sbti: ['na','Not applicable',''] } }
+    ]
+  }
+];
+
+var state = { version: 'v1', filter: 'all' };
+
+function cellHtml(cellData) {
+  var s = STATUS[cellData[0]];
+  var title = cellData[1];
+  var sub = cellData[2];
+  var show = (state.filter === 'all' || state.filter === cellData[0]);
+  var bg = show ? s.bg : 'rgba(255,255,255,0.03)';
+  var color = show ? s.color : 'rgba(255,255,255,0.25)';
+  var subColor = show ? 'rgba(255,255,255,0.55)' : 'rgba(255,255,255,0.15)';
+  return '<td><div class="cell-tag" style="background:' + bg + ';">' +
+    '<div class="cell-title" style="color:' + color + ';">' + title + '</div>' +
+    (sub ? '<div class="cell-sub" style="color:' + subColor + ';">' + sub + '</div>' : '') +
+    '</div></td>';
+}
+
+function render() {
+  document.getElementById('verifyBanner').innerHTML = BANNERS[state.version];
+  var root = document.getElementById('matrixRoot');
+  root.innerHTML = '';
+  FAMILIES.forEach(function(family) {
+    var block = document.createElement('div');
+    block.className = 'family-block';
+    var tableRows = family.rows.map(function(row) {
+      var v = row[state.version];
+      return '<tr>' +
+        '<td class="dp-name">' + row.dp + '</td>' +
+        cellHtml(v.csrd) + cellHtml(v.issb) + cellHtml(v.cdp) + cellHtml(v.sbti) +
+        '<td class="notes-text">' + row.notes + '</td>' +
+        '</tr>';
+    }).join('');
+    block.innerHTML =
+      '<div class="family-header"><div class="family-title">' + family.name + '</div><div class="family-count">' + family.rows.length + ' datapoints</div></div>' +
+      '<table class="matrix-table"><colgroup><col class="c-dp"><col class="c-fw"><col class="c-fw"><col class="c-fw"><col class="c-fw"><col class="c-notes"></colgroup>' +
+      '<thead><tr><th>Datapoint</th><th>CSRD / ESRS</th><th>ISSB</th><th>CDP</th><th>SBTi</th><th>Notes</th></tr></thead>' +
+      '<tbody>' + tableRows + '</tbody></table>';
+    root.appendChild(block);
+  });
+}
+
+function setVersion(v) {
+  state.version = v;
+  document.getElementById('btnV1').classList.toggle('active', v === 'v1');
+  document.getElementById('btnV2').classList.toggle('active', v === 'v2');
+  render();
+}
+function setFilter(f) {
+  state.filter = f;
+  render();
+}
+
+render();
+</script>
+
+
+<script>
+function toggleMobileNav() {
+  var menu = document.getElementById('navMobileMenu');
+  var btn = document.getElementById('navMobileToggle');
+  var isOpen = menu.classList.toggle('open');
+  btn.textContent = isOpen ? '\u2715' : '\u2630';
+  btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+}
+</script>
+
+<script data-goatcounter="https://esg-hub.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

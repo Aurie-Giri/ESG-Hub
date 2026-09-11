@@ -243,10 +243,42 @@ nav {
   .nav-link-sub { display: none; }
   .nav-link { min-width: 80px; padding: 0 0.8rem; }
 }
+
+/* ── MOBILE NAV ── */
+.nav-mobile-toggle {
+  display: none; align-items: center; justify-content: center;
+  background: none; border: none; border-right: 1px solid var(--border);
+  color: var(--white); font-size: 1.3rem; cursor: pointer;
+  padding: 0 1.1rem; height: 100%; flex-shrink: 0;
+}
+.nav-mobile-toggle:hover { background: rgba(201,168,76,0.06); }
+.nav-mobile-menu {
+  display: none; flex-direction: column;
+  position: fixed; top: 64px; left: 0; right: 0; bottom: 0;
+  background: rgba(9,31,18,0.98); backdrop-filter: blur(16px);
+  z-index: 99; overflow-y: auto;
+}
+.nav-mobile-menu.open { display: flex; }
+.nav-mobile-menu a {
+  padding: 18px 2rem; text-decoration: none; color: rgba(255,255,255,0.85);
+  border-bottom: 1px solid var(--border); display: flex; flex-direction: column; gap: 3px;
+  transition: background 0.15s;
+}
+.nav-mobile-menu a:hover { background: rgba(201,168,76,0.06); }
+.nav-mobile-menu a.active { background: var(--gold-dim); }
+.nav-mobile-menu a.active .nav-mobile-primary { color: var(--gold); }
+.nav-mobile-primary { font-size: 1rem; font-weight: 500; }
+.nav-mobile-sub { font-size: 0.68rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; }
+@media (max-width: 768px) {
+  .nav-sections { display: none; }
+  .nav-brand { border-right: none; }
+  .nav-mobile-toggle { display: flex; }
+}
 </style>
 </head>
 <body>
 <nav>
+  <button class="nav-mobile-toggle" id="navMobileToggle" onclick="toggleMobileNav()" aria-label="Open menu" aria-expanded="false">☰</button>
   <a class="nav-brand" href="index.html">Aurie's <span>Knowledge Hub</span></a>
   <ul class="nav-sections">
     <li>
@@ -276,6 +308,14 @@ nav {
   </ul>
   <a class="nav-about" href="about.html">About Me</a>
 </nav>
+
+<div class="nav-mobile-menu" id="navMobileMenu">
+  <a class="" href="ceo-insights.html"><span class="nav-mobile-primary">CEO Insights</span><span class="nav-mobile-sub">For the leadership</span></a>
+  <a class="active" href="tools.html"><span class="nav-mobile-primary">Tools &amp; Templates</span><span class="nav-mobile-sub">For ESG teams</span></a>
+  <a class="" href="resource-library.html"><span class="nav-mobile-primary">Resource Library</span><span class="nav-mobile-sub">For practitioners</span></a>
+  <a class="" href="thought-papers.html"><span class="nav-mobile-primary">Thought Papers</span><span class="nav-mobile-sub">For the curious</span></a>
+  <a href="about.html"><span class="nav-mobile-primary">About Me</span></a>
+</div>
 <div class="page-header">
   <a class="back-link" href="tools.html">- Toolkits</a>
   <p class="page-eyebrow">Toolkits - ESG Foresight</p>
@@ -878,5 +918,17 @@ renderAll(){this.renderSignals();this.renderScenarios();this.renderWindtunnel();
 };
 document.addEventListener('DOMContentLoaded',()=>TOOL.init());
 </script>
+
+<script>
+function toggleMobileNav() {
+  var menu = document.getElementById('navMobileMenu');
+  var btn = document.getElementById('navMobileToggle');
+  var isOpen = menu.classList.toggle('open');
+  btn.textContent = isOpen ? '\u2715' : '\u2630';
+  btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+}
+</script>
+
+<script data-goatcounter="https://esg-hub.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </body>
 </html>
